@@ -1,0 +1,1964 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="hellowac-类型检查">
+      
+      
+      
+      
+        <link rel="prev" href="../cheat_sheet_py3/">
+      
+      
+        <link rel="next" href="../builtin_types/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.4">
+    
+    
+      
+        <title>将 mypy 与现有代码库结合使用 - mypy类型检查</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.bd3936ea.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.356b1318.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+   <link href="../../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+        html.glightbox-open { overflow: initial; height: 100%; }
+        .gslide-title { margin-top: 0px; user-select: text; }
+        .gslide-desc { color: #666; user-select: text; }
+        .gslide-image img { background: white; }
+        
+            .gscrollbar-fixer { padding-right: 15px; }
+            .gdesc-inner { font-size: 0.75rem; }
+            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
+            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
+            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}
+            </style> <script src="../../assets/javascripts/glightbox.min.js"></script></head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="blue">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#将-mypy-与现有代码库结合使用" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+        
+          <aside class="md-banner md-banner--warning">
+            <div class="md-banner__inner md-grid md-typeset">
+              
+你当前浏览的版本已不是最新版本，
+<a href="../../..">
+    <strong>点击这里</strong>
+</a>查看最新版本的文档
+
+            </div>
+            <script>var el=document.querySelector("[data-md-component=outdated]"),outdated=__md_get("__outdated",sessionStorage);!0===outdated&&el&&(el.hidden=!1)</script>
+          </aside>
+        
+      </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="mypy类型检查" class="md-header__button md-logo" aria-label="mypy类型检查" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            mypy类型检查
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              将 mypy 与现有代码库结合使用
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/hellowac/mypy-zh-cn" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    hellowac/myppy-zh-cn
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../" class="md-tabs__link">
+          
+  
+    
+  
+  第一步
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../builtin_types/" class="md-tabs__link">
+          
+  
+    
+  
+  类型系统参考
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../mypy_conf/" class="md-tabs__link">
+          
+  
+    
+  
+  配置和运行mypy
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../mypy_other/" class="md-tabs__link">
+          
+  
+    
+  
+  其他杂项
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="mypy类型检查" class="md-nav__button md-logo" aria-label="mypy类型检查" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    mypy类型检查
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/hellowac/mypy-zh-cn" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    hellowac/myppy-zh-cn
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+    
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" checked>
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    第一步
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_1" id="__nav_1_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            第一步
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cheat_sheet_py3/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    类型提示备忘录
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    将 mypy 与现有代码库结合使用
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    将 mypy 与现有代码库结合使用
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#从小事做起" class="md-nav__link">
+    从小事做起
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#持续运行-mypy-并防止回归" class="md-nav__link">
+    持续运行 mypy 并防止回归
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#忽略某些模块的错误" class="md-nav__link">
+    忽略某些模块的错误
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#修复与导入相关的错误" class="md-nav__link">
+    修复与导入相关的错误
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#优先注释广泛导入的模块" class="md-nav__link">
+    优先注释广泛导入的模块
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#随时写注解" class="md-nav__link">
+    随时写注解
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#自动注解遗留代码" class="md-nav__link">
+    自动注解遗留代码
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#引入更严格的选项" class="md-nav__link">
+    引入更严格的选项
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#加速-mypy-运行" class="md-nav__link">
+    加速 mypy 运行
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    类型系统参考
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            类型系统参考
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../builtin_types/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    内置类型
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../type_inference_type_annotations/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    类型推断和类型注解
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../kind_of_types/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    类型种类
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../class_basics/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    类的基础
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../annotation_issue_at_runtime/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    运行时的注解问题
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../protocol_and_struct_subtyping/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    协议及其子类型
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dynamic_typing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    动态类型
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../type_narrowing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    类型收缩
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../duck_type_compatibility/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    鸭子类型兼容
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../stub_files/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    存根文件
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../generics/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    泛型
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../more_types/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    更多类型
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../literal_and_enum/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    字面量和枚举
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../typeddict/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    类型字典
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../final_names_methods_classes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    最终名称、方法和类
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../metaclasses/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    元类
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../mypy_conf/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    配置和运行mypy
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            配置和运行mypy
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/running_mypy.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    运行mypy和管理导入
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/command_line.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    mypy命令行
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/config_file.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    mypy配置文件
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/inline_config.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    内联配置
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/mypy_daemon.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    mypy服务(守护进程)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/installed_packages.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    使用安装包
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/extending_mypy.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    扩展和集成 mypy
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/stubgen.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    自动存根生成
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/stubtest.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    自动存根测试
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../mypy_other/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    其他杂项
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            其他杂项
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/common_issues.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    常见问题及解决办法
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/supported_python_features.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    支持的 Python 特性
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/error_codes.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    错误码
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/error_code_list.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    默认启用的错误码
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/error_code_list2.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    可选检查的错误代码
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/additional_features.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    额外特性
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/faq.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    常见问题解答
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/python/mypy" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    项目地址
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy-lang.org/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    网页地址
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#从小事做起" class="md-nav__link">
+    从小事做起
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#持续运行-mypy-并防止回归" class="md-nav__link">
+    持续运行 mypy 并防止回归
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#忽略某些模块的错误" class="md-nav__link">
+    忽略某些模块的错误
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#修复与导入相关的错误" class="md-nav__link">
+    修复与导入相关的错误
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#优先注释广泛导入的模块" class="md-nav__link">
+    优先注释广泛导入的模块
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#随时写注解" class="md-nav__link">
+    随时写注解
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#自动注解遗留代码" class="md-nav__link">
+    自动注解遗留代码
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#引入更严格的选项" class="md-nav__link">
+    引入更严格的选项
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#加速-mypy-运行" class="md-nav__link">
+    加速 mypy 运行
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="将-mypy-与现有代码库结合使用">将 mypy 与现有代码库结合使用<a class="headerlink" href="#将-mypy-与现有代码库结合使用" title="Permanent link">&para;</a></h1>
+<p><strong>Using mypy with an existing codebase</strong></p>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">中文</label><label for="__tabbed_1_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>本节解释了如何在一个现有的、规模较大的代码库中使用 mypy，而该代码库几乎没有或完全没有类型注解。如果你是初学者，可以跳过本节。</p>
+</div>
+<div class="tabbed-block">
+<p>This section explains how to get started using mypy with an existing, significant codebase that has little or no type annotations. If you are a beginner, you can skip this section.</p>
+</div>
+</div>
+</div>
+<h2 id="从小事做起">从小事做起<a class="headerlink" href="#从小事做起" title="Permanent link">&para;</a></h2>
+<p><strong>Start small</strong></p>
+<div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">中文</label><label for="__tabbed_2_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>如果你的代码库很大，建议先选择一个子集（例如 5,000 到 50,000 行代码），并让 mypy 首先成功运行在这个子集上，<em>在添加注解之前</em>。这应该在一两天内就能完成。越早让 mypy 在你的代码库上运行通过，你就能越早从中受益。</p>
+<p>你可能需要修复一些 mypy 报告的错误，方法是插入 mypy 要求的注解，或者通过添加 <code># type: ignore</code> 注释来忽略你现在不想修复的错误。</p>
+<p>我们将在下面的各个部分中提到一些让 mypy 通过代码库的技巧。</p>
+</div>
+<div class="tabbed-block">
+<p>If your codebase is large, pick a subset of your codebase (say, 5,000 to 50,000 lines) and get mypy to run successfully only on this subset at first, <em>before adding annotations</em>. This should be doable in a day or two. The sooner you get some form of mypy passing on your codebase, the sooner you benefit.</p>
+<p>You’ll likely need to fix some mypy errors, either by inserting annotations requested by mypy or by adding <code># type: ignore</code> comments to silence errors you don’t want to fix now.</p>
+<p>We’ll mention some tips for getting mypy passing on your codebase in various sections below.</p>
+</div>
+</div>
+</div>
+<h2 id="持续运行-mypy-并防止回归">持续运行 mypy 并防止回归<a class="headerlink" href="#持续运行-mypy-并防止回归" title="Permanent link">&para;</a></h2>
+<p><strong>Run mypy consistently and prevent regressions</strong></p>
+<div class="tabbed-set tabbed-alternate" data-tabs="3:2"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><input id="__tabbed_3_2" name="__tabbed_3" type="radio" /><div class="tabbed-labels"><label for="__tabbed_3_1">中文</label><label for="__tabbed_3_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>确保你代码库中的所有开发人员以相同的方式运行 mypy。有一种方法是将 mypy 的调用命令添加到代码库中的一个小脚本中，或者将 mypy 的调用命令添加到你用来运行测试的现有工具中，例如 tox。</p>
+<ul>
+<li>
+<p>确保所有人都使用相同的选项运行 mypy。将 mypy 的<a href="https://mypy.readthedocs.io/en/stable/config_file.html#config-file">配置文件</a>检查到代码库中是最简单的做法。</p>
+</li>
+<li>
+<p>确保所有人检查相同的文件集。有关详细信息，请参阅“<a href="https://mypy.readthedocs.io/en/stable/running_mypy.html#specifying-code-to-be-checked">指定要检查的代码</a>”。</p>
+</li>
+<li>
+<p>确保所有人使用相同版本的 mypy，例如将 mypy 与其他开发需求一起固定版本。</p>
+</li>
+</ul>
+<p>特别是，你需要确保尽早将 mypy 集成到你的持续集成（CI）系统中。这将防止新的类型错误被引入到代码库中。</p>
+<p>一个简单的 CI 脚本可能如下所示：</p>
+<div class="language-shell highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>python3<span style="color: #bbbbbb"> </span>-m<span style="color: #bbbbbb"> </span>pip<span style="color: #bbbbbb"> </span>install<span style="color: #bbbbbb"> </span><span style="color: #19177C">mypy</span><span style="color: #666666">==1</span>.8
+<span style="color: #3D7B7B; font-style: italic"># 运行标准化的 mypy 调用命令，例如：</span>
+mypy<span style="color: #bbbbbb"> </span>my_project
+<span style="color: #3D7B7B; font-style: italic"># 这也可能类似于 `scripts/run_mypy.sh`、`tox run -e mypy`、`make mypy` 等</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<p>Make sure all developers on your codebase run mypy the same way. One way to ensure this is adding a small script with your mypy invocation to your codebase, or adding your mypy invocation to existing tools you use to run tests, like tox.</p>
+<ul>
+<li>
+<p>Make sure everyone runs mypy with the same options. Checking a mypy <a href="https://mypy.readthedocs.io/en/stable/config_file.html#config-file">configuration file</a> into your codebase is the easiest way to do this.</p>
+</li>
+<li>
+<p>Make sure everyone type checks the same set of files. See <a href="https://mypy.readthedocs.io/en/stable/running_mypy.html#specifying-code-to-be-checked">Specifying code to be checked</a> for details.</p>
+</li>
+<li>
+<p>Make sure everyone runs mypy with the same version of mypy, for instance by pinning mypy with the rest of your dev requirements.</p>
+</li>
+</ul>
+<p>In particular, you’ll want to make sure to run mypy as part of your Continuous Integration (CI) system as soon as possible. This will prevent new type errors from being introduced into your codebase.</p>
+<p>A simple CI script could look something like this:</p>
+<div class="language-shell highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>python3<span style="color: #bbbbbb"> </span>-m<span style="color: #bbbbbb"> </span>pip<span style="color: #bbbbbb"> </span>install<span style="color: #bbbbbb"> </span><span style="color: #19177C">mypy</span><span style="color: #666666">==1</span>.8
+<span style="color: #3D7B7B; font-style: italic"># Run your standardised mypy invocation, e.g.</span>
+mypy<span style="color: #bbbbbb"> </span>my_project
+<span style="color: #3D7B7B; font-style: italic"># This could also look like `scripts/run_mypy.sh`, `tox run -e mypy`, `make mypy`, etc</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<h2 id="忽略某些模块的错误">忽略某些模块的错误<a class="headerlink" href="#忽略某些模块的错误" title="Permanent link">&para;</a></h2>
+<p><strong>Ignoring errors from certain modules</strong></p>
+<div class="tabbed-set tabbed-alternate" data-tabs="4:2"><input checked="checked" id="__tabbed_4_1" name="__tabbed_4" type="radio" /><input id="__tabbed_4_2" name="__tabbed_4" type="radio" /><div class="tabbed-labels"><label for="__tabbed_4_1">中文</label><label for="__tabbed_4_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>默认情况下，mypy 会跟随代码中的导入并尝试检查所有内容。这意味着即使你只传入几个文件，mypy 仍可能处理大量导入的文件，从而可能导致许多你当前不想处理的错误。</p>
+<p>一种处理这种情况的方法是忽略那些你还没准备好进行类型检查的模块中的错误。对于这种情况，<a href="https://mypy.readthedocs.io/en/stable/config_file.html#confval-ignore_errors">ignore_errors</a> 选项非常有用。例如，如果你还不准备处理来自 <code>package_to_fix_later</code> 模块的错误：</p>
+<div class="language-ini highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">[mypy-package_to_fix_later.*]</span>
+<span style="color: #687822">ignore_errors</span><span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span><span style="color: #BA2121">True</span>
+</code></pre></div>
+<p>你甚至可以反过来操作，在全局配置中设置 <code>ignore_errors = True</code>，然后只对你准备好进行类型检查的模块启用错误报告，即设置 <code>ignore_errors = False</code>。</p>
+<p>mypy 的配置文件允许的按模块配置非常有用。许多配置选项都可以仅针对特定模块启用或禁用。特别是，你还可以按模块启用或禁用各种错误代码，详情请参阅 <a href="https://mypy.readthedocs.io/en/stable/error_codes.html#error-codes">Error codes</a>。</p>
+</div>
+<div class="tabbed-block">
+<p>By default mypy will follow imports in your code and try to check everything. This means even if you only pass in a few files to mypy, it may still process a large number of imported files. This could potentially result in lots of errors you don’t want to deal with at the moment.</p>
+<p>One way to deal with this is to ignore errors in modules you aren’t yet ready to type check. The <a href="https://mypy.readthedocs.io/en/stable/config_file.html#confval-ignore_errors">ignore_errors</a> option is useful for this, for instance, if you aren’t yet ready to deal with errors from <code>package_to_fix_later</code>:</p>
+<div class="language-ini highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">[mypy-package_to_fix_later.*]</span>
+<span style="color: #687822">ignore_errors</span><span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span><span style="color: #BA2121">True</span>
+</code></pre></div>
+<p>You could even invert this, by setting <code>ignore_errors = True</code> in your global config section and only enabling error reporting with <code>ignore_errors = False</code> for the set of modules you are ready to type check.</p>
+<p>The per-module configuration that mypy’s configuration file allows can be extremely useful. Many configuration options can be enabled or disabled only for specific modules. In particular, you can also enable or disable various error codes on a per-module basis, see <a href="https://mypy.readthedocs.io/en/stable/error_codes.html#error-codes">Error codes</a>.</p>
+</div>
+</div>
+</div>
+<h2 id="修复与导入相关的错误">修复与导入相关的错误<a class="headerlink" href="#修复与导入相关的错误" title="Permanent link">&para;</a></h2>
+<p><strong>Fixing errors related to imports</strong></p>
+<div class="tabbed-set tabbed-alternate" data-tabs="5:2"><input checked="checked" id="__tabbed_5_1" name="__tabbed_5" type="radio" /><input id="__tabbed_5_2" name="__tabbed_5" type="radio" /><div class="tabbed-labels"><label for="__tabbed_5_1">中文</label><label for="__tabbed_5_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>你可能会遇到的一类常见错误是 mypy 关于找不到模块、模块没有类型或没有存根文件的错误：</p>
+<div class="language-text highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>core/config.py:7: error: Cannot find implementation or library stub for module named &#39;frobnicate&#39;
+core/model.py:9: error: Cannot find implementation or library stub for module named &#39;acme&#39;
+...
+</code></pre></div>
+<p>有时，这些问题可以通过在运行 <code>mypy</code> 的环境中安装相关的包或存根库来解决。</p>
+<p>有关这些错误以及修复方法的完整参考，请参阅 <a href="https://mypy.readthedocs.io/en/stable/running_mypy.html#fix-missing-imports">Missing imports</a>。</p>
+<p>你可能会发现需要抑制所有来自没有类型的模块的导入错误。如果你只在一两个地方导入了该模块，可以使用 <code># type: ignore</code> 注释。例如，在这里，我们忽略了一个关于没有存根的第三方模块 <code>frobnicate</code> 的错误，使用了 <code># type: ignore</code>：</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">import</span> <span style="color: #0000FF; font-weight: bold">frobnicate</span>  <span style="color: #3D7B7B; font-style: italic"># type: ignore</span>
+<span style="color: #666666">...</span>
+frobnicate<span style="color: #666666">.</span>initialize()  <span style="color: #3D7B7B; font-style: italic"># OK (但不会被检查)</span>
+</code></pre></div>
+<p>但如果你在多个地方导入该模块，这种方法就显得笨拙了。在这种情况下，我们建议使用<a href="https://mypy.readthedocs.io/en/stable/config_file.html#config-file">配置文件</a>。例如，要在整个代码库中禁用关于导入 <code>frobnicate</code> 和 <code>acme</code> 的错误，可以使用如下配置：</p>
+<div class="language-ini highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">[mypy-frobnicate.*]</span>
+<span style="color: #687822">ignore_missing_imports</span><span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span><span style="color: #BA2121">True</span>
+
+<span style="color: #008000; font-weight: bold">[mypy-acme.*]</span>
+<span style="color: #687822">ignore_missing_imports</span><span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span><span style="color: #BA2121">True</span>
+</code></pre></div>
+<p>如果你遇到大量错误，可能会想要忽略所有关于缺少导入的错误，例如通过设置 <a href="https://mypy.readthedocs.io/en/stable/command_line.html#cmdoption-mypy-ignore-missing-imports">--disable-error-code=import-untyped</a> 或全局设置 <a href="https://mypy.readthedocs.io/en/stable/config_file.html#confval-ignore_missing_imports">ignore_missing_imports</a> 为 true。 这可能会隐藏后续的错误，因此如果可能，我们建议避免这样做。</p>
+<p>最后，mypy 允许对特定导入行为进行精细控制。当你尝试调整这些设置时，很容易在不知不觉中出错，因此这应该是最后的选择。更多详情，请参考<a href="https://mypy.readthedocs.io/en/stable/running_mypy.html#follow-imports">此处</a>。</p>
+</div>
+<div class="tabbed-block">
+<p>A common class of error you will encounter is errors from mypy about modules that it can’t find, that don’t have types, or don’t have stub files:</p>
+<div class="language-text highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>core/config.py:7: error: Cannot find implementation or library stub for module named &#39;frobnicate&#39;
+core/model.py:9: error: Cannot find implementation or library stub for module named &#39;acme&#39;
+...
+</code></pre></div>
+<p>Sometimes these can be fixed by installing the relevant packages or stub libraries in the environment you’re running <code>mypy</code> in.</p>
+<p>See <a href="https://mypy.readthedocs.io/en/stable/running_mypy.html#fix-missing-imports">Missing imports</a> for a complete reference on these errors and the ways in which you can fix them.</p>
+<p>You’ll likely find that you want to suppress all errors from importing a given module that doesn’t have types. If you only import that module in one or two places, you can use <code># type: ignore</code> comments. For example, here we ignore an error about a third-party module <code>frobnicate</code> that doesn’t have stubs using <code># type: ignore</code>:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">import</span> <span style="color: #0000FF; font-weight: bold">frobnicate</span>  <span style="color: #3D7B7B; font-style: italic"># type: ignore</span>
+<span style="color: #666666">...</span>
+frobnicate<span style="color: #666666">.</span>initialize()  <span style="color: #3D7B7B; font-style: italic"># OK (but not checked)</span>
+</code></pre></div>
+<p>But if you import the module in many places, this becomes unwieldy. In this case, we recommend using a <a href="https://mypy.readthedocs.io/en/stable/config_file.html#config-file">configuration file</a>. For example, to disable errors about importing frobnicate and acme everywhere in your codebase, use a config like this:</p>
+<div class="language-ini highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">[mypy-frobnicate.*]</span>
+<span style="color: #687822">ignore_missing_imports</span><span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span><span style="color: #BA2121">True</span>
+
+<span style="color: #008000; font-weight: bold">[mypy-acme.*]</span>
+<span style="color: #687822">ignore_missing_imports</span><span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span><span style="color: #BA2121">True</span>
+</code></pre></div>
+<p>If you get a large number of errors, you may want to ignore all errors about missing imports, for instance by setting <a href="https://mypy.readthedocs.io/en/stable/command_line.html#cmdoption-mypy-ignore-missing-imports">--disable-error-code=import-untyped</a>. or setting <a href="https://mypy.readthedocs.io/en/stable/config_file.html#confval-ignore_missing_imports">ignore_missing_imports</a> to true globally. This can hide errors later on, so we recommend avoiding this if possible.</p>
+<p>Finally, mypy allows fine-grained control over specific import following behaviour. It’s very easy to silently shoot yourself in the foot when playing around with these, so this should be a last resort. For more details, look <a href="https://mypy.readthedocs.io/en/stable/running_mypy.html#follow-imports">here</a>.</p>
+</div>
+</div>
+</div>
+<h2 id="优先注释广泛导入的模块">优先注释广泛导入的模块<a class="headerlink" href="#优先注释广泛导入的模块" title="Permanent link">&para;</a></h2>
+<p><strong>Prioritise annotating widely imported modules</strong></p>
+<div class="tabbed-set tabbed-alternate" data-tabs="6:2"><input checked="checked" id="__tabbed_6_1" name="__tabbed_6" type="radio" /><input id="__tabbed_6_2" name="__tabbed_6" type="radio" /><div class="tabbed-labels"><label for="__tabbed_6_1">中文</label><label for="__tabbed_6_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>大多数项目都有一些广泛导入的模块，比如工具类或模型类。尽早对这些模块进行注释是个不错的主意，因为这能让使用这些模块的代码更有效地进行类型检查。</p>
+<p>Mypy 旨在支持渐进式类型检查，也就是说，你可以按照自己的节奏逐步添加注释，因此可以放心地将某些模块暂时不做注释。注释得越多，mypy 的作用就越大，但即使只有少量注释覆盖也会有帮助。</p>
+</div>
+<div class="tabbed-block">
+<p>Most projects have some widely imported modules, such as utilities or model classes. It’s a good idea to annotate these pretty early on, since this allows code using these modules to be type checked more effectively.</p>
+<p>Mypy is designed to support gradual typing, i.e. letting you add annotations at your own pace, so it’s okay to leave some of these modules unannotated. The more you annotate, the more useful mypy will be, but even a little annotation coverage is useful.</p>
+</div>
+</div>
+</div>
+<h2 id="随时写注解">随时写注解<a class="headerlink" href="#随时写注解" title="Permanent link">&para;</a></h2>
+<p><strong>Write annotations as you go</strong></p>
+<div class="tabbed-set tabbed-alternate" data-tabs="7:2"><input checked="checked" id="__tabbed_7_1" name="__tabbed_7" type="radio" /><input id="__tabbed_7_2" name="__tabbed_7" type="radio" /><div class="tabbed-labels"><label for="__tabbed_7_1">中文</label><label for="__tabbed_7_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>可以考虑将以下内容加入到你的代码风格规范中：</p>
+<ol>
+<li>
+<p>开发人员应为任何新代码添加类型注释。</p>
+</li>
+<li>
+<p>修改现有代码时，也鼓励添加类型注释。</p>
+</li>
+</ol>
+<p>通过这种方式，你可以在不费太多力气的情况下逐步增加代码库中的类型注释覆盖率。</p>
+</div>
+<div class="tabbed-block">
+<p>Consider adding something like these in your code style conventions:</p>
+<ol>
+<li>
+<p>Developers should add annotations for any new code.</p>
+</li>
+<li>
+<p>It’s also encouraged to write annotations when you modify existing code.</p>
+</li>
+</ol>
+<p>This way you’ll gradually increase annotation coverage in your codebase without much effort.</p>
+</div>
+</div>
+</div>
+<h2 id="自动注解遗留代码">自动注解遗留代码<a class="headerlink" href="#自动注解遗留代码" title="Permanent link">&para;</a></h2>
+<p><strong>Automate annotation of legacy code</strong></p>
+<div class="tabbed-set tabbed-alternate" data-tabs="8:2"><input checked="checked" id="__tabbed_8_1" name="__tabbed_8" type="radio" /><input id="__tabbed_8_2" name="__tabbed_8" type="radio" /><div class="tabbed-labels"><label for="__tabbed_8_1">中文</label><label for="__tabbed_8_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>有一些工具可以基于简单的静态分析或在运行时收集的类型信息自动添加初步的类型注释。这些工具包括 <a href="https://monkeytype.readthedocs.io/en/latest/index.html">MonkeyType</a>、<a href="https://github.com/JelleZijlstra/autotyping">autotyping</a> 和 <a href="https://github.com/dropbox/pyannotate">PyAnnotate</a>。</p>
+<p>一种简单的方法是通过测试运行来收集类型信息。如果你的测试覆盖率较好（且测试速度不太慢），这种方法可能效果不错。</p>
+<p>另一种方法是为一小部分随机选择的生产网络请求启用类型信息收集。这显然需要更加谨慎，因为类型收集可能会影响服务的可靠性或性能。</p>
+</div>
+<div class="tabbed-block">
+<p>There are tools for automatically adding draft annotations based on simple static analysis or on type profiles collected at runtime. Tools include <a href="https://monkeytype.readthedocs.io/en/latest/index.html">MonkeyType</a>, <a href="https://github.com/JelleZijlstra/autotyping">autotyping</a> and <a href="https://github.com/dropbox/pyannotate">PyAnnotate</a>.</p>
+<p>A simple approach is to collect types from test runs. This may work well if your test coverage is good (and if your tests aren’t very slow).</p>
+<p>Another approach is to enable type collection for a small, random fraction of production network requests. This clearly requires more care, as type collection could impact the reliability or the performance of your service.</p>
+</div>
+</div>
+</div>
+<h2 id="引入更严格的选项">引入更严格的选项<a class="headerlink" href="#引入更严格的选项" title="Permanent link">&para;</a></h2>
+<p><strong>Introduce stricter options</strong></p>
+<div class="tabbed-set tabbed-alternate" data-tabs="9:2"><input checked="checked" id="__tabbed_9_1" name="__tabbed_9" type="radio" /><input id="__tabbed_9_2" name="__tabbed_9" type="radio" /><div class="tabbed-labels"><label for="__tabbed_9_1">中文</label><label for="__tabbed_9_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>Mypy 是高度可配置的。一旦你开始使用静态类型检查，可能会希望探索 mypy 提供的各种严格性选项，以捕捉更多的错误。例如，你可以要求 mypy 对某些模块的所有函数进行类型注释，以避免无意中引入不会被类型检查的代码，可以使用 <a href="https://mypy.readthedocs.io/en/stable/config_file.html#confval-disallow_untyped_defs">disallow_untyped_defs</a> 实现这一点。有关详细信息，请参阅 <a href="https://mypy.readthedocs.io/en/stable/config_file.html#config-file">Mypy 配置文件</a>。</p>
+<p>一个优秀的目标是让你的代码库在运行 <code>mypy --strict</code> 时能通过检查。这样基本上可以确保你不会有任何与类型相关的错误，除非有明确的规避（例如 <code># type: ignore</code> 注释）。</p>
+<p>以下配置等效于 <code>--strict</code>（基于 mypy 1.0 版本）：</p>
+<div class="language-ini highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #3D7B7B; font-style: italic"># 先从这些开始</span>
+<span style="color: #687822">warn_unused_configs</span><span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span><span style="color: #BA2121">True</span>
+<span style="color: #687822">warn_redundant_casts</span><span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span><span style="color: #BA2121">True</span>
+<span style="color: #687822">warn_unused_ignores</span><span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span><span style="color: #BA2121">True</span>
+
+<span style="color: #3D7B7B; font-style: italic"># 这些选项通常容易通过</span>
+<span style="color: #687822">strict_equality</span><span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span><span style="color: #BA2121">True</span>
+<span style="color: #687822">strict_concatenate</span><span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span><span style="color: #BA2121">True</span>
+
+<span style="color: #3D7B7B; font-style: italic"># 强烈建议尽早启用此选项</span>
+<span style="color: #687822">check_untyped_defs</span><span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span><span style="color: #BA2121">True</span>
+
+<span style="color: #3D7B7B; font-style: italic"># 这些选项不算太复杂，但如果使用了大量无类型注释的库，可能会比较棘手</span>
+<span style="color: #687822">disallow_subclassing_any</span><span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span><span style="color: #BA2121">True</span>
+<span style="color: #687822">disallow_untyped_decorators</span><span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span><span style="color: #BA2121">True</span>
+<span style="color: #687822">disallow_any_generics</span><span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span><span style="color: #BA2121">True</span>
+
+<span style="color: #3D7B7B; font-style: italic"># 以下几项是各种强制使用类型注释的方式</span>
+<span style="color: #687822">disallow_untyped_calls</span><span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span><span style="color: #BA2121">True</span>
+<span style="color: #687822">disallow_incomplete_defs</span><span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span><span style="color: #BA2121">True</span>
+<span style="color: #687822">disallow_untyped_defs</span><span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span><span style="color: #BA2121">True</span>
+
+<span style="color: #3D7B7B; font-style: italic"># 这一项不难通过，但投资回报率较低</span>
+<span style="color: #687822">no_implicit_reexport</span><span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span><span style="color: #BA2121">True</span>
+
+<span style="color: #3D7B7B; font-style: italic"># 如果使用了大量无类型注释的库，这一项可能比较棘手</span>
+<span style="color: #687822">warn_return_any</span><span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span><span style="color: #BA2121">True</span>
+</code></pre></div>
+<p>注意，你也可以从 <code>--strict</code> 开始，并根据需要减去某些选项，例如：</p>
+<div class="language-ini highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #687822">strict</span><span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span><span style="color: #BA2121">True</span>
+<span style="color: #687822">warn_return_any</span><span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span><span style="color: #BA2121">False</span>
+</code></pre></div>
+<p>记住，许多这些选项可以按模块启用。例如，你可能希望对已经完成类型注释的模块启用 <code>disallow_untyped_defs</code>，以防止新代码在没有注释的情况下被添加。</p>
+<p>此外，如果你愿意，严格性选项不止于 <code>--strict</code>。Mypy 还有一些不在 <code>--strict</code> 范围内但依然有用的检查。请参阅完整的 <a href="https://mypy.readthedocs.io/en/stable/command_line.html#command-line">Mypy 命令行</a>参考和 <a href="https://mypy.readthedocs.io/en/stable/error_code_list2.html#error-codes-optional">可选检查的错误代码</a>。</p>
+</div>
+<div class="tabbed-block">
+<p>Mypy is very configurable. Once you get started with static typing, you may want to explore the various strictness options mypy provides to catch more bugs. For example, you can ask mypy to require annotations for all functions in certain modules to avoid accidentally introducing code that won’t be type checked using <a href="https://mypy.readthedocs.io/en/stable/config_file.html#confval-disallow_untyped_defs">disallow_untyped_defs</a>. Refer to <a href="https://mypy.readthedocs.io/en/stable/config_file.html#config-file">The mypy configuration file</a> for the details.</p>
+<p>An excellent goal to aim for is to have your codebase pass when run against <code>mypy --strict</code>. This basically ensures that you will never have a type related error without an explicit circumvention somewhere (such as a <code># type: ignore</code> comment).</p>
+<p>The following config is equivalent to <code>--strict</code> (as of mypy 1.0):</p>
+<div class="language-ini highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #3D7B7B; font-style: italic"># Start off with these</span>
+<span style="color: #687822">warn_unused_configs</span><span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span><span style="color: #BA2121">True</span>
+<span style="color: #687822">warn_redundant_casts</span><span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span><span style="color: #BA2121">True</span>
+<span style="color: #687822">warn_unused_ignores</span><span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span><span style="color: #BA2121">True</span>
+
+<span style="color: #3D7B7B; font-style: italic"># Getting these passing should be easy</span>
+<span style="color: #687822">strict_equality</span><span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span><span style="color: #BA2121">True</span>
+<span style="color: #687822">strict_concatenate</span><span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span><span style="color: #BA2121">True</span>
+
+<span style="color: #3D7B7B; font-style: italic"># Strongly recommend enabling this one as soon as you can</span>
+<span style="color: #687822">check_untyped_defs</span><span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span><span style="color: #BA2121">True</span>
+
+<span style="color: #3D7B7B; font-style: italic"># These shouldn&#39;t be too much additional work, but may be tricky to</span>
+<span style="color: #3D7B7B; font-style: italic"># get passing if you use a lot of untyped libraries</span>
+<span style="color: #687822">disallow_subclassing_any</span><span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span><span style="color: #BA2121">True</span>
+<span style="color: #687822">disallow_untyped_decorators</span><span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span><span style="color: #BA2121">True</span>
+<span style="color: #687822">disallow_any_generics</span><span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span><span style="color: #BA2121">True</span>
+
+<span style="color: #3D7B7B; font-style: italic"># These next few are various gradations of forcing use of type annotations</span>
+<span style="color: #687822">disallow_untyped_calls</span><span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span><span style="color: #BA2121">True</span>
+<span style="color: #687822">disallow_incomplete_defs</span><span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span><span style="color: #BA2121">True</span>
+<span style="color: #687822">disallow_untyped_defs</span><span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span><span style="color: #BA2121">True</span>
+
+<span style="color: #3D7B7B; font-style: italic"># This one isn&#39;t too hard to get passing, but return on investment is lower</span>
+<span style="color: #687822">no_implicit_reexport</span><span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span><span style="color: #BA2121">True</span>
+
+<span style="color: #3D7B7B; font-style: italic"># This one can be tricky to get passing if you use a lot of untyped libraries</span>
+<span style="color: #687822">warn_return_any</span><span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span><span style="color: #BA2121">True</span>
+</code></pre></div>
+<p>Note that you can also start with --strict and subtract, for instance:</p>
+<div class="language-ini highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #687822">strict</span><span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span><span style="color: #BA2121">True</span>
+<span style="color: #687822">warn_return_any</span><span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span><span style="color: #BA2121">False</span>
+</code></pre></div>
+<p>Remember that many of these options can be enabled on a per-module basis. For instance, you may want to enable <code>disallow_untyped_defs</code> for modules which you’ve completed annotations for, in order to prevent new code from being added without annotations.</p>
+<p>And if you want, it doesn’t stop at <code>--strict</code>. Mypy has additional checks that are not part of <code>--strict</code> that can be useful. See the complete <a href="https://mypy.readthedocs.io/en/stable/command_line.html#command-line">The mypy command line</a> reference and <a href="https://mypy.readthedocs.io/en/stable/error_code_list2.html#error-codes-optional">Error codes for optional checks</a>.</p>
+</div>
+</div>
+</div>
+<h2 id="加速-mypy-运行">加速 mypy 运行<a class="headerlink" href="#加速-mypy-运行" title="Permanent link">&para;</a></h2>
+<p><strong>Speed up mypy runs</strong></p>
+<div class="tabbed-set tabbed-alternate" data-tabs="10:2"><input checked="checked" id="__tabbed_10_1" name="__tabbed_10" type="radio" /><input id="__tabbed_10_2" name="__tabbed_10" type="radio" /><div class="tabbed-labels"><label for="__tabbed_10_1">中文</label><label for="__tabbed_10_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>你可以使用 <a href="https://mypy.readthedocs.io/en/stable/mypy_daemon.html#mypy-daemon">mypy daemon</a> 来实现更快的增量式 mypy 运行。项目越大，这个工具就越有用。如果你的项目至少有 100,000 行代码，你可能还想设置 <a href="https://mypy.readthedocs.io/en/stable/additional_features.html#remote-cache">远程缓存</a> 以进一步加快速度。</p>
+</div>
+<div class="tabbed-block">
+<p>You can use <a href="https://mypy.readthedocs.io/en/stable/mypy_daemon.html#mypy-daemon">mypy daemon</a> to get much faster incremental mypy runs. The larger your project is, the more useful this will be. If your project has at least 100,000 lines of code or so, you may also want to set up <a href="https://mypy.readthedocs.io/en/stable/additional_features.html#remote-cache">remote caching</a> for further speedups.</p>
+</div>
+</div>
+</div>
+
+  <hr>
+<div class="md-source-file">
+  <small>
+    
+      最后更新:
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2024年9月4日</span>
+      
+        <br>
+        创建日期:
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2024年9月4日</span>
+      
+    
+  </small>
+</div>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var tab,labels=set.querySelector(".tabbed-labels");for(tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["header.autohide", "navigation.top", "navigation.tabs", "navigation.tabs.sticky", "navigation.path", "content.tabs.link", "content.code.copy", "content.tooltips", "navigation.indexes", "navigation.prune", "navigation.instant"], "search": "../../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": {"provider": "mike"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.94c44541.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  <script>document$.subscribe(() => {const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});})</script></body>
+</html>

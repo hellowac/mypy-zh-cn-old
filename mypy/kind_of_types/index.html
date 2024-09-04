@@ -1,0 +1,2607 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="hellowac-类型检查">
+      
+      
+      
+      
+        <link rel="prev" href="../type_inference_type_annotations/">
+      
+      
+        <link rel="next" href="../class_basics/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.4">
+    
+    
+      
+        <title>类型种类 - mypy类型检查</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.bd3936ea.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.356b1318.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+   <link href="../../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+        html.glightbox-open { overflow: initial; height: 100%; }
+        .gslide-title { margin-top: 0px; user-select: text; }
+        .gslide-desc { color: #666; user-select: text; }
+        .gslide-image img { background: white; }
+        
+            .gscrollbar-fixer { padding-right: 15px; }
+            .gdesc-inner { font-size: 0.75rem; }
+            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
+            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
+            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}
+            </style> <script src="../../assets/javascripts/glightbox.min.js"></script></head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="blue">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#类型分类" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+        
+          <aside class="md-banner md-banner--warning">
+            <div class="md-banner__inner md-grid md-typeset">
+              
+你当前浏览的版本已不是最新版本，
+<a href="../../..">
+    <strong>点击这里</strong>
+</a>查看最新版本的文档
+
+            </div>
+            <script>var el=document.querySelector("[data-md-component=outdated]"),outdated=__md_get("__outdated",sessionStorage);!0===outdated&&el&&(el.hidden=!1)</script>
+          </aside>
+        
+      </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="mypy类型检查" class="md-header__button md-logo" aria-label="mypy类型检查" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            mypy类型检查
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              类型种类
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/hellowac/mypy-zh-cn" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    hellowac/myppy-zh-cn
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../" class="md-tabs__link">
+          
+  
+    
+  
+  第一步
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../builtin_types/" class="md-tabs__link">
+          
+  
+    
+  
+  类型系统参考
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../mypy_conf/" class="md-tabs__link">
+          
+  
+    
+  
+  配置和运行mypy
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../mypy_other/" class="md-tabs__link">
+          
+  
+    
+  
+  其他杂项
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="mypy类型检查" class="md-nav__button md-logo" aria-label="mypy类型检查" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    mypy类型检查
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/hellowac/mypy-zh-cn" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    hellowac/myppy-zh-cn
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    第一步
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_1" id="__nav_1_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            第一步
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cheat_sheet_py3/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    类型提示备忘录
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../existing_code/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    将 mypy 与现有代码库结合使用
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    类型系统参考
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            类型系统参考
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../builtin_types/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    内置类型
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../type_inference_type_annotations/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    类型推断和类型注解
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    类型种类
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    类型种类
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#class的类型" class="md-nav__link">
+    Class的类型
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#any-类型" class="md-nav__link">
+    Any 类型
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tuple-类型" class="md-nav__link">
+    Tuple 类型
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#callable-类型-以及-lambdas" class="md-nav__link">
+    Callable 类型 (以及 lambdas)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#union-类型" class="md-nav__link">
+    Union 类型
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#optional-和-none-类型" class="md-nav__link">
+    Optional 和 None 类型
+  </a>
+  
+    <nav class="md-nav" aria-label="Optional 和 None 类型">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#union-的-x--y-语法" class="md-nav__link">
+    Union 的 X | Y 语法
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#禁用严格的可选检查" class="md-nav__link">
+    禁用严格的可选检查
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#类型别名" class="md-nav__link">
+    类型别名
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#命名元组" class="md-nav__link">
+    命名元组
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#类对象的类型" class="md-nav__link">
+    类对象的类型
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#生成器" class="md-nav__link">
+    生成器
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../class_basics/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    类的基础
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../annotation_issue_at_runtime/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    运行时的注解问题
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../protocol_and_struct_subtyping/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    协议及其子类型
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dynamic_typing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    动态类型
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../type_narrowing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    类型收缩
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../duck_type_compatibility/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    鸭子类型兼容
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../stub_files/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    存根文件
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../generics/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    泛型
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../more_types/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    更多类型
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../literal_and_enum/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    字面量和枚举
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../typeddict/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    类型字典
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../final_names_methods_classes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    最终名称、方法和类
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../metaclasses/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    元类
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../mypy_conf/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    配置和运行mypy
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            配置和运行mypy
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/running_mypy.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    运行mypy和管理导入
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/command_line.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    mypy命令行
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/config_file.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    mypy配置文件
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/inline_config.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    内联配置
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/mypy_daemon.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    mypy服务(守护进程)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/installed_packages.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    使用安装包
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/extending_mypy.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    扩展和集成 mypy
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/stubgen.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    自动存根生成
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/stubtest.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    自动存根测试
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../mypy_other/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    其他杂项
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            其他杂项
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/common_issues.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    常见问题及解决办法
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/supported_python_features.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    支持的 Python 特性
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/error_codes.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    错误码
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/error_code_list.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    默认启用的错误码
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/error_code_list2.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    可选检查的错误代码
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/additional_features.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    额外特性
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/faq.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    常见问题解答
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/python/mypy" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    项目地址
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy-lang.org/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    网页地址
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#class的类型" class="md-nav__link">
+    Class的类型
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#any-类型" class="md-nav__link">
+    Any 类型
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tuple-类型" class="md-nav__link">
+    Tuple 类型
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#callable-类型-以及-lambdas" class="md-nav__link">
+    Callable 类型 (以及 lambdas)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#union-类型" class="md-nav__link">
+    Union 类型
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#optional-和-none-类型" class="md-nav__link">
+    Optional 和 None 类型
+  </a>
+  
+    <nav class="md-nav" aria-label="Optional 和 None 类型">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#union-的-x--y-语法" class="md-nav__link">
+    Union 的 X | Y 语法
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#禁用严格的可选检查" class="md-nav__link">
+    禁用严格的可选检查
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#类型别名" class="md-nav__link">
+    类型别名
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#命名元组" class="md-nav__link">
+    命名元组
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#类对象的类型" class="md-nav__link">
+    类对象的类型
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#生成器" class="md-nav__link">
+    生成器
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="类型分类">类型分类<a class="headerlink" href="#类型分类" title="Permanent link">&para;</a></h1>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">中文</label><label for="__tabbed_1_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>到目前为止，我们主要局限于内置类型。 本节介绍几种其他类型。 您可能至少需要其中一些来对任何重要的程序进行类型检查。</p>
+</div>
+<div class="tabbed-block">
+<p><strong>Kinds of types</strong></p>
+<p>We've mostly restricted ourselves to built-in types until now. This section introduces several additional kinds of types. You are likely to need at least some of them to type check any non-trivial programs.</p>
+</div>
+</div>
+</div>
+<h2 id="class的类型">Class的类型<a class="headerlink" href="#class的类型" title="Permanent link">&para;</a></h2>
+<div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">中文</label><label for="__tabbed_2_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>每个类都是有效的类型。 子类的任何实例也与所有超类兼容 - 因此每个值都与 <a href="https://docs.python.org/3/library/functions.html#object"><code>object</code></a> 类型兼容(顺便说一句，还有 <code>Any</code> 类型，如下所述)。 Mypy 分析类的主体以确定实例中可用的方法和属性。 此示例使用子类化：</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">A</span>:
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">f</span>(<span style="color: #008000">self</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000">int</span>:  <span style="color: #3D7B7B; font-style: italic"># Type of self inferred (A)</span>
+        <span style="color: #008000; font-weight: bold">return</span> <span style="color: #666666">2</span>
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">B</span>(A):
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">f</span>(<span style="color: #008000">self</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000">int</span>:
+         <span style="color: #008000; font-weight: bold">return</span> <span style="color: #666666">3</span>
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">g</span>(<span style="color: #008000">self</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000">int</span>:
+        <span style="color: #008000; font-weight: bold">return</span> <span style="color: #666666">4</span>
+
+<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">foo</span>(a: A) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:
+    <span style="color: #008000">print</span>(a<span style="color: #666666">.</span>f())  <span style="color: #3D7B7B; font-style: italic"># 3</span>
+    a<span style="color: #666666">.</span>g()         <span style="color: #3D7B7B; font-style: italic"># Error: &quot;A&quot; has no attribute &quot;g&quot;</span>
+
+foo(B())  <span style="color: #3D7B7B; font-style: italic"># OK (B is a subclass of A)</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<p><strong>Class types</strong></p>
+<p>Every class is also a valid type. Any instance of a subclass is also compatible with all superclasses -- it follows that every value is compatible with the <a href="https://docs.python.org/3/library/functions.html#object"><code>object</code></a> type (and incidentally also the <code>Any</code> type, discussed below). Mypy analyzes the bodies of classes to determine which methods and attributes are available in instances. This example uses subclassing:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">A</span>:
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">f</span>(<span style="color: #008000">self</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000">int</span>:  <span style="color: #3D7B7B; font-style: italic"># Type of self inferred (A)</span>
+        <span style="color: #008000; font-weight: bold">return</span> <span style="color: #666666">2</span>
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">B</span>(A):
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">f</span>(<span style="color: #008000">self</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000">int</span>:
+         <span style="color: #008000; font-weight: bold">return</span> <span style="color: #666666">3</span>
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">g</span>(<span style="color: #008000">self</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000">int</span>:
+        <span style="color: #008000; font-weight: bold">return</span> <span style="color: #666666">4</span>
+
+<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">foo</span>(a: A) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:
+    <span style="color: #008000">print</span>(a<span style="color: #666666">.</span>f())  <span style="color: #3D7B7B; font-style: italic"># 3</span>
+    a<span style="color: #666666">.</span>g()         <span style="color: #3D7B7B; font-style: italic"># Error: &quot;A&quot; has no attribute &quot;g&quot;</span>
+
+foo(B())  <span style="color: #3D7B7B; font-style: italic"># OK (B is a subclass of A)</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<h2 id="any-类型">Any 类型<a class="headerlink" href="#any-类型" title="Permanent link">&para;</a></h2>
+<div class="tabbed-set tabbed-alternate" data-tabs="3:2"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><input id="__tabbed_3_2" name="__tabbed_3" type="radio" /><div class="tabbed-labels"><label for="__tabbed_3_1">中文</label><label for="__tabbed_3_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>A value with the <code>Any</code> type is dynamically typed. Mypy doesn't know anything about the possible runtime types of such value. Any operations are permitted on the value, and the operations are only checked at runtime. You can use <code>Any</code> as an "escape hatch" when you can't use a more precise type for some reason.</p>
+<p><code>Any</code> is compatible with every other type, and vice versa. You can freely assign a value of type <code>Any</code> to a variable with a more precise type:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>a: Any <span style="color: #666666">=</span> <span style="color: #008000; font-weight: bold">None</span>
+s: <span style="color: #008000">str</span> <span style="color: #666666">=</span> <span style="color: #BA2121">&#39;&#39;</span>
+a <span style="color: #666666">=</span> <span style="color: #666666">2</span>     <span style="color: #3D7B7B; font-style: italic"># OK (assign &quot;int&quot; to &quot;Any&quot;)</span>
+s <span style="color: #666666">=</span> a     <span style="color: #3D7B7B; font-style: italic"># OK (assign &quot;Any&quot; to &quot;str&quot;)</span>
+</code></pre></div>
+<p>Declared (and inferred) types are ignored (or <em>erased</em>) at runtime. They are basically treated as comments, and thus the above code does not generate a runtime error, even though <code>s</code> gets an <code>int</code> value when the program is run, while the declared type of <code>s</code> is actually <code>str</code>! You need to be careful with <code>Any</code> types, since they let you lie to mypy, and this could easily hide bugs.</p>
+<p>If you do not define a function return value or argument types, these default to <code>Any</code>:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">show_heading</span>(s) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:
+    <span style="color: #008000">print</span>(<span style="color: #BA2121">&#39;=== &#39;</span> <span style="color: #666666">+</span> s <span style="color: #666666">+</span> <span style="color: #BA2121">&#39; ===&#39;</span>)  <span style="color: #3D7B7B; font-style: italic"># No static type checking, as s has type Any</span>
+
+show_heading(<span style="color: #666666">1</span>)  <span style="color: #3D7B7B; font-style: italic"># OK (runtime error only; mypy won&#39;t generate an error)</span>
+</code></pre></div>
+<p>You should give a statically typed function an explicit <code>None</code> return type even if it doesn't return a value, as this lets mypy catch additional type errors:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">wait</span>(t: <span style="color: #008000">float</span>):  <span style="color: #3D7B7B; font-style: italic"># Implicit Any return value</span>
+    <span style="color: #008000">print</span>(<span style="color: #BA2121">&#39;Waiting...&#39;</span>)
+    time<span style="color: #666666">.</span>sleep(t)
+
+<span style="color: #008000; font-weight: bold">if</span> wait(<span style="color: #666666">2</span>) <span style="color: #666666">&gt;</span> <span style="color: #666666">1</span>:   <span style="color: #3D7B7B; font-style: italic"># Mypy doesn&#39;t catch this error!</span>
+    <span style="color: #666666">...</span>
+</code></pre></div>
+<p>If we had used an explicit <code>None</code> return type, mypy would have caught the error:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">wait</span>(t: <span style="color: #008000">float</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:
+    <span style="color: #008000">print</span>(<span style="color: #BA2121">&#39;Waiting...&#39;</span>)
+    time<span style="color: #666666">.</span>sleep(t)
+
+<span style="color: #008000; font-weight: bold">if</span> wait(<span style="color: #666666">2</span>) <span style="color: #666666">&gt;</span> <span style="color: #666666">1</span>:   <span style="color: #3D7B7B; font-style: italic"># Error: can&#39;t compare None and int</span>
+    <span style="color: #666666">...</span>
+</code></pre></div>
+<p>The <code>Any</code> type is discussed in more detail in section <a href="../dynamic_typing/"><code>dynamic-typing</code></a>.</p>
+<div class="admonition info">
+<p class="admonition-title">Note</p>
+<p>A function without any types in the signature is dynamically typed. The body of a dynamically typed function is not checked statically, and local variables have implicit <code>Any</code> types.</p>
+<p>This makes it easier to migrate legacy Python code to mypy, as mypy won't complain about dynamically typed functions.</p>
+</div>
+</div>
+<div class="tabbed-block">
+<p><strong>The Any type</strong></p>
+<p>A value with the <code>Any</code> type is dynamically typed. Mypy doesn't know anything about the possible runtime types of such value. Any operations are permitted on the value, and the operations are only checked at runtime. You can use <code>Any</code> as an "escape hatch" when you can't use a more precise type for some reason.</p>
+<p><code>Any</code> is compatible with every other type, and vice versa. You can freely assign a value of type <code>Any</code> to a variable with a more precise type:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>a: Any <span style="color: #666666">=</span> <span style="color: #008000; font-weight: bold">None</span>
+s: <span style="color: #008000">str</span> <span style="color: #666666">=</span> <span style="color: #BA2121">&#39;&#39;</span>
+a <span style="color: #666666">=</span> <span style="color: #666666">2</span>     <span style="color: #3D7B7B; font-style: italic"># OK (assign &quot;int&quot; to &quot;Any&quot;)</span>
+s <span style="color: #666666">=</span> a     <span style="color: #3D7B7B; font-style: italic"># OK (assign &quot;Any&quot; to &quot;str&quot;)</span>
+</code></pre></div>
+<p>Declared (and inferred) types are ignored (or <em>erased</em>) at runtime. They are basically treated as comments, and thus the above code does not generate a runtime error, even though <code>s</code> gets an <code>int</code> value when the program is run, while the declared type of <code>s</code> is actually <code>str</code>! You need to be careful with <code>Any</code> types, since they let you lie to mypy, and this could easily hide bugs.</p>
+<p>If you do not define a function return value or argument types, these default to <code>Any</code>:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">show_heading</span>(s) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:
+    <span style="color: #008000">print</span>(<span style="color: #BA2121">&#39;=== &#39;</span> <span style="color: #666666">+</span> s <span style="color: #666666">+</span> <span style="color: #BA2121">&#39; ===&#39;</span>)  <span style="color: #3D7B7B; font-style: italic"># No static type checking, as s has type Any</span>
+
+show_heading(<span style="color: #666666">1</span>)  <span style="color: #3D7B7B; font-style: italic"># OK (runtime error only; mypy won&#39;t generate an error)</span>
+</code></pre></div>
+<p>You should give a statically typed function an explicit <code>None</code> return type even if it doesn't return a value, as this lets mypy catch additional type errors:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">wait</span>(t: <span style="color: #008000">float</span>):  <span style="color: #3D7B7B; font-style: italic"># Implicit Any return value</span>
+    <span style="color: #008000">print</span>(<span style="color: #BA2121">&#39;Waiting...&#39;</span>)
+    time<span style="color: #666666">.</span>sleep(t)
+
+<span style="color: #008000; font-weight: bold">if</span> wait(<span style="color: #666666">2</span>) <span style="color: #666666">&gt;</span> <span style="color: #666666">1</span>:   <span style="color: #3D7B7B; font-style: italic"># Mypy doesn&#39;t catch this error!</span>
+    <span style="color: #666666">...</span>
+</code></pre></div>
+<p>If we had used an explicit <code>None</code> return type, mypy would have caught the error:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">wait</span>(t: <span style="color: #008000">float</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:
+    <span style="color: #008000">print</span>(<span style="color: #BA2121">&#39;Waiting...&#39;</span>)
+    time<span style="color: #666666">.</span>sleep(t)
+
+<span style="color: #008000; font-weight: bold">if</span> wait(<span style="color: #666666">2</span>) <span style="color: #666666">&gt;</span> <span style="color: #666666">1</span>:   <span style="color: #3D7B7B; font-style: italic"># Error: can&#39;t compare None and int</span>
+    <span style="color: #666666">...</span>
+</code></pre></div>
+<p>The <code>Any</code> type is discussed in more detail in section <a href="../dynamic_typing/"><code>dynamic-typing</code></a>.</p>
+<div class="admonition info">
+<p class="admonition-title">Note</p>
+<p>A function without any types in the signature is dynamically typed. The body of a dynamically typed function is not checked statically, and local variables have implicit <code>Any</code> types.</p>
+<p>This makes it easier to migrate legacy Python code to mypy, as mypy won't complain about dynamically typed functions.</p>
+</div>
+</div>
+</div>
+</div>
+<h2 id="tuple-类型">Tuple 类型<a class="headerlink" href="#tuple-类型" title="Permanent link">&para;</a></h2>
+<div class="tabbed-set tabbed-alternate" data-tabs="4:2"><input checked="checked" id="__tabbed_4_1" name="__tabbed_4" type="radio" /><input id="__tabbed_4_2" name="__tabbed_4" type="radio" /><div class="tabbed-labels"><label for="__tabbed_4_1">中文</label><label for="__tabbed_4_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>The type <code>tuple[T1, ..., Tn]</code> represents a tuple with the item types <code>T1</code>, ..., <code>Tn</code>:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #3D7B7B; font-style: italic"># Use `typing.Tuple` in Python 3.8 and earlier</span>
+<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">f</span>(t: <span style="color: #008000">tuple</span>[<span style="color: #008000">int</span>, <span style="color: #008000">str</span>]) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:
+    t <span style="color: #666666">=</span> <span style="color: #666666">1</span>, <span style="color: #BA2121">&#39;foo&#39;</span>    <span style="color: #3D7B7B; font-style: italic"># OK</span>
+    t <span style="color: #666666">=</span> <span style="color: #BA2121">&#39;foo&#39;</span>, <span style="color: #666666">1</span>    <span style="color: #3D7B7B; font-style: italic"># Type check error</span>
+</code></pre></div>
+<p>A tuple type of this kind has exactly a specific number of items (2 in the above example). Tuples can also be used as immutable, varying-length sequences. You can use the type <code>tuple[T, ...]</code> (with a literal <code>...</code> -- it's part of the syntax) for this purpose. Example:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">print_squared</span>(t: <span style="color: #008000">tuple</span>[<span style="color: #008000">int</span>, <span style="color: #666666">...</span>]) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:
+    <span style="color: #008000; font-weight: bold">for</span> n <span style="color: #AA22FF; font-weight: bold">in</span> t:
+        <span style="color: #008000">print</span>(n, n <span style="color: #666666">**</span> <span style="color: #666666">2</span>)
+
+print_squared(())           <span style="color: #3D7B7B; font-style: italic"># OK</span>
+print_squared((<span style="color: #666666">1</span>, <span style="color: #666666">3</span>, <span style="color: #666666">5</span>))    <span style="color: #3D7B7B; font-style: italic"># OK</span>
+print_squared([<span style="color: #666666">1</span>, <span style="color: #666666">2</span>])       <span style="color: #3D7B7B; font-style: italic"># Error: only a tuple is valid</span>
+</code></pre></div>
+<div class="admonition info">
+<p class="admonition-title">Note</p>
+<p>Usually it's a better idea to use <code>Sequence[T]</code> instead of <code>tuple[T, ...]</code>, as <a href="https://docs.python.org/3/library/typing.html#typing.Sequence"><code>typing.Sequence</code></a> is also compatible with lists and other non-tuple sequences.</p>
+</div>
+<div class="admonition info">
+<p class="admonition-title">Note</p>
+<p><code>tuple[...]</code> is valid as a base class in Python 3.6 and later, and always in stub files. In earlier Python versions you can sometimes work around this limitation by using a named tuple as a base class (see section <a href="https://mypy.readthedocs.io/en/stable/kinds_of_types.html#named-tuples"><code>named-tuples</code></a>).</p>
+</div>
+</div>
+<div class="tabbed-block">
+<p><strong>Tuple types</strong></p>
+<p>The type <code>tuple[T1, ..., Tn]</code> represents a tuple with the item types <code>T1</code>, ..., <code>Tn</code>:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #3D7B7B; font-style: italic"># Use `typing.Tuple` in Python 3.8 and earlier</span>
+<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">f</span>(t: <span style="color: #008000">tuple</span>[<span style="color: #008000">int</span>, <span style="color: #008000">str</span>]) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:
+    t <span style="color: #666666">=</span> <span style="color: #666666">1</span>, <span style="color: #BA2121">&#39;foo&#39;</span>    <span style="color: #3D7B7B; font-style: italic"># OK</span>
+    t <span style="color: #666666">=</span> <span style="color: #BA2121">&#39;foo&#39;</span>, <span style="color: #666666">1</span>    <span style="color: #3D7B7B; font-style: italic"># Type check error</span>
+</code></pre></div>
+<p>A tuple type of this kind has exactly a specific number of items (2 in the above example). Tuples can also be used as immutable, varying-length sequences. You can use the type <code>tuple[T, ...]</code> (with a literal <code>...</code> -- it's part of the syntax) for this purpose. Example:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">print_squared</span>(t: <span style="color: #008000">tuple</span>[<span style="color: #008000">int</span>, <span style="color: #666666">...</span>]) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:
+    <span style="color: #008000; font-weight: bold">for</span> n <span style="color: #AA22FF; font-weight: bold">in</span> t:
+        <span style="color: #008000">print</span>(n, n <span style="color: #666666">**</span> <span style="color: #666666">2</span>)
+
+print_squared(())           <span style="color: #3D7B7B; font-style: italic"># OK</span>
+print_squared((<span style="color: #666666">1</span>, <span style="color: #666666">3</span>, <span style="color: #666666">5</span>))    <span style="color: #3D7B7B; font-style: italic"># OK</span>
+print_squared([<span style="color: #666666">1</span>, <span style="color: #666666">2</span>])       <span style="color: #3D7B7B; font-style: italic"># Error: only a tuple is valid</span>
+</code></pre></div>
+<div class="admonition info">
+<p class="admonition-title">Note</p>
+<p>Usually it's a better idea to use <code>Sequence[T]</code> instead of <code>tuple[T, ...]</code>, as <a href="https://docs.python.org/3/library/typing.html#typing.Sequence"><code>typing.Sequence</code></a> is also compatible with lists and other non-tuple sequences.</p>
+</div>
+<div class="admonition info">
+<p class="admonition-title">Note</p>
+<p><code>tuple[...]</code> is valid as a base class in Python 3.6 and later, and always in stub files. In earlier Python versions you can sometimes work around this limitation by using a named tuple as a base class (see section <a href="https://mypy.readthedocs.io/en/stable/kinds_of_types.html#named-tuples"><code>named-tuples</code></a>).</p>
+</div>
+</div>
+</div>
+</div>
+<h2 id="callable-类型-以及-lambdas">Callable 类型 (以及 lambdas)<a class="headerlink" href="#callable-类型-以及-lambdas" title="Permanent link">&para;</a></h2>
+<div class="tabbed-set tabbed-alternate" data-tabs="5:2"><input checked="checked" id="__tabbed_5_1" name="__tabbed_5" type="radio" /><input id="__tabbed_5_2" name="__tabbed_5" type="radio" /><div class="tabbed-labels"><label for="__tabbed_5_1">中文</label><label for="__tabbed_5_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>You can pass around function objects and bound methods in statically typed code. The type of a function that accepts arguments <code>A1</code>, ..., <code>An</code> and returns <code>Rt</code> is <code>Callable[[A1, ..., An], Rt]</code>. Example:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">typing</span> <span style="color: #008000; font-weight: bold">import</span> Callable
+
+<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">twice</span>(i: <span style="color: #008000">int</span>, <span style="color: #008000">next</span>: Callable[[<span style="color: #008000">int</span>], <span style="color: #008000">int</span>]) <span style="color: #666666">-&gt;</span> <span style="color: #008000">int</span>:
+    <span style="color: #008000; font-weight: bold">return</span> <span style="color: #008000">next</span>(<span style="color: #008000">next</span>(i))
+
+<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">add</span>(i: <span style="color: #008000">int</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000">int</span>:
+    <span style="color: #008000; font-weight: bold">return</span> i <span style="color: #666666">+</span> <span style="color: #666666">1</span>
+
+<span style="color: #008000">print</span>(twice(<span style="color: #666666">3</span>, add))   <span style="color: #3D7B7B; font-style: italic"># 5</span>
+</code></pre></div>
+<p>You can only have positional arguments, and only ones without default values, in callable types. These cover the vast majority of uses of callable types, but sometimes this isn't quite enough. Mypy recognizes a special form <code>Callable[..., T]</code> (with a literal <code>...</code>) which can be used in less typical cases. It is compatible with arbitrary callable objects that return a type compatible with <code>T</code>, independent of the number, types or kinds of arguments. Mypy lets you call such callable values with arbitrary arguments, without any checking -- in this respect they are treated similar to a <code>(*args: Any, **kwargs: Any)</code> function signature. Example:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">typing</span> <span style="color: #008000; font-weight: bold">import</span> Callable
+
+<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">arbitrary_call</span>(f: Callable[<span style="color: #666666">...</span>, <span style="color: #008000">int</span>]) <span style="color: #666666">-&gt;</span> <span style="color: #008000">int</span>:
+    <span style="color: #008000; font-weight: bold">return</span> f(<span style="color: #BA2121">&#39;x&#39;</span>) <span style="color: #666666">+</span> f(y<span style="color: #666666">=2</span>)  <span style="color: #3D7B7B; font-style: italic"># OK</span>
+
+arbitrary_call(<span style="color: #008000">ord</span>)   <span style="color: #3D7B7B; font-style: italic"># No static error, but fails at runtime</span>
+arbitrary_call(<span style="color: #008000">open</span>)  <span style="color: #3D7B7B; font-style: italic"># Error: does not return an int</span>
+arbitrary_call(<span style="color: #666666">1</span>)     <span style="color: #3D7B7B; font-style: italic"># Error: &#39;int&#39; is not callable</span>
+</code></pre></div>
+<p>In situations where more precise or complex types of callbacks are necessary one can use flexible <a href="../protocol_and_struct_subtyping/"><code>callback protocols</code></a>. Lambdas are also supported. The lambda argument and return value types cannot be given explicitly; they are always inferred based on context using bidirectional type inference:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>l <span style="color: #666666">=</span> <span style="color: #008000">map</span>(<span style="color: #008000; font-weight: bold">lambda</span> x: x <span style="color: #666666">+</span> <span style="color: #666666">1</span>, [<span style="color: #666666">1</span>, <span style="color: #666666">2</span>, <span style="color: #666666">3</span>])   <span style="color: #3D7B7B; font-style: italic"># Infer x as int and l as list[int]</span>
+</code></pre></div>
+<p>If you want to give the argument or return value types explicitly, use an ordinary, perhaps nested function definition.</p>
+<p>Callables can also be used against type objects, matching their <code>__init__</code> or <code>__new__</code> signature:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">typing</span> <span style="color: #008000; font-weight: bold">import</span> Callable
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">C</span>:
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__init__</span>(<span style="color: #008000">self</span>, app: <span style="color: #008000">str</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:
+        <span style="color: #008000; font-weight: bold">pass</span>
+
+CallableType <span style="color: #666666">=</span> Callable[[<span style="color: #008000">str</span>], C]
+
+<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">class_or_callable</span>(arg: CallableType) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:
+    inst <span style="color: #666666">=</span> arg(<span style="color: #BA2121">&quot;my_app&quot;</span>)
+    reveal_type(inst)  <span style="color: #3D7B7B; font-style: italic"># Revealed type is &quot;C&quot;</span>
+</code></pre></div>
+<p>This is useful if you want <code>arg</code> to be either a <code>Callable</code> returning an instance of <code>C</code> or the type of <code>C</code> itself. This also works with <a href="../protocol_and_struct_subtyping/"><code>callback protocols</code></a>.</p>
+</div>
+<div class="tabbed-block">
+<p><strong>Callable types (and lambdas)</strong></p>
+<p>You can pass around function objects and bound methods in statically typed code. The type of a function that accepts arguments <code>A1</code>, ..., <code>An</code> and returns <code>Rt</code> is <code>Callable[[A1, ..., An], Rt]</code>. Example:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">typing</span> <span style="color: #008000; font-weight: bold">import</span> Callable
+
+<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">twice</span>(i: <span style="color: #008000">int</span>, <span style="color: #008000">next</span>: Callable[[<span style="color: #008000">int</span>], <span style="color: #008000">int</span>]) <span style="color: #666666">-&gt;</span> <span style="color: #008000">int</span>:
+    <span style="color: #008000; font-weight: bold">return</span> <span style="color: #008000">next</span>(<span style="color: #008000">next</span>(i))
+
+<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">add</span>(i: <span style="color: #008000">int</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000">int</span>:
+    <span style="color: #008000; font-weight: bold">return</span> i <span style="color: #666666">+</span> <span style="color: #666666">1</span>
+
+<span style="color: #008000">print</span>(twice(<span style="color: #666666">3</span>, add))   <span style="color: #3D7B7B; font-style: italic"># 5</span>
+</code></pre></div>
+<p>You can only have positional arguments, and only ones without default values, in callable types. These cover the vast majority of uses of callable types, but sometimes this isn't quite enough. Mypy recognizes a special form <code>Callable[..., T]</code> (with a literal <code>...</code>) which can be used in less typical cases. It is compatible with arbitrary callable objects that return a type compatible with <code>T</code>, independent of the number, types or kinds of arguments. Mypy lets you call such callable values with arbitrary arguments, without any checking -- in this respect they are treated similar to a <code>(*args: Any, **kwargs: Any)</code> function signature. Example:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">typing</span> <span style="color: #008000; font-weight: bold">import</span> Callable
+
+<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">arbitrary_call</span>(f: Callable[<span style="color: #666666">...</span>, <span style="color: #008000">int</span>]) <span style="color: #666666">-&gt;</span> <span style="color: #008000">int</span>:
+    <span style="color: #008000; font-weight: bold">return</span> f(<span style="color: #BA2121">&#39;x&#39;</span>) <span style="color: #666666">+</span> f(y<span style="color: #666666">=2</span>)  <span style="color: #3D7B7B; font-style: italic"># OK</span>
+
+arbitrary_call(<span style="color: #008000">ord</span>)   <span style="color: #3D7B7B; font-style: italic"># No static error, but fails at runtime</span>
+arbitrary_call(<span style="color: #008000">open</span>)  <span style="color: #3D7B7B; font-style: italic"># Error: does not return an int</span>
+arbitrary_call(<span style="color: #666666">1</span>)     <span style="color: #3D7B7B; font-style: italic"># Error: &#39;int&#39; is not callable</span>
+</code></pre></div>
+<p>In situations where more precise or complex types of callbacks are necessary one can use flexible <a href="../protocol_and_struct_subtyping/"><code>callback protocols</code></a>. Lambdas are also supported. The lambda argument and return value types cannot be given explicitly; they are always inferred based on context using bidirectional type inference:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>l <span style="color: #666666">=</span> <span style="color: #008000">map</span>(<span style="color: #008000; font-weight: bold">lambda</span> x: x <span style="color: #666666">+</span> <span style="color: #666666">1</span>, [<span style="color: #666666">1</span>, <span style="color: #666666">2</span>, <span style="color: #666666">3</span>])   <span style="color: #3D7B7B; font-style: italic"># Infer x as int and l as list[int]</span>
+</code></pre></div>
+<p>If you want to give the argument or return value types explicitly, use an ordinary, perhaps nested function definition.</p>
+<p>Callables can also be used against type objects, matching their <code>__init__</code> or <code>__new__</code> signature:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">typing</span> <span style="color: #008000; font-weight: bold">import</span> Callable
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">C</span>:
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__init__</span>(<span style="color: #008000">self</span>, app: <span style="color: #008000">str</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:
+        <span style="color: #008000; font-weight: bold">pass</span>
+
+CallableType <span style="color: #666666">=</span> Callable[[<span style="color: #008000">str</span>], C]
+
+<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">class_or_callable</span>(arg: CallableType) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:
+    inst <span style="color: #666666">=</span> arg(<span style="color: #BA2121">&quot;my_app&quot;</span>)
+    reveal_type(inst)  <span style="color: #3D7B7B; font-style: italic"># Revealed type is &quot;C&quot;</span>
+</code></pre></div>
+<p>This is useful if you want <code>arg</code> to be either a <code>Callable</code> returning an instance of <code>C</code> or the type of <code>C</code> itself. This also works with <a href="../protocol_and_struct_subtyping/"><code>callback protocols</code></a>.</p>
+</div>
+</div>
+</div>
+<h2 id="union-类型">Union 类型<a class="headerlink" href="#union-类型" title="Permanent link">&para;</a></h2>
+<div class="tabbed-set tabbed-alternate" data-tabs="6:2"><input checked="checked" id="__tabbed_6_1" name="__tabbed_6" type="radio" /><input id="__tabbed_6_2" name="__tabbed_6" type="radio" /><div class="tabbed-labels"><label for="__tabbed_6_1">中文</label><label for="__tabbed_6_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>Python functions often accept values of two or more different types. You can use <a href="../more_types/"><code>overloading</code></a> to represent this, but union types are often more convenient.</p>
+<p>Use the <code>Union[T1, ..., Tn]</code> type constructor to construct a union type. For example, if an argument has type <code>Union[int, str]</code>, both integers and strings are valid argument values.</p>
+<p>You can use an <a href="https://docs.python.org/3/library/functions.html#isinstance"><code>isinstance</code></a> check to narrow down a union type to a more specific type:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">typing</span> <span style="color: #008000; font-weight: bold">import</span> Union
+
+<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">f</span>(x: Union[<span style="color: #008000">int</span>, <span style="color: #008000">str</span>]) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:
+    x <span style="color: #666666">+</span> <span style="color: #666666">1</span>     <span style="color: #3D7B7B; font-style: italic"># Error: str + int is not valid</span>
+    <span style="color: #008000; font-weight: bold">if</span> <span style="color: #008000">isinstance</span>(x, <span style="color: #008000">int</span>):
+        <span style="color: #3D7B7B; font-style: italic"># Here type of x is int.</span>
+        x <span style="color: #666666">+</span> <span style="color: #666666">1</span>      <span style="color: #3D7B7B; font-style: italic"># OK</span>
+    <span style="color: #008000; font-weight: bold">else</span>:
+        <span style="color: #3D7B7B; font-style: italic"># Here type of x is str.</span>
+        x <span style="color: #666666">+</span> <span style="color: #BA2121">&#39;a&#39;</span>    <span style="color: #3D7B7B; font-style: italic"># OK</span>
+
+f(<span style="color: #666666">1</span>)    <span style="color: #3D7B7B; font-style: italic"># OK</span>
+f(<span style="color: #BA2121">&#39;x&#39;</span>)  <span style="color: #3D7B7B; font-style: italic"># OK</span>
+f(<span style="color: #666666">1.1</span>)  <span style="color: #3D7B7B; font-style: italic"># Error</span>
+</code></pre></div>
+<div class="admonition info">
+<p class="admonition-title">Note</p>
+<p>Operations are valid for union types only if they are valid for <em>every</em> union item. This is why it's often necessary to use an <a href="https://docs.python.org/3/library/functions.html#isinstance"><code>isinstance</code></a> check to first narrow down a union type to a non-union type. This also means that it's recommended to avoid union types as function return types, since the caller may have to use <a href="https://docs.python.org/3/library/functions.html#isinstance"><code>isinstance</code></a> before doing anything interesting with the value.</p>
+</div>
+</div>
+<div class="tabbed-block">
+<p><strong>Union types</strong></p>
+<p>Python functions often accept values of two or more different types. You can use <a href="../more_types/"><code>overloading</code></a> to represent this, but union types are often more convenient.</p>
+<p>Use the <code>Union[T1, ..., Tn]</code> type constructor to construct a union type. For example, if an argument has type <code>Union[int, str]</code>, both integers and strings are valid argument values.</p>
+<p>You can use an <a href="https://docs.python.org/3/library/functions.html#isinstance"><code>isinstance</code></a> check to narrow down a union type to a more specific type:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">typing</span> <span style="color: #008000; font-weight: bold">import</span> Union
+
+<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">f</span>(x: Union[<span style="color: #008000">int</span>, <span style="color: #008000">str</span>]) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:
+    x <span style="color: #666666">+</span> <span style="color: #666666">1</span>     <span style="color: #3D7B7B; font-style: italic"># Error: str + int is not valid</span>
+    <span style="color: #008000; font-weight: bold">if</span> <span style="color: #008000">isinstance</span>(x, <span style="color: #008000">int</span>):
+        <span style="color: #3D7B7B; font-style: italic"># Here type of x is int.</span>
+        x <span style="color: #666666">+</span> <span style="color: #666666">1</span>      <span style="color: #3D7B7B; font-style: italic"># OK</span>
+    <span style="color: #008000; font-weight: bold">else</span>:
+        <span style="color: #3D7B7B; font-style: italic"># Here type of x is str.</span>
+        x <span style="color: #666666">+</span> <span style="color: #BA2121">&#39;a&#39;</span>    <span style="color: #3D7B7B; font-style: italic"># OK</span>
+
+f(<span style="color: #666666">1</span>)    <span style="color: #3D7B7B; font-style: italic"># OK</span>
+f(<span style="color: #BA2121">&#39;x&#39;</span>)  <span style="color: #3D7B7B; font-style: italic"># OK</span>
+f(<span style="color: #666666">1.1</span>)  <span style="color: #3D7B7B; font-style: italic"># Error</span>
+</code></pre></div>
+<div class="admonition info">
+<p class="admonition-title">Note</p>
+<p>Operations are valid for union types only if they are valid for <em>every</em> union item. This is why it's often necessary to use an <a href="https://docs.python.org/3/library/functions.html#isinstance"><code>isinstance</code></a> check to first narrow down a union type to a non-union type. This also means that it's recommended to avoid union types as function return types, since the caller may have to use <a href="https://docs.python.org/3/library/functions.html#isinstance"><code>isinstance</code></a> before doing anything interesting with the value.</p>
+</div>
+</div>
+</div>
+</div>
+<h2 id="optional-和-none-类型">Optional 和 None 类型<a class="headerlink" href="#optional-和-none-类型" title="Permanent link">&para;</a></h2>
+<div class="tabbed-set tabbed-alternate" data-tabs="7:2"><input checked="checked" id="__tabbed_7_1" name="__tabbed_7" type="radio" /><input id="__tabbed_7_2" name="__tabbed_7" type="radio" /><div class="tabbed-labels"><label for="__tabbed_7_1">中文</label><label for="__tabbed_7_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>You can use the <a href="https://docs.python.org/3/library/typing.html#typing.Optional"><code>typing.Optional</code></a> type modifier to define a type variant that allows <code>None</code>, such as <code>Optional[int]</code> (<code>Optional[X]</code> is the preferred shorthand for <code>Union[X, None]</code>):</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">typing</span> <span style="color: #008000; font-weight: bold">import</span> Optional
+
+<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">strlen</span>(s: <span style="color: #008000">str</span>) <span style="color: #666666">-&gt;</span> Optional[<span style="color: #008000">int</span>]:
+    <span style="color: #008000; font-weight: bold">if</span> <span style="color: #AA22FF; font-weight: bold">not</span> s:
+        <span style="color: #008000; font-weight: bold">return</span> <span style="color: #008000; font-weight: bold">None</span>  <span style="color: #3D7B7B; font-style: italic"># OK</span>
+    <span style="color: #008000; font-weight: bold">return</span> <span style="color: #008000">len</span>(s)
+
+<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">strlen_invalid</span>(s: <span style="color: #008000">str</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000">int</span>:
+    <span style="color: #008000; font-weight: bold">if</span> <span style="color: #AA22FF; font-weight: bold">not</span> s:
+        <span style="color: #008000; font-weight: bold">return</span> <span style="color: #008000; font-weight: bold">None</span>  <span style="color: #3D7B7B; font-style: italic"># Error: None not compatible with int</span>
+    <span style="color: #008000; font-weight: bold">return</span> <span style="color: #008000">len</span>(s)
+</code></pre></div>
+<p>Most operations will not be allowed on unguarded <code>None</code> or <a href="https://docs.python.org/3/library/typing.html#typing.Optional"><code>typing.Optional</code></a> values:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">my_inc</span>(x: Optional[<span style="color: #008000">int</span>]) <span style="color: #666666">-&gt;</span> <span style="color: #008000">int</span>:
+    <span style="color: #008000; font-weight: bold">return</span> x <span style="color: #666666">+</span> <span style="color: #666666">1</span>  <span style="color: #3D7B7B; font-style: italic"># Error: Cannot add None and int</span>
+</code></pre></div>
+<p>Instead, an explicit <code>None</code> check is required. Mypy has powerful type inference that lets you use regular Python idioms to guard against <code>None</code> values. For example, mypy recognizes <code>is None</code> checks:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">my_inc</span>(x: Optional[<span style="color: #008000">int</span>]) <span style="color: #666666">-&gt;</span> <span style="color: #008000">int</span>:
+    <span style="color: #008000; font-weight: bold">if</span> x <span style="color: #AA22FF; font-weight: bold">is</span> <span style="color: #008000; font-weight: bold">None</span>:
+        <span style="color: #008000; font-weight: bold">return</span> <span style="color: #666666">0</span>
+    <span style="color: #008000; font-weight: bold">else</span>:
+        <span style="color: #3D7B7B; font-style: italic"># The inferred type of x is just int here.</span>
+        <span style="color: #008000; font-weight: bold">return</span> x <span style="color: #666666">+</span> <span style="color: #666666">1</span>
+</code></pre></div>
+<p>Mypy will infer the type of <code>x</code> to be <code>int</code> in the else block due to the check against <code>None</code> in the if condition.</p>
+<p>Other supported checks for guarding against a <code>None</code> value include <code>if x is not None</code>, <code>if x</code> and <code>if not x</code>. Additionally, mypy understands <code>None</code> checks within logical expressions:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">concat</span>(x: Optional[<span style="color: #008000">str</span>], y: Optional[<span style="color: #008000">str</span>]) <span style="color: #666666">-&gt;</span> Optional[<span style="color: #008000">str</span>]:
+    <span style="color: #008000; font-weight: bold">if</span> x <span style="color: #AA22FF; font-weight: bold">is</span> <span style="color: #AA22FF; font-weight: bold">not</span> <span style="color: #008000; font-weight: bold">None</span> <span style="color: #AA22FF; font-weight: bold">and</span> y <span style="color: #AA22FF; font-weight: bold">is</span> <span style="color: #AA22FF; font-weight: bold">not</span> <span style="color: #008000; font-weight: bold">None</span>:
+        <span style="color: #3D7B7B; font-style: italic"># Both x and y are not None here</span>
+        <span style="color: #008000; font-weight: bold">return</span> x <span style="color: #666666">+</span> y
+    <span style="color: #008000; font-weight: bold">else</span>:
+        <span style="color: #008000; font-weight: bold">return</span> <span style="color: #008000; font-weight: bold">None</span>
+</code></pre></div>
+<p>Sometimes mypy doesn't realize that a value is never <code>None</code>. This notably happens when a class instance can exist in a partially defined state, where some attribute is initialized to <code>None</code> during object construction, but a method assumes that the attribute is no longer <code>None</code>. Mypy will complain about the possible <code>None</code> value. You can use <code>assert x is not None</code> to work around this in the method:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Resource</span>:
+    path: Optional[<span style="color: #008000">str</span>] <span style="color: #666666">=</span> <span style="color: #008000; font-weight: bold">None</span>
+
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">initialize</span>(<span style="color: #008000">self</span>, path: <span style="color: #008000">str</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:
+        <span style="color: #008000">self</span><span style="color: #666666">.</span>path <span style="color: #666666">=</span> path
+
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">read</span>(<span style="color: #008000">self</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000">str</span>:
+        <span style="color: #3D7B7B; font-style: italic"># We require that the object has been initialized.</span>
+        <span style="color: #008000; font-weight: bold">assert</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>path <span style="color: #AA22FF; font-weight: bold">is</span> <span style="color: #AA22FF; font-weight: bold">not</span> <span style="color: #008000; font-weight: bold">None</span>
+        <span style="color: #008000; font-weight: bold">with</span> <span style="color: #008000">open</span>(<span style="color: #008000">self</span><span style="color: #666666">.</span>path) <span style="color: #008000; font-weight: bold">as</span> f:  <span style="color: #3D7B7B; font-style: italic"># OK</span>
+           <span style="color: #008000; font-weight: bold">return</span> f<span style="color: #666666">.</span>read()
+
+r <span style="color: #666666">=</span> Resource()
+r<span style="color: #666666">.</span>initialize(<span style="color: #BA2121">&#39;/foo/bar&#39;</span>)
+r<span style="color: #666666">.</span>read()
+</code></pre></div>
+<p>When initializing a variable as <code>None</code>, <code>None</code> is usually an empty place-holder value, and the actual value has a different type. This is why you need to annotate an attribute in cases like the class <code>Resource</code> above:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Resource</span>:
+    path: Optional[<span style="color: #008000">str</span>] <span style="color: #666666">=</span> <span style="color: #008000; font-weight: bold">None</span>
+    <span style="color: #666666">...</span>
+</code></pre></div>
+<p>This also works for attributes defined within methods:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Counter</span>:
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__init__</span>(<span style="color: #008000">self</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:
+        <span style="color: #008000">self</span><span style="color: #666666">.</span>count: Optional[<span style="color: #008000">int</span>] <span style="color: #666666">=</span> <span style="color: #008000; font-weight: bold">None</span>
+</code></pre></div>
+<p>This is not a problem when using variable annotations, since no initial value is needed:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Container</span>:
+    items: <span style="color: #008000">list</span>[<span style="color: #008000">str</span>]  <span style="color: #3D7B7B; font-style: italic"># No initial value</span>
+</code></pre></div>
+<p>Mypy generally uses the first assignment to a variable to infer the type of the variable. However, if you assign both a <code>None</code> value and a non-<code>None</code> value in the same scope, mypy can usually do the right thing without an annotation:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">f</span>(i: <span style="color: #008000">int</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:
+    n <span style="color: #666666">=</span> <span style="color: #008000; font-weight: bold">None</span>  <span style="color: #3D7B7B; font-style: italic"># Inferred type Optional[int] because of the assignment below</span>
+    <span style="color: #008000; font-weight: bold">if</span> i <span style="color: #666666">&gt;</span> <span style="color: #666666">0</span>:
+         n <span style="color: #666666">=</span> i
+    <span style="color: #666666">...</span>
+</code></pre></div>
+<p>Sometimes you may get the error "Cannot determine type of \<something>". In this case you should add an explicit <code>Optional[...]</code> annotation (or type comment).</p>
+<div class="admonition info">
+<p class="admonition-title">Note</p>
+<p><code>None</code> is a type with only one value, <code>None</code>. <code>None</code> is also used as the return type for functions that don't return a value, i.e. functions that implicitly return <code>None</code>.</p>
+</div>
+<div class="admonition info">
+<p class="admonition-title">Note</p>
+<p>The Python interpreter internally uses the name <code>NoneType</code> for the type of <code>None</code>, but <code>None</code> is always used in type annotations. The latter is shorter and reads better. (<code>NoneType</code> is available as <a href="https://docs.python.org/3/library/types.html#types.NoneType"><code>types.NoneType</code></a> on Python 3.10+, but is not exposed at all on earlier versions of Python.)</p>
+</div>
+<div class="admonition info">
+<p class="admonition-title">Note</p>
+<p><code>Optional[...]</code> <em>does not</em> mean a function argument with a default value. It simply means that <code>None</code> is a valid value for the argument. This is a common confusion because <code>None</code> is a common default value for arguments.</p>
+</div>
+</div>
+<div class="tabbed-block">
+<p><strong>Optional types and the None type</strong></p>
+<p>You can use the <a href="https://docs.python.org/3/library/typing.html#typing.Optional"><code>typing.Optional</code></a> type modifier to define a type variant that allows <code>None</code>, such as <code>Optional[int]</code> (<code>Optional[X]</code> is the preferred shorthand for <code>Union[X, None]</code>):</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">typing</span> <span style="color: #008000; font-weight: bold">import</span> Optional
+
+<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">strlen</span>(s: <span style="color: #008000">str</span>) <span style="color: #666666">-&gt;</span> Optional[<span style="color: #008000">int</span>]:
+    <span style="color: #008000; font-weight: bold">if</span> <span style="color: #AA22FF; font-weight: bold">not</span> s:
+        <span style="color: #008000; font-weight: bold">return</span> <span style="color: #008000; font-weight: bold">None</span>  <span style="color: #3D7B7B; font-style: italic"># OK</span>
+    <span style="color: #008000; font-weight: bold">return</span> <span style="color: #008000">len</span>(s)
+
+<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">strlen_invalid</span>(s: <span style="color: #008000">str</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000">int</span>:
+    <span style="color: #008000; font-weight: bold">if</span> <span style="color: #AA22FF; font-weight: bold">not</span> s:
+        <span style="color: #008000; font-weight: bold">return</span> <span style="color: #008000; font-weight: bold">None</span>  <span style="color: #3D7B7B; font-style: italic"># Error: None not compatible with int</span>
+    <span style="color: #008000; font-weight: bold">return</span> <span style="color: #008000">len</span>(s)
+</code></pre></div>
+<p>Most operations will not be allowed on unguarded <code>None</code> or <a href="https://docs.python.org/3/library/typing.html#typing.Optional"><code>typing.Optional</code></a> values:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">my_inc</span>(x: Optional[<span style="color: #008000">int</span>]) <span style="color: #666666">-&gt;</span> <span style="color: #008000">int</span>:
+    <span style="color: #008000; font-weight: bold">return</span> x <span style="color: #666666">+</span> <span style="color: #666666">1</span>  <span style="color: #3D7B7B; font-style: italic"># Error: Cannot add None and int</span>
+</code></pre></div>
+<p>Instead, an explicit <code>None</code> check is required. Mypy has powerful type inference that lets you use regular Python idioms to guard against <code>None</code> values. For example, mypy recognizes <code>is None</code> checks:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">my_inc</span>(x: Optional[<span style="color: #008000">int</span>]) <span style="color: #666666">-&gt;</span> <span style="color: #008000">int</span>:
+    <span style="color: #008000; font-weight: bold">if</span> x <span style="color: #AA22FF; font-weight: bold">is</span> <span style="color: #008000; font-weight: bold">None</span>:
+        <span style="color: #008000; font-weight: bold">return</span> <span style="color: #666666">0</span>
+    <span style="color: #008000; font-weight: bold">else</span>:
+        <span style="color: #3D7B7B; font-style: italic"># The inferred type of x is just int here.</span>
+        <span style="color: #008000; font-weight: bold">return</span> x <span style="color: #666666">+</span> <span style="color: #666666">1</span>
+</code></pre></div>
+<p>Mypy will infer the type of <code>x</code> to be <code>int</code> in the else block due to the check against <code>None</code> in the if condition.</p>
+<p>Other supported checks for guarding against a <code>None</code> value include <code>if x is not None</code>, <code>if x</code> and <code>if not x</code>. Additionally, mypy understands <code>None</code> checks within logical expressions:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">concat</span>(x: Optional[<span style="color: #008000">str</span>], y: Optional[<span style="color: #008000">str</span>]) <span style="color: #666666">-&gt;</span> Optional[<span style="color: #008000">str</span>]:
+    <span style="color: #008000; font-weight: bold">if</span> x <span style="color: #AA22FF; font-weight: bold">is</span> <span style="color: #AA22FF; font-weight: bold">not</span> <span style="color: #008000; font-weight: bold">None</span> <span style="color: #AA22FF; font-weight: bold">and</span> y <span style="color: #AA22FF; font-weight: bold">is</span> <span style="color: #AA22FF; font-weight: bold">not</span> <span style="color: #008000; font-weight: bold">None</span>:
+        <span style="color: #3D7B7B; font-style: italic"># Both x and y are not None here</span>
+        <span style="color: #008000; font-weight: bold">return</span> x <span style="color: #666666">+</span> y
+    <span style="color: #008000; font-weight: bold">else</span>:
+        <span style="color: #008000; font-weight: bold">return</span> <span style="color: #008000; font-weight: bold">None</span>
+</code></pre></div>
+<p>Sometimes mypy doesn't realize that a value is never <code>None</code>. This notably happens when a class instance can exist in a partially defined state, where some attribute is initialized to <code>None</code> during object construction, but a method assumes that the attribute is no longer <code>None</code>. Mypy will complain about the possible <code>None</code> value. You can use <code>assert x is not None</code> to work around this in the method:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Resource</span>:
+    path: Optional[<span style="color: #008000">str</span>] <span style="color: #666666">=</span> <span style="color: #008000; font-weight: bold">None</span>
+
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">initialize</span>(<span style="color: #008000">self</span>, path: <span style="color: #008000">str</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:
+        <span style="color: #008000">self</span><span style="color: #666666">.</span>path <span style="color: #666666">=</span> path
+
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">read</span>(<span style="color: #008000">self</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000">str</span>:
+        <span style="color: #3D7B7B; font-style: italic"># We require that the object has been initialized.</span>
+        <span style="color: #008000; font-weight: bold">assert</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>path <span style="color: #AA22FF; font-weight: bold">is</span> <span style="color: #AA22FF; font-weight: bold">not</span> <span style="color: #008000; font-weight: bold">None</span>
+        <span style="color: #008000; font-weight: bold">with</span> <span style="color: #008000">open</span>(<span style="color: #008000">self</span><span style="color: #666666">.</span>path) <span style="color: #008000; font-weight: bold">as</span> f:  <span style="color: #3D7B7B; font-style: italic"># OK</span>
+           <span style="color: #008000; font-weight: bold">return</span> f<span style="color: #666666">.</span>read()
+
+r <span style="color: #666666">=</span> Resource()
+r<span style="color: #666666">.</span>initialize(<span style="color: #BA2121">&#39;/foo/bar&#39;</span>)
+r<span style="color: #666666">.</span>read()
+</code></pre></div>
+<p>When initializing a variable as <code>None</code>, <code>None</code> is usually an empty place-holder value, and the actual value has a different type. This is why you need to annotate an attribute in cases like the class <code>Resource</code> above:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Resource</span>:
+    path: Optional[<span style="color: #008000">str</span>] <span style="color: #666666">=</span> <span style="color: #008000; font-weight: bold">None</span>
+    <span style="color: #666666">...</span>
+</code></pre></div>
+<p>This also works for attributes defined within methods:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Counter</span>:
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__init__</span>(<span style="color: #008000">self</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:
+        <span style="color: #008000">self</span><span style="color: #666666">.</span>count: Optional[<span style="color: #008000">int</span>] <span style="color: #666666">=</span> <span style="color: #008000; font-weight: bold">None</span>
+</code></pre></div>
+<p>This is not a problem when using variable annotations, since no initial value is needed:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Container</span>:
+    items: <span style="color: #008000">list</span>[<span style="color: #008000">str</span>]  <span style="color: #3D7B7B; font-style: italic"># No initial value</span>
+</code></pre></div>
+<p>Mypy generally uses the first assignment to a variable to infer the type of the variable. However, if you assign both a <code>None</code> value and a non-<code>None</code> value in the same scope, mypy can usually do the right thing without an annotation:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">f</span>(i: <span style="color: #008000">int</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:
+    n <span style="color: #666666">=</span> <span style="color: #008000; font-weight: bold">None</span>  <span style="color: #3D7B7B; font-style: italic"># Inferred type Optional[int] because of the assignment below</span>
+    <span style="color: #008000; font-weight: bold">if</span> i <span style="color: #666666">&gt;</span> <span style="color: #666666">0</span>:
+         n <span style="color: #666666">=</span> i
+    <span style="color: #666666">...</span>
+</code></pre></div>
+<p>Sometimes you may get the error "Cannot determine type of \<something>". In this case you should add an explicit <code>Optional[...]</code> annotation (or type comment).</p>
+<div class="admonition info">
+<p class="admonition-title">Note</p>
+<p><code>None</code> is a type with only one value, <code>None</code>. <code>None</code> is also used as the return type for functions that don't return a value, i.e. functions that implicitly return <code>None</code>.</p>
+</div>
+<div class="admonition info">
+<p class="admonition-title">Note</p>
+<p>The Python interpreter internally uses the name <code>NoneType</code> for the type of <code>None</code>, but <code>None</code> is always used in type annotations. The latter is shorter and reads better. (<code>NoneType</code> is available as <a href="https://docs.python.org/3/library/types.html#types.NoneType"><code>types.NoneType</code></a> on Python 3.10+, but is not exposed at all on earlier versions of Python.)</p>
+</div>
+<div class="admonition info">
+<p class="admonition-title">Note</p>
+<p><code>Optional[...]</code> <em>does not</em> mean a function argument with a default value. It simply means that <code>None</code> is a valid value for the argument. This is a common confusion because <code>None</code> is a common default value for arguments.</p>
+</div>
+</div>
+</div>
+</div>
+<h3 id="union-的-x--y-语法">Union 的 X | Y 语法<a class="headerlink" href="#union-的-x--y-语法" title="Permanent link">&para;</a></h3>
+<div class="tabbed-set tabbed-alternate" data-tabs="8:2"><input checked="checked" id="__tabbed_8_1" name="__tabbed_8" type="radio" /><input id="__tabbed_8_2" name="__tabbed_8" type="radio" /><div class="tabbed-labels"><label for="__tabbed_8_1">中文</label><label for="__tabbed_8_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p><a href="https://peps.python.org/pep-0604/"><code>PEP 604</code></a> introduced an alternative way for spelling union types. In Python 3.10 and later, you can write <code>Union[int, str]</code> as <code>int | str</code>. It is possible to use this syntax in versions of Python where it isn't supported by the runtime with some limitations (see <a href="https://mypy.readthedocs.io/en/stable/runtime_troubles.html#runtime-troubles"><code>runtime troubles</code></a>).</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>t1: <span style="color: #008000">int</span> <span style="color: #666666">|</span> <span style="color: #008000">str</span>  <span style="color: #3D7B7B; font-style: italic"># equivalent to Union[int, str]</span>
+
+t2: <span style="color: #008000">int</span> <span style="color: #666666">|</span> <span style="color: #008000; font-weight: bold">None</span>  <span style="color: #3D7B7B; font-style: italic"># equivalent to Optional[int]</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<p><strong>X | Y syntax for Unions</strong></p>
+<p><a href="https://peps.python.org/pep-0604/"><code>PEP 604</code></a> introduced an alternative way for spelling union types. In Python 3.10 and later, you can write <code>Union[int, str]</code> as <code>int | str</code>. It is possible to use this syntax in versions of Python where it isn't supported by the runtime with some limitations (see <a href="https://mypy.readthedocs.io/en/stable/runtime_troubles.html#runtime-troubles"><code>runtime troubles</code></a>).</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>t1: <span style="color: #008000">int</span> <span style="color: #666666">|</span> <span style="color: #008000">str</span>  <span style="color: #3D7B7B; font-style: italic"># equivalent to Union[int, str]</span>
+
+t2: <span style="color: #008000">int</span> <span style="color: #666666">|</span> <span style="color: #008000; font-weight: bold">None</span>  <span style="color: #3D7B7B; font-style: italic"># equivalent to Optional[int]</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<h2 id="禁用严格的可选检查">禁用严格的可选检查<a class="headerlink" href="#禁用严格的可选检查" title="Permanent link">&para;</a></h2>
+<div class="tabbed-set tabbed-alternate" data-tabs="9:2"><input checked="checked" id="__tabbed_9_1" name="__tabbed_9" type="radio" /><input id="__tabbed_9_2" name="__tabbed_9" type="radio" /><div class="tabbed-labels"><label for="__tabbed_9_1">中文</label><label for="__tabbed_9_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>Mypy also has an option to treat <code>None</code> as a valid value for every type (in case you know Java, it's useful to think of it as similar to the Java <code>null</code>). In this mode <code>None</code> is also valid for primitive types such as <code>int</code> and <code>float</code>, and <a href="https://docs.python.org/3/library/typing.html#typing.Optional"><code>typing.Optional</code></a> types are not required.</p>
+<p>The mode is enabled through the <a href="https://mypy.readthedocs.io/en/stable/command_line.html#cmdoption-mypy-no-strict-optional"><code>--no-strict-optional</code></a> command-line option. In mypy versions before 0.600 this was the default mode. You can enable this option explicitly for backward compatibility with earlier mypy versions, in case you don't want to introduce optional types to your codebase yet.</p>
+<p>It will cause mypy to silently accept some buggy code, such as this example -- it's not recommended if you can avoid it:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">inc</span>(x: <span style="color: #008000">int</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000">int</span>:
+    <span style="color: #008000; font-weight: bold">return</span> x <span style="color: #666666">+</span> <span style="color: #666666">1</span>
+
+x <span style="color: #666666">=</span> inc(<span style="color: #008000; font-weight: bold">None</span>)  <span style="color: #3D7B7B; font-style: italic"># No error reported by mypy if strict optional mode disabled!</span>
+</code></pre></div>
+<p>However, making code "optional clean" can take some work! You can also use <a href="https://mypy.readthedocs.io/en/stable/config_file.html#config-file"><code>the mypy configuration file</code></a> to migrate your code to strict optional checking one file at a time, since there exists the per-module flag <a href="https://mypy.readthedocs.io/en/stable/config_file.html#confval-strict_optional"><code>strict_optional</code></a> to control strict optional mode.</p>
+<p>Often it's still useful to document whether a variable can be <code>None</code>. For example, this function accepts a <code>None</code> argument, but it's not obvious from its signature:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">greeting</span>(name: <span style="color: #008000">str</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000">str</span>:
+    <span style="color: #008000; font-weight: bold">if</span> name:
+        <span style="color: #008000; font-weight: bold">return</span> <span style="color: #BA2121">f&#39;Hello, </span><span style="color: #A45A77; font-weight: bold">{</span>name<span style="color: #A45A77; font-weight: bold">}</span><span style="color: #BA2121">&#39;</span>
+    <span style="color: #008000; font-weight: bold">else</span>:
+        <span style="color: #008000; font-weight: bold">return</span> <span style="color: #BA2121">&#39;Hello, stranger&#39;</span>
+
+<span style="color: #008000">print</span>(greeting(<span style="color: #BA2121">&#39;Python&#39;</span>))  <span style="color: #3D7B7B; font-style: italic"># Okay!</span>
+<span style="color: #008000">print</span>(greeting(<span style="color: #008000; font-weight: bold">None</span>))      <span style="color: #3D7B7B; font-style: italic"># Also okay!</span>
+</code></pre></div>
+<p>You can still use <a href="https://docs.python.org/3/library/typing.html#typing.Optional"><code>Optional[t]</code></a> to document that <code>None</code> is a valid argument type, even if strict <code>None</code> checking is not enabled:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">typing</span> <span style="color: #008000; font-weight: bold">import</span> Optional
+
+<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">greeting</span>(name: Optional[<span style="color: #008000">str</span>]) <span style="color: #666666">-&gt;</span> <span style="color: #008000">str</span>:
+    <span style="color: #008000; font-weight: bold">if</span> name:
+        <span style="color: #008000; font-weight: bold">return</span> <span style="color: #BA2121">f&#39;Hello, </span><span style="color: #A45A77; font-weight: bold">{</span>name<span style="color: #A45A77; font-weight: bold">}</span><span style="color: #BA2121">&#39;</span>
+    <span style="color: #008000; font-weight: bold">else</span>:
+        <span style="color: #008000; font-weight: bold">return</span> <span style="color: #BA2121">&#39;Hello, stranger&#39;</span>
+</code></pre></div>
+<p>Mypy treats this as semantically equivalent to the previous example if strict optional checking is disabled, since <code>None</code> is implicitly valid for any type, but it's much more useful for a programmer who is reading the code. This also makes it easier to migrate to strict <code>None</code> checking in the future.</p>
+</div>
+<div class="tabbed-block">
+<p><strong>Disabling strict optional checking</strong></p>
+<p>Mypy also has an option to treat <code>None</code> as a valid value for every type (in case you know Java, it's useful to think of it as similar to the Java <code>null</code>). In this mode <code>None</code> is also valid for primitive types such as <code>int</code> and <code>float</code>, and <a href="https://docs.python.org/3/library/typing.html#typing.Optional"><code>typing.Optional</code></a> types are not required.</p>
+<p>The mode is enabled through the <a href="https://mypy.readthedocs.io/en/stable/command_line.html#cmdoption-mypy-no-strict-optional"><code>--no-strict-optional</code></a> command-line option. In mypy versions before 0.600 this was the default mode. You can enable this option explicitly for backward compatibility with earlier mypy versions, in case you don't want to introduce optional types to your codebase yet.</p>
+<p>It will cause mypy to silently accept some buggy code, such as this example -- it's not recommended if you can avoid it:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">inc</span>(x: <span style="color: #008000">int</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000">int</span>:
+    <span style="color: #008000; font-weight: bold">return</span> x <span style="color: #666666">+</span> <span style="color: #666666">1</span>
+
+x <span style="color: #666666">=</span> inc(<span style="color: #008000; font-weight: bold">None</span>)  <span style="color: #3D7B7B; font-style: italic"># No error reported by mypy if strict optional mode disabled!</span>
+</code></pre></div>
+<p>However, making code "optional clean" can take some work! You can also use <a href="https://mypy.readthedocs.io/en/stable/config_file.html#config-file"><code>the mypy configuration file</code></a> to migrate your code to strict optional checking one file at a time, since there exists the per-module flag <a href="https://mypy.readthedocs.io/en/stable/config_file.html#confval-strict_optional"><code>strict_optional</code></a> to control strict optional mode.</p>
+<p>Often it's still useful to document whether a variable can be <code>None</code>. For example, this function accepts a <code>None</code> argument, but it's not obvious from its signature:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">greeting</span>(name: <span style="color: #008000">str</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000">str</span>:
+    <span style="color: #008000; font-weight: bold">if</span> name:
+        <span style="color: #008000; font-weight: bold">return</span> <span style="color: #BA2121">f&#39;Hello, </span><span style="color: #A45A77; font-weight: bold">{</span>name<span style="color: #A45A77; font-weight: bold">}</span><span style="color: #BA2121">&#39;</span>
+    <span style="color: #008000; font-weight: bold">else</span>:
+        <span style="color: #008000; font-weight: bold">return</span> <span style="color: #BA2121">&#39;Hello, stranger&#39;</span>
+
+<span style="color: #008000">print</span>(greeting(<span style="color: #BA2121">&#39;Python&#39;</span>))  <span style="color: #3D7B7B; font-style: italic"># Okay!</span>
+<span style="color: #008000">print</span>(greeting(<span style="color: #008000; font-weight: bold">None</span>))      <span style="color: #3D7B7B; font-style: italic"># Also okay!</span>
+</code></pre></div>
+<p>You can still use <a href="https://docs.python.org/3/library/typing.html#typing.Optional"><code>Optional[t]</code></a> to document that <code>None</code> is a valid argument type, even if strict <code>None</code> checking is not enabled:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">typing</span> <span style="color: #008000; font-weight: bold">import</span> Optional
+
+<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">greeting</span>(name: Optional[<span style="color: #008000">str</span>]) <span style="color: #666666">-&gt;</span> <span style="color: #008000">str</span>:
+    <span style="color: #008000; font-weight: bold">if</span> name:
+        <span style="color: #008000; font-weight: bold">return</span> <span style="color: #BA2121">f&#39;Hello, </span><span style="color: #A45A77; font-weight: bold">{</span>name<span style="color: #A45A77; font-weight: bold">}</span><span style="color: #BA2121">&#39;</span>
+    <span style="color: #008000; font-weight: bold">else</span>:
+        <span style="color: #008000; font-weight: bold">return</span> <span style="color: #BA2121">&#39;Hello, stranger&#39;</span>
+</code></pre></div>
+<p>Mypy treats this as semantically equivalent to the previous example if strict optional checking is disabled, since <code>None</code> is implicitly valid for any type, but it's much more useful for a programmer who is reading the code. This also makes it easier to migrate to strict <code>None</code> checking in the future.</p>
+</div>
+</div>
+</div>
+<h2 id="类型别名">类型别名<a class="headerlink" href="#类型别名" title="Permanent link">&para;</a></h2>
+<div class="tabbed-set tabbed-alternate" data-tabs="10:2"><input checked="checked" id="__tabbed_10_1" name="__tabbed_10" type="radio" /><input id="__tabbed_10_2" name="__tabbed_10" type="radio" /><div class="tabbed-labels"><label for="__tabbed_10_1">中文</label><label for="__tabbed_10_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>In certain situations, type names may end up being long and painful to type:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">f</span>() <span style="color: #666666">-&gt;</span> Union[<span style="color: #008000">list</span>[<span style="color: #008000">dict</span>[<span style="color: #008000">tuple</span>[<span style="color: #008000">int</span>, <span style="color: #008000">str</span>], <span style="color: #008000">set</span>[<span style="color: #008000">int</span>]]], <span style="color: #008000">tuple</span>[<span style="color: #008000">str</span>, <span style="color: #008000">list</span>[<span style="color: #008000">str</span>]]]:
+    <span style="color: #666666">...</span>
+</code></pre></div>
+<p>When cases like this arise, you can define a type alias by simply assigning the type to a variable:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>AliasType <span style="color: #666666">=</span> Union[<span style="color: #008000">list</span>[<span style="color: #008000">dict</span>[<span style="color: #008000">tuple</span>[<span style="color: #008000">int</span>, <span style="color: #008000">str</span>], <span style="color: #008000">set</span>[<span style="color: #008000">int</span>]]], <span style="color: #008000">tuple</span>[<span style="color: #008000">str</span>, <span style="color: #008000">list</span>[<span style="color: #008000">str</span>]]]
+
+<span style="color: #3D7B7B; font-style: italic"># Now we can use AliasType in place of the full name:</span>
+
+<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">f</span>() <span style="color: #666666">-&gt;</span> AliasType:
+    <span style="color: #666666">...</span>
+</code></pre></div>
+<div class="admonition info">
+<p class="admonition-title">Note</p>
+<p>A type alias does not create a new type. It's just a shorthand notation for another type -- it's equivalent to the target type except for <a href="https://mypy.readthedocs.io/en/stable/generics.html#generic-type-aliases"><code>generic aliases</code></a>.</p>
+</div>
+<p>Since Mypy 0.930 you can also use <em>explicit type aliases</em>, which were introduced in <a href="https://peps.python.org/pep-0613/"><code>PEP 613</code></a>.</p>
+<p>There can be confusion about exactly when an assignment defines an implicit type alias -- for example, when the alias contains forward references, invalid types, or violates some other restrictions on type alias declarations.  Because the distinction between an unannotated variable and a type alias is implicit, ambiguous or incorrect type alias declarations default to defining a normal variable instead of a type alias.</p>
+<p>Explicit type aliases are unambiguous and can also improve readability by making the intent clear:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">typing</span> <span style="color: #008000; font-weight: bold">import</span> TypeAlias  <span style="color: #3D7B7B; font-style: italic"># &quot;from typing_extensions&quot; in Python 3.9 and earlier</span>
+
+AliasType: TypeAlias <span style="color: #666666">=</span> Union[<span style="color: #008000">list</span>[<span style="color: #008000">dict</span>[<span style="color: #008000">tuple</span>[<span style="color: #008000">int</span>, <span style="color: #008000">str</span>], <span style="color: #008000">set</span>[<span style="color: #008000">int</span>]]], <span style="color: #008000">tuple</span>[<span style="color: #008000">str</span>, <span style="color: #008000">list</span>[<span style="color: #008000">str</span>]]]
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<p><strong>Type aliases</strong></p>
+<p>In certain situations, type names may end up being long and painful to type:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">f</span>() <span style="color: #666666">-&gt;</span> Union[<span style="color: #008000">list</span>[<span style="color: #008000">dict</span>[<span style="color: #008000">tuple</span>[<span style="color: #008000">int</span>, <span style="color: #008000">str</span>], <span style="color: #008000">set</span>[<span style="color: #008000">int</span>]]], <span style="color: #008000">tuple</span>[<span style="color: #008000">str</span>, <span style="color: #008000">list</span>[<span style="color: #008000">str</span>]]]:
+    <span style="color: #666666">...</span>
+</code></pre></div>
+<p>When cases like this arise, you can define a type alias by simply assigning the type to a variable:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>AliasType <span style="color: #666666">=</span> Union[<span style="color: #008000">list</span>[<span style="color: #008000">dict</span>[<span style="color: #008000">tuple</span>[<span style="color: #008000">int</span>, <span style="color: #008000">str</span>], <span style="color: #008000">set</span>[<span style="color: #008000">int</span>]]], <span style="color: #008000">tuple</span>[<span style="color: #008000">str</span>, <span style="color: #008000">list</span>[<span style="color: #008000">str</span>]]]
+
+<span style="color: #3D7B7B; font-style: italic"># Now we can use AliasType in place of the full name:</span>
+
+<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">f</span>() <span style="color: #666666">-&gt;</span> AliasType:
+    <span style="color: #666666">...</span>
+</code></pre></div>
+<div class="admonition info">
+<p class="admonition-title">Note</p>
+<p>A type alias does not create a new type. It's just a shorthand notation for another type -- it's equivalent to the target type except for <a href="https://mypy.readthedocs.io/en/stable/generics.html#generic-type-aliases"><code>generic aliases</code></a>.</p>
+</div>
+<p>Since Mypy 0.930 you can also use <em>explicit type aliases</em>, which were introduced in <a href="https://peps.python.org/pep-0613/"><code>PEP 613</code></a>.</p>
+<p>There can be confusion about exactly when an assignment defines an implicit type alias -- for example, when the alias contains forward references, invalid types, or violates some other restrictions on type alias declarations.  Because the distinction between an unannotated variable and a type alias is implicit, ambiguous or incorrect type alias declarations default to defining a normal variable instead of a type alias.</p>
+<p>Explicit type aliases are unambiguous and can also improve readability by making the intent clear:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">typing</span> <span style="color: #008000; font-weight: bold">import</span> TypeAlias  <span style="color: #3D7B7B; font-style: italic"># &quot;from typing_extensions&quot; in Python 3.9 and earlier</span>
+
+AliasType: TypeAlias <span style="color: #666666">=</span> Union[<span style="color: #008000">list</span>[<span style="color: #008000">dict</span>[<span style="color: #008000">tuple</span>[<span style="color: #008000">int</span>, <span style="color: #008000">str</span>], <span style="color: #008000">set</span>[<span style="color: #008000">int</span>]]], <span style="color: #008000">tuple</span>[<span style="color: #008000">str</span>, <span style="color: #008000">list</span>[<span style="color: #008000">str</span>]]]
+</code></pre></div>
+</div>
+</div>
+</div>
+<h2 id="命名元组">命名元组<a class="headerlink" href="#命名元组" title="Permanent link">&para;</a></h2>
+<div class="tabbed-set tabbed-alternate" data-tabs="11:2"><input checked="checked" id="__tabbed_11_1" name="__tabbed_11" type="radio" /><input id="__tabbed_11_2" name="__tabbed_11" type="radio" /><div class="tabbed-labels"><label for="__tabbed_11_1">中文</label><label for="__tabbed_11_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>Mypy recognizes named tuples and can type check code that defines or uses them.  In this example, we can detect code trying to access a missing attribute:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>Point <span style="color: #666666">=</span> namedtuple(<span style="color: #BA2121">&#39;Point&#39;</span>, [<span style="color: #BA2121">&#39;x&#39;</span>, <span style="color: #BA2121">&#39;y&#39;</span>])
+p <span style="color: #666666">=</span> Point(x<span style="color: #666666">=1</span>, y<span style="color: #666666">=2</span>)
+<span style="color: #008000">print</span>(p<span style="color: #666666">.</span>z)  <span style="color: #3D7B7B; font-style: italic"># Error: Point has no attribute &#39;z&#39;</span>
+</code></pre></div>
+<p>If you use <a href="https://docs.python.org/3/library/collections.html#collections.namedtuple"><code>namedtuple</code></a> to define your named tuple, all the items are assumed to have <code>Any</code> types. That is, mypy doesn't know anything about item types. You can use <a href="https://docs.python.org/3/library/typing.html#typing.NamedTuple"><code>typing.NamedTuple</code></a> to also define item types:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">typing</span> <span style="color: #008000; font-weight: bold">import</span> NamedTuple
+
+Point <span style="color: #666666">=</span> NamedTuple(<span style="color: #BA2121">&#39;Point&#39;</span>, [(<span style="color: #BA2121">&#39;x&#39;</span>, <span style="color: #008000">int</span>),
+                             (<span style="color: #BA2121">&#39;y&#39;</span>, <span style="color: #008000">int</span>)])
+p <span style="color: #666666">=</span> Point(x<span style="color: #666666">=1</span>, y<span style="color: #666666">=</span><span style="color: #BA2121">&#39;x&#39;</span>)  <span style="color: #3D7B7B; font-style: italic"># Argument has incompatible type &quot;str&quot;; expected &quot;int&quot;</span>
+</code></pre></div>
+<p>Python 3.6 introduced an alternative, class-based syntax for named tuples with types:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">typing</span> <span style="color: #008000; font-weight: bold">import</span> NamedTuple
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Point</span>(NamedTuple):
+    x: <span style="color: #008000">int</span>
+    y: <span style="color: #008000">int</span>
+
+p <span style="color: #666666">=</span> Point(x<span style="color: #666666">=1</span>, y<span style="color: #666666">=</span><span style="color: #BA2121">&#39;x&#39;</span>)  <span style="color: #3D7B7B; font-style: italic"># Argument has incompatible type &quot;str&quot;; expected &quot;int&quot;</span>
+</code></pre></div>
+<div class="admonition info">
+<p class="admonition-title">Note</p>
+<p>You can use the raw <code>NamedTuple</code> "pseudo-class" in type annotations if any <code>NamedTuple</code> object is valid.</p>
+</div>
+<p>For example, it can be useful for deserialization:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">deserialize_named_tuple</span>(arg: NamedTuple) <span style="color: #666666">-&gt;</span> Dict[<span style="color: #008000">str</span>, Any]:
+    <span style="color: #008000; font-weight: bold">return</span> arg<span style="color: #666666">.</span>_asdict()
+
+Point <span style="color: #666666">=</span> namedtuple(<span style="color: #BA2121">&#39;Point&#39;</span>, [<span style="color: #BA2121">&#39;x&#39;</span>, <span style="color: #BA2121">&#39;y&#39;</span>])
+Person <span style="color: #666666">=</span> NamedTuple(<span style="color: #BA2121">&#39;Person&#39;</span>, [(<span style="color: #BA2121">&#39;name&#39;</span>, <span style="color: #008000">str</span>), (<span style="color: #BA2121">&#39;age&#39;</span>, <span style="color: #008000">int</span>)])
+
+deserialize_named_tuple(Point(x<span style="color: #666666">=1</span>, y<span style="color: #666666">=2</span>))  <span style="color: #3D7B7B; font-style: italic"># ok</span>
+deserialize_named_tuple(Person(name<span style="color: #666666">=</span><span style="color: #BA2121">&#39;Nikita&#39;</span>, age<span style="color: #666666">=18</span>))  <span style="color: #3D7B7B; font-style: italic"># ok</span>
+
+<span style="color: #3D7B7B; font-style: italic"># Error: Argument 1 to &quot;deserialize_named_tuple&quot; has incompatible type</span>
+<span style="color: #3D7B7B; font-style: italic"># &quot;Tuple[int, int]&quot;; expected &quot;NamedTuple&quot;</span>
+deserialize_named_tuple((<span style="color: #666666">1</span>, <span style="color: #666666">2</span>))
+</code></pre></div>
+<p>Note that this behavior is highly experimental, non-standard, and may not be supported by other type checkers and IDEs.</p>
+</div>
+<div class="tabbed-block">
+<p><strong>Named tuples</strong></p>
+<p>Mypy recognizes named tuples and can type check code that defines or uses them.  In this example, we can detect code trying to access a missing attribute:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>Point <span style="color: #666666">=</span> namedtuple(<span style="color: #BA2121">&#39;Point&#39;</span>, [<span style="color: #BA2121">&#39;x&#39;</span>, <span style="color: #BA2121">&#39;y&#39;</span>])
+p <span style="color: #666666">=</span> Point(x<span style="color: #666666">=1</span>, y<span style="color: #666666">=2</span>)
+<span style="color: #008000">print</span>(p<span style="color: #666666">.</span>z)  <span style="color: #3D7B7B; font-style: italic"># Error: Point has no attribute &#39;z&#39;</span>
+</code></pre></div>
+<p>If you use <a href="https://docs.python.org/3/library/collections.html#collections.namedtuple"><code>namedtuple</code></a> to define your named tuple, all the items are assumed to have <code>Any</code> types. That is, mypy doesn't know anything about item types. You can use <a href="https://docs.python.org/3/library/typing.html#typing.NamedTuple"><code>typing.NamedTuple</code></a> to also define item types:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">typing</span> <span style="color: #008000; font-weight: bold">import</span> NamedTuple
+
+Point <span style="color: #666666">=</span> NamedTuple(<span style="color: #BA2121">&#39;Point&#39;</span>, [(<span style="color: #BA2121">&#39;x&#39;</span>, <span style="color: #008000">int</span>),
+                             (<span style="color: #BA2121">&#39;y&#39;</span>, <span style="color: #008000">int</span>)])
+p <span style="color: #666666">=</span> Point(x<span style="color: #666666">=1</span>, y<span style="color: #666666">=</span><span style="color: #BA2121">&#39;x&#39;</span>)  <span style="color: #3D7B7B; font-style: italic"># Argument has incompatible type &quot;str&quot;; expected &quot;int&quot;</span>
+</code></pre></div>
+<p>Python 3.6 introduced an alternative, class-based syntax for named tuples with types:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">typing</span> <span style="color: #008000; font-weight: bold">import</span> NamedTuple
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Point</span>(NamedTuple):
+    x: <span style="color: #008000">int</span>
+    y: <span style="color: #008000">int</span>
+
+p <span style="color: #666666">=</span> Point(x<span style="color: #666666">=1</span>, y<span style="color: #666666">=</span><span style="color: #BA2121">&#39;x&#39;</span>)  <span style="color: #3D7B7B; font-style: italic"># Argument has incompatible type &quot;str&quot;; expected &quot;int&quot;</span>
+</code></pre></div>
+<div class="admonition info">
+<p class="admonition-title">Note</p>
+<p>You can use the raw <code>NamedTuple</code> "pseudo-class" in type annotations if any <code>NamedTuple</code> object is valid.</p>
+</div>
+<p>For example, it can be useful for deserialization:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">deserialize_named_tuple</span>(arg: NamedTuple) <span style="color: #666666">-&gt;</span> Dict[<span style="color: #008000">str</span>, Any]:
+    <span style="color: #008000; font-weight: bold">return</span> arg<span style="color: #666666">.</span>_asdict()
+
+Point <span style="color: #666666">=</span> namedtuple(<span style="color: #BA2121">&#39;Point&#39;</span>, [<span style="color: #BA2121">&#39;x&#39;</span>, <span style="color: #BA2121">&#39;y&#39;</span>])
+Person <span style="color: #666666">=</span> NamedTuple(<span style="color: #BA2121">&#39;Person&#39;</span>, [(<span style="color: #BA2121">&#39;name&#39;</span>, <span style="color: #008000">str</span>), (<span style="color: #BA2121">&#39;age&#39;</span>, <span style="color: #008000">int</span>)])
+
+deserialize_named_tuple(Point(x<span style="color: #666666">=1</span>, y<span style="color: #666666">=2</span>))  <span style="color: #3D7B7B; font-style: italic"># ok</span>
+deserialize_named_tuple(Person(name<span style="color: #666666">=</span><span style="color: #BA2121">&#39;Nikita&#39;</span>, age<span style="color: #666666">=18</span>))  <span style="color: #3D7B7B; font-style: italic"># ok</span>
+
+<span style="color: #3D7B7B; font-style: italic"># Error: Argument 1 to &quot;deserialize_named_tuple&quot; has incompatible type</span>
+<span style="color: #3D7B7B; font-style: italic"># &quot;Tuple[int, int]&quot;; expected &quot;NamedTuple&quot;</span>
+deserialize_named_tuple((<span style="color: #666666">1</span>, <span style="color: #666666">2</span>))
+</code></pre></div>
+<p>Note that this behavior is highly experimental, non-standard, and may not be supported by other type checkers and IDEs.</p>
+</div>
+</div>
+</div>
+<h2 id="类对象的类型">类对象的类型<a class="headerlink" href="#类对象的类型" title="Permanent link">&para;</a></h2>
+<div class="tabbed-set tabbed-alternate" data-tabs="12:2"><input checked="checked" id="__tabbed_12_1" name="__tabbed_12" type="radio" /><input id="__tabbed_12_2" name="__tabbed_12" type="radio" /><div class="tabbed-labels"><label for="__tabbed_12_1">中文</label><label for="__tabbed_12_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>(Freely after <a href="https://peps.python.org/pep-0484/#the-type-of-class-objects"><code>PEP 484: The type of class objects</code></a>.)</p>
+<p>Sometimes you want to talk about class objects that inherit from a given class.  This can be spelled as <code>type[C]</code> (or, on Python 3.8 and lower, <a href="https://docs.python.org/3/library/typing.html#typing.Type"><code>typing.Type[C]</code></a>) where <code>C</code> is a class.  In other words, when <code>C</code> is the name of a class, using <code>C</code> to annotate an argument declares that the argument is an instance of <code>C</code> (or of a subclass of <code>C</code>), but using <code>type[C]</code> as an argument annotation declares that the argument is a class object deriving from <code>C</code> (or <code>C</code> itself).</p>
+<p>For example, assume the following classes:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">User</span>:
+    <span style="color: #3D7B7B; font-style: italic"># Defines fields like name, email</span>
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">BasicUser</span>(User):
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">upgrade</span>(<span style="color: #008000">self</span>):
+<span style="color: #bbbbbb">        </span><span style="color: #BA2121; font-style: italic">&quot;&quot;&quot;Upgrade to Pro&quot;&quot;&quot;</span>
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">ProUser</span>(User):
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">pay</span>(<span style="color: #008000">self</span>):
+<span style="color: #bbbbbb">        </span><span style="color: #BA2121; font-style: italic">&quot;&quot;&quot;Pay bill&quot;&quot;&quot;</span>
+</code></pre></div>
+<p>Note that <code>ProUser</code> doesn't inherit from <code>BasicUser</code>.</p>
+<p>Here's a function that creates an instance of one of these classes if you pass it the right class object:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">new_user</span>(user_class):
+    user <span style="color: #666666">=</span> user_class()
+    <span style="color: #3D7B7B; font-style: italic"># (Here we could write the user object to a database)</span>
+    <span style="color: #008000; font-weight: bold">return</span> user
+</code></pre></div>
+<p>How would we annotate this function?  Without the ability to parameterize <code>type</code>, the best we could do would be:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">new_user</span>(user_class: <span style="color: #008000">type</span>) <span style="color: #666666">-&gt;</span> User:
+    <span style="color: #3D7B7B; font-style: italic"># Same  implementation as before</span>
+</code></pre></div>
+<p>This seems reasonable, except that in the following example, mypy doesn't see that the <code>buyer</code> variable has type <code>ProUser</code>:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>buyer <span style="color: #666666">=</span> new_user(ProUser)
+buyer<span style="color: #666666">.</span>pay()  <span style="color: #3D7B7B; font-style: italic"># Rejected, not a method on User</span>
+</code></pre></div>
+<p>However, using the <code>type[C]</code> syntax and a type variable with an upper bound (see <a href="https://mypy.readthedocs.io/en/stable/generics.html#type-variable-upper-bound"><code>type-variable-upper-bound</code></a>) we can do better:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>U <span style="color: #666666">=</span> TypeVar(<span style="color: #BA2121">&#39;U&#39;</span>, bound<span style="color: #666666">=</span>User)
+
+<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">new_user</span>(user_class: <span style="color: #008000">type</span>[U]) <span style="color: #666666">-&gt;</span> U:
+    <span style="color: #3D7B7B; font-style: italic"># Same  implementation as before</span>
+</code></pre></div>
+<p>Now mypy will infer the correct type of the result when we call <code>new_user()</code> with a specific subclass of <code>User</code>:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>beginner <span style="color: #666666">=</span> new_user(BasicUser)  <span style="color: #3D7B7B; font-style: italic"># Inferred type is BasicUser</span>
+beginner<span style="color: #666666">.</span>upgrade()  <span style="color: #3D7B7B; font-style: italic"># OK</span>
+</code></pre></div>
+<div class="admonition info">
+<p class="admonition-title">Note</p>
+<p>The value corresponding to <code>type[C]</code> must be an actual class object that's a subtype of <code>C</code>.  Its constructor must be compatible with the constructor of <code>C</code>.  If <code>C</code> is a type variable, its upper bound must be a class object.</p>
+</div>
+<p>For more details about <code>type[]</code> and <a href="https://docs.python.org/3/library/typing.html#typing.Type"><code>typing.Type[]</code></a>, see <a href="https://peps.python.org/pep-0484/#the-type-of-class-objects"><code>PEP 484: The type of class objects &lt;484#the-type-of-class-objects&gt;</code></a>.</p>
+</div>
+<div class="tabbed-block">
+<p><strong>The type of class objects</strong></p>
+<p>(Freely after <a href="https://peps.python.org/pep-0484/#the-type-of-class-objects"><code>PEP 484: The type of class objects</code></a>.)</p>
+<p>Sometimes you want to talk about class objects that inherit from a given class.  This can be spelled as <code>type[C]</code> (or, on Python 3.8 and lower, <a href="https://docs.python.org/3/library/typing.html#typing.Type"><code>typing.Type[C]</code></a>) where <code>C</code> is a class.  In other words, when <code>C</code> is the name of a class, using <code>C</code> to annotate an argument declares that the argument is an instance of <code>C</code> (or of a subclass of <code>C</code>), but using <code>type[C]</code> as an argument annotation declares that the argument is a class object deriving from <code>C</code> (or <code>C</code> itself).</p>
+<p>For example, assume the following classes:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">User</span>:
+    <span style="color: #3D7B7B; font-style: italic"># Defines fields like name, email</span>
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">BasicUser</span>(User):
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">upgrade</span>(<span style="color: #008000">self</span>):
+<span style="color: #bbbbbb">        </span><span style="color: #BA2121; font-style: italic">&quot;&quot;&quot;Upgrade to Pro&quot;&quot;&quot;</span>
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">ProUser</span>(User):
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">pay</span>(<span style="color: #008000">self</span>):
+<span style="color: #bbbbbb">        </span><span style="color: #BA2121; font-style: italic">&quot;&quot;&quot;Pay bill&quot;&quot;&quot;</span>
+</code></pre></div>
+<p>Note that <code>ProUser</code> doesn't inherit from <code>BasicUser</code>.</p>
+<p>Here's a function that creates an instance of one of these classes if you pass it the right class object:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">new_user</span>(user_class):
+    user <span style="color: #666666">=</span> user_class()
+    <span style="color: #3D7B7B; font-style: italic"># (Here we could write the user object to a database)</span>
+    <span style="color: #008000; font-weight: bold">return</span> user
+</code></pre></div>
+<p>How would we annotate this function?  Without the ability to parameterize <code>type</code>, the best we could do would be:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">new_user</span>(user_class: <span style="color: #008000">type</span>) <span style="color: #666666">-&gt;</span> User:
+    <span style="color: #3D7B7B; font-style: italic"># Same  implementation as before</span>
+</code></pre></div>
+<p>This seems reasonable, except that in the following example, mypy doesn't see that the <code>buyer</code> variable has type <code>ProUser</code>:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>buyer <span style="color: #666666">=</span> new_user(ProUser)
+buyer<span style="color: #666666">.</span>pay()  <span style="color: #3D7B7B; font-style: italic"># Rejected, not a method on User</span>
+</code></pre></div>
+<p>However, using the <code>type[C]</code> syntax and a type variable with an upper bound (see <a href="https://mypy.readthedocs.io/en/stable/generics.html#type-variable-upper-bound"><code>type-variable-upper-bound</code></a>) we can do better:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>U <span style="color: #666666">=</span> TypeVar(<span style="color: #BA2121">&#39;U&#39;</span>, bound<span style="color: #666666">=</span>User)
+
+<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">new_user</span>(user_class: <span style="color: #008000">type</span>[U]) <span style="color: #666666">-&gt;</span> U:
+    <span style="color: #3D7B7B; font-style: italic"># Same  implementation as before</span>
+</code></pre></div>
+<p>Now mypy will infer the correct type of the result when we call <code>new_user()</code> with a specific subclass of <code>User</code>:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>beginner <span style="color: #666666">=</span> new_user(BasicUser)  <span style="color: #3D7B7B; font-style: italic"># Inferred type is BasicUser</span>
+beginner<span style="color: #666666">.</span>upgrade()  <span style="color: #3D7B7B; font-style: italic"># OK</span>
+</code></pre></div>
+<div class="admonition info">
+<p class="admonition-title">Note</p>
+<p>The value corresponding to <code>type[C]</code> must be an actual class object that's a subtype of <code>C</code>.  Its constructor must be compatible with the constructor of <code>C</code>.  If <code>C</code> is a type variable, its upper bound must be a class object.</p>
+</div>
+<p>For more details about <code>type[]</code> and <a href="https://docs.python.org/3/library/typing.html#typing.Type"><code>typing.Type[]</code></a>, see <a href="https://peps.python.org/pep-0484/#the-type-of-class-objects"><code>PEP 484: The type of class objects &lt;484#the-type-of-class-objects&gt;</code></a>.</p>
+</div>
+</div>
+</div>
+<h2 id="生成器">生成器<a class="headerlink" href="#生成器" title="Permanent link">&para;</a></h2>
+<div class="tabbed-set tabbed-alternate" data-tabs="13:2"><input checked="checked" id="__tabbed_13_1" name="__tabbed_13" type="radio" /><input id="__tabbed_13_2" name="__tabbed_13" type="radio" /><div class="tabbed-labels"><label for="__tabbed_13_1">中文</label><label for="__tabbed_13_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>A basic generator that only yields values can be succinctly annotated as having a return type of either <a href="https://docs.python.org/3/library/typing.html#typing.Iterator"><code>Iterator[YieldType]</code></a> or <a href="https://docs.python.org/3/library/typing.html#typing.Iterable"><code>Iterable[YieldType]</code></a>. For example:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">squares</span>(n: <span style="color: #008000">int</span>) <span style="color: #666666">-&gt;</span> Iterator[<span style="color: #008000">int</span>]:
+    <span style="color: #008000; font-weight: bold">for</span> i <span style="color: #AA22FF; font-weight: bold">in</span> <span style="color: #008000">range</span>(n):
+        <span style="color: #008000; font-weight: bold">yield</span> i <span style="color: #666666">*</span> i
+</code></pre></div>
+<p>A good rule of thumb is to annotate functions with the most specific return type possible. However, you should also take care to avoid leaking implementation details into a function's public API. In keeping with these two principles, prefer <a href="https://docs.python.org/3/library/typing.html#typing.Iterator"><code>Iterator[YieldType]</code></a> over <a href="https://docs.python.org/3/library/typing.html#typing.Iterable"><code>Iterable[YieldType]</code></a> as the return-type annotation for a generator function, as it lets mypy know that users are able to call <a href="https://docs.python.org/3/library/functions.html#next"><code>next</code></a> on the object returned by the function. Nonetheless, bear in mind that <code>Iterable</code> may sometimes be the better option, if you consider it an implementation detail that <code>next()</code> can be called on the object returned by your function.</p>
+<p>If you want your generator to accept values via the <a href="https://docs.python.org/3/reference/expressions.html#generator.send"><code>generator.send</code></a> method or return a value, on the other hand, you should use the <a href="https://docs.python.org/3/library/typing.html#typing.Generator"><code>Generator[YieldType, SendType, ReturnType]</code></a> generic type instead of either <code>Iterator</code> or <code>Iterable</code>. For example:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">echo_round</span>() <span style="color: #666666">-&gt;</span> Generator[<span style="color: #008000">int</span>, <span style="color: #008000">float</span>, <span style="color: #008000">str</span>]:
+    sent <span style="color: #666666">=</span> <span style="color: #008000; font-weight: bold">yield</span> <span style="color: #666666">0</span>
+    <span style="color: #008000; font-weight: bold">while</span> sent <span style="color: #666666">&gt;=</span> <span style="color: #666666">0</span>:
+        sent <span style="color: #666666">=</span> <span style="color: #008000; font-weight: bold">yield</span> <span style="color: #008000">round</span>(sent)
+    <span style="color: #008000; font-weight: bold">return</span> <span style="color: #BA2121">&#39;Done&#39;</span>
+</code></pre></div>
+<p>Note that unlike many other generics in the typing module, the <code>SendType</code> of <a href="https://docs.python.org/3/library/typing.html#typing.Generator"><code>typing.Generator</code></a> behaves contravariantly, not covariantly or invariantly.</p>
+<p>If you do not plan on receiving or returning values, then set the <code>SendType</code> or <code>ReturnType</code> to <code>None</code>, as appropriate. For example, we could have annotated the first example as the following:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">squares</span>(n: <span style="color: #008000">int</span>) <span style="color: #666666">-&gt;</span> Generator[<span style="color: #008000">int</span>, <span style="color: #008000; font-weight: bold">None</span>, <span style="color: #008000; font-weight: bold">None</span>]:
+    <span style="color: #008000; font-weight: bold">for</span> i <span style="color: #AA22FF; font-weight: bold">in</span> <span style="color: #008000">range</span>(n):
+        <span style="color: #008000; font-weight: bold">yield</span> i <span style="color: #666666">*</span> i
+</code></pre></div>
+<p>This is slightly different from using <code>Iterator[int]</code> or <code>Iterable[int]</code>, since generators have <a href="https://docs.python.org/3/reference/expressions.html#generator.close"><code>generator.close</code></a>, <a href="https://docs.python.org/3/reference/expressions.html#generator.send"><code>generator.send</code></a>, and <a href="https://docs.python.org/3/reference/expressions.html#generator.throw"><code>generator.throw</code></a> methods that generic iterators and iterables don't. If you plan to call these methods on the returned generator, use the <a href="https://docs.python.org/3/library/typing.html#typing.Generator"><code>typing.Generator</code></a> type instead of <a href="https://docs.python.org/3/library/typing.html#typing.Iterator"><code>typing.Iterator</code></a> or <a href="https://docs.python.org/3/library/typing.html#typing.Iterable"><code>typing.Iterable</code></a>.</p>
+</div>
+<div class="tabbed-block">
+<p><strong>Generators</strong></p>
+<p>A basic generator that only yields values can be succinctly annotated as having a return type of either <a href="https://docs.python.org/3/library/typing.html#typing.Iterator"><code>Iterator[YieldType]</code></a> or <a href="https://docs.python.org/3/library/typing.html#typing.Iterable"><code>Iterable[YieldType]</code></a>. For example:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">squares</span>(n: <span style="color: #008000">int</span>) <span style="color: #666666">-&gt;</span> Iterator[<span style="color: #008000">int</span>]:
+    <span style="color: #008000; font-weight: bold">for</span> i <span style="color: #AA22FF; font-weight: bold">in</span> <span style="color: #008000">range</span>(n):
+        <span style="color: #008000; font-weight: bold">yield</span> i <span style="color: #666666">*</span> i
+</code></pre></div>
+<p>A good rule of thumb is to annotate functions with the most specific return type possible. However, you should also take care to avoid leaking implementation details into a function's public API. In keeping with these two principles, prefer <a href="https://docs.python.org/3/library/typing.html#typing.Iterator"><code>Iterator[YieldType]</code></a> over <a href="https://docs.python.org/3/library/typing.html#typing.Iterable"><code>Iterable[YieldType]</code></a> as the return-type annotation for a generator function, as it lets mypy know that users are able to call <a href="https://docs.python.org/3/library/functions.html#next"><code>next</code></a> on the object returned by the function. Nonetheless, bear in mind that <code>Iterable</code> may sometimes be the better option, if you consider it an implementation detail that <code>next()</code> can be called on the object returned by your function.</p>
+<p>If you want your generator to accept values via the <a href="https://docs.python.org/3/reference/expressions.html#generator.send"><code>generator.send</code></a> method or return a value, on the other hand, you should use the <a href="https://docs.python.org/3/library/typing.html#typing.Generator"><code>Generator[YieldType, SendType, ReturnType]</code></a> generic type instead of either <code>Iterator</code> or <code>Iterable</code>. For example:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">echo_round</span>() <span style="color: #666666">-&gt;</span> Generator[<span style="color: #008000">int</span>, <span style="color: #008000">float</span>, <span style="color: #008000">str</span>]:
+    sent <span style="color: #666666">=</span> <span style="color: #008000; font-weight: bold">yield</span> <span style="color: #666666">0</span>
+    <span style="color: #008000; font-weight: bold">while</span> sent <span style="color: #666666">&gt;=</span> <span style="color: #666666">0</span>:
+        sent <span style="color: #666666">=</span> <span style="color: #008000; font-weight: bold">yield</span> <span style="color: #008000">round</span>(sent)
+    <span style="color: #008000; font-weight: bold">return</span> <span style="color: #BA2121">&#39;Done&#39;</span>
+</code></pre></div>
+<p>Note that unlike many other generics in the typing module, the <code>SendType</code> of <a href="https://docs.python.org/3/library/typing.html#typing.Generator"><code>typing.Generator</code></a> behaves contravariantly, not covariantly or invariantly.</p>
+<p>If you do not plan on receiving or returning values, then set the <code>SendType</code> or <code>ReturnType</code> to <code>None</code>, as appropriate. For example, we could have annotated the first example as the following:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">squares</span>(n: <span style="color: #008000">int</span>) <span style="color: #666666">-&gt;</span> Generator[<span style="color: #008000">int</span>, <span style="color: #008000; font-weight: bold">None</span>, <span style="color: #008000; font-weight: bold">None</span>]:
+    <span style="color: #008000; font-weight: bold">for</span> i <span style="color: #AA22FF; font-weight: bold">in</span> <span style="color: #008000">range</span>(n):
+        <span style="color: #008000; font-weight: bold">yield</span> i <span style="color: #666666">*</span> i
+</code></pre></div>
+<p>This is slightly different from using <code>Iterator[int]</code> or <code>Iterable[int]</code>, since generators have <a href="https://docs.python.org/3/reference/expressions.html#generator.close"><code>generator.close</code></a>, <a href="https://docs.python.org/3/reference/expressions.html#generator.send"><code>generator.send</code></a>, and <a href="https://docs.python.org/3/reference/expressions.html#generator.throw"><code>generator.throw</code></a> methods that generic iterators and iterables don't. If you plan to call these methods on the returned generator, use the <a href="https://docs.python.org/3/library/typing.html#typing.Generator"><code>typing.Generator</code></a> type instead of <a href="https://docs.python.org/3/library/typing.html#typing.Iterator"><code>typing.Iterator</code></a> or <a href="https://docs.python.org/3/library/typing.html#typing.Iterable"><code>typing.Iterable</code></a>.</p>
+</div>
+</div>
+</div>
+
+  <hr>
+<div class="md-source-file">
+  <small>
+    
+      最后更新:
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2024年9月4日</span>
+      
+        <br>
+        创建日期:
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2024年9月4日</span>
+      
+    
+  </small>
+</div>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var tab,labels=set.querySelector(".tabbed-labels");for(tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["header.autohide", "navigation.top", "navigation.tabs", "navigation.tabs.sticky", "navigation.path", "content.tabs.link", "content.code.copy", "content.tooltips", "navigation.indexes", "navigation.prune", "navigation.instant"], "search": "../../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": {"provider": "mike"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.94c44541.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  <script>document$.subscribe(() => {const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});})</script></body>
+</html>

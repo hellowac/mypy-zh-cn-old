@@ -1,0 +1,1718 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="hellowac-类型检查">
+      
+      
+      
+      
+        <link rel="prev" href="../final_names_methods_classes/">
+      
+      
+        <link rel="next" href="../../mypy_conf/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.4">
+    
+    
+      
+        <title>元类 - mypy类型检查</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.bd3936ea.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.356b1318.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+   <link href="../../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+        html.glightbox-open { overflow: initial; height: 100%; }
+        .gslide-title { margin-top: 0px; user-select: text; }
+        .gslide-desc { color: #666; user-select: text; }
+        .gslide-image img { background: white; }
+        
+            .gscrollbar-fixer { padding-right: 15px; }
+            .gdesc-inner { font-size: 0.75rem; }
+            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
+            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
+            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}
+            </style> <script src="../../assets/javascripts/glightbox.min.js"></script></head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="blue">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#元类" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+        
+          <aside class="md-banner md-banner--warning">
+            <div class="md-banner__inner md-grid md-typeset">
+              
+你当前浏览的版本已不是最新版本，
+<a href="../../..">
+    <strong>点击这里</strong>
+</a>查看最新版本的文档
+
+            </div>
+            <script>var el=document.querySelector("[data-md-component=outdated]"),outdated=__md_get("__outdated",sessionStorage);!0===outdated&&el&&(el.hidden=!1)</script>
+          </aside>
+        
+      </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="mypy类型检查" class="md-header__button md-logo" aria-label="mypy类型检查" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            mypy类型检查
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              元类
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/hellowac/mypy-zh-cn" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    hellowac/myppy-zh-cn
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../" class="md-tabs__link">
+          
+  
+    
+  
+  第一步
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../builtin_types/" class="md-tabs__link">
+          
+  
+    
+  
+  类型系统参考
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../mypy_conf/" class="md-tabs__link">
+          
+  
+    
+  
+  配置和运行mypy
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../mypy_other/" class="md-tabs__link">
+          
+  
+    
+  
+  其他杂项
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="mypy类型检查" class="md-nav__button md-logo" aria-label="mypy类型检查" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    mypy类型检查
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/hellowac/mypy-zh-cn" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    hellowac/myppy-zh-cn
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    第一步
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_1" id="__nav_1_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            第一步
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cheat_sheet_py3/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    类型提示备忘录
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../existing_code/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    将 mypy 与现有代码库结合使用
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    类型系统参考
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            类型系统参考
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../builtin_types/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    内置类型
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../type_inference_type_annotations/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    类型推断和类型注解
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../kind_of_types/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    类型种类
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../class_basics/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    类的基础
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../annotation_issue_at_runtime/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    运行时的注解问题
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../protocol_and_struct_subtyping/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    协议及其子类型
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dynamic_typing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    动态类型
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../type_narrowing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    类型收缩
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../duck_type_compatibility/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    鸭子类型兼容
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../stub_files/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    存根文件
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../generics/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    泛型
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../more_types/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    更多类型
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../literal_and_enum/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    字面量和枚举
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../typeddict/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    类型字典
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../final_names_methods_classes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    最终名称、方法和类
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    元类
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    元类
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#定义元类" class="md-nav__link">
+    定义元类
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#元类使用示例" class="md-nav__link">
+    元类使用示例
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#元类支持的陷阱和限制" class="md-nav__link">
+    元类支持的陷阱和限制
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../mypy_conf/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    配置和运行mypy
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            配置和运行mypy
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/running_mypy.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    运行mypy和管理导入
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/command_line.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    mypy命令行
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/config_file.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    mypy配置文件
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/inline_config.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    内联配置
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/mypy_daemon.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    mypy服务(守护进程)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/installed_packages.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    使用安装包
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/extending_mypy.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    扩展和集成 mypy
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/stubgen.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    自动存根生成
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/stubtest.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    自动存根测试
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../mypy_other/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    其他杂项
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            其他杂项
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/common_issues.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    常见问题及解决办法
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/supported_python_features.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    支持的 Python 特性
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/error_codes.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    错误码
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/error_code_list.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    默认启用的错误码
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/error_code_list2.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    可选检查的错误代码
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/additional_features.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    额外特性
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/faq.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    常见问题解答
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/python/mypy" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    项目地址
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy-lang.org/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    网页地址
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#定义元类" class="md-nav__link">
+    定义元类
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#元类使用示例" class="md-nav__link">
+    元类使用示例
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#元类支持的陷阱和限制" class="md-nav__link">
+    元类支持的陷阱和限制
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="元类">元类<a class="headerlink" href="#元类" title="Permanent link">&para;</a></h1>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">中文</label><label for="__tabbed_1_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>元类 <a href="https://docs.python.org/3/reference/datamodel.html#metaclasses"><code>metaclasses</code></a> 是一个描述其他类的构造和行为的类，类似于类描述对象的构造和行为。 默认元类是 <a href="https://docs.python.org/3/library/functions.html#type"><code>type</code></a>，但可以使用其他元类。 元类允许创建 “一种不同类型的类”，例如 <a href="https://docs.python.org/3/library/enum.html#enum.Enum"><code>enum.Enum</code></a>、<a href="https://docs.python.org/3/library/typing.html#typing.NamedTuple"><code>typing.NamedTuple</code></a> 和单例。</p>
+<p>Mypy 对 <a href="https://docs.python.org/3/library/abc.html#abc.ABCMeta"><code>abc.ABCMeta</code></a> 和 <code>EnumMeta</code> 有一些特殊的理解。</p>
+</div>
+<div class="tabbed-block">
+<p><strong>Metaclasses</strong></p>
+<p>A <a href="https://docs.python.org/3/reference/datamodel.html#metaclasses"><code>metaclasses</code></a> is a class that describes the construction and behavior of other classes, similarly to how classes describe the construction and behavior of objects. The default metaclass is <a href="https://docs.python.org/3/library/functions.html#type"><code>type</code></a>, but it's possible to use other metaclasses. Metaclasses allows one to create "a different kind of class", such as <a href="https://docs.python.org/3/library/enum.html#enum.Enum"><code>enum.Enum</code></a>s、<a href="https://docs.python.org/3/library/typing.html#typing.NamedTuple"><code>typing.NamedTuple</code></a>s and singletons.</p>
+<p>Mypy has some special understanding of {py:class}<code>~abc.ABCMeta</code> and <code>EnumMeta</code>.</p>
+</div>
+</div>
+</div>
+<h2 id="定义元类">定义元类<a class="headerlink" href="#定义元类" title="Permanent link">&para;</a></h2>
+<div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">中文</label><label for="__tabbed_2_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">M</span>(<span style="color: #008000">type</span>):
+    <span style="color: #008000; font-weight: bold">pass</span>
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">A</span>(metaclass<span style="color: #666666">=</span>M):
+    <span style="color: #008000; font-weight: bold">pass</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<p><strong>Defining a metaclass</strong></p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">M</span>(<span style="color: #008000">type</span>):
+    <span style="color: #008000; font-weight: bold">pass</span>
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">A</span>(metaclass<span style="color: #666666">=</span>M):
+    <span style="color: #008000; font-weight: bold">pass</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<h2 id="元类使用示例">元类使用示例<a class="headerlink" href="#元类使用示例" title="Permanent link">&para;</a></h2>
+<div class="tabbed-set tabbed-alternate" data-tabs="3:2"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><input id="__tabbed_3_2" name="__tabbed_3" type="radio" /><div class="tabbed-labels"><label for="__tabbed_3_1">中文</label><label for="__tabbed_3_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>Mypy 支持在元类中查找属性：</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">typing</span> <span style="color: #008000; font-weight: bold">import</span> Type, TypeVar, ClassVar
+T <span style="color: #666666">=</span> TypeVar(<span style="color: #BA2121">&#39;T&#39;</span>)
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">M</span>(<span style="color: #008000">type</span>):
+    count: ClassVar[<span style="color: #008000">int</span>] <span style="color: #666666">=</span> <span style="color: #666666">0</span>
+
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">make</span>(<span style="color: #008000">cls</span>: Type[T]) <span style="color: #666666">-&gt;</span> T:
+        M<span style="color: #666666">.</span>count <span style="color: #666666">+=</span> <span style="color: #666666">1</span>
+        <span style="color: #008000; font-weight: bold">return</span> <span style="color: #008000">cls</span>()
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">A</span>(metaclass<span style="color: #666666">=</span>M):
+    <span style="color: #008000; font-weight: bold">pass</span>
+
+a: A <span style="color: #666666">=</span> A<span style="color: #666666">.</span>make()  <span style="color: #3D7B7B; font-style: italic"># make() 会在 M 中查找； 结果是 A 类型的对象</span>
+<span style="color: #008000">print</span>(A<span style="color: #666666">.</span>count)
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">B</span>(A):
+    <span style="color: #008000; font-weight: bold">pass</span>
+
+b: B <span style="color: #666666">=</span> B<span style="color: #666666">.</span>make()  <span style="color: #3D7B7B; font-style: italic"># 元类是继承的</span>
+<span style="color: #008000">print</span>(B<span style="color: #666666">.</span>count <span style="color: #666666">+</span> <span style="color: #BA2121">&quot; objects were created&quot;</span>)  <span style="color: #3D7B7B; font-style: italic"># Error: Unsupported operand types for + (&quot;int&quot; and &quot;str&quot;)</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<p><strong>Metaclass usage example</strong></p>
+<p>Mypy supports the lookup of attributes in the metaclass:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">typing</span> <span style="color: #008000; font-weight: bold">import</span> Type, TypeVar, ClassVar
+T <span style="color: #666666">=</span> TypeVar(<span style="color: #BA2121">&#39;T&#39;</span>)
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">M</span>(<span style="color: #008000">type</span>):
+    count: ClassVar[<span style="color: #008000">int</span>] <span style="color: #666666">=</span> <span style="color: #666666">0</span>
+
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">make</span>(<span style="color: #008000">cls</span>: Type[T]) <span style="color: #666666">-&gt;</span> T:
+        M<span style="color: #666666">.</span>count <span style="color: #666666">+=</span> <span style="color: #666666">1</span>
+        <span style="color: #008000; font-weight: bold">return</span> <span style="color: #008000">cls</span>()
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">A</span>(metaclass<span style="color: #666666">=</span>M):
+    <span style="color: #008000; font-weight: bold">pass</span>
+
+a: A <span style="color: #666666">=</span> A<span style="color: #666666">.</span>make()  <span style="color: #3D7B7B; font-style: italic"># make() is looked up at M; the result is an object of type A</span>
+<span style="color: #008000">print</span>(A<span style="color: #666666">.</span>count)
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">B</span>(A):
+    <span style="color: #008000; font-weight: bold">pass</span>
+
+b: B <span style="color: #666666">=</span> B<span style="color: #666666">.</span>make()  <span style="color: #3D7B7B; font-style: italic"># metaclasses are inherited</span>
+<span style="color: #008000">print</span>(B<span style="color: #666666">.</span>count <span style="color: #666666">+</span> <span style="color: #BA2121">&quot; objects were created&quot;</span>)  <span style="color: #3D7B7B; font-style: italic"># Error: Unsupported operand types for + (&quot;int&quot; and &quot;str&quot;)</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<h2 id="元类支持的陷阱和限制">元类支持的陷阱和限制<a class="headerlink" href="#元类支持的陷阱和限制" title="Permanent link">&para;</a></h2>
+<div class="tabbed-set tabbed-alternate" data-tabs="4:2"><input checked="checked" id="__tabbed_4_1" name="__tabbed_4" type="radio" /><input id="__tabbed_4_2" name="__tabbed_4" type="radio" /><div class="tabbed-labels"><label for="__tabbed_4_1">中文</label><label for="__tabbed_4_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>请注意，元类对继承结构提出了一些要求，因此最好不要将元类和类层次结构结合起来：</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">M1</span>(<span style="color: #008000">type</span>): <span style="color: #008000; font-weight: bold">pass</span>
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">M2</span>(<span style="color: #008000">type</span>): <span style="color: #008000; font-weight: bold">pass</span>
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">A1</span>(metaclass<span style="color: #666666">=</span>M1): <span style="color: #008000; font-weight: bold">pass</span>
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">A2</span>(metaclass<span style="color: #666666">=</span>M2): <span style="color: #008000; font-weight: bold">pass</span>
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">B1</span>(A1, metaclass<span style="color: #666666">=</span>M2): <span style="color: #008000; font-weight: bold">pass</span>  <span style="color: #3D7B7B; font-style: italic"># Mypy Error: metaclass conflict</span>
+<span style="color: #3D7B7B; font-style: italic"># 在运行时，上面的定义会引发异常</span>
+<span style="color: #3D7B7B; font-style: italic"># TypeError: metaclass conflict: 派生类的元类必须是其所有基类的元类的（非严格）子类</span>
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">B12</span>(A1, A2): <span style="color: #008000; font-weight: bold">pass</span>  <span style="color: #3D7B7B; font-style: italic"># Mypy Error: metaclass conflict</span>
+
+<span style="color: #3D7B7B; font-style: italic"># 这可以通过通用元类子类型来解决：</span>
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">CorrectMeta</span>(M1, M2): <span style="color: #008000; font-weight: bold">pass</span>
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">B2</span>(A1, A2, metaclass<span style="color: #666666">=</span>CorrectMeta): <span style="color: #008000; font-weight: bold">pass</span>  <span style="color: #3D7B7B; font-style: italic"># OK, 运行时也没问题</span>
+</code></pre></div>
+<ul>
+<li>Mypy 不理解动态计算的元类，例如 <code>class A(metaclass=f()): ...</code></li>
+<li>Mypy 不会也不可能理解任意元类代码。</li>
+<li>Mypy 仅将 <a href="https://docs.python.org/3/library/functions.html#type"><code>type</code></a> 的子类识别为潜在的元类。</li>
+</ul>
+</div>
+<div class="tabbed-block">
+<p><strong>Gotchas and limitations of metaclass support</strong></p>
+<p>Note that metaclasses pose some requirements on the inheritance structure,
+so it's better not to combine metaclasses and class hierarchies:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">M1</span>(<span style="color: #008000">type</span>): <span style="color: #008000; font-weight: bold">pass</span>
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">M2</span>(<span style="color: #008000">type</span>): <span style="color: #008000; font-weight: bold">pass</span>
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">A1</span>(metaclass<span style="color: #666666">=</span>M1): <span style="color: #008000; font-weight: bold">pass</span>
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">A2</span>(metaclass<span style="color: #666666">=</span>M2): <span style="color: #008000; font-weight: bold">pass</span>
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">B1</span>(A1, metaclass<span style="color: #666666">=</span>M2): <span style="color: #008000; font-weight: bold">pass</span>  <span style="color: #3D7B7B; font-style: italic"># Mypy Error: metaclass conflict</span>
+<span style="color: #3D7B7B; font-style: italic"># At runtime the above definition raises an exception</span>
+<span style="color: #3D7B7B; font-style: italic"># TypeError: metaclass conflict: the metaclass of a derived class must be a (non-strict) subclass of the metaclasses of all its bases</span>
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">B12</span>(A1, A2): <span style="color: #008000; font-weight: bold">pass</span>  <span style="color: #3D7B7B; font-style: italic"># Mypy Error: metaclass conflict</span>
+
+<span style="color: #3D7B7B; font-style: italic"># This can be solved via a common metaclass subtype:</span>
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">CorrectMeta</span>(M1, M2): <span style="color: #008000; font-weight: bold">pass</span>
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">B2</span>(A1, A2, metaclass<span style="color: #666666">=</span>CorrectMeta): <span style="color: #008000; font-weight: bold">pass</span>  <span style="color: #3D7B7B; font-style: italic"># OK, runtime is also OK</span>
+</code></pre></div>
+<ul>
+<li>Mypy does not understand dynamically-computed metaclasses, such as <code>class A(metaclass=f()): ...</code></li>
+<li>Mypy does not and cannot understand arbitrary metaclass code.</li>
+<li>Mypy only recognizes subclasses of <a href="https://docs.python.org/3/library/functions.html#type"><code>type</code></a> as potential metaclasses.</li>
+</ul>
+</div>
+</div>
+</div>
+
+  <hr>
+<div class="md-source-file">
+  <small>
+    
+      最后更新:
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2024年9月4日</span>
+      
+        <br>
+        创建日期:
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2024年9月4日</span>
+      
+    
+  </small>
+</div>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var tab,labels=set.querySelector(".tabbed-labels");for(tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["header.autohide", "navigation.top", "navigation.tabs", "navigation.tabs.sticky", "navigation.path", "content.tabs.link", "content.code.copy", "content.tooltips", "navigation.indexes", "navigation.prune", "navigation.instant"], "search": "../../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": {"provider": "mike"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.94c44541.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  <script>document$.subscribe(() => {const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});})</script></body>
+</html>

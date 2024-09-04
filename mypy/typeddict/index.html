@@ -1,0 +1,1889 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="hellowac-类型检查">
+      
+      
+      
+      
+        <link rel="prev" href="../literal_and_enum/">
+      
+      
+        <link rel="next" href="../final_names_methods_classes/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.4">
+    
+    
+      
+        <title>类型字典 - mypy类型检查</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.bd3936ea.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.356b1318.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+   <link href="../../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+        html.glightbox-open { overflow: initial; height: 100%; }
+        .gslide-title { margin-top: 0px; user-select: text; }
+        .gslide-desc { color: #666; user-select: text; }
+        .gslide-image img { background: white; }
+        
+            .gscrollbar-fixer { padding-right: 15px; }
+            .gdesc-inner { font-size: 0.75rem; }
+            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
+            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
+            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}
+            </style> <script src="../../assets/javascripts/glightbox.min.js"></script></head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="blue">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#类型字典" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+        
+          <aside class="md-banner md-banner--warning">
+            <div class="md-banner__inner md-grid md-typeset">
+              
+你当前浏览的版本已不是最新版本，
+<a href="../../..">
+    <strong>点击这里</strong>
+</a>查看最新版本的文档
+
+            </div>
+            <script>var el=document.querySelector("[data-md-component=outdated]"),outdated=__md_get("__outdated",sessionStorage);!0===outdated&&el&&(el.hidden=!1)</script>
+          </aside>
+        
+      </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="mypy类型检查" class="md-header__button md-logo" aria-label="mypy类型检查" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            mypy类型检查
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              类型字典
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/hellowac/mypy-zh-cn" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    hellowac/myppy-zh-cn
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../" class="md-tabs__link">
+          
+  
+    
+  
+  第一步
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../builtin_types/" class="md-tabs__link">
+          
+  
+    
+  
+  类型系统参考
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../mypy_conf/" class="md-tabs__link">
+          
+  
+    
+  
+  配置和运行mypy
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../mypy_other/" class="md-tabs__link">
+          
+  
+    
+  
+  其他杂项
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="mypy类型检查" class="md-nav__button md-logo" aria-label="mypy类型检查" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    mypy类型检查
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/hellowac/mypy-zh-cn" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    hellowac/myppy-zh-cn
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    第一步
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_1" id="__nav_1_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            第一步
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cheat_sheet_py3/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    类型提示备忘录
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../existing_code/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    将 mypy 与现有代码库结合使用
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    类型系统参考
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            类型系统参考
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../builtin_types/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    内置类型
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../type_inference_type_annotations/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    类型推断和类型注解
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../kind_of_types/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    类型种类
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../class_basics/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    类的基础
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../annotation_issue_at_runtime/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    运行时的注解问题
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../protocol_and_struct_subtyping/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    协议及其子类型
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dynamic_typing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    动态类型
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../type_narrowing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    类型收缩
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../duck_type_compatibility/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    鸭子类型兼容
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../stub_files/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    存根文件
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../generics/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    泛型
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../more_types/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    更多类型
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../literal_and_enum/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    字面量和枚举
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    类型字典
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    类型字典
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#整体性" class="md-nav__link">
+    整体性
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#支持的操作" class="md-nav__link">
+    支持的操作
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#基于类的语法" class="md-nav__link">
+    基于类的语法
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#混合必需和非必需的项目" class="md-nav__link">
+    混合必需和非必需的项目
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#typeddict-的联合" class="md-nav__link">
+    TypedDict 的联合
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../final_names_methods_classes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    最终名称、方法和类
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../metaclasses/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    元类
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../mypy_conf/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    配置和运行mypy
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            配置和运行mypy
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/running_mypy.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    运行mypy和管理导入
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/command_line.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    mypy命令行
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/config_file.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    mypy配置文件
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/inline_config.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    内联配置
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/mypy_daemon.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    mypy服务(守护进程)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/installed_packages.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    使用安装包
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/extending_mypy.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    扩展和集成 mypy
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/stubgen.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    自动存根生成
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/stubtest.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    自动存根测试
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../mypy_other/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    其他杂项
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            其他杂项
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/common_issues.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    常见问题及解决办法
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/supported_python_features.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    支持的 Python 特性
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/error_codes.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    错误码
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/error_code_list.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    默认启用的错误码
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/error_code_list2.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    可选检查的错误代码
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/additional_features.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    额外特性
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/faq.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    常见问题解答
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/python/mypy" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    项目地址
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy-lang.org/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    网页地址
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#整体性" class="md-nav__link">
+    整体性
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#支持的操作" class="md-nav__link">
+    支持的操作
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#基于类的语法" class="md-nav__link">
+    基于类的语法
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#混合必需和非必需的项目" class="md-nav__link">
+    混合必需和非必需的项目
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#typeddict-的联合" class="md-nav__link">
+    TypedDict 的联合
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="类型字典">类型字典<a class="headerlink" href="#类型字典" title="Permanent link">&para;</a></h1>
+<p><strong>TypedDict</strong></p>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">中文</label><label for="__tabbed_1_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>Python 程序经常使用带有字符串键的字典来表示对象。 <code>TypedDict</code> 允许您为表示具有固定模式的对象的字典提供精确的类型，例如 <code>{'id': 1, 'items': ['x']}</code>。</p>
+<p>这是一个典型的例子：</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>movie <span style="color: #666666">=</span> {<span style="color: #BA2121">&#39;name&#39;</span>: <span style="color: #BA2121">&#39;Blade Runner&#39;</span>, <span style="color: #BA2121">&#39;year&#39;</span>: <span style="color: #666666">1982</span>}
+</code></pre></div>
+<p>仅需要一组固定的字符串键（上面的“name”和“year”），并且每个键都有一个独立的值类型（“str”代表“name”，“int”代表“year” '` 上面）。 我们之前已经看到过“dict[K, V]”类型，它允许您声明统一的字典类型，其中每个值都具有相同的类型，并且支持任意键。 这显然不太适合上面的“电影”。 相反，您可以使用“TypedDict”为“movie”等对象提供精确的类型，其中每个字典值的类型取决于键：</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">typing_extensions</span> <span style="color: #008000; font-weight: bold">import</span> TypedDict
+
+Movie <span style="color: #666666">=</span> TypedDict(<span style="color: #BA2121">&#39;Movie&#39;</span>, {<span style="color: #BA2121">&#39;name&#39;</span>: <span style="color: #008000">str</span>, <span style="color: #BA2121">&#39;year&#39;</span>: <span style="color: #008000">int</span>})
+
+movie: Movie <span style="color: #666666">=</span> {<span style="color: #BA2121">&#39;name&#39;</span>: <span style="color: #BA2121">&#39;Blade Runner&#39;</span>, <span style="color: #BA2121">&#39;year&#39;</span>: <span style="color: #666666">1982</span>}
+</code></pre></div>
+<p><code>Movie</code> 是一个 <code>TypedDict</code> 类型，包含两项：<code>'name'</code>（类型为 <code>str</code>）和 <code>'year'</code>（类型为 <code>int</code>）。 请注意，我们对“movie”变量使用了显式类型注释。 这种类型注释很重要——没有它，mypy 将尝试为“movie”推断出常规的、统一的 <a href="https://docs.python.org/3/library/stdtypes.html#dict"><code>dict</code></a> 类型 ，这不是我们想要的。</p>
+<div class="admonition info">
+<p class="admonition-title">Note</p>
+<p>如果将 <code>TypedDict</code> 对象作为参数传递给函数，通常不需要类型注释，因为 mypy 可以根据声明的参数类型推断所需的类型。 另外，如果之前已经定义了赋值目标，并且它具有 <code>TypedDict</code> 类型，则 mypy 会将分配的值视为 <code>TypedDict</code>，而不是 <a href="https://docs.python.org/3/library/stdtypes.html#dict"><code>dict</code></a>。</p>
+</div>
+<p>现在 mypy 会识别这些是有效的：</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>name <span style="color: #666666">=</span> movie[<span style="color: #BA2121">&#39;name&#39;</span>]  <span style="color: #3D7B7B; font-style: italic"># Okay; type of name is str</span>
+year <span style="color: #666666">=</span> movie[<span style="color: #BA2121">&#39;year&#39;</span>]  <span style="color: #3D7B7B; font-style: italic"># Okay; type of year is int</span>
+</code></pre></div>
+<p>Mypy 会将无效密钥检测为错误：</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>director <span style="color: #666666">=</span> movie[<span style="color: #BA2121">&#39;director&#39;</span>]  <span style="color: #3D7B7B; font-style: italic"># Error: &#39;director&#39; is not a valid key</span>
+</code></pre></div>
+<p>Mypy 还将拒绝运行时计算的表达式作为密钥，因为它无法验证它是否是有效的密钥。 您只能使用字符串文字作为“TypedDict”键。</p>
+<p><code>TypedDict</code> 类型对象也可以充当构造函数。 它在运行时返回一个普通的 <a href="https://docs.python.org/3/library/stdtypes.html#dict"><code>dict</code></a> 对象——<code>TypedDict</code> 不定义新的运行时类型：</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>toy_story <span style="color: #666666">=</span> Movie(name<span style="color: #666666">=</span><span style="color: #BA2121">&#39;Toy Story&#39;</span>, year<span style="color: #666666">=1995</span>)
+</code></pre></div>
+<p>这相当于直接使用 <code>{ ... }</code> 或 <code>dict(key=value, ...)</code> 构造一个字典。 构造函数形式有时很方便，因为它可以在没有类型注释的情况下使用，并且它还使对象的类型显式化。</p>
+<p>与所有类型一样，“TypedDict”可以用作组件来构建任意复杂的类型。 例如，您可以使用“TypedDict”项定义嵌套的“TypedDict”和容器。 与大多数其他类型不同，mypy 使用 TypedDict 的结构兼容性检查（或结构子类型）。 假设项目类型兼容，具有额外项目的“TypedDict”对象与较窄的“TypedDict”（子类型）兼容（<em>totality</em>也会影响子类型，如下所述）。</p>
+<p><code>TypedDict</code> 对象不是常规 <code>dict[...]</code> 类型的子类型（反之亦然），因为 <a href="https://docs.python.org/3/library/stdtypes.html#dict"><code>dict</code></a> 允许添加和删除任意键，与“TypedDict”不同。 然而，任何 <code>TypedDict</code> 对象都是 <code>Mapping[str, object]</code> 的子类型（即兼容），因为 <a href="https://docs.python.org/3/library/typing.html#typing.Mapping"><code>Mapping</code></a> 仅提供对字典项的只读访问：</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">print_typed_dict</span>(obj: Mapping[<span style="color: #008000">str</span>, <span style="color: #008000">object</span>]) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:
+    <span style="color: #008000; font-weight: bold">for</span> key, value <span style="color: #AA22FF; font-weight: bold">in</span> obj<span style="color: #666666">.</span>items():
+        <span style="color: #008000">print</span>(<span style="color: #BA2121">f&#39;</span><span style="color: #A45A77; font-weight: bold">{</span>key<span style="color: #A45A77; font-weight: bold">}</span><span style="color: #BA2121">: </span><span style="color: #A45A77; font-weight: bold">{</span>value<span style="color: #A45A77; font-weight: bold">}</span><span style="color: #BA2121">&#39;</span>)
+
+print_typed_dict(Movie(name<span style="color: #666666">=</span><span style="color: #BA2121">&#39;Toy Story&#39;</span>, year<span style="color: #666666">=1995</span>))  <span style="color: #3D7B7B; font-style: italic"># OK</span>
+</code></pre></div>
+<div class="admonition info">
+<p class="admonition-title">Note</p>
+<p>除非您使用的是 Python 3.8 或更高版本（其中标准库 <a href="https://docs.python.org/3/library/typing.html#module-typing"><code>typing</code></a> 模块中提供了 <code>TypedDict</code>），否则您需要使用 pip 安装 <code>typing_extensions</code> 以使用 <code>TypedDict</code>：</p>
+<div class="language-text highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>python3 -m pip install --upgrade typing-extensions
+</code></pre></div>
+</div>
+</div>
+<div class="tabbed-block">
+<p>Python programs often use dictionaries with string keys to represent objects. <code>TypedDict</code> lets you give precise types for dictionaries that represent objects with a fixed schema, such as <code>{'id': 1, 'items': ['x']}</code>.</p>
+<p>Here is a typical example:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>movie <span style="color: #666666">=</span> {<span style="color: #BA2121">&#39;name&#39;</span>: <span style="color: #BA2121">&#39;Blade Runner&#39;</span>, <span style="color: #BA2121">&#39;year&#39;</span>: <span style="color: #666666">1982</span>}
+</code></pre></div>
+<p>Only a fixed set of string keys is expected (<code>'name'</code> and <code>'year'</code> above), and each key has an independent value type (<code>str</code> for <code>'name'</code> and <code>int</code> for <code>'year'</code> above). We've previously seen the <code>dict[K, V]</code> type, which lets you declare uniform dictionary types, where every value has the same type, and arbitrary keys are supported. This is clearly not a good fit for <code>movie</code> above. Instead, you can use a <code>TypedDict</code> to give a precise type for objects like <code>movie</code>, where the type of each dictionary value depends on the key:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">typing_extensions</span> <span style="color: #008000; font-weight: bold">import</span> TypedDict
+
+Movie <span style="color: #666666">=</span> TypedDict(<span style="color: #BA2121">&#39;Movie&#39;</span>, {<span style="color: #BA2121">&#39;name&#39;</span>: <span style="color: #008000">str</span>, <span style="color: #BA2121">&#39;year&#39;</span>: <span style="color: #008000">int</span>})
+
+movie: Movie <span style="color: #666666">=</span> {<span style="color: #BA2121">&#39;name&#39;</span>: <span style="color: #BA2121">&#39;Blade Runner&#39;</span>, <span style="color: #BA2121">&#39;year&#39;</span>: <span style="color: #666666">1982</span>}
+</code></pre></div>
+<p><code>Movie</code> is a <code>TypedDict</code> type with two items: <code>'name'</code> (with type <code>str</code>) and <code>'year'</code> (with type <code>int</code>). Note that we used an explicit type annotation for the <code>movie</code> variable. This type annotation is important -- without it, mypy will try to infer a regular, uniform <a href="https://docs.python.org/3/library/stdtypes.html#dict"><code>dict</code></a> type for <code>movie</code>, which is not what we want here.</p>
+<div class="admonition info">
+<p class="admonition-title">Note</p>
+<p>If you pass a <code>TypedDict</code> object as an argument to a function, no type annotation is usually necessary since mypy can infer the desired type based on the declared argument type. Also, if an assignment target has been previously defined, and it has a <code>TypedDict</code> type, mypy will treat the assigned value as a <code>TypedDict</code>, not <a href="https://docs.python.org/3/library/stdtypes.html#dict"><code>dict</code></a>.</p>
+</div>
+<p>Now mypy will recognize these as valid:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>name <span style="color: #666666">=</span> movie[<span style="color: #BA2121">&#39;name&#39;</span>]  <span style="color: #3D7B7B; font-style: italic"># Okay; type of name is str</span>
+year <span style="color: #666666">=</span> movie[<span style="color: #BA2121">&#39;year&#39;</span>]  <span style="color: #3D7B7B; font-style: italic"># Okay; type of year is int</span>
+</code></pre></div>
+<p>Mypy will detect an invalid key as an error:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>director <span style="color: #666666">=</span> movie[<span style="color: #BA2121">&#39;director&#39;</span>]  <span style="color: #3D7B7B; font-style: italic"># Error: &#39;director&#39; is not a valid key</span>
+</code></pre></div>
+<p>Mypy will also reject a runtime-computed expression as a key, as it can't verify that it's a valid key. You can only use string literals as <code>TypedDict</code> keys.</p>
+<p>The <code>TypedDict</code> type object can also act as a constructor. It returns a normal <a href="https://docs.python.org/3/library/stdtypes.html#dict"><code>dict</code></a> object at runtime -- a <code>TypedDict</code> does not define a new runtime type:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>toy_story <span style="color: #666666">=</span> Movie(name<span style="color: #666666">=</span><span style="color: #BA2121">&#39;Toy Story&#39;</span>, year<span style="color: #666666">=1995</span>)
+</code></pre></div>
+<p>This is equivalent to just constructing a dictionary directly using <code>{ ... }</code> or <code>dict(key=value, ...)</code>. The constructor form is sometimes convenient, since it can be used without a type annotation, and it also makes the type of the object explicit.</p>
+<p>Like all types, <code>TypedDict</code>s can be used as components to build arbitrarily complex types. For example, you can define nested <code>TypedDict</code>s and containers with <code>TypedDict</code> items. Unlike most other types, mypy uses structural compatibility checking (or structural subtyping) with <code>TypedDict</code>s. A <code>TypedDict</code> object with extra items is compatible with (a subtype of) a narrower <code>TypedDict</code>, assuming item types are compatible (<em>totality</em> also affects subtyping, as discussed below).</p>
+<p>A <code>TypedDict</code> object is not a subtype of the regular <code>dict[...]</code> type (and vice versa), since <a href="https://docs.python.org/3/library/stdtypes.html#dict"><code>dict</code></a> allows arbitrary keys to be added and removed, unlike <code>TypedDict</code>. However, any <code>TypedDict</code> object is a subtype of (that is, compatible with) <code>Mapping[str, object]</code>, since <a href="https://docs.python.org/3/library/typing.html#typing.Mapping"><code>Mapping</code></a> only provides read-only access to the dictionary items:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">print_typed_dict</span>(obj: Mapping[<span style="color: #008000">str</span>, <span style="color: #008000">object</span>]) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:
+    <span style="color: #008000; font-weight: bold">for</span> key, value <span style="color: #AA22FF; font-weight: bold">in</span> obj<span style="color: #666666">.</span>items():
+        <span style="color: #008000">print</span>(<span style="color: #BA2121">f&#39;</span><span style="color: #A45A77; font-weight: bold">{</span>key<span style="color: #A45A77; font-weight: bold">}</span><span style="color: #BA2121">: </span><span style="color: #A45A77; font-weight: bold">{</span>value<span style="color: #A45A77; font-weight: bold">}</span><span style="color: #BA2121">&#39;</span>)
+
+print_typed_dict(Movie(name<span style="color: #666666">=</span><span style="color: #BA2121">&#39;Toy Story&#39;</span>, year<span style="color: #666666">=1995</span>))  <span style="color: #3D7B7B; font-style: italic"># OK</span>
+</code></pre></div>
+<div class="admonition info">
+<p class="admonition-title">Note</p>
+<p>Unless you are on Python 3.8 or newer (where <code>TypedDict</code> is available in standard library <a href="https://docs.python.org/3/library/typing.html#module-typing"><code>typing</code></a> module) you need to install <code>typing_extensions</code> using pip to use <code>TypedDict</code>:</p>
+<div class="language-text highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>python3 -m pip install --upgrade typing-extensions
+</code></pre></div>
+</div>
+</div>
+</div>
+</div>
+<h2 id="整体性">整体性<a class="headerlink" href="#整体性" title="Permanent link">&para;</a></h2>
+<p>Totality</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">中文</label><label for="__tabbed_2_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>默认情况下，mypy 确保“TypedDict”对象具有所有指定的键。 这将被标记为错误：</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #3D7B7B; font-style: italic"># Error: &#39;year&#39; missing</span>
+toy_story: Movie <span style="color: #666666">=</span> {<span style="color: #BA2121">&#39;name&#39;</span>: <span style="color: #BA2121">&#39;Toy Story&#39;</span>}
+</code></pre></div>
+<p>有时您希望在创建“TypedDict”对象时允许省略键。 您可以向“TypedDict(...)”提供“total=False”参数来实现此目的：</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>GuiOptions <span style="color: #666666">=</span> TypedDict(
+    <span style="color: #BA2121">&#39;GuiOptions&#39;</span>, {<span style="color: #BA2121">&#39;language&#39;</span>: <span style="color: #008000">str</span>, <span style="color: #BA2121">&#39;color&#39;</span>: <span style="color: #008000">str</span>}, total<span style="color: #666666">=</span><span style="color: #008000; font-weight: bold">False</span>)
+options: GuiOptions <span style="color: #666666">=</span> {}  <span style="color: #3D7B7B; font-style: italic"># Okay</span>
+options[<span style="color: #BA2121">&#39;language&#39;</span>] <span style="color: #666666">=</span> <span style="color: #BA2121">&#39;en&#39;</span>
+</code></pre></div>
+<p>您可能需要使用 <a href="https://docs.python.org/3/library/stdtypes.html#dict.get"><code>dict.get</code></a> 来访问部分（非全部）<code>TypedDict</code> 的项目， 因为使用 <code>[]</code> 进行索引可能会在运行时失败。 然而，mypy 仍然允许使用带有部分 <code>TypedDict</code> 的 <code>[]</code> ——你只需要小心它，因为它可能会导致 <a href="https://docs.python.org/3/library/exceptions.html#KeyError"><code>KeyError</code></a>。 到处都需要 <a href="https://docs.python.org/3/library/stdtypes.html#dict.get"><code>dict.get</code></a> 太麻烦了。 （请注意，您也可以自由使用 <a href="https://docs.python.org/3/library/stdtypes.html#dict.get"><code>dict.get</code></a> 以及所有 <code>TypedDict</code>。）</p>
+<p>不需要的键在错误消息中显示为“？”：</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #3D7B7B; font-style: italic"># Revealed type is &quot;TypedDict(&#39;GuiOptions&#39;, {&#39;language&#39;?: builtins.str,</span>
+<span style="color: #3D7B7B; font-style: italic">#                                            &#39;color&#39;?: builtins.str})&quot;</span>
+reveal_type(options)
+</code></pre></div>
+<p>整体性也会影响结构兼容性。 当需要完整的“TypedDict”时，您不能使用部分“TypedDict”。 此外，当需要部分“TypedDict”时，整个“TypedDict”无效。</p>
+</div>
+<div class="tabbed-block">
+<p>By default mypy ensures that a <code>TypedDict</code> object has all the specified keys. This will be flagged as an error:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #3D7B7B; font-style: italic"># Error: &#39;year&#39; missing</span>
+toy_story: Movie <span style="color: #666666">=</span> {<span style="color: #BA2121">&#39;name&#39;</span>: <span style="color: #BA2121">&#39;Toy Story&#39;</span>}
+</code></pre></div>
+<p>Sometimes you want to allow keys to be left out when creating a <code>TypedDict</code> object. You can provide the <code>total=False</code> argument to <code>TypedDict(...)</code> to achieve this:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>GuiOptions <span style="color: #666666">=</span> TypedDict(
+    <span style="color: #BA2121">&#39;GuiOptions&#39;</span>, {<span style="color: #BA2121">&#39;language&#39;</span>: <span style="color: #008000">str</span>, <span style="color: #BA2121">&#39;color&#39;</span>: <span style="color: #008000">str</span>}, total<span style="color: #666666">=</span><span style="color: #008000; font-weight: bold">False</span>)
+options: GuiOptions <span style="color: #666666">=</span> {}  <span style="color: #3D7B7B; font-style: italic"># Okay</span>
+options[<span style="color: #BA2121">&#39;language&#39;</span>] <span style="color: #666666">=</span> <span style="color: #BA2121">&#39;en&#39;</span>
+</code></pre></div>
+<p>You may need to use <a href="https://docs.python.org/3/library/stdtypes.html#dict.get"><code>dict.get</code></a> to access items of a partial (non-total) <code>TypedDict</code>, since indexing using <code>[]</code> could fail at runtime. However, mypy still lets use <code>[]</code> with a partial <code>TypedDict</code> -- you just need to be careful with it, as it could result in a <a href="https://docs.python.org/3/library/exceptions.html#KeyError"><code>KeyError</code></a>. Requiring <a href="https://docs.python.org/3/library/stdtypes.html#dict.get"><code>dict.get</code></a> everywhere would be too cumbersome. (Note that you are free to use <a href="https://docs.python.org/3/library/stdtypes.html#dict.get"><code>dict.get</code></a> with total <code>TypedDict</code>s as well.)</p>
+<p>Keys that aren't required are shown with a <code>?</code> in error messages:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #3D7B7B; font-style: italic"># Revealed type is &quot;TypedDict(&#39;GuiOptions&#39;, {&#39;language&#39;?: builtins.str,</span>
+<span style="color: #3D7B7B; font-style: italic">#                                            &#39;color&#39;?: builtins.str})&quot;</span>
+reveal_type(options)
+</code></pre></div>
+<p>Totality also affects structural compatibility. You can't use a partial <code>TypedDict</code> when a total one is expected. Also, a total <code>TypedDict</code> is not valid when a partial one is expected.</p>
+</div>
+</div>
+</div>
+<h2 id="支持的操作">支持的操作<a class="headerlink" href="#支持的操作" title="Permanent link">&para;</a></h2>
+<p>Supported operations</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="3:2"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><input id="__tabbed_3_2" name="__tabbed_3" type="radio" /><div class="tabbed-labels"><label for="__tabbed_3_1">中文</label><label for="__tabbed_3_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p><code>TypedDict</code> 对象支持字典操作和方法的子集。 调用大多数方法时必须使用字符串文字作为键，否则 mypy 将无法检查该键是否有效。 支持的操作列表：</p>
+<ul>
+<li>
+<p><a href="https://docs.python.org/3/library/typing.html#typing.Mapping"><code>typing.Mapping</code></a>中包含的任何内容:</p>
+</li>
+<li>
+<p><code>d[key]</code></p>
+</li>
+<li><code>key in d</code></li>
+<li><code>len(d)</code></li>
+<li><code>for key in d</code> (iteration)</li>
+<li><a href="https://docs.python.org/3/library/stdtypes.html#dict.get"><code>d.get(key[, default])</code></a></li>
+<li><a href="https://docs.python.org/3/library/stdtypes.html#dict.keys"><code>d.keys()</code></a></li>
+<li><a href="https://docs.python.org/3/library/stdtypes.html#dict.values"><code>d.values()</code></a></li>
+<li>
+<p><a href="https://docs.python.org/3/library/stdtypes.html#dict.items"><code>d.items()</code></a></p>
+</li>
+<li>
+<p><a href="https://docs.python.org/3/library/stdtypes.html#dict.copy"><code>d.copy()</code></a></p>
+</li>
+<li><a href="https://docs.python.org/3/library/stdtypes.html#dict.setdefault"><code>d.setdefault(key, default)</code></a></li>
+<li><a href="https://docs.python.org/3/library/stdtypes.html#dict.update"><code>d1.update(d2)</code></a></li>
+<li><a href="https://docs.python.org/3/library/stdtypes.html#dict.pop"><code>d.pop(key[, default])</code></a> (partial <code>TypedDict</code>s only)</li>
+<li><code>del d[key]</code> (partial <code>TypedDict</code>s only)</li>
+</ul>
+<div class="admonition info">
+<p class="admonition-title">Note</p>
+<p><a href="https://docs.python.org/3/library/stdtypes.html#dict.clear"><code>dict.clear</code></a> 和 <a href="https://docs.python.org/3/library/stdtypes.html#dict.popitem"><code>dict.popitem</code></a> 不支持，因为它们不安全——它们可以删除由于结构子类型而对 mypy 不可见的必需的“TypedDict”项。</p>
+</div>
+</div>
+<div class="tabbed-block">
+<p><code>TypedDict</code> objects support a subset of dictionary operations and methods. You must use string literals as keys when calling most of the methods, as otherwise mypy won't be able to check that the key is valid. List of supported operations:</p>
+<ul>
+<li>
+<p>Anything included in <a href="https://docs.python.org/3/library/typing.html#typing.Mapping"><code>typing.Mapping</code></a>:</p>
+</li>
+<li>
+<p><code>d[key]</code></p>
+</li>
+<li><code>key in d</code></li>
+<li><code>len(d)</code></li>
+<li><code>for key in d</code> (iteration)</li>
+<li><a href="https://docs.python.org/3/library/stdtypes.html#dict.get"><code>d.get(key[, default])</code></a></li>
+<li><a href="https://docs.python.org/3/library/stdtypes.html#dict.keys"><code>d.keys()</code></a></li>
+<li><a href="https://docs.python.org/3/library/stdtypes.html#dict.values"><code>d.values()</code></a></li>
+<li>
+<p><a href="https://docs.python.org/3/library/stdtypes.html#dict.items"><code>d.items()</code></a></p>
+</li>
+<li>
+<p><a href="https://docs.python.org/3/library/stdtypes.html#dict.copy"><code>d.copy()</code></a></p>
+</li>
+<li><a href="https://docs.python.org/3/library/stdtypes.html#dict.setdefault"><code>d.setdefault(key, default)</code></a></li>
+<li><a href="https://docs.python.org/3/library/stdtypes.html#dict.update"><code>d1.update(d2)</code></a></li>
+<li><a href="https://docs.python.org/3/library/stdtypes.html#dict.pop"><code>d.pop(key[, default])</code></a> (partial <code>TypedDict</code>s only)</li>
+<li><code>del d[key]</code> (partial <code>TypedDict</code>s only)</li>
+</ul>
+<div class="admonition info">
+<p class="admonition-title">Note</p>
+<p><a href="https://docs.python.org/3/library/stdtypes.html#dict.clear"><code>dict.clear</code></a> and <a href="https://docs.python.org/3/library/stdtypes.html#dict.popitem"><code>dict.popitem</code></a> are not supported since they are unsafe -- they could delete required <code>TypedDict</code> items that are not visible to mypy because of structural subtyping.</p>
+</div>
+</div>
+</div>
+</div>
+<h2 id="基于类的语法">基于类的语法<a class="headerlink" href="#基于类的语法" title="Permanent link">&para;</a></h2>
+<p>Class-based syntax</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="4:2"><input checked="checked" id="__tabbed_4_1" name="__tabbed_4" type="radio" /><input id="__tabbed_4_2" name="__tabbed_4" type="radio" /><div class="tabbed-labels"><label for="__tabbed_4_1">中文</label><label for="__tabbed_4_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>Python 3.6 及更高版本支持另一种基于类的语法来定义“TypedDict”：</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">typing_extensions</span> <span style="color: #008000; font-weight: bold">import</span> TypedDict
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Movie</span>(TypedDict):
+    name: <span style="color: #008000">str</span>
+    year: <span style="color: #008000">int</span>
+</code></pre></div>
+<p>上面的定义相当于原来的“Movie”定义。 它实际上并没有定义真正的类。 此语法还支持一种继承形式——子类可以定义附加项。 然而，这主要是一种符号快捷方式。 由于 mypy 使用与 TypedDict 的结构兼容性，因此不需要继承来实现兼容性。 下面是一个继承的例子：</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Movie</span>(TypedDict):
+    name: <span style="color: #008000">str</span>
+    year: <span style="color: #008000">int</span>
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">BookBasedMovie</span>(Movie):
+    based_on: <span style="color: #008000">str</span>
+</code></pre></div>
+<p>现在“BookBasedMovie”有键“name”、“year”和“based_on”。</p>
+</div>
+<div class="tabbed-block">
+<p>An alternative, class-based syntax to define a <code>TypedDict</code> is supported in Python 3.6 and later:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">typing_extensions</span> <span style="color: #008000; font-weight: bold">import</span> TypedDict
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Movie</span>(TypedDict):
+    name: <span style="color: #008000">str</span>
+    year: <span style="color: #008000">int</span>
+</code></pre></div>
+<p>The above definition is equivalent to the original <code>Movie</code> definition. It doesn't actually define a real class. This syntax also supports a form of inheritance -- subclasses can define additional items. However, this is primarily a notational shortcut. Since mypy uses structural compatibility with <code>TypedDict</code>s, inheritance is not required for compatibility. Here is an example of inheritance:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Movie</span>(TypedDict):
+    name: <span style="color: #008000">str</span>
+    year: <span style="color: #008000">int</span>
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">BookBasedMovie</span>(Movie):
+    based_on: <span style="color: #008000">str</span>
+</code></pre></div>
+<p>Now <code>BookBasedMovie</code> has keys <code>name</code>, <code>year</code> and <code>based_on</code>.</p>
+</div>
+</div>
+</div>
+<h2 id="混合必需和非必需的项目">混合必需和非必需的项目<a class="headerlink" href="#混合必需和非必需的项目" title="Permanent link">&para;</a></h2>
+<p>Mixing required and non-required items</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="5:2"><input checked="checked" id="__tabbed_5_1" name="__tabbed_5" type="radio" /><input id="__tabbed_5_2" name="__tabbed_5" type="radio" /><div class="tabbed-labels"><label for="__tabbed_5_1">中文</label><label for="__tabbed_5_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>除了允许跨“TypedDict”类型重用之外，继承还允许您在单个“TypedDict”中混合必需和非必需（使用“total=False”）项。 例子：</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">MovieBase</span>(TypedDict):
+    name: <span style="color: #008000">str</span>
+    year: <span style="color: #008000">int</span>
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Movie</span>(MovieBase, total<span style="color: #666666">=</span><span style="color: #008000; font-weight: bold">False</span>):
+    based_on: <span style="color: #008000">str</span>
+</code></pre></div>
+<p>现在“Movie”需要键“name”和“year”，而“based_on”在构造对象时可以省略。 混合了必需和非必需键的“TypedDict”（例如上面的“Movie”）仅当其他“TypedDict”中的所有必需键都是第一个“TypedDict”中的必需键时才与另一个“TypedDict”兼容 ，并且其他“TypedDict”的所有非必需键也是第一个“TypedDict”中的非必需键。</p>
+</div>
+<div class="tabbed-block">
+<p>In addition to allowing reuse across <code>TypedDict</code> types, inheritance also allows you to mix required and non-required (using <code>total=False</code>) items in a single <code>TypedDict</code>. Example:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">MovieBase</span>(TypedDict):
+    name: <span style="color: #008000">str</span>
+    year: <span style="color: #008000">int</span>
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Movie</span>(MovieBase, total<span style="color: #666666">=</span><span style="color: #008000; font-weight: bold">False</span>):
+    based_on: <span style="color: #008000">str</span>
+</code></pre></div>
+<p>Now <code>Movie</code> has required keys <code>name</code> and <code>year</code>, while <code>based_on</code> can be left out when constructing an object. A <code>TypedDict</code> with a mix of required and non-required keys, such as <code>Movie</code> above, will only be compatible with another <code>TypedDict</code> if all required keys in the other <code>TypedDict</code> are required keys in the first <code>TypedDict</code>, and all non-required keys of the other <code>TypedDict</code> are also non-required keys in the first <code>TypedDict</code>.</p>
+</div>
+</div>
+</div>
+<h2 id="typeddict-的联合">TypedDict 的联合<a class="headerlink" href="#typeddict-的联合" title="Permanent link">&para;</a></h2>
+<p>Unions of TypedDicts</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="6:2"><input checked="checked" id="__tabbed_6_1" name="__tabbed_6" type="radio" /><input id="__tabbed_6_2" name="__tabbed_6" type="radio" /><div class="tabbed-labels"><label for="__tabbed_6_1">中文</label><label for="__tabbed_6_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>由于 TypedDict 在运行时实际上只是常规字典，因此不可能使用“isinstance”检查来区分 TypedDict Union 的不同变体，就像处理常规对象一样。</p>
+<p>相反，您可以使用<a href="https://mypy.readthedocs.io/en/stable/literal_types.html#tagged-unions"><code>标记联合模式</code></a>。 文档的引用部分有完整的描述和示例，但简而言之，您需要为每个 TypedDict 提供相同的键，其中每个值都有唯一的 <a href="https://mypy.readthedocs.io/en/stable/literal_types.html#literal-types"><code>Literal type</code></a>。 然后，检查该键以区分您的 TypedDict。</p>
+</div>
+<div class="tabbed-block">
+<p>Since TypedDicts are really just regular dicts at runtime, it is not possible to use <code>isinstance</code> checks to distinguish between different variants of a Union of TypedDict in the same way you can with regular objects.</p>
+<p>Instead, you can use the <a href="https://mypy.readthedocs.io/en/stable/literal_types.html#tagged-unions"><code>tagged union pattern</code></a>. The referenced section of the docs has a full description with an example, but in short, you will need to give each TypedDict the same key where each value has a unique <a href="https://mypy.readthedocs.io/en/stable/literal_types.html#literal-types"><code>Literal type</code></a>. Then, check that key to distinguish between your TypedDicts.</p>
+</div>
+</div>
+</div>
+
+  <hr>
+<div class="md-source-file">
+  <small>
+    
+      最后更新:
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2024年9月4日</span>
+      
+        <br>
+        创建日期:
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2024年9月4日</span>
+      
+    
+  </small>
+</div>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var tab,labels=set.querySelector(".tabbed-labels");for(tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["header.autohide", "navigation.top", "navigation.tabs", "navigation.tabs.sticky", "navigation.path", "content.tabs.link", "content.code.copy", "content.tooltips", "navigation.indexes", "navigation.prune", "navigation.instant"], "search": "../../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": {"provider": "mike"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.94c44541.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  <script>document$.subscribe(() => {const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});})</script></body>
+</html>

@@ -1,0 +1,2920 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="hellowac-类型检查">
+      
+      
+      
+      
+        <link rel="prev" href="../annotation_issue_at_runtime/">
+      
+      
+        <link rel="next" href="../dynamic_typing/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.4">
+    
+    
+      
+        <title>协议及其子类型 - mypy类型检查</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.bd3936ea.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.356b1318.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+   <link href="../../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+        html.glightbox-open { overflow: initial; height: 100%; }
+        .gslide-title { margin-top: 0px; user-select: text; }
+        .gslide-desc { color: #666; user-select: text; }
+        .gslide-image img { background: white; }
+        
+            .gscrollbar-fixer { padding-right: 15px; }
+            .gdesc-inner { font-size: 0.75rem; }
+            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
+            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
+            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}
+            </style> <script src="../../assets/javascripts/glightbox.min.js"></script></head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="blue">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#协议及其子类型" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+        
+          <aside class="md-banner md-banner--warning">
+            <div class="md-banner__inner md-grid md-typeset">
+              
+你当前浏览的版本已不是最新版本，
+<a href="../../..">
+    <strong>点击这里</strong>
+</a>查看最新版本的文档
+
+            </div>
+            <script>var el=document.querySelector("[data-md-component=outdated]"),outdated=__md_get("__outdated",sessionStorage);!0===outdated&&el&&(el.hidden=!1)</script>
+          </aside>
+        
+      </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="mypy类型检查" class="md-header__button md-logo" aria-label="mypy类型检查" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            mypy类型检查
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              协议及其子类型
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/hellowac/mypy-zh-cn" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    hellowac/myppy-zh-cn
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../" class="md-tabs__link">
+          
+  
+    
+  
+  第一步
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../builtin_types/" class="md-tabs__link">
+          
+  
+    
+  
+  类型系统参考
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../mypy_conf/" class="md-tabs__link">
+          
+  
+    
+  
+  配置和运行mypy
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../mypy_other/" class="md-tabs__link">
+          
+  
+    
+  
+  其他杂项
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="mypy类型检查" class="md-nav__button md-logo" aria-label="mypy类型检查" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    mypy类型检查
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/hellowac/mypy-zh-cn" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    hellowac/myppy-zh-cn
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    第一步
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_1" id="__nav_1_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            第一步
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cheat_sheet_py3/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    类型提示备忘录
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../existing_code/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    将 mypy 与现有代码库结合使用
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    类型系统参考
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            类型系统参考
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../builtin_types/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    内置类型
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../type_inference_type_annotations/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    类型推断和类型注解
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../kind_of_types/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    类型种类
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../class_basics/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    类的基础
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../annotation_issue_at_runtime/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    运行时的注解问题
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    协议及其子类型
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    协议及其子类型
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#预定义协议" class="md-nav__link">
+    预定义协议
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#简单的自定义协议" class="md-nav__link">
+    简单的自定义协议
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#定义子协议和子类化协议" class="md-nav__link">
+    定义子协议和子类化协议
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#协议属性的不变性" class="md-nav__link">
+    协议属性的不变性
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#递归协议" class="md-nav__link">
+    递归协议
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#isinstance-和协议一起使用" class="md-nav__link">
+    isinstance() 和协议一起使用
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#回调协议" class="md-nav__link">
+    回调协议
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#预定义协议参考" class="md-nav__link">
+    预定义协议参考
+  </a>
+  
+    <nav class="md-nav" aria-label="预定义协议参考">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#迭代协议" class="md-nav__link">
+    迭代协议
+  </a>
+  
+    <nav class="md-nav" aria-label="迭代协议">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#可迭代泛型" class="md-nav__link">
+    可迭代泛型
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#迭代器泛型" class="md-nav__link">
+    迭代器泛型
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#集合协议" class="md-nav__link">
+    集合协议
+  </a>
+  
+    <nav class="md-nav" aria-label="集合协议">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sized" class="md-nav__link">
+    Sized
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#泛型容器" class="md-nav__link">
+    泛型容器
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#集合泛型" class="md-nav__link">
+    集合泛型
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#一次性协议" class="md-nav__link">
+    一次性协议
+  </a>
+  
+    <nav class="md-nav" aria-label="一次性协议">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#倒序泛型" class="md-nav__link">
+    倒序泛型
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#绝对值泛型" class="md-nav__link">
+    绝对值泛型
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#支持字节" class="md-nav__link">
+    支持字节
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#支持复数" class="md-nav__link">
+    支持复数
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#支持浮点数" class="md-nav__link">
+    支持浮点数
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#支持整数" class="md-nav__link">
+    支持整数
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#支持round泛型" class="md-nav__link">
+    支持Round泛型
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#异步协议" class="md-nav__link">
+    异步协议
+  </a>
+  
+    <nav class="md-nav" aria-label="异步协议">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#可等待泛型对象" class="md-nav__link">
+    可等待泛型对象
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#异步可迭代泛型对象" class="md-nav__link">
+    异步可迭代泛型对象
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#异步迭代器泛型对象" class="md-nav__link">
+    异步迭代器泛型对象
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#上下文管理器协议" class="md-nav__link">
+    上下文管理器协议
+  </a>
+  
+    <nav class="md-nav" aria-label="上下文管理器协议">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#上下文管理器泛型" class="md-nav__link">
+    上下文管理器泛型
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#异步上下文泛型管理器" class="md-nav__link">
+    异步上下文泛型管理器
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dynamic_typing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    动态类型
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../type_narrowing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    类型收缩
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../duck_type_compatibility/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    鸭子类型兼容
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../stub_files/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    存根文件
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../generics/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    泛型
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../more_types/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    更多类型
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../literal_and_enum/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    字面量和枚举
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../typeddict/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    类型字典
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../final_names_methods_classes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    最终名称、方法和类
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../metaclasses/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    元类
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../mypy_conf/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    配置和运行mypy
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            配置和运行mypy
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/running_mypy.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    运行mypy和管理导入
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/command_line.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    mypy命令行
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/config_file.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    mypy配置文件
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/inline_config.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    内联配置
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/mypy_daemon.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    mypy服务(守护进程)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/installed_packages.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    使用安装包
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/extending_mypy.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    扩展和集成 mypy
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/stubgen.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    自动存根生成
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/stubtest.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    自动存根测试
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../mypy_other/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    其他杂项
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            其他杂项
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/common_issues.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    常见问题及解决办法
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/supported_python_features.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    支持的 Python 特性
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/error_codes.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    错误码
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/error_code_list.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    默认启用的错误码
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/error_code_list2.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    可选检查的错误代码
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/additional_features.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    额外特性
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/faq.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    常见问题解答
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/python/mypy" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    项目地址
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy-lang.org/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    网页地址
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#预定义协议" class="md-nav__link">
+    预定义协议
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#简单的自定义协议" class="md-nav__link">
+    简单的自定义协议
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#定义子协议和子类化协议" class="md-nav__link">
+    定义子协议和子类化协议
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#协议属性的不变性" class="md-nav__link">
+    协议属性的不变性
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#递归协议" class="md-nav__link">
+    递归协议
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#isinstance-和协议一起使用" class="md-nav__link">
+    isinstance() 和协议一起使用
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#回调协议" class="md-nav__link">
+    回调协议
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#预定义协议参考" class="md-nav__link">
+    预定义协议参考
+  </a>
+  
+    <nav class="md-nav" aria-label="预定义协议参考">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#迭代协议" class="md-nav__link">
+    迭代协议
+  </a>
+  
+    <nav class="md-nav" aria-label="迭代协议">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#可迭代泛型" class="md-nav__link">
+    可迭代泛型
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#迭代器泛型" class="md-nav__link">
+    迭代器泛型
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#集合协议" class="md-nav__link">
+    集合协议
+  </a>
+  
+    <nav class="md-nav" aria-label="集合协议">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sized" class="md-nav__link">
+    Sized
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#泛型容器" class="md-nav__link">
+    泛型容器
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#集合泛型" class="md-nav__link">
+    集合泛型
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#一次性协议" class="md-nav__link">
+    一次性协议
+  </a>
+  
+    <nav class="md-nav" aria-label="一次性协议">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#倒序泛型" class="md-nav__link">
+    倒序泛型
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#绝对值泛型" class="md-nav__link">
+    绝对值泛型
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#支持字节" class="md-nav__link">
+    支持字节
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#支持复数" class="md-nav__link">
+    支持复数
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#支持浮点数" class="md-nav__link">
+    支持浮点数
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#支持整数" class="md-nav__link">
+    支持整数
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#支持round泛型" class="md-nav__link">
+    支持Round泛型
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#异步协议" class="md-nav__link">
+    异步协议
+  </a>
+  
+    <nav class="md-nav" aria-label="异步协议">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#可等待泛型对象" class="md-nav__link">
+    可等待泛型对象
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#异步可迭代泛型对象" class="md-nav__link">
+    异步可迭代泛型对象
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#异步迭代器泛型对象" class="md-nav__link">
+    异步迭代器泛型对象
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#上下文管理器协议" class="md-nav__link">
+    上下文管理器协议
+  </a>
+  
+    <nav class="md-nav" aria-label="上下文管理器协议">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#上下文管理器泛型" class="md-nav__link">
+    上下文管理器泛型
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#异步上下文泛型管理器" class="md-nav__link">
+    异步上下文泛型管理器
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="协议及其子类型">协议及其子类型<a class="headerlink" href="#协议及其子类型" title="Permanent link">&para;</a></h1>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">中文</label><label for="__tabbed_1_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>Python 类型系统支持两种确定两个对象作为类型是否兼容的方法：名义子类型和结构子类型。</p>
+<p><em>名义上的</em>子类型严格基于类层次结构。 如果类“Dog”继承类“Animal”，那么它是“Animal”的子类型。 当需要“Animal”实例时，可以使用“Dog”实例。 这种形式的子类型化是 Python 类型系统主要使用的：它很容易理解并生成清晰简洁的错误消息，并且与本机 {py:func}<a href="https://docs.python.org/3/library/functions.html#isinstance"><code>isinstance</code></a> 检查的工作方式相匹配 - 基于类层次结构。</p>
+<p><em>结构</em>子类型基于可以对对象执行的操作。 如果类“Dog”具有类“Animal”的所有属性和方法，并且具有兼容的类型，则类“Dog”是类“Animal”的结构子类型。</p>
+<p>结构子类型可以看作是鸭子类型的静态等价物，这是 Python 程序员所熟知的。 有关 Python 中协议和结构子类型的详细规范，请参阅 <a href="https://peps.python.org/pep-0544/"><code>PEP 544</code></a>。</p>
+</div>
+<div class="tabbed-block">
+<p><strong>Protocols and structural subtyping</strong></p>
+<p>The Python type system supports two ways of deciding whether two objects are compatible as types: nominal subtyping and structural subtyping.</p>
+<p><em>Nominal</em> subtyping is strictly based on the class hierarchy. If class <code>Dog</code> inherits class <code>Animal</code>, it's a subtype of <code>Animal</code>. Instances of <code>Dog</code> can be used when <code>Animal</code> instances are expected. This form of subtyping subtyping is what Python's type system predominantly uses: it's easy to understand and produces clear and concise error messages, and matches how the native <a href="https://docs.python.org/3/library/functions.html#isinstance"><code>isinstance</code></a> check works -- based on class hierarchy.</p>
+<p><em>Structural</em> subtyping is based on the operations that can be performed with an object. Class <code>Dog</code> is a structural subtype of class <code>Animal</code> if the former has all attributes and methods of the latter, and with compatible types.</p>
+<p>Structural subtyping can be seen as a static equivalent of duck typing, which is well known to Python programmers. See <a href="https://peps.python.org/pep-0544/"><code>PEP 544</code></a> for the detailed specification of protocols and structural subtyping in Python.</p>
+</div>
+</div>
+</div>
+<h2 id="预定义协议">预定义协议<a class="headerlink" href="#预定义协议" title="Permanent link">&para;</a></h2>
+<div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">中文</label><label for="__tabbed_2_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p><a href="https://docs.python.org/3/library/typing.html#module-typing"><code>typing</code></a> 模块定义了与常见 Python 协议相对应的各种协议类，例如 <a href="https://docs.python.org/3/library/typing.html#typing.Iterable"><code>Iterable[T]</code></a>。 如果一个类定义了合适的 <a href="https://docs.python.org/3/reference/datamodel.html#object.__iter__"><code>__iter__</code></a> 方法，mypy 就会理解它实现了可迭代协议并且与 <a href="https://docs.python.org/3/library/typing.html#typing.Iterable"><code>Iterable[T]</code></a> 兼容。 例如，下面的<code>IntList</code>是可迭代的，类型是<code>int</code>值：</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">typing</span> <span style="color: #008000; font-weight: bold">import</span> Iterator, Iterable, Optional
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">IntList</span>:
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__init__</span>(<span style="color: #008000">self</span>, value: <span style="color: #008000">int</span>, <span style="color: #008000">next</span>: Optional[<span style="color: #BA2121">&#39;IntList&#39;</span>]) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:
+        <span style="color: #008000">self</span><span style="color: #666666">.</span>value <span style="color: #666666">=</span> value
+        <span style="color: #008000">self</span><span style="color: #666666">.</span>next <span style="color: #666666">=</span> <span style="color: #008000">next</span>
+
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__iter__</span>(<span style="color: #008000">self</span>) <span style="color: #666666">-&gt;</span> Iterator[<span style="color: #008000">int</span>]:
+        current <span style="color: #666666">=</span> <span style="color: #008000">self</span>
+        <span style="color: #008000; font-weight: bold">while</span> current:
+            <span style="color: #008000; font-weight: bold">yield</span> current<span style="color: #666666">.</span>value
+            current <span style="color: #666666">=</span> current<span style="color: #666666">.</span>next
+
+<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">print_numbered</span>(items: Iterable[<span style="color: #008000">int</span>]) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:
+    <span style="color: #008000; font-weight: bold">for</span> n, x <span style="color: #AA22FF; font-weight: bold">in</span> <span style="color: #008000">enumerate</span>(items):
+        <span style="color: #008000">print</span>(n <span style="color: #666666">+</span> <span style="color: #666666">1</span>, x)
+
+x <span style="color: #666666">=</span> IntList(<span style="color: #666666">3</span>, IntList(<span style="color: #666666">5</span>, <span style="color: #008000; font-weight: bold">None</span>))
+print_numbered(x)  <span style="color: #3D7B7B; font-style: italic"># OK</span>
+print_numbered([<span style="color: #666666">4</span>, <span style="color: #666666">5</span>])  <span style="color: #3D7B7B; font-style: italic"># Also OK</span>
+</code></pre></div>
+<p><a href="#预定义协议参考"><code>预定义协议参考</code></a> 列出了 <a href="https://docs.python.org/3/library/typing.html#module-typing"><code>typing</code></a> 中定义的所有协议以及您需要定义以实现每个协议的相应方法的签名。</p>
+</div>
+<div class="tabbed-block">
+<p><strong>Predefined protocols</strong></p>
+<p>The <a href="https://docs.python.org/3/library/typing.html#module-typing"><code>typing</code></a> module defines various protocol classes that correspond to common Python protocols, such as <a href="https://docs.python.org/3/library/typing.html#typing.Iterable"><code>Iterable[T]</code></a>. If a class defines a suitable <a href="https://docs.python.org/3/reference/datamodel.html#object.__iter__"><code>__iter__</code></a> method, mypy understands that it implements the iterable protocol and is compatible with <a href="https://docs.python.org/3/library/typing.html#typing.Iterable"><code>Iterable[T]</code></a>. For example, <code>IntList</code> below is iterable, over <code>int</code> values:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">typing</span> <span style="color: #008000; font-weight: bold">import</span> Iterator, Iterable, Optional
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">IntList</span>:
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__init__</span>(<span style="color: #008000">self</span>, value: <span style="color: #008000">int</span>, <span style="color: #008000">next</span>: Optional[<span style="color: #BA2121">&#39;IntList&#39;</span>]) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:
+        <span style="color: #008000">self</span><span style="color: #666666">.</span>value <span style="color: #666666">=</span> value
+        <span style="color: #008000">self</span><span style="color: #666666">.</span>next <span style="color: #666666">=</span> <span style="color: #008000">next</span>
+
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__iter__</span>(<span style="color: #008000">self</span>) <span style="color: #666666">-&gt;</span> Iterator[<span style="color: #008000">int</span>]:
+        current <span style="color: #666666">=</span> <span style="color: #008000">self</span>
+        <span style="color: #008000; font-weight: bold">while</span> current:
+            <span style="color: #008000; font-weight: bold">yield</span> current<span style="color: #666666">.</span>value
+            current <span style="color: #666666">=</span> current<span style="color: #666666">.</span>next
+
+<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">print_numbered</span>(items: Iterable[<span style="color: #008000">int</span>]) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:
+    <span style="color: #008000; font-weight: bold">for</span> n, x <span style="color: #AA22FF; font-weight: bold">in</span> <span style="color: #008000">enumerate</span>(items):
+        <span style="color: #008000">print</span>(n <span style="color: #666666">+</span> <span style="color: #666666">1</span>, x)
+
+x <span style="color: #666666">=</span> IntList(<span style="color: #666666">3</span>, IntList(<span style="color: #666666">5</span>, <span style="color: #008000; font-weight: bold">None</span>))
+print_numbered(x)  <span style="color: #3D7B7B; font-style: italic"># OK</span>
+print_numbered([<span style="color: #666666">4</span>, <span style="color: #666666">5</span>])  <span style="color: #3D7B7B; font-style: italic"># Also OK</span>
+</code></pre></div>
+<p><a href="#预定义协议参考"><code>predefined_protocols_reference</code></a> lists all protocols defined in <a href="https://docs.python.org/3/library/typing.html#module-typing"><code>typing</code></a> and the signatures of the corresponding methods you need to define to implement each protocol.</p>
+</div>
+</div>
+</div>
+<h2 id="简单的自定义协议">简单的自定义协议<a class="headerlink" href="#简单的自定义协议" title="Permanent link">&para;</a></h2>
+<div class="tabbed-set tabbed-alternate" data-tabs="3:2"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><input id="__tabbed_3_2" name="__tabbed_3" type="radio" /><div class="tabbed-labels"><label for="__tabbed_3_1">中文</label><label for="__tabbed_3_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>您可以通过继承特殊的 <code>Protocol</code> 类来定义自己的协议类：</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">typing</span> <span style="color: #008000; font-weight: bold">import</span> Iterable
+<span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">typing_extensions</span> <span style="color: #008000; font-weight: bold">import</span> Protocol
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">SupportsClose</span>(Protocol):
+    <span style="color: #3D7B7B; font-style: italic">#空方法体 (explicit &#39;...&#39;)</span>
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">close</span>(<span style="color: #008000">self</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>: <span style="color: #666666">...</span>
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Resource</span>:  <span style="color: #3D7B7B; font-style: italic"># No SupportsClose base class!</span>
+
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">close</span>(<span style="color: #008000">self</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:
+        <span style="color: #008000">self</span><span style="color: #666666">.</span>resource<span style="color: #666666">.</span>release()
+
+    <span style="color: #3D7B7B; font-style: italic"># ... 其他方法 ...</span>
+
+<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">close_all</span>(items: Iterable[SupportsClose]) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:
+    <span style="color: #008000; font-weight: bold">for</span> item <span style="color: #AA22FF; font-weight: bold">in</span> items:
+        item<span style="color: #666666">.</span>close()
+
+close_all([Resource(), <span style="color: #008000">open</span>(<span style="color: #BA2121">&#39;some/file&#39;</span>)])  <span style="color: #3D7B7B; font-style: italic"># OK</span>
+</code></pre></div>
+<p><code>Resource</code> 是 <code>SupportsClose</code> 协议的子类型，因为它定义了兼容的 <code>close</code> 方法。 <a href="https://docs.python.org/3/library/functions.html#open"><code>open</code></a> 返回的常规文件对象同样与协议兼容，因为它们支持 <code>close()</code>。</p>
+</div>
+<div class="tabbed-block">
+<p><strong>Simple user-defined protocols</strong></p>
+<p>You can define your own protocol class by inheriting the special <code>Protocol</code> class:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">typing</span> <span style="color: #008000; font-weight: bold">import</span> Iterable
+<span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">typing_extensions</span> <span style="color: #008000; font-weight: bold">import</span> Protocol
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">SupportsClose</span>(Protocol):
+    <span style="color: #3D7B7B; font-style: italic"># Empty method body (explicit &#39;...&#39;)</span>
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">close</span>(<span style="color: #008000">self</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>: <span style="color: #666666">...</span>
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Resource</span>:  <span style="color: #3D7B7B; font-style: italic"># No SupportsClose base class!</span>
+
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">close</span>(<span style="color: #008000">self</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:
+    <span style="color: #008000">self</span><span style="color: #666666">.</span>resource<span style="color: #666666">.</span>release()
+
+    <span style="color: #3D7B7B; font-style: italic"># ... other methods ...</span>
+
+<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">close_all</span>(items: Iterable[SupportsClose]) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:
+    <span style="color: #008000; font-weight: bold">for</span> item <span style="color: #AA22FF; font-weight: bold">in</span> items:
+        item<span style="color: #666666">.</span>close()
+
+close_all([Resource(), <span style="color: #008000">open</span>(<span style="color: #BA2121">&#39;some/file&#39;</span>)])  <span style="color: #3D7B7B; font-style: italic"># OK</span>
+</code></pre></div>
+<p><code>Resource</code> is a subtype of the <code>SupportsClose</code> protocol since it defines a compatible <code>close</code> method. Regular file objects returned by <a href="https://docs.python.org/3/library/functions.html#open"><code>open</code></a> are similarly compatible with the protocol, as they support <code>close()</code>.</p>
+</div>
+</div>
+</div>
+<h2 id="定义子协议和子类化协议">定义子协议和子类化协议<a class="headerlink" href="#定义子协议和子类化协议" title="Permanent link">&para;</a></h2>
+<div class="tabbed-set tabbed-alternate" data-tabs="4:2"><input checked="checked" id="__tabbed_4_1" name="__tabbed_4" type="radio" /><input id="__tabbed_4_2" name="__tabbed_4" type="radio" /><div class="tabbed-labels"><label for="__tabbed_4_1">中文</label><label for="__tabbed_4_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>您还可以定义子协议。 可以使用多重继承来扩展和合并现有协议。 例子：</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #3D7B7B; font-style: italic"># ... 继续上一个示例</span>
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">SupportsRead</span>(Protocol):
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">read</span>(<span style="color: #008000">self</span>, amount: <span style="color: #008000">int</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000">bytes</span>: <span style="color: #666666">...</span>
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">TaggedReadableResource</span>(SupportsClose, SupportsRead, Protocol):
+    label: <span style="color: #008000">str</span>
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">AdvancedResource</span>(Resource):
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__init__</span>(<span style="color: #008000">self</span>, label: <span style="color: #008000">str</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:
+        <span style="color: #008000">self</span><span style="color: #666666">.</span>label <span style="color: #666666">=</span> label
+
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">read</span>(<span style="color: #008000">self</span>, amount: <span style="color: #008000">int</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000">bytes</span>:
+        <span style="color: #3D7B7B; font-style: italic"># some implementation</span>
+        <span style="color: #666666">...</span>
+
+resource: TaggedReadableResource
+resource <span style="color: #666666">=</span> AdvancedResource(<span style="color: #BA2121">&#39;handle with care&#39;</span>)  <span style="color: #3D7B7B; font-style: italic"># OK</span>
+</code></pre></div>
+<p>请注意，从现有协议继承不会自动将子类转换为协议 - 它只是创建一个实现给定协议（或多个协议）的常规（非协议）类或 ABC。 如果您定义协议，<mark class="critic"><strong>则 <code>Protocol</code> 基类必须始终显式存在</strong></mark>：</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">NotAProtocol</span>(SupportsClose):  <span style="color: #3D7B7B; font-style: italic"># 这不是一个协议</span>
+    new_attr: <span style="color: #008000">int</span>
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Concrete</span>:
+new_attr: <span style="color: #008000">int</span> <span style="color: #666666">=</span> <span style="color: #666666">0</span>
+
+<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">close</span>(<span style="color: #008000">self</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:
+    <span style="color: #666666">...</span>
+
+<span style="color: #3D7B7B; font-style: italic"># Error: nominal subtyping used by default</span>
+<span style="color: #3D7B7B; font-style: italic"># Error: 默认使用的名义子类型</span>
+x: NotAProtocol <span style="color: #666666">=</span> Concrete()  <span style="color: #3D7B7B; font-style: italic"># Error!</span>
+</code></pre></div>
+<p>您还可以在协议中包含方法的默认实现。 如果您明确地子类化这些协议，您可以继承这些默认实现。</p>
+<p>显式包含协议作为基类也是记录您的类实现特定协议的一种方式，并且它强制 mypy 验证您的类实现实际上与该协议兼容。 特别是，省略属性或方法体的值将使其隐式抽象：</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">SomeProto</span>(Protocol):
+    attr: <span style="color: #008000">int</span>  <span style="color: #3D7B7B; font-style: italic"># 注意，没有右手边 （Note, no right hand side）</span>
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">method</span>(<span style="color: #008000">self</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000">str</span>: <span style="color: #666666">...</span>  <span style="color: #3D7B7B; font-style: italic"># 从字面上看只是...这里 （Literally just ... here）</span>
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">ExplicitSubclass</span>(SomeProto):
+    <span style="color: #008000; font-weight: bold">pass</span>
+
+ExplicitSubclass()  <span style="color: #3D7B7B; font-style: italic"># error: Cannot instantiate abstract class &#39;ExplicitSubclass&#39;</span>
+                    <span style="color: #3D7B7B; font-style: italic"># with abstract attributes &#39;attr&#39; and &#39;method&#39;</span>
+                    <span style="color: #3D7B7B; font-style: italic"># error：无法使用抽象属性“attr”和“method”实例化抽象类“ExplicitSubclass”</span>
+</code></pre></div>
+<p>类似地，显式分配给协议实例可以是要求类型检查器验证您的类是否实现协议的一种方法：</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>_proto: SomeProto <span style="color: #666666">=</span> cast(ExplicitSubclass, <span style="color: #008000; font-weight: bold">None</span>)
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<p><strong>Defining subprotocols and subclassing protocols</strong></p>
+<p>You can also define subprotocols. Existing protocols can be extended
+and merged using multiple inheritance. Example:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #3D7B7B; font-style: italic"># ... continuing from the previous example</span>
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">SupportsRead</span>(Protocol):
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">read</span>(<span style="color: #008000">self</span>, amount: <span style="color: #008000">int</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000">bytes</span>: <span style="color: #666666">...</span>
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">TaggedReadableResource</span>(SupportsClose, SupportsRead, Protocol):
+    label: <span style="color: #008000">str</span>
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">AdvancedResource</span>(Resource):
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__init__</span>(<span style="color: #008000">self</span>, label: <span style="color: #008000">str</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:
+        <span style="color: #008000">self</span><span style="color: #666666">.</span>label <span style="color: #666666">=</span> label
+
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">read</span>(<span style="color: #008000">self</span>, amount: <span style="color: #008000">int</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000">bytes</span>:
+        <span style="color: #3D7B7B; font-style: italic"># some implementation</span>
+        <span style="color: #666666">...</span>
+
+resource: TaggedReadableResource
+resource <span style="color: #666666">=</span> AdvancedResource(<span style="color: #BA2121">&#39;handle with care&#39;</span>)  <span style="color: #3D7B7B; font-style: italic"># OK</span>
+</code></pre></div>
+<p>Note that inheriting from an existing protocol does not automatically
+turn the subclass into a protocol -- it just creates a regular
+(non-protocol) class or ABC that implements the given protocol (or
+protocols). The <code>Protocol</code> base class must always be explicitly
+present if you are defining a protocol:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">NotAProtocol</span>(SupportsClose):  <span style="color: #3D7B7B; font-style: italic"># This is NOT a protocol</span>
+    new_attr: <span style="color: #008000">int</span>
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Concrete</span>:
+new_attr: <span style="color: #008000">int</span> <span style="color: #666666">=</span> <span style="color: #666666">0</span>
+
+<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">close</span>(<span style="color: #008000">self</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:
+    <span style="color: #666666">...</span>
+
+<span style="color: #3D7B7B; font-style: italic"># Error: nominal subtyping used by default</span>
+x: NotAProtocol <span style="color: #666666">=</span> Concrete()  <span style="color: #3D7B7B; font-style: italic"># Error!</span>
+</code></pre></div>
+<p>You can also include default implementations of methods in
+protocols. If you explicitly subclass these protocols you can inherit
+these default implementations.</p>
+<p>Explicitly including a protocol as a
+base class is also a way of documenting that your class implements a
+particular protocol, and it forces mypy to verify that your class
+implementation is actually compatible with the protocol. In particular,
+omitting a value for an attribute or a method body will make it implicitly
+abstract:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">SomeProto</span>(Protocol):
+    attr: <span style="color: #008000">int</span>  <span style="color: #3D7B7B; font-style: italic"># Note, no right hand side</span>
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">method</span>(<span style="color: #008000">self</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000">str</span>: <span style="color: #666666">...</span>  <span style="color: #3D7B7B; font-style: italic"># Literally just ... here</span>
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">ExplicitSubclass</span>(SomeProto):
+    <span style="color: #008000; font-weight: bold">pass</span>
+
+ExplicitSubclass()  <span style="color: #3D7B7B; font-style: italic"># error: Cannot instantiate abstract class &#39;ExplicitSubclass&#39;</span>
+                    <span style="color: #3D7B7B; font-style: italic"># with abstract attributes &#39;attr&#39; and &#39;method&#39;</span>
+</code></pre></div>
+<p>Similarly, explicitly assigning to a protocol instance can be a way to ask the
+type checker to verify that your class implements a protocol:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>_proto: SomeProto <span style="color: #666666">=</span> cast(ExplicitSubclass, <span style="color: #008000; font-weight: bold">None</span>)
+</code></pre></div>
+</div>
+</div>
+</div>
+<h2 id="协议属性的不变性">协议属性的不变性<a class="headerlink" href="#协议属性的不变性" title="Permanent link">&para;</a></h2>
+<div class="tabbed-set tabbed-alternate" data-tabs="5:2"><input checked="checked" id="__tabbed_5_1" name="__tabbed_5" type="radio" /><input id="__tabbed_5_2" name="__tabbed_5" type="radio" /><div class="tabbed-labels"><label for="__tabbed_5_1">中文</label><label for="__tabbed_5_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>协议的一个常见问题是协议属性是不变的。 例如：</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Box</span>(Protocol):
+    content: <span style="color: #008000">object</span>
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">IntBox</span>:
+    content: <span style="color: #008000">int</span>
+
+<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">takes_box</span>(box: Box) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>: <span style="color: #666666">...</span>
+
+takes_box(IntBox())  <span style="color: #3D7B7B; font-style: italic"># error: Argument 1 to &quot;takes_box&quot; has incompatible type （不兼容类型） &quot;IntBox&quot;; expected &quot;Box&quot;</span>
+                    <span style="color: #3D7B7B; font-style: italic"># note:  Following member(s) of &quot;IntBox&quot; have conflicts:</span>
+                    <span style="color: #3D7B7B; font-style: italic"># note:      content: expected &quot;object&quot;, got &quot;int&quot;</span>
+</code></pre></div>
+<p>这是因为 <code>Box</code> 将 <code>content</code> 定义为可变属性。 这就是为什么这是有问题的：</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">takes_box_evil</span>(box: Box) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:
+    box<span style="color: #666666">.</span>content <span style="color: #666666">=</span> <span style="color: #BA2121">&quot;asdf&quot;</span>  <span style="color: #3D7B7B; font-style: italic"># 这很糟糕，因为 box.content 应该是一个对象</span>
+
+my_int_box <span style="color: #666666">=</span> IntBox()
+takes_box_evil(my_int_box)
+my_int_box<span style="color: #666666">.</span>content <span style="color: #666666">+</span> <span style="color: #666666">1</span>  <span style="color: #3D7B7B; font-style: italic"># Oops, TypeError!</span>
+</code></pre></div>
+<p>可以通过使用 <code>@property</code> 在 <code>Box</code> 协议中将 <code>content</code> 声明为只读来解决此问题：</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Box</span>(Protocol):
+    <span style="color: #AA22FF">@property</span>
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">content</span>(<span style="color: #008000">self</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000">object</span>: <span style="color: #666666">...</span>
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">IntBox</span>:
+    content: <span style="color: #008000">int</span>
+
+<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">takes_box</span>(box: Box) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>: <span style="color: #666666">...</span>
+
+takes_box(IntBox(<span style="color: #666666">42</span>))  <span style="color: #3D7B7B; font-style: italic"># OK</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<p><strong>Invariance of protocol attributes</strong></p>
+<p>A common issue with protocols is that protocol attributes are invariant.
+For example:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Box</span>(Protocol):
+    content: <span style="color: #008000">object</span>
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">IntBox</span>:
+    content: <span style="color: #008000">int</span>
+
+<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">takes_box</span>(box: Box) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>: <span style="color: #666666">...</span>
+
+takes_box(IntBox())  <span style="color: #3D7B7B; font-style: italic"># error: Argument 1 to &quot;takes_box&quot; has incompatible type &quot;IntBox&quot;; expected &quot;Box&quot;</span>
+                    <span style="color: #3D7B7B; font-style: italic"># note:  Following member(s) of &quot;IntBox&quot; have conflicts:</span>
+                    <span style="color: #3D7B7B; font-style: italic"># note:      content: expected &quot;object&quot;, got &quot;int&quot;</span>
+</code></pre></div>
+<p>This is because <code>Box</code> defines <code>content</code> as a mutable attribute.
+Here's why this is problematic:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">takes_box_evil</span>(box: Box) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:
+    box<span style="color: #666666">.</span>content <span style="color: #666666">=</span> <span style="color: #BA2121">&quot;asdf&quot;</span>  <span style="color: #3D7B7B; font-style: italic"># This is bad, since box.content is supposed to be an object</span>
+
+my_int_box <span style="color: #666666">=</span> IntBox()
+takes_box_evil(my_int_box)
+my_int_box<span style="color: #666666">.</span>content <span style="color: #666666">+</span> <span style="color: #666666">1</span>  <span style="color: #3D7B7B; font-style: italic"># Oops, TypeError!</span>
+</code></pre></div>
+<p>This can be fixed by declaring <code>content</code> to be read-only in the <code>Box</code>
+protocol using <code>@property</code>:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Box</span>(Protocol):
+    <span style="color: #AA22FF">@property</span>
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">content</span>(<span style="color: #008000">self</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000">object</span>: <span style="color: #666666">...</span>
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">IntBox</span>:
+    content: <span style="color: #008000">int</span>
+
+<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">takes_box</span>(box: Box) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>: <span style="color: #666666">...</span>
+
+takes_box(IntBox(<span style="color: #666666">42</span>))  <span style="color: #3D7B7B; font-style: italic"># OK</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<h2 id="递归协议">递归协议<a class="headerlink" href="#递归协议" title="Permanent link">&para;</a></h2>
+<div class="tabbed-set tabbed-alternate" data-tabs="6:2"><input checked="checked" id="__tabbed_6_1" name="__tabbed_6" type="radio" /><input id="__tabbed_6_2" name="__tabbed_6" type="radio" /><div class="tabbed-labels"><label for="__tabbed_6_1">中文</label><label for="__tabbed_6_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>协议可以是递归的（自引用）和相互递归的。 这对于声明抽象递归集合（例如树和链表）很有用：</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">typing</span> <span style="color: #008000; font-weight: bold">import</span> TypeVar, Optional
+<span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">typing_extensions</span> <span style="color: #008000; font-weight: bold">import</span> Protocol
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">TreeLike</span>(Protocol):
+    value: <span style="color: #008000">int</span>
+
+    <span style="color: #AA22FF">@property</span>
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">left</span>(<span style="color: #008000">self</span>) <span style="color: #666666">-&gt;</span> Optional[<span style="color: #BA2121">&#39;TreeLike&#39;</span>]: <span style="color: #666666">...</span>
+
+    <span style="color: #AA22FF">@property</span>
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">right</span>(<span style="color: #008000">self</span>) <span style="color: #666666">-&gt;</span> Optional[<span style="color: #BA2121">&#39;TreeLike&#39;</span>]: <span style="color: #666666">...</span>
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">SimpleTree</span>:
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__init__</span>(<span style="color: #008000">self</span>, value: <span style="color: #008000">int</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:
+        <span style="color: #008000">self</span><span style="color: #666666">.</span>value <span style="color: #666666">=</span> value
+        <span style="color: #008000">self</span><span style="color: #666666">.</span>left: Optional[<span style="color: #BA2121">&#39;SimpleTree&#39;</span>] <span style="color: #666666">=</span> <span style="color: #008000; font-weight: bold">None</span>
+        <span style="color: #008000">self</span><span style="color: #666666">.</span>right: Optional[<span style="color: #BA2121">&#39;SimpleTree&#39;</span>] <span style="color: #666666">=</span> <span style="color: #008000; font-weight: bold">None</span>
+
+root: TreeLike <span style="color: #666666">=</span> SimpleTree(<span style="color: #666666">0</span>)  <span style="color: #3D7B7B; font-style: italic"># OK</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<p><strong>Recursive protocols</strong></p>
+<p>Protocols can be recursive (self-referential) and mutually recursive. This is useful for declaring abstract recursive collections such as trees and linked lists:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">typing</span> <span style="color: #008000; font-weight: bold">import</span> TypeVar, Optional
+<span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">typing_extensions</span> <span style="color: #008000; font-weight: bold">import</span> Protocol
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">TreeLike</span>(Protocol):
+    value: <span style="color: #008000">int</span>
+
+    <span style="color: #AA22FF">@property</span>
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">left</span>(<span style="color: #008000">self</span>) <span style="color: #666666">-&gt;</span> Optional[<span style="color: #BA2121">&#39;TreeLike&#39;</span>]: <span style="color: #666666">...</span>
+
+    <span style="color: #AA22FF">@property</span>
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">right</span>(<span style="color: #008000">self</span>) <span style="color: #666666">-&gt;</span> Optional[<span style="color: #BA2121">&#39;TreeLike&#39;</span>]: <span style="color: #666666">...</span>
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">SimpleTree</span>:
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__init__</span>(<span style="color: #008000">self</span>, value: <span style="color: #008000">int</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:
+        <span style="color: #008000">self</span><span style="color: #666666">.</span>value <span style="color: #666666">=</span> value
+        <span style="color: #008000">self</span><span style="color: #666666">.</span>left: Optional[<span style="color: #BA2121">&#39;SimpleTree&#39;</span>] <span style="color: #666666">=</span> <span style="color: #008000; font-weight: bold">None</span>
+        <span style="color: #008000">self</span><span style="color: #666666">.</span>right: Optional[<span style="color: #BA2121">&#39;SimpleTree&#39;</span>] <span style="color: #666666">=</span> <span style="color: #008000; font-weight: bold">None</span>
+
+root: TreeLike <span style="color: #666666">=</span> SimpleTree(<span style="color: #666666">0</span>)  <span style="color: #3D7B7B; font-style: italic"># OK</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<h2 id="isinstance-和协议一起使用">isinstance() 和协议一起使用<a class="headerlink" href="#isinstance-和协议一起使用" title="Permanent link">&para;</a></h2>
+<div class="tabbed-set tabbed-alternate" data-tabs="7:2"><input checked="checked" id="__tabbed_7_1" name="__tabbed_7" type="radio" /><input id="__tabbed_7_2" name="__tabbed_7" type="radio" /><div class="tabbed-labels"><label for="__tabbed_7_1">中文</label><label for="__tabbed_7_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>如果使用<code>@runtime_checkable</code>类装饰器装饰协议类，则可以将其与 <a href="https://docs.python.org/3/library/functions.html#isinstance"><code>isinstance</code></a> 一起使用。 装饰器添加了对运行时结构检查的基本支持：</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">typing_extensions</span> <span style="color: #008000; font-weight: bold">import</span> Protocol, runtime_checkable
+
+<span style="color: #AA22FF">@runtime_checkable</span>
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Portable</span>(Protocol):
+    handles: <span style="color: #008000">int</span>
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Mug</span>:
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__init__</span>(<span style="color: #008000">self</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:
+        <span style="color: #008000">self</span><span style="color: #666666">.</span>handles <span style="color: #666666">=</span> <span style="color: #666666">1</span>
+
+<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">use</span>(handles: <span style="color: #008000">int</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>: <span style="color: #666666">...</span>
+
+mug <span style="color: #666666">=</span> Mug()
+<span style="color: #008000; font-weight: bold">if</span> <span style="color: #008000">isinstance</span>(mug, Portable):  <span style="color: #3D7B7B; font-style: italic"># Works at runtime!</span>
+use(mug<span style="color: #666666">.</span>handles)
+</code></pre></div>
+<p><a href="https://docs.python.org/3/library/functions.html#isinstance"><code>isinstance</code></a> 也适用于 <a href="#预定义协议参考"><code>预定义协议</code></a> 在 <a href="https://docs.python.org/3/library/typing.html#module-typing"><code>typing</code></a> 中，例如 <a href="https://docs.python.org/3/library/typing.html#typing.Iterable"><code>Iterable</code></a>。</p>
+<div class="admonition info">
+<p class="admonition-title">Warning</p>
+<p>使用协议的 <a href="https://docs.python.org/3/library/functions.html#isinstance"><code>isinstance</code></a> 在运行时并不完全安全。 例如，不检查方法的签名。 运行时实现仅检查所有协议成员是否存在，而不检查它们是否具有正确的类型。 使用协议的 <a href="https://docs.python.org/3/library/functions.html#issubclass"><code>issubclass</code></a> 只会检查方法是否存在。</p>
+</div>
+<div class="admonition info">
+<p class="admonition-title">Note</p>
+<p>使用协议的 <a href="https://docs.python.org/3/library/functions.html#isinstance"><code>isinstance</code></a> 也可能慢得惊人。 在许多情况下，使用 <a href="https://docs.python.org/3/library/functions.html#hasattr"><code>hasattr</code></a> 来检查属性是否存在会更好。</p>
+</div>
+</div>
+<div class="tabbed-block">
+<p><strong>Using isinstance() with protocols</strong></p>
+<p>You can use a protocol class with <a href="https://docs.python.org/3/library/functions.html#isinstance">isinstance()</a> if you decorate it with the @runtime_checkable class decorator. The decorator adds rudimentary support for runtime structural checks:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">typing_extensions</span> <span style="color: #008000; font-weight: bold">import</span> Protocol, runtime_checkable
+
+<span style="color: #AA22FF">@runtime_checkable</span>
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Portable</span>(Protocol):
+    handles: <span style="color: #008000">int</span>
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Mug</span>:
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__init__</span>(<span style="color: #008000">self</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:
+        <span style="color: #008000">self</span><span style="color: #666666">.</span>handles <span style="color: #666666">=</span> <span style="color: #666666">1</span>
+
+<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">use</span>(handles: <span style="color: #008000">int</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>: <span style="color: #666666">...</span>
+
+mug <span style="color: #666666">=</span> Mug()
+<span style="color: #008000; font-weight: bold">if</span> <span style="color: #008000">isinstance</span>(mug, Portable):  <span style="color: #3D7B7B; font-style: italic"># Works at runtime!</span>
+use(mug<span style="color: #666666">.</span>handles)
+</code></pre></div>
+<p><a href="https://docs.python.org/3/library/functions.html#isinstance">isinstance()</a> also works with the <a href="#预定义协议参考">predefined</a> protocols in <a href="https://docs.python.org/3/library/typing.html#module-typing">typing</a> such as <a href="https://docs.python.org/3/library/typing.html#typing.Iterable">Iterable</a>.</p>
+<div class="admonition info">
+<p class="admonition-title">Warning</p>
+<p>使用协议的 <a href="https://docs.python.org/3/library/functions.html#isinstance"><code>isinstance</code></a> 在运行时并不完全安全。 例如，不检查方法的签名。 运行时实现仅检查所有协议成员是否存在，而不检查它们是否具有正确的类型。 使用协议的 <a href="https://docs.python.org/3/library/functions.html#issubclass"><code>issubclass</code></a> 只会检查方法是否存在。</p>
+</div>
+<div class="admonition info">
+<p class="admonition-title">Note</p>
+<p>使用协议的 <a href="https://docs.python.org/3/library/functions.html#isinstance"><code>isinstance</code></a> 也可能慢得惊人。 在许多情况下，使用 <a href="https://docs.python.org/3/library/functions.html#hasattr"><code>hasattr</code></a> 来检查属性是否存在会更好。</p>
+</div>
+</div>
+</div>
+</div>
+<h2 id="回调协议">回调协议<a class="headerlink" href="#回调协议" title="Permanent link">&para;</a></h2>
+<div class="tabbed-set tabbed-alternate" data-tabs="8:2"><input checked="checked" id="__tabbed_8_1" name="__tabbed_8" type="radio" /><input id="__tabbed_8_2" name="__tabbed_8" type="radio" /><div class="tabbed-labels"><label for="__tabbed_8_1">中文</label><label for="__tabbed_8_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>协议可用于定义灵活的回调类型，这些类型很难（甚至不可能）使用 [<code>Callable[...]</code>](https://docs.python.org/3/library/typing.html#types.Callable）语法，例如可变参数、重载和复杂的泛型回调。 它们是用特殊的 <a href="https://docs.python.org/3/reference/datamodel.html#object.__call__"><code>__call__</code></a> 成员定义的：</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">typing</span> <span style="color: #008000; font-weight: bold">import</span> Optional, Iterable
+<span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">typing_extensions</span> <span style="color: #008000; font-weight: bold">import</span> Protocol
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Combiner</span>(Protocol):
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__call__</span>(<span style="color: #008000">self</span>, <span style="color: #666666">*</span>vals: <span style="color: #008000">bytes</span>, maxlen: Optional[<span style="color: #008000">int</span>] <span style="color: #666666">=</span> <span style="color: #008000; font-weight: bold">None</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000">list</span>[<span style="color: #008000">bytes</span>]: <span style="color: #666666">...</span>
+
+<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">batch_proc</span>(data: Iterable[<span style="color: #008000">bytes</span>], cb_results: Combiner) <span style="color: #666666">-&gt;</span> <span style="color: #008000">bytes</span>:
+    <span style="color: #008000; font-weight: bold">for</span> item <span style="color: #AA22FF; font-weight: bold">in</span> data:
+        <span style="color: #666666">...</span>
+
+<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">good_cb</span>(<span style="color: #666666">*</span>vals: <span style="color: #008000">bytes</span>, maxlen: Optional[<span style="color: #008000">int</span>] <span style="color: #666666">=</span> <span style="color: #008000; font-weight: bold">None</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000">list</span>[<span style="color: #008000">bytes</span>]:
+    <span style="color: #666666">...</span>
+<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">bad_cb</span>(<span style="color: #666666">*</span>vals: <span style="color: #008000">bytes</span>, maxitems: Optional[<span style="color: #008000">int</span>]) <span style="color: #666666">-&gt;</span> <span style="color: #008000">list</span>[<span style="color: #008000">bytes</span>]:
+    <span style="color: #666666">...</span>
+
+batch_proc([], good_cb)  <span style="color: #3D7B7B; font-style: italic"># OK</span>
+batch_proc([], bad_cb)   <span style="color: #3D7B7B; font-style: italic"># Error! Argument 2 has incompatible type because of</span>
+                        <span style="color: #3D7B7B; font-style: italic"># different name and kind in the callback</span>
+</code></pre></div>
+<p>回调协议和 <a href="https://docs.python.org/3/library/typing.html#typing.Callable"><code>typing.Callable</code></a> 大部分类型可以互换使用。 <a href="https://docs.python.org/3/reference/datamodel.html#object.__call__"><code>__call__</code></a> 方法中的参数名称必须相同，除非使用双下划线前缀。 例如：</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">typing</span> <span style="color: #008000; font-weight: bold">import</span> Callable, TypeVar
+<span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">typing_extensions</span> <span style="color: #008000; font-weight: bold">import</span> Protocol
+
+T <span style="color: #666666">=</span> TypeVar(<span style="color: #BA2121">&#39;T&#39;</span>)
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Copy</span>(Protocol):
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__call__</span>(<span style="color: #008000">self</span>, __origin: T) <span style="color: #666666">-&gt;</span> T: <span style="color: #666666">...</span>
+
+copy_a: Callable[[T], T]
+copy_b: Copy
+
+copy_a <span style="color: #666666">=</span> copy_b  <span style="color: #3D7B7B; font-style: italic"># OK</span>
+copy_b <span style="color: #666666">=</span> copy_a  <span style="color: #3D7B7B; font-style: italic"># Also OK</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<p><strong>Callback protocols</strong></p>
+<p>Protocols can be used to define flexible callback types that are hard (or even impossible) to express using the <a href="https://docs.python.org/3/library/typing.html#typing.Callable"><code>Callable[...]</code></a> syntax, such as variadic, overloaded, and complex generic callbacks. They are defined with a special <a href="https://docs.python.org/3/reference/datamodel.html#object.__call__"><code>__call__</code></a> member:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">typing</span> <span style="color: #008000; font-weight: bold">import</span> Optional, Iterable
+<span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">typing_extensions</span> <span style="color: #008000; font-weight: bold">import</span> Protocol
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Combiner</span>(Protocol):
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__call__</span>(<span style="color: #008000">self</span>, <span style="color: #666666">*</span>vals: <span style="color: #008000">bytes</span>, maxlen: Optional[<span style="color: #008000">int</span>] <span style="color: #666666">=</span> <span style="color: #008000; font-weight: bold">None</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000">list</span>[<span style="color: #008000">bytes</span>]: <span style="color: #666666">...</span>
+
+<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">batch_proc</span>(data: Iterable[<span style="color: #008000">bytes</span>], cb_results: Combiner) <span style="color: #666666">-&gt;</span> <span style="color: #008000">bytes</span>:
+    <span style="color: #008000; font-weight: bold">for</span> item <span style="color: #AA22FF; font-weight: bold">in</span> data:
+        <span style="color: #666666">...</span>
+
+<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">good_cb</span>(<span style="color: #666666">*</span>vals: <span style="color: #008000">bytes</span>, maxlen: Optional[<span style="color: #008000">int</span>] <span style="color: #666666">=</span> <span style="color: #008000; font-weight: bold">None</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000">list</span>[<span style="color: #008000">bytes</span>]:
+    <span style="color: #666666">...</span>
+<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">bad_cb</span>(<span style="color: #666666">*</span>vals: <span style="color: #008000">bytes</span>, maxitems: Optional[<span style="color: #008000">int</span>]) <span style="color: #666666">-&gt;</span> <span style="color: #008000">list</span>[<span style="color: #008000">bytes</span>]:
+    <span style="color: #666666">...</span>
+
+batch_proc([], good_cb)  <span style="color: #3D7B7B; font-style: italic"># OK</span>
+batch_proc([], bad_cb)   <span style="color: #3D7B7B; font-style: italic"># Error! Argument 2 has incompatible type because of</span>
+                        <span style="color: #3D7B7B; font-style: italic"># different name and kind in the callback</span>
+</code></pre></div>
+<p>Callback protocols and <a href="https://docs.python.org/3/library/typing.html#typing.Callable"><code>typing.Callable</code></a> types can be used mostly interchangeably. Argument names in <a href="https://docs.python.org/3/reference/datamodel.html#object.__call__"><code>__call__</code></a> methods must be identical, unless a double underscore prefix is used. For example:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">typing</span> <span style="color: #008000; font-weight: bold">import</span> Callable, TypeVar
+<span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">typing_extensions</span> <span style="color: #008000; font-weight: bold">import</span> Protocol
+
+T <span style="color: #666666">=</span> TypeVar(<span style="color: #BA2121">&#39;T&#39;</span>)
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Copy</span>(Protocol):
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__call__</span>(<span style="color: #008000">self</span>, __origin: T) <span style="color: #666666">-&gt;</span> T: <span style="color: #666666">...</span>
+
+copy_a: Callable[[T], T]
+copy_b: Copy
+
+copy_a <span style="color: #666666">=</span> copy_b  <span style="color: #3D7B7B; font-style: italic"># OK</span>
+copy_b <span style="color: #666666">=</span> copy_a  <span style="color: #3D7B7B; font-style: italic"># Also OK</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<h2 id="预定义协议参考">预定义协议参考<a class="headerlink" href="#预定义协议参考" title="Permanent link">&para;</a></h2>
+<h3 id="迭代协议">迭代协议<a class="headerlink" href="#迭代协议" title="Permanent link">&para;</a></h3>
+<p>Iteration protocols</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="9:2"><input checked="checked" id="__tabbed_9_1" name="__tabbed_9" type="radio" /><input id="__tabbed_9_2" name="__tabbed_9" type="radio" /><div class="tabbed-labels"><label for="__tabbed_9_1">中文</label><label for="__tabbed_9_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>迭代协议在许多情况下都很有用。 例如，它们允许在 for 循环中迭代对象。</p>
+</div>
+<div class="tabbed-block">
+<p>The iteration protocols are useful in many contexts. For example, they allow iteration of objects in for loops.</p>
+</div>
+</div>
+</div>
+<h4 id="可迭代泛型">可迭代泛型<a class="headerlink" href="#可迭代泛型" title="Permanent link">&para;</a></h4>
+<p>Iterable[T]</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="10:2"><input checked="checked" id="__tabbed_10_1" name="__tabbed_10" type="radio" /><input id="__tabbed_10_2" name="__tabbed_10" type="radio" /><div class="tabbed-labels"><label for="__tabbed_10_1">中文</label><label for="__tabbed_10_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p><a href="#预定义协议"><code>上面的例子</code></a>有一个 <a href="https://docs.python.org/3/reference/datamodel.html#object.__iter__"><code>__iter__</code></a> 方法的简单实现。</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__iter__</span>(<span style="color: #008000">self</span>) <span style="color: #666666">-&gt;</span> Iterator[T]
+</code></pre></div>
+<p>另请参阅<a href="https://docs.python.org/3/library/typing.html#typing.Iterable"><code>typing.Iterable</code></a>。</p>
+</div>
+<div class="tabbed-block">
+<p>The <a href="#预定义协议"><code>example above</code></a> has a simple implementation of an <a href="https://docs.python.org/3/reference/datamodel.html#object.__iter__"><code>__iter__</code></a> method.</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__iter__</span>(<span style="color: #008000">self</span>) <span style="color: #666666">-&gt;</span> Iterator[T]
+</code></pre></div>
+<p>See also <a href="https://docs.python.org/3/library/typing.html#typing.Iterable"><code>typing.Iterable</code></a>.</p>
+</div>
+</div>
+</div>
+<h4 id="迭代器泛型">迭代器泛型<a class="headerlink" href="#迭代器泛型" title="Permanent link">&para;</a></h4>
+<p>Iterator[T]</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="11:2"><input checked="checked" id="__tabbed_11_1" name="__tabbed_11" type="radio" /><input id="__tabbed_11_2" name="__tabbed_11" type="radio" /><div class="tabbed-labels"><label for="__tabbed_11_1">中文</label><label for="__tabbed_11_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__next__</span>(<span style="color: #008000">self</span>) <span style="color: #666666">-&gt;</span> T
+<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__iter__</span>(<span style="color: #008000">self</span>) <span style="color: #666666">-&gt;</span> Iterator[T]
+</code></pre></div>
+<p>也可以看看 <a href="https://docs.python.org/3/library/typing.html#typing.Iterator"><code>typing.Iterator</code></a>.</p>
+</div>
+<div class="tabbed-block">
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__next__</span>(<span style="color: #008000">self</span>) <span style="color: #666666">-&gt;</span> T
+<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__iter__</span>(<span style="color: #008000">self</span>) <span style="color: #666666">-&gt;</span> Iterator[T]
+</code></pre></div>
+<p>See also <a href="https://docs.python.org/3/library/typing.html#typing.Iterator"><code>typing.Iterator</code></a>.</p>
+</div>
+</div>
+</div>
+<h3 id="集合协议">集合协议<a class="headerlink" href="#集合协议" title="Permanent link">&para;</a></h3>
+<p>Collection protocols</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="12:2"><input checked="checked" id="__tabbed_12_1" name="__tabbed_12" type="radio" /><input id="__tabbed_12_2" name="__tabbed_12" type="radio" /><div class="tabbed-labels"><label for="__tabbed_12_1">中文</label><label for="__tabbed_12_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>其中许多是通过内置容器类型实现的，例如 <a href="https://docs.python.org/3/library/stdtypes.html#list"><code>list</code></a> 和 [<code>dict</code>](https:// docs.python.org/3/library/stdtypes.html#dict），这些对于用户定义的集合对象也很有用。</p>
+</div>
+<div class="tabbed-block">
+<p><strong>Collection protocols</strong></p>
+<p>Many of these are implemented by built-in container types such as <a href="https://docs.python.org/3/library/stdtypes.html#list"><code>list</code></a> and <a href="https://docs.python.org/3/library/stdtypes.html#dict"><code>dict</code></a>, and these are also useful for user-defined collection objects.</p>
+</div>
+</div>
+</div>
+<h4 id="sized">Sized<a class="headerlink" href="#sized" title="Permanent link">&para;</a></h4>
+<div class="tabbed-set tabbed-alternate" data-tabs="13:2"><input checked="checked" id="__tabbed_13_1" name="__tabbed_13" type="radio" /><input id="__tabbed_13_2" name="__tabbed_13" type="radio" /><div class="tabbed-labels"><label for="__tabbed_13_1">中文</label><label for="__tabbed_13_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>这是支持 <a href="https://docs.python.org/3/library/functions.html#len"><code>len(x)</code></a> 的对象类型。</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__len__</span>(<span style="color: #008000">self</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000">int</span>
+</code></pre></div>
+<p>也可以看看 <a href="https://docs.python.org/3/library/typing.html#typing.Sized"><code>typing.Sized</code></a>.</p>
+</div>
+<div class="tabbed-block">
+<p>This is a type for objects that support <a href="https://docs.python.org/3/library/functions.html#len"><code>len(x)</code></a>.</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__len__</span>(<span style="color: #008000">self</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000">int</span>
+</code></pre></div>
+<p>See also <a href="https://docs.python.org/3/library/typing.html#typing.Sized"><code>typing.Sized</code></a>.</p>
+</div>
+</div>
+</div>
+<h4 id="泛型容器">泛型容器<a class="headerlink" href="#泛型容器" title="Permanent link">&para;</a></h4>
+<p>Container[T]</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="14:2"><input checked="checked" id="__tabbed_14_1" name="__tabbed_14" type="radio" /><input id="__tabbed_14_2" name="__tabbed_14" type="radio" /><div class="tabbed-labels"><label for="__tabbed_14_1">中文</label><label for="__tabbed_14_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>这是支持 <code>in</code> 运算符的对象类型。</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__contains__</span>(<span style="color: #008000">self</span>, x: <span style="color: #008000">object</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000">bool</span>
+</code></pre></div>
+<p>同样参考 <a href="https://docs.python.org/3/library/typing.html#typing.Container"><code>Container</code></a>.</p>
+</div>
+<div class="tabbed-block">
+<p>This is a type for objects that support the <code>in</code> operator.</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__contains__</span>(<span style="color: #008000">self</span>, x: <span style="color: #008000">object</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000">bool</span>
+</code></pre></div>
+<p>See also <a href="https://docs.python.org/3/library/typing.html#typing.Container"><code>Container</code></a>.</p>
+</div>
+</div>
+</div>
+<h4 id="集合泛型">集合泛型<a class="headerlink" href="#集合泛型" title="Permanent link">&para;</a></h4>
+<p>Collection[T]</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="15:2"><input checked="checked" id="__tabbed_15_1" name="__tabbed_15" type="radio" /><input id="__tabbed_15_2" name="__tabbed_15" type="radio" /><div class="tabbed-labels"><label for="__tabbed_15_1">中文</label><label for="__tabbed_15_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__len__</span>(<span style="color: #008000">self</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000">int</span>
+<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__iter__</span>(<span style="color: #008000">self</span>) <span style="color: #666666">-&gt;</span> Iterator[T]
+<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__contains__</span>(<span style="color: #008000">self</span>, x: <span style="color: #008000">object</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000">bool</span>
+</code></pre></div>
+<p>同样参考 <a href="https://docs.python.org/3/library/typing.html#typing.Collection"><code>Collection</code></a>.</p>
+</div>
+<div class="tabbed-block">
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__len__</span>(<span style="color: #008000">self</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000">int</span>
+<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__iter__</span>(<span style="color: #008000">self</span>) <span style="color: #666666">-&gt;</span> Iterator[T]
+<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__contains__</span>(<span style="color: #008000">self</span>, x: <span style="color: #008000">object</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000">bool</span>
+</code></pre></div>
+<p>See also <a href="https://docs.python.org/3/library/typing.html#typing.Collection"><code>Collection</code></a>.</p>
+</div>
+</div>
+</div>
+<h3 id="一次性协议">一次性协议<a class="headerlink" href="#一次性协议" title="Permanent link">&para;</a></h3>
+<p>One-off protocols</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="16:2"><input checked="checked" id="__tabbed_16_1" name="__tabbed_16" type="radio" /><input id="__tabbed_16_2" name="__tabbed_16" type="radio" /><div class="tabbed-labels"><label for="__tabbed_16_1">中文</label><label for="__tabbed_16_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>这些协议通常仅适用于单个标准库函数或类。</p>
+</div>
+<div class="tabbed-block">
+<p>These protocols are typically only useful with a single standard library function or class.</p>
+</div>
+</div>
+</div>
+<h4 id="倒序泛型">倒序泛型<a class="headerlink" href="#倒序泛型" title="Permanent link">&para;</a></h4>
+<p>Reversible[T]</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="17:2"><input checked="checked" id="__tabbed_17_1" name="__tabbed_17" type="radio" /><input id="__tabbed_17_2" name="__tabbed_17" type="radio" /><div class="tabbed-labels"><label for="__tabbed_17_1">中文</label><label for="__tabbed_17_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>这是支持 <a href="https://docs.python.org/3/library/functions.html#reversed"><code>reversed(x)</code></a> 的对象类型。</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__reversed__</span>(<span style="color: #008000">self</span>) <span style="color: #666666">-&gt;</span> Iterator[T]
+</code></pre></div>
+<p>同样参考 <a href="https://docs.python.org/3/library/typing.html#typing.Reversible"><code>Reversible</code></a>.</p>
+</div>
+<div class="tabbed-block">
+<p>This is a type for objects that support <a href="https://docs.python.org/3/library/functions.html#reversed"><code>reversed(x)</code></a>.</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__reversed__</span>(<span style="color: #008000">self</span>) <span style="color: #666666">-&gt;</span> Iterator[T]
+</code></pre></div>
+<p>See also <a href="https://docs.python.org/3/library/typing.html#typing.Reversible"><code>Reversible</code></a>.</p>
+</div>
+</div>
+</div>
+<h4 id="绝对值泛型">绝对值泛型<a class="headerlink" href="#绝对值泛型" title="Permanent link">&para;</a></h4>
+<p>SupportsAbs[T]</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="18:2"><input checked="checked" id="__tabbed_18_1" name="__tabbed_18" type="radio" /><input id="__tabbed_18_2" name="__tabbed_18" type="radio" /><div class="tabbed-labels"><label for="__tabbed_18_1">中文</label><label for="__tabbed_18_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>这是支持 <a href="https://docs.python.org/3/library/functions.html#abs"><code>abs(x)</code></a> 的对象类型。 <code>T</code> 是 <a href="https://docs.python.org/3/library/functions.html#abs"><code>abs(x)</code></a> 返回的值的类型。</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__abs__</span>(<span style="color: #008000">self</span>) <span style="color: #666666">-&gt;</span> T
+</code></pre></div>
+<p>同样参考 <a href="https://docs.python.org/3/library/typing.html#typing.SupportsAbs"><code>SupportsAbs</code></a>.</p>
+</div>
+<div class="tabbed-block">
+<p>This is a type for objects that support <a href="https://docs.python.org/3/library/functions.html#abs"><code>abs(x)</code></a>. <code>T</code> is the type of value returned by <a href="https://docs.python.org/3/library/functions.html#abs"><code>abs(x)</code></a>.</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__abs__</span>(<span style="color: #008000">self</span>) <span style="color: #666666">-&gt;</span> T
+</code></pre></div>
+<p>See also <a href="https://docs.python.org/3/library/typing.html#typing.SupportsAbs"><code>SupportsAbs</code></a>.</p>
+</div>
+</div>
+</div>
+<h4 id="支持字节">支持字节<a class="headerlink" href="#支持字节" title="Permanent link">&para;</a></h4>
+<p>SupportsBytes</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="19:2"><input checked="checked" id="__tabbed_19_1" name="__tabbed_19" type="radio" /><input id="__tabbed_19_2" name="__tabbed_19" type="radio" /><div class="tabbed-labels"><label for="__tabbed_19_1">中文</label><label for="__tabbed_19_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>这是支持 <a href="https://docs.python.org/3/library/stdtypes.html#bytes"><code>bytes(x)</code></a> 的对象类型。</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__bytes__</span>(<span style="color: #008000">self</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000">bytes</span>
+</code></pre></div>
+<p>另请参阅 <a href="https://docs.python.org/3/library/typing.html#typing.SupportsBytes"><code>SupportsBytes</code></a>。</p>
+</div>
+<div class="tabbed-block">
+<p>This is a type for objects that support <a href="https://docs.python.org/3/library/stdtypes.html#bytes"><code>bytes(x)</code></a>.</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__bytes__</span>(<span style="color: #008000">self</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000">bytes</span>
+</code></pre></div>
+<p>See also <a href="https://docs.python.org/3/library/typing.html#typing.SupportsBytes"><code>SupportsBytes</code></a>.</p>
+</div>
+</div>
+</div>
+<h4 id="支持复数">支持复数<a class="headerlink" href="#支持复数" title="Permanent link">&para;</a></h4>
+<p>SupportsComplex</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="20:2"><input checked="checked" id="__tabbed_20_1" name="__tabbed_20" type="radio" /><input id="__tabbed_20_2" name="__tabbed_20" type="radio" /><div class="tabbed-labels"><label for="__tabbed_20_1">中文</label><label for="__tabbed_20_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>这是支持 <a href="https://docs.python.org/3/library/functions.html#complex"><code>complex(x)</code></a> 的对象类型。 请注意，不支持算术运算。</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__complex__</span>(<span style="color: #008000">self</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000">complex</span>
+</code></pre></div>
+<p>另请参阅 <a href="https://docs.python.org/3/library/typing.html#typing.SupportsComplex"><code>SupportsComplex</code></a>.</p>
+</div>
+<div class="tabbed-block">
+<p>This is a type for objects that support <a href="https://docs.python.org/3/library/functions.html#complex"><code>complex(x)</code></a>. Note that no arithmetic operations are supported.</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__complex__</span>(<span style="color: #008000">self</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000">complex</span>
+</code></pre></div>
+<p>See also <a href="https://docs.python.org/3/library/typing.html#typing.SupportsComplex"><code>SupportsComplex</code></a>.</p>
+</div>
+</div>
+</div>
+<h4 id="支持浮点数">支持浮点数<a class="headerlink" href="#支持浮点数" title="Permanent link">&para;</a></h4>
+<p>SupportsFloat</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="21:2"><input checked="checked" id="__tabbed_21_1" name="__tabbed_21" type="radio" /><input id="__tabbed_21_2" name="__tabbed_21" type="radio" /><div class="tabbed-labels"><label for="__tabbed_21_1">中文</label><label for="__tabbed_21_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>这是支持 <a href="https://docs.python.org/3/library/functions.html#float"><code>float(x)</code></a> 的对象类型。 请注意，不支持算术运算。</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__float__</span>(<span style="color: #008000">self</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000">float</span>
+</code></pre></div>
+<p>另请参阅 <a href="https://docs.python.org/3/library/typing.html#typing.SupportsFloat"><code>SupportsFloat</code></a>.</p>
+</div>
+<div class="tabbed-block">
+<p>This is a type for objects that support <a href="https://docs.python.org/3/library/functions.html#float"><code>float(x)</code></a>. Note that no arithmetic operations are supported.</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__float__</span>(<span style="color: #008000">self</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000">float</span>
+</code></pre></div>
+<p>See also <a href="https://docs.python.org/3/library/typing.html#typing.SupportsFloat"><code>SupportsFloat</code></a>.</p>
+</div>
+</div>
+</div>
+<h4 id="支持整数">支持整数<a class="headerlink" href="#支持整数" title="Permanent link">&para;</a></h4>
+<p>SupportsInt</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="22:2"><input checked="checked" id="__tabbed_22_1" name="__tabbed_22" type="radio" /><input id="__tabbed_22_2" name="__tabbed_22" type="radio" /><div class="tabbed-labels"><label for="__tabbed_22_1">中文</label><label for="__tabbed_22_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>这是支持 <a href="https://docs.python.org/3/library/functions.html#int"><code>int(x)</code></a> 的对象类型。 请注意，不支持算术运算。</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__int__</span>(<span style="color: #008000">self</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000">int</span>
+</code></pre></div>
+<p>另请参阅 <a href="https://docs.python.org/3/library/typing.html#typing.SupportsInt"><code>SupportsInt</code></a>.</p>
+</div>
+<div class="tabbed-block">
+<p>This is a type for objects that support <a href="https://docs.python.org/3/library/functions.html#int"><code>int(x)</code></a>. Note that no arithmetic operations are supported.</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__int__</span>(<span style="color: #008000">self</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000">int</span>
+</code></pre></div>
+<p>See also <a href="https://docs.python.org/3/library/typing.html#typing.SupportsInt"><code>SupportsInt</code></a>.</p>
+</div>
+</div>
+</div>
+<h4 id="支持round泛型">支持Round泛型<a class="headerlink" href="#支持round泛型" title="Permanent link">&para;</a></h4>
+<p>SupportsRound[T]</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="23:2"><input checked="checked" id="__tabbed_23_1" name="__tabbed_23" type="radio" /><input id="__tabbed_23_2" name="__tabbed_23" type="radio" /><div class="tabbed-labels"><label for="__tabbed_23_1">中文</label><label for="__tabbed_23_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>这是支持 <a href="https://docs.python.org/3/library/functions.html#round"><code>round(x)</code></a> 的对象类型。</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__round__</span>(<span style="color: #008000">self</span>) <span style="color: #666666">-&gt;</span> T
+</code></pre></div>
+<p>另请参阅 <a href="https://docs.python.org/3/library/typing.html#typing.SupportsRound"><code>SupportsRound</code></a>.</p>
+</div>
+<div class="tabbed-block">
+<p>This is a type for objects that support <a href="https://docs.python.org/3/library/functions.html#round"><code>round(x)</code></a>.</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__round__</span>(<span style="color: #008000">self</span>) <span style="color: #666666">-&gt;</span> T
+</code></pre></div>
+<p>See also <a href="https://docs.python.org/3/library/typing.html#typing.SupportsRound"><code>SupportsRound</code></a>.</p>
+</div>
+</div>
+</div>
+<h3 id="异步协议">异步协议<a class="headerlink" href="#异步协议" title="Permanent link">&para;</a></h3>
+<p>Async protocols</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="24:2"><input checked="checked" id="__tabbed_24_1" name="__tabbed_24" type="radio" /><input id="__tabbed_24_2" name="__tabbed_24" type="radio" /><div class="tabbed-labels"><label for="__tabbed_24_1">中文</label><label for="__tabbed_24_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>这些协议在异步代码中很有用。 请参阅 <a href="../more_types/"><code>async-and-await</code></a> 了解更多信息。</p>
+</div>
+<div class="tabbed-block">
+<p>These protocols can be useful in async code. See <a href="../more_types/"><code>async-and-await</code></a> for more information.</p>
+</div>
+</div>
+</div>
+<h4 id="可等待泛型对象">可等待泛型对象<a class="headerlink" href="#可等待泛型对象" title="Permanent link">&para;</a></h4>
+<p>Awaitable[T]</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="25:2"><input checked="checked" id="__tabbed_25_1" name="__tabbed_25" type="radio" /><input id="__tabbed_25_2" name="__tabbed_25" type="radio" /><div class="tabbed-labels"><label for="__tabbed_25_1">中文</label><label for="__tabbed_25_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__await__</span>(<span style="color: #008000">self</span>) <span style="color: #666666">-&gt;</span> Generator[Any, <span style="color: #008000; font-weight: bold">None</span>, T]
+</code></pre></div>
+<p>另请参阅 <a href="https://docs.python.org/3/library/typing.html#typing.Awaitable"><code>Awaitable</code></a>.</p>
+</div>
+<div class="tabbed-block">
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__await__</span>(<span style="color: #008000">self</span>) <span style="color: #666666">-&gt;</span> Generator[Any, <span style="color: #008000; font-weight: bold">None</span>, T]
+</code></pre></div>
+<p>See also <a href="https://docs.python.org/3/library/typing.html#typing.Awaitable"><code>Awaitable</code></a>.</p>
+</div>
+</div>
+</div>
+<h4 id="异步可迭代泛型对象">异步可迭代泛型对象<a class="headerlink" href="#异步可迭代泛型对象" title="Permanent link">&para;</a></h4>
+<p>AsyncIterable[T]</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="26:2"><input checked="checked" id="__tabbed_26_1" name="__tabbed_26" type="radio" /><input id="__tabbed_26_2" name="__tabbed_26" type="radio" /><div class="tabbed-labels"><label for="__tabbed_26_1">中文</label><label for="__tabbed_26_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__aiter__</span>(<span style="color: #008000">self</span>) <span style="color: #666666">-&gt;</span> AsyncIterator[T]
+</code></pre></div>
+<p>另请参阅 <a href="https://docs.python.org/3/library/typing.html#typing.AsyncIterable"><code>AsyncIterable</code></a>.</p>
+</div>
+<div class="tabbed-block">
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__aiter__</span>(<span style="color: #008000">self</span>) <span style="color: #666666">-&gt;</span> AsyncIterator[T]
+</code></pre></div>
+<p>See also <a href="https://docs.python.org/3/library/typing.html#typing.AsyncIterable"><code>AsyncIterable</code></a>.</p>
+</div>
+</div>
+</div>
+<h4 id="异步迭代器泛型对象">异步迭代器泛型对象<a class="headerlink" href="#异步迭代器泛型对象" title="Permanent link">&para;</a></h4>
+<p>AsyncIterator[T]</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="27:2"><input checked="checked" id="__tabbed_27_1" name="__tabbed_27" type="radio" /><input id="__tabbed_27_2" name="__tabbed_27" type="radio" /><div class="tabbed-labels"><label for="__tabbed_27_1">中文</label><label for="__tabbed_27_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__anext__</span>(<span style="color: #008000">self</span>) <span style="color: #666666">-&gt;</span> Awaitable[T]
+<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__aiter__</span>(<span style="color: #008000">self</span>) <span style="color: #666666">-&gt;</span> AsyncIterator[T]
+</code></pre></div>
+<p>另请参阅 <a href="https://docs.python.org/3/library/typing.html#typing.AsyncIterator"><code>AsyncIterator</code></a>.</p>
+</div>
+<div class="tabbed-block">
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__anext__</span>(<span style="color: #008000">self</span>) <span style="color: #666666">-&gt;</span> Awaitable[T]
+<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__aiter__</span>(<span style="color: #008000">self</span>) <span style="color: #666666">-&gt;</span> AsyncIterator[T]
+</code></pre></div>
+<p>See also <a href="https://docs.python.org/3/library/typing.html#typing.AsyncIterator"><code>AsyncIterator</code></a>.</p>
+</div>
+</div>
+</div>
+<h3 id="上下文管理器协议">上下文管理器协议<a class="headerlink" href="#上下文管理器协议" title="Permanent link">&para;</a></h3>
+<p>Context manager protocols</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="28:2"><input checked="checked" id="__tabbed_28_1" name="__tabbed_28" type="radio" /><input id="__tabbed_28_2" name="__tabbed_28" type="radio" /><div class="tabbed-labels"><label for="__tabbed_28_1">中文</label><label for="__tabbed_28_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>上下文管理器有两种协议——一种用于常规上下文管理器，另一种用于异步上下文管理器。 这些允许定义可在<code>with</code>和<code>async with</code>语句中使用的对象。</p>
+</div>
+<div class="tabbed-block">
+<p>There are two protocols for context managers -- one for regular context managers and one for async ones. These allow defining objects that can be used in <code>with</code> and <code>async with</code> statements.</p>
+</div>
+</div>
+</div>
+<h4 id="上下文管理器泛型">上下文管理器泛型<a class="headerlink" href="#上下文管理器泛型" title="Permanent link">&para;</a></h4>
+<p>ContextManager[T]</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="29:2"><input checked="checked" id="__tabbed_29_1" name="__tabbed_29" type="radio" /><input id="__tabbed_29_2" name="__tabbed_29" type="radio" /><div class="tabbed-labels"><label for="__tabbed_29_1">中文</label><label for="__tabbed_29_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__enter__</span>(<span style="color: #008000">self</span>) <span style="color: #666666">-&gt;</span> T
+<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__exit__</span>(<span style="color: #008000">self</span>,
+            exc_type: Optional[Type[<span style="color: #CB3F38; font-weight: bold">BaseException</span>]],
+            exc_value: Optional[<span style="color: #CB3F38; font-weight: bold">BaseException</span>],
+            traceback: Optional[TracebackType]) <span style="color: #666666">-&gt;</span> Optional[<span style="color: #008000">bool</span>]
+</code></pre></div>
+<p>另请参阅 <a href="https://docs.python.org/3/library/typing.html#typing.ContextManager"><code>ContextManager</code></a>.</p>
+</div>
+<div class="tabbed-block">
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__enter__</span>(<span style="color: #008000">self</span>) <span style="color: #666666">-&gt;</span> T
+<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__exit__</span>(<span style="color: #008000">self</span>,
+            exc_type: Optional[Type[<span style="color: #CB3F38; font-weight: bold">BaseException</span>]],
+            exc_value: Optional[<span style="color: #CB3F38; font-weight: bold">BaseException</span>],
+            traceback: Optional[TracebackType]) <span style="color: #666666">-&gt;</span> Optional[<span style="color: #008000">bool</span>]
+</code></pre></div>
+<p>See also <a href="https://docs.python.org/3/library/typing.html#typing.ContextManager"><code>ContextManager</code></a>.</p>
+</div>
+</div>
+</div>
+<h4 id="异步上下文泛型管理器">异步上下文泛型管理器<a class="headerlink" href="#异步上下文泛型管理器" title="Permanent link">&para;</a></h4>
+<p>AsyncContextManager[T]</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="30:2"><input checked="checked" id="__tabbed_30_1" name="__tabbed_30" type="radio" /><input id="__tabbed_30_2" name="__tabbed_30" type="radio" /><div class="tabbed-labels"><label for="__tabbed_30_1">中文</label><label for="__tabbed_30_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__aenter__</span>(<span style="color: #008000">self</span>) <span style="color: #666666">-&gt;</span> Awaitable[T]
+<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__aexit__</span>(<span style="color: #008000">self</span>,
+            exc_type: Optional[Type[<span style="color: #CB3F38; font-weight: bold">BaseException</span>]],
+            exc_value: Optional[<span style="color: #CB3F38; font-weight: bold">BaseException</span>],
+            traceback: Optional[TracebackType]) <span style="color: #666666">-&gt;</span> Awaitable[Optional[<span style="color: #008000">bool</span>]]
+</code></pre></div>
+<p>另请参阅 <a href="https://docs.python.org/3/library/typing.html#typing.AsyncContextManager"><code>AsyncContextManager</code></a>。</p>
+</div>
+<div class="tabbed-block">
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__aenter__</span>(<span style="color: #008000">self</span>) <span style="color: #666666">-&gt;</span> Awaitable[T]
+<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__aexit__</span>(<span style="color: #008000">self</span>,
+            exc_type: Optional[Type[<span style="color: #CB3F38; font-weight: bold">BaseException</span>]],
+            exc_value: Optional[<span style="color: #CB3F38; font-weight: bold">BaseException</span>],
+            traceback: Optional[TracebackType]) <span style="color: #666666">-&gt;</span> Awaitable[Optional[<span style="color: #008000">bool</span>]]
+</code></pre></div>
+<p>See also <a href="https://docs.python.org/3/library/typing.html#typing.AsyncContextManager"><code>AsyncContextManager</code></a>.</p>
+</div>
+</div>
+</div>
+
+  <hr>
+<div class="md-source-file">
+  <small>
+    
+      最后更新:
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2024年9月4日</span>
+      
+        <br>
+        创建日期:
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2024年9月4日</span>
+      
+    
+  </small>
+</div>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var tab,labels=set.querySelector(".tabbed-labels");for(tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["header.autohide", "navigation.top", "navigation.tabs", "navigation.tabs.sticky", "navigation.path", "content.tabs.link", "content.code.copy", "content.tooltips", "navigation.indexes", "navigation.prune", "navigation.instant"], "search": "../../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": {"provider": "mike"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.94c44541.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  <script>document$.subscribe(() => {const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});})</script></body>
+</html>

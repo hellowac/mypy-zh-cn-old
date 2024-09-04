@@ -1,0 +1,2143 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="hellowac-类型检查">
+      
+      
+      
+      
+        <link rel="prev" href="../kind_of_types/">
+      
+      
+        <link rel="next" href="../annotation_issue_at_runtime/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.4">
+    
+    
+      
+        <title>类的基础 - mypy类型检查</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.bd3936ea.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.356b1318.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+   <link href="../../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+        html.glightbox-open { overflow: initial; height: 100%; }
+        .gslide-title { margin-top: 0px; user-select: text; }
+        .gslide-desc { color: #666; user-select: text; }
+        .gslide-image img { background: white; }
+        
+            .gscrollbar-fixer { padding-right: 15px; }
+            .gdesc-inner { font-size: 0.75rem; }
+            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
+            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
+            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}
+            </style> <script src="../../assets/javascripts/glightbox.min.js"></script></head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="blue">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#类基础" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+        
+          <aside class="md-banner md-banner--warning">
+            <div class="md-banner__inner md-grid md-typeset">
+              
+你当前浏览的版本已不是最新版本，
+<a href="../../..">
+    <strong>点击这里</strong>
+</a>查看最新版本的文档
+
+            </div>
+            <script>var el=document.querySelector("[data-md-component=outdated]"),outdated=__md_get("__outdated",sessionStorage);!0===outdated&&el&&(el.hidden=!1)</script>
+          </aside>
+        
+      </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="mypy类型检查" class="md-header__button md-logo" aria-label="mypy类型检查" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            mypy类型检查
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              类的基础
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/hellowac/mypy-zh-cn" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    hellowac/myppy-zh-cn
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../" class="md-tabs__link">
+          
+  
+    
+  
+  第一步
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../builtin_types/" class="md-tabs__link">
+          
+  
+    
+  
+  类型系统参考
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../mypy_conf/" class="md-tabs__link">
+          
+  
+    
+  
+  配置和运行mypy
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../mypy_other/" class="md-tabs__link">
+          
+  
+    
+  
+  其他杂项
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="mypy类型检查" class="md-nav__button md-logo" aria-label="mypy类型检查" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    mypy类型检查
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/hellowac/mypy-zh-cn" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    hellowac/myppy-zh-cn
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    第一步
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_1" id="__nav_1_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            第一步
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cheat_sheet_py3/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    类型提示备忘录
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../existing_code/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    将 mypy 与现有代码库结合使用
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    类型系统参考
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            类型系统参考
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../builtin_types/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    内置类型
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../type_inference_type_annotations/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    类型推断和类型注解
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../kind_of_types/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    类型种类
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    类的基础
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    类的基础
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#实例和类属性" class="md-nav__link">
+    实例和类属性
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#注解-__init__-方法" class="md-nav__link">
+    注解 __init__ 方法
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#类属性注解" class="md-nav__link">
+    类属性注解
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#重写静态类型方法" class="md-nav__link">
+    重写静态类型方法
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#抽象基类和多重继承" class="md-nav__link">
+    抽象基类和多重继承
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#slots" class="md-nav__link">
+    Slots
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../annotation_issue_at_runtime/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    运行时的注解问题
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../protocol_and_struct_subtyping/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    协议及其子类型
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dynamic_typing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    动态类型
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../type_narrowing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    类型收缩
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../duck_type_compatibility/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    鸭子类型兼容
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../stub_files/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    存根文件
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../generics/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    泛型
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../more_types/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    更多类型
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../literal_and_enum/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    字面量和枚举
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../typeddict/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    类型字典
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../final_names_methods_classes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    最终名称、方法和类
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../metaclasses/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    元类
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../mypy_conf/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    配置和运行mypy
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            配置和运行mypy
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/running_mypy.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    运行mypy和管理导入
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/command_line.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    mypy命令行
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/config_file.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    mypy配置文件
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/inline_config.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    内联配置
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/mypy_daemon.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    mypy服务(守护进程)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/installed_packages.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    使用安装包
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/extending_mypy.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    扩展和集成 mypy
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/stubgen.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    自动存根生成
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/stubtest.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    自动存根测试
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../mypy_other/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    其他杂项
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            其他杂项
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/common_issues.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    常见问题及解决办法
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/supported_python_features.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    支持的 Python 特性
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/error_codes.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    错误码
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/error_code_list.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    默认启用的错误码
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/error_code_list2.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    可选检查的错误代码
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/additional_features.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    额外特性
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/faq.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    常见问题解答
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/python/mypy" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    项目地址
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy-lang.org/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    网页地址
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#实例和类属性" class="md-nav__link">
+    实例和类属性
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#注解-__init__-方法" class="md-nav__link">
+    注解 __init__ 方法
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#类属性注解" class="md-nav__link">
+    类属性注解
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#重写静态类型方法" class="md-nav__link">
+    重写静态类型方法
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#抽象基类和多重继承" class="md-nav__link">
+    抽象基类和多重继承
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#slots" class="md-nav__link">
+    Slots
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="类基础">类基础<a class="headerlink" href="#类基础" title="Permanent link">&para;</a></h1>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">中文</label><label for="__tabbed_1_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>本节将帮助您开始为类添加注解。 诸如 “int” 之类的内置类也遵循这些相同的规则。</p>
+</div>
+<div class="tabbed-block">
+<p><strong>Class basics</strong></p>
+<p>This section will help get you started annotating your classes. Built-in classes such as <code>int</code> also follow these same rules.</p>
+</div>
+</div>
+</div>
+<h2 id="实例和类属性">实例和类属性<a class="headerlink" href="#实例和类属性" title="Permanent link">&para;</a></h2>
+<div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">中文</label><label for="__tabbed_2_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>mypy 类型检查器会检测您是否尝试访问丢失的属性，这是一个非常常见的编程错误。 为了使其正常工作，必须在类中定义或初始化实例和类属性。 Mypy 推断属性的类型：</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">A</span>:
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__init__</span>(<span style="color: #008000">self</span>, x: <span style="color: #008000">int</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:
+        <span style="color: #008000">self</span><span style="color: #666666">.</span>x <span style="color: #666666">=</span> x  <span style="color: #3D7B7B; font-style: italic"># Aha, attribute &#39;x&#39; of type &#39;int&#39;</span>
+
+a <span style="color: #666666">=</span> A(<span style="color: #666666">1</span>)
+a<span style="color: #666666">.</span>x <span style="color: #666666">=</span> <span style="color: #666666">2</span>  <span style="color: #3D7B7B; font-style: italic"># OK!</span>
+a<span style="color: #666666">.</span>y <span style="color: #666666">=</span> <span style="color: #666666">3</span>  <span style="color: #3D7B7B; font-style: italic"># Error: &quot;A&quot; has no attribute &quot;y&quot;</span>
+</code></pre></div>
+<p>这有点像每个类都有一个隐式定义的 <a href="https://docs.python.org/3/reference/datamodel.html#object.__slots__"><code>__slots__</code></a> 属性。 这仅在类型检查期间强制执行，而不是在程序运行时强制执行。</p>
+<p>您可以使用类型注释显式声明类主体中的变量类型：</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">A</span>:
+    x: <span style="color: #008000">list</span>[<span style="color: #008000">int</span>]  <span style="color: #3D7B7B; font-style: italic"># Declare attribute &#39;x&#39; of type list[int]</span>
+
+a <span style="color: #666666">=</span> A()
+a<span style="color: #666666">.</span>x <span style="color: #666666">=</span> [<span style="color: #666666">1</span>]     <span style="color: #3D7B7B; font-style: italic"># OK</span>
+</code></pre></div>
+<p>通常在 Python 中，类体中定义的变量可以用作类变量或实例变量。 （如下一节所述，您可以使用 <a href="https://docs.python.org/3/library/typing.html#typing.ClassVar"><code>typing.ClassVar</code></a> 注释覆盖它。）</p>
+<p>同样，您可以为方法中定义的实例变量指定显式类型：</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">A</span>:
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__init__</span>(<span style="color: #008000">self</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:
+        <span style="color: #008000">self</span><span style="color: #666666">.</span>x: <span style="color: #008000">list</span>[<span style="color: #008000">int</span>] <span style="color: #666666">=</span> []
+
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">f</span>(<span style="color: #008000">self</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:
+        <span style="color: #008000">self</span><span style="color: #666666">.</span>y: Any <span style="color: #666666">=</span> <span style="color: #666666">0</span>
+</code></pre></div>
+<p>如果您使用 <code>self</code> 显式分配实例变量，则只能在方法中定义实例变量：</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">A</span>:
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__init__</span>(<span style="color: #008000">self</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:
+        <span style="color: #008000">self</span><span style="color: #666666">.</span>y <span style="color: #666666">=</span> <span style="color: #666666">1</span>   <span style="color: #3D7B7B; font-style: italic"># Define &#39;y&#39;</span>
+        a <span style="color: #666666">=</span> <span style="color: #008000">self</span>
+        a<span style="color: #666666">.</span>x <span style="color: #666666">=</span> <span style="color: #666666">1</span>      <span style="color: #3D7B7B; font-style: italic"># Error: &#39;x&#39; not defined</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<p><strong>Instance and class attributes</strong></p>
+<p>The mypy type checker detects if you are trying to access a missing attribute, which is a very common programming error. For this to work correctly, instance and class attributes must be defined or initialized within the class. Mypy infers the types of attributes:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">A</span>:
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__init__</span>(<span style="color: #008000">self</span>, x: <span style="color: #008000">int</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:
+        <span style="color: #008000">self</span><span style="color: #666666">.</span>x <span style="color: #666666">=</span> x  <span style="color: #3D7B7B; font-style: italic"># Aha, attribute &#39;x&#39; of type &#39;int&#39;</span>
+
+a <span style="color: #666666">=</span> A(<span style="color: #666666">1</span>)
+a<span style="color: #666666">.</span>x <span style="color: #666666">=</span> <span style="color: #666666">2</span>  <span style="color: #3D7B7B; font-style: italic"># OK!</span>
+a<span style="color: #666666">.</span>y <span style="color: #666666">=</span> <span style="color: #666666">3</span>  <span style="color: #3D7B7B; font-style: italic"># Error: &quot;A&quot; has no attribute &quot;y&quot;</span>
+</code></pre></div>
+<p>This is a bit like each class having an implicitly defined <a href="https://docs.python.org/3/reference/datamodel.html#object.__slots__"><code>__slots__</code></a> attribute. This is only enforced during type checking and not when your program is running.</p>
+<p>You can declare types of variables in the class body explicitly using a type annotation:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">A</span>:
+    x: <span style="color: #008000">list</span>[<span style="color: #008000">int</span>]  <span style="color: #3D7B7B; font-style: italic"># Declare attribute &#39;x&#39; of type list[int]</span>
+
+a <span style="color: #666666">=</span> A()
+a<span style="color: #666666">.</span>x <span style="color: #666666">=</span> [<span style="color: #666666">1</span>]     <span style="color: #3D7B7B; font-style: italic"># OK</span>
+</code></pre></div>
+<p>As in Python generally, a variable defined in the class body can be used as a class or an instance variable. (As discussed in the next section, you can override this with a <a href="https://docs.python.org/3/library/typing.html#typing.ClassVar"><code>typing.ClassVar</code></a> annotation.)</p>
+<p>Similarly, you can give explicit types to instance variables defined in a method:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">A</span>:
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__init__</span>(<span style="color: #008000">self</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:
+        <span style="color: #008000">self</span><span style="color: #666666">.</span>x: <span style="color: #008000">list</span>[<span style="color: #008000">int</span>] <span style="color: #666666">=</span> []
+
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">f</span>(<span style="color: #008000">self</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:
+        <span style="color: #008000">self</span><span style="color: #666666">.</span>y: Any <span style="color: #666666">=</span> <span style="color: #666666">0</span>
+</code></pre></div>
+<p>You can only define an instance variable within a method if you assign to it explicitly using <code>self</code>:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">A</span>:
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__init__</span>(<span style="color: #008000">self</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:
+        <span style="color: #008000">self</span><span style="color: #666666">.</span>y <span style="color: #666666">=</span> <span style="color: #666666">1</span>   <span style="color: #3D7B7B; font-style: italic"># Define &#39;y&#39;</span>
+        a <span style="color: #666666">=</span> <span style="color: #008000">self</span>
+        a<span style="color: #666666">.</span>x <span style="color: #666666">=</span> <span style="color: #666666">1</span>      <span style="color: #3D7B7B; font-style: italic"># Error: &#39;x&#39; not defined</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<h2 id="注解-__init__-方法">注解 __init__ 方法<a class="headerlink" href="#注解-__init__-方法" title="Permanent link">&para;</a></h2>
+<div class="tabbed-set tabbed-alternate" data-tabs="3:2"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><input id="__tabbed_3_2" name="__tabbed_3" type="radio" /><div class="tabbed-labels"><label for="__tabbed_3_1">中文</label><label for="__tabbed_3_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p><a href="https://docs.python.org/3/reference/datamodel.html#object.__init__"><code>__init__</code></a> 方法有些特殊——它不返回值。 这最好表达为 <code>-&gt; None</code>。 然而，由于许多人认为这是多余的，因此允许省略 <a href="https://docs.python.org/3/reference/datamodel.html#object.__init__"><code>__init__</code></a> 方法的返回类型声明 <strong>如果至少有一个参数被注释</strong>。 例如，在以下类中 <a href="https://docs.python.org/3/reference/datamodel.html#object.__init__"><code>__init__</code></a> 被认为是完全注释的：</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">C1</span>:
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__init__</span>(<span style="color: #008000">self</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:
+        <span style="color: #008000">self</span><span style="color: #666666">.</span>var <span style="color: #666666">=</span> <span style="color: #666666">42</span>
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">C2</span>:
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__init__</span>(<span style="color: #008000">self</span>, arg: <span style="color: #008000">int</span>):
+        <span style="color: #008000">self</span><span style="color: #666666">.</span>var <span style="color: #666666">=</span> arg
+</code></pre></div>
+<p>但是，如果 <a href="https://docs.python.org/3/reference/datamodel.html#object.__init__"><code>__init__</code></a> 没有带注解的参数，也没有返回类型注解，则它被视为无类型注解方法：</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">C3</span>:
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__init__</span>(<span style="color: #008000">self</span>):
+        <span style="color: #3D7B7B; font-style: italic"># 该主体将不会进行类型检查</span>
+        <span style="color: #008000">self</span><span style="color: #666666">.</span>var <span style="color: #666666">=</span> <span style="color: #666666">42</span> <span style="color: #666666">+</span> <span style="color: #BA2121">&#39;abc&#39;</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<p><strong>Annotating __init__ methods</strong></p>
+<p>The <a href="https://docs.python.org/3/reference/datamodel.html#object.__init__"><code>__init__</code></a> method is somewhat special -- it doesn't return a value.  This is best expressed as <code>-&gt; None</code>.  However, since many feel this is redundant, it is allowed to omit the return type declaration on <a href="https://docs.python.org/3/reference/datamodel.html#object.__init__"><code>__init__</code></a> methods <strong>if at least one argument is annotated</strong>.  For example, in the following classes <a href="https://docs.python.org/3/reference/datamodel.html#object.__init__"><code>__init__</code></a> is considered fully annotated:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">C1</span>:
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__init__</span>(<span style="color: #008000">self</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:
+        <span style="color: #008000">self</span><span style="color: #666666">.</span>var <span style="color: #666666">=</span> <span style="color: #666666">42</span>
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">C2</span>:
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__init__</span>(<span style="color: #008000">self</span>, arg: <span style="color: #008000">int</span>):
+        <span style="color: #008000">self</span><span style="color: #666666">.</span>var <span style="color: #666666">=</span> arg
+</code></pre></div>
+<p>However, if <a href="https://docs.python.org/3/reference/datamodel.html#object.__init__"><code>__init__</code></a> has no annotated arguments and no return type annotation, it is considered an untyped method:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">C3</span>:
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__init__</span>(<span style="color: #008000">self</span>):
+        <span style="color: #3D7B7B; font-style: italic"># This body is not type checked</span>
+        <span style="color: #008000">self</span><span style="color: #666666">.</span>var <span style="color: #666666">=</span> <span style="color: #666666">42</span> <span style="color: #666666">+</span> <span style="color: #BA2121">&#39;abc&#39;</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<h2 id="类属性注解">类属性注解<a class="headerlink" href="#类属性注解" title="Permanent link">&para;</a></h2>
+<div class="tabbed-set tabbed-alternate" data-tabs="4:2"><input checked="checked" id="__tabbed_4_1" name="__tabbed_4" type="radio" /><input id="__tabbed_4_2" name="__tabbed_4" type="radio" /><div class="tabbed-labels"><label for="__tabbed_4_1">中文</label><label for="__tabbed_4_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>您可以使用 <a href="https://docs.python.org/3/library/typing.html#typing.ClassVar"><code>ClassVar[t]</code></a> 注释来显式声明不应在实例上设置特定属性：</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">typing</span> <span style="color: #008000; font-weight: bold">import</span> ClassVar
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">A</span>:
+    x: ClassVar[<span style="color: #008000">int</span>] <span style="color: #666666">=</span> <span style="color: #666666">0</span>  <span style="color: #3D7B7B; font-style: italic"># 仅类变量</span>
+
+A<span style="color: #666666">.</span>x <span style="color: #666666">+=</span> <span style="color: #666666">1</span>  <span style="color: #3D7B7B; font-style: italic"># OK</span>
+
+a <span style="color: #666666">=</span> A()
+a<span style="color: #666666">.</span>x <span style="color: #666666">=</span> <span style="color: #666666">1</span>  <span style="color: #3D7B7B; font-style: italic"># Error: 无法通过实例分配给类变量“x”</span>
+<span style="color: #008000">print</span>(a<span style="color: #666666">.</span>x)  <span style="color: #3D7B7B; font-style: italic"># OK -- 可以通过实例读取</span>
+</code></pre></div>
+<p>没有必要使用 <a href="https://docs.python.org/3/library/typing.html#typing.ClassVar"><code>ClassVar[t]</code></a> 注解所有类变量。 没有 <a href="https://docs.python.org/3/library/typing.html#typing.ClassVar"><code>ClassVar[t]</code></a> 注释的属性仍然可以用作类变量。 然而，mypy 不会阻止它被用作实例变量，如前面所讨论的：</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">A</span>:
+    x <span style="color: #666666">=</span> <span style="color: #666666">0</span>  <span style="color: #3D7B7B; font-style: italic"># 可以用作类或实例变量</span>
+
+A<span style="color: #666666">.</span>x <span style="color: #666666">+=</span> <span style="color: #666666">1</span>  <span style="color: #3D7B7B; font-style: italic"># OK</span>
+
+a <span style="color: #666666">=</span> A()
+a<span style="color: #666666">.</span>x <span style="color: #666666">=</span> <span style="color: #666666">1</span>  <span style="color: #3D7B7B; font-style: italic"># 还可以</span>
+</code></pre></div>
+<p>请注意， <a href="https://docs.python.org/3/library/typing.html#typing.ClassVar"><code>ClassVar[t]</code></a> 不是一个类，并且您不能将它与 <a href="https://docs.python.org/3/library/functions.html#isinstance"><code>isinstance</code> 一起使用 </a> 或 <a href="https://docs.python.org/3/library/functions.html#issubclass"><code>issubclass</code></a>。 它不会改变 Python 运行时行为——它仅适用于类型检查器，例如 mypy（对人类读者也有帮助）。</p>
+<p>您还可以在 <a href="https://docs.python.org/3/library/typing.html#typing.ClassVar"><code>ClassVar[t]</code></a> 注释中省略方括号和变量类型，但这可能不会是你所期望的：</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">A</span>:
+    y: ClassVar <span style="color: #666666">=</span> <span style="color: #666666">0</span>  <span style="color: #3D7B7B; font-style: italic"># 类型隐式为 Any!</span>
+</code></pre></div>
+<p>在这种情况下，属性的类型将隐式为“Any”。 这种行为将来会改变，因为它令人惊讶。</p>
+<p>显式的 <a href="https://docs.python.org/3/library/typing.html#typing.ClassVar"><code>ClassVar[t]</code></a> 可能特别方便区分具有可调用类型的类变量和实例变量。 例如：</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">typing</span> <span style="color: #008000; font-weight: bold">import</span> Callable, ClassVar
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">A</span>:
+    foo: Callable[[<span style="color: #008000">int</span>], <span style="color: #008000; font-weight: bold">None</span>]
+    bar: ClassVar[Callable[[A, <span style="color: #008000">int</span>], <span style="color: #008000; font-weight: bold">None</span>]]
+    bad: Callable[[A], <span style="color: #008000; font-weight: bold">None</span>]
+
+A()<span style="color: #666666">.</span>foo(<span style="color: #666666">42</span>)  <span style="color: #3D7B7B; font-style: italic"># OK</span>
+A()<span style="color: #666666">.</span>bar(<span style="color: #666666">42</span>)  <span style="color: #3D7B7B; font-style: italic"># OK</span>
+A()<span style="color: #666666">.</span>bad()  <span style="color: #3D7B7B; font-style: italic"># Error: Too few arguments</span>
+</code></pre></div>
+<div class="admonition info">
+<p class="admonition-title">Note</p>
+<p><a href="https://docs.python.org/3/library/typing.html#typing.ClassVar"><code>ClassVar[t]</code></a> 类型参数不能包含类型变量：<code>ClassVar[T]</code> 和 <code>ClassVar[list 如果</code>T<code>是类型变量，则 [T]]</code> 均无效（有关更多信息，请参阅 <a href="https://mypy.readthedocs.io/en/stable/generics.html#generic-classes"><code>generic-classes</code></a> 关于类型变量）。</p>
+</div>
+</div>
+<div class="tabbed-block">
+<p><strong>Class attribute annotations</strong></p>
+<p>You can use a <a href="https://docs.python.org/3/library/typing.html#typing.ClassVar"><code>ClassVar[t]</code></a> annotation to explicitly declare that a particular attribute should not be set on instances:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">typing</span> <span style="color: #008000; font-weight: bold">import</span> ClassVar
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">A</span>:
+    x: ClassVar[<span style="color: #008000">int</span>] <span style="color: #666666">=</span> <span style="color: #666666">0</span>  <span style="color: #3D7B7B; font-style: italic"># Class variable only</span>
+
+A<span style="color: #666666">.</span>x <span style="color: #666666">+=</span> <span style="color: #666666">1</span>  <span style="color: #3D7B7B; font-style: italic"># OK</span>
+
+a <span style="color: #666666">=</span> A()
+a<span style="color: #666666">.</span>x <span style="color: #666666">=</span> <span style="color: #666666">1</span>  <span style="color: #3D7B7B; font-style: italic"># Error: Cannot assign to class variable &quot;x&quot; via instance</span>
+<span style="color: #008000">print</span>(a<span style="color: #666666">.</span>x)  <span style="color: #3D7B7B; font-style: italic"># OK -- can be read through an instance</span>
+</code></pre></div>
+<p>It's not necessary to annotate all class variables using <a href="https://docs.python.org/3/library/typing.html#typing.ClassVar"><code>ClassVar[t]</code></a>. An attribute without the <a href="https://docs.python.org/3/library/typing.html#typing.ClassVar"><code>ClassVar[t]</code></a> annotation can still be used as a class variable. However, mypy won't prevent it from being used as an instance variable, as discussed previously:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">A</span>:
+    x <span style="color: #666666">=</span> <span style="color: #666666">0</span>  <span style="color: #3D7B7B; font-style: italic"># Can be used as a class or instance variable</span>
+
+A<span style="color: #666666">.</span>x <span style="color: #666666">+=</span> <span style="color: #666666">1</span>  <span style="color: #3D7B7B; font-style: italic"># OK</span>
+
+a <span style="color: #666666">=</span> A()
+a<span style="color: #666666">.</span>x <span style="color: #666666">=</span> <span style="color: #666666">1</span>  <span style="color: #3D7B7B; font-style: italic"># Also OK</span>
+</code></pre></div>
+<p>Note that <a href="https://docs.python.org/3/library/typing.html#typing.ClassVar"><code>ClassVar[t]</code></a> is not a class, and you can't use it with <a href="https://docs.python.org/3/library/functions.html#isinstance"><code>isinstance</code></a> or <a href="https://docs.python.org/3/library/functions.html#issubclass"><code>issubclass</code></a>. It does not change Python runtime behavior -- it's only for type checkers such as mypy (and also helpful for human readers).</p>
+<p>You can also omit the square brackets and the variable type in a <a href="https://docs.python.org/3/library/typing.html#typing.ClassVar"><code>ClassVar[t]</code></a> annotation, but this might not do what you'd expect:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">A</span>:
+    y: ClassVar <span style="color: #666666">=</span> <span style="color: #666666">0</span>  <span style="color: #3D7B7B; font-style: italic"># Type implicitly Any!</span>
+</code></pre></div>
+<p>In this case the type of the attribute will be implicitly <code>Any</code>. This behavior will change in the future, since it's surprising.</p>
+<p>An explicit <a href="https://docs.python.org/3/library/typing.html#typing.ClassVar"><code>ClassVar[t]</code></a> may be particularly handy to distinguish between class and instance variables with callable types. For example:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">typing</span> <span style="color: #008000; font-weight: bold">import</span> Callable, ClassVar
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">A</span>:
+    foo: Callable[[<span style="color: #008000">int</span>], <span style="color: #008000; font-weight: bold">None</span>]
+    bar: ClassVar[Callable[[A, <span style="color: #008000">int</span>], <span style="color: #008000; font-weight: bold">None</span>]]
+    bad: Callable[[A], <span style="color: #008000; font-weight: bold">None</span>]
+
+A()<span style="color: #666666">.</span>foo(<span style="color: #666666">42</span>)  <span style="color: #3D7B7B; font-style: italic"># OK</span>
+A()<span style="color: #666666">.</span>bar(<span style="color: #666666">42</span>)  <span style="color: #3D7B7B; font-style: italic"># OK</span>
+A()<span style="color: #666666">.</span>bad()  <span style="color: #3D7B7B; font-style: italic"># Error: Too few arguments</span>
+</code></pre></div>
+<div class="admonition info">
+<p class="admonition-title">Note</p>
+<p>A <a href="https://docs.python.org/3/library/typing.html#typing.ClassVar"><code>ClassVar[t]</code></a> type parameter cannot include type variables: <code>ClassVar[T]</code> and <code>ClassVar[list[T]]</code> are both invalid if <code>T</code> is a type variable (see <a href="https://mypy.readthedocs.io/en/stable/generics.html#generic-classes"><code>generic-classes</code></a> for more about type variables).</p>
+</div>
+</div>
+</div>
+</div>
+<h2 id="重写静态类型方法">重写静态类型方法<a class="headerlink" href="#重写静态类型方法" title="Permanent link">&para;</a></h2>
+<div class="tabbed-set tabbed-alternate" data-tabs="5:2"><input checked="checked" id="__tabbed_5_1" name="__tabbed_5" type="radio" /><input id="__tabbed_5_2" name="__tabbed_5" type="radio" /><div class="tabbed-labels"><label for="__tabbed_5_1">中文</label><label for="__tabbed_5_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>当重写静态类型方法时，mypy 检查重写是否具有兼容的签名：</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Base</span>:
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">f</span>(<span style="color: #008000">self</span>, x: <span style="color: #008000">int</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:
+        <span style="color: #666666">...</span>
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Derived1</span>(Base):
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">f</span>(<span style="color: #008000">self</span>, x: <span style="color: #008000">str</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:   <span style="color: #3D7B7B; font-style: italic"># Error: type of &#39;x&#39; incompatible (不兼容)</span>
+        <span style="color: #666666">...</span>
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Derived2</span>(Base):
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">f</span>(<span style="color: #008000">self</span>, x: <span style="color: #008000">int</span>, y: <span style="color: #008000">int</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:  <span style="color: #3D7B7B; font-style: italic"># Error: too many arguments</span>
+        <span style="color: #666666">...</span>
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Derived3</span>(Base):
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">f</span>(<span style="color: #008000">self</span>, x: <span style="color: #008000">int</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:   <span style="color: #3D7B7B; font-style: italic"># OK</span>
+        <span style="color: #666666">...</span>
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Derived4</span>(Base):
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">f</span>(<span style="color: #008000">self</span>, x: <span style="color: #008000">float</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:   <span style="color: #3D7B7B; font-style: italic"># OK: mypy 将 int 视为 float 的子类型</span>
+        <span style="color: #666666">...</span>
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Derived5</span>(Base):
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">f</span>(<span style="color: #008000">self</span>, x: <span style="color: #008000">int</span>, y: <span style="color: #008000">int</span> <span style="color: #666666">=</span> <span style="color: #666666">0</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:   <span style="color: #3D7B7B; font-style: italic"># OK: 接受比基类更多参数的方法</span>
+</code></pre></div>
+<div class="admonition info">
+<p class="admonition-title">Note</p>
+<p>您还可以在重写中<strong>协变</strong>地改变返回类型。 例如，您可以使用 <code>list[int]</code> 等子类型覆盖返回类型 <code>Iterable[int]</code> 。 类似地，您可以<strong>逆变地</strong>改变参数类型——子类可以有更通用的参数类型。</p>
+</div>
+<p>为了确保重命名方法时代码保持正确，将方法显式标记为覆盖基本方法会很有帮助。 这可以通过 <code>@override</code> 装饰器来完成。 如果随后重命名了基本方法，而未重命名重写方法，则 mypy 将显示错误：</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">typing</span> <span style="color: #008000; font-weight: bold">import</span> override
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Base</span>:
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">f</span>(<span style="color: #008000">self</span>, x: <span style="color: #008000">int</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:
+        <span style="color: #666666">...</span>
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">g_renamed</span>(<span style="color: #008000">self</span>, y: <span style="color: #008000">str</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:
+        <span style="color: #666666">...</span>
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Derived1</span>(Base):
+    <span style="color: #AA22FF">@override</span>
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">f</span>(<span style="color: #008000">self</span>, x: <span style="color: #008000">int</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:   <span style="color: #3D7B7B; font-style: italic"># OK</span>
+        <span style="color: #666666">...</span>
+
+    <span style="color: #AA22FF">@override</span>
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">g</span>(<span style="color: #008000">self</span>, y: <span style="color: #008000">str</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:   <span style="color: #3D7B7B; font-style: italic"># Error: 没有找到对应的基础方法</span>
+        <span style="color: #666666">...</span>
+</code></pre></div>
+<p>您还可以使用动态类型方法覆盖静态类型方法。 这允许动态类型代码覆盖库类中定义的方法，而无需担心它们的类型签名。</p>
+<p>一如既往，依赖动态类型代码可能是不安全的。 没有运行时强制方法重写返回与原始返回类型兼容的值，因为注解在运行时不起作用：</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Base</span>:
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">inc</span>(<span style="color: #008000">self</span>, x: <span style="color: #008000">int</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000">int</span>:
+        <span style="color: #008000; font-weight: bold">return</span> x <span style="color: #666666">+</span> <span style="color: #666666">1</span>
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Derived</span>(Base):
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">inc</span>(<span style="color: #008000">self</span>, x):   <span style="color: #3D7B7B; font-style: italic"># Override, dynamically typed</span>
+        <span style="color: #008000; font-weight: bold">return</span> <span style="color: #BA2121">&#39;hello&#39;</span>  <span style="color: #3D7B7B; font-style: italic"># Incompatible with &#39;Base&#39;, but no mypy error</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<p><strong>Overriding statically typed methods</strong></p>
+<p>When overriding a statically typed method, mypy checks that the override has a compatible signature:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Base</span>:
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">f</span>(<span style="color: #008000">self</span>, x: <span style="color: #008000">int</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:
+        <span style="color: #666666">...</span>
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Derived1</span>(Base):
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">f</span>(<span style="color: #008000">self</span>, x: <span style="color: #008000">str</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:   <span style="color: #3D7B7B; font-style: italic"># Error: type of &#39;x&#39; incompatible</span>
+        <span style="color: #666666">...</span>
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Derived2</span>(Base):
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">f</span>(<span style="color: #008000">self</span>, x: <span style="color: #008000">int</span>, y: <span style="color: #008000">int</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:  <span style="color: #3D7B7B; font-style: italic"># Error: too many arguments</span>
+        <span style="color: #666666">...</span>
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Derived3</span>(Base):
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">f</span>(<span style="color: #008000">self</span>, x: <span style="color: #008000">int</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:   <span style="color: #3D7B7B; font-style: italic"># OK</span>
+        <span style="color: #666666">...</span>
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Derived4</span>(Base):
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">f</span>(<span style="color: #008000">self</span>, x: <span style="color: #008000">float</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:   <span style="color: #3D7B7B; font-style: italic"># OK: mypy treats int as a subtype of float</span>
+        <span style="color: #666666">...</span>
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Derived5</span>(Base):
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">f</span>(<span style="color: #008000">self</span>, x: <span style="color: #008000">int</span>, y: <span style="color: #008000">int</span> <span style="color: #666666">=</span> <span style="color: #666666">0</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:   <span style="color: #3D7B7B; font-style: italic"># OK: accepts more than the base</span>
+        <span style="color: #666666">...</span>                                    <span style="color: #3D7B7B; font-style: italic">#     class method</span>
+</code></pre></div>
+<div class="admonition info">
+<p class="admonition-title">Note</p>
+<p>You can also vary return types <strong>covariantly</strong> in overriding. For example, you could override the return type <code>Iterable[int]</code> with a subtype such as <code>list[int]</code>. Similarly, you can vary argument types <strong>contravariantly</strong> -- subclasses can have more general argument types.</p>
+</div>
+<p>In order to ensure that your code remains correct when renaming methods, it can be helpful to explicitly mark a method as overriding a base method. This can be done with the <code>@override</code> decorator. If the base method is then renamed while the overriding method is not, mypy will show an error:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">typing</span> <span style="color: #008000; font-weight: bold">import</span> override
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Base</span>:
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">f</span>(<span style="color: #008000">self</span>, x: <span style="color: #008000">int</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:
+        <span style="color: #666666">...</span>
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">g_renamed</span>(<span style="color: #008000">self</span>, y: <span style="color: #008000">str</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:
+        <span style="color: #666666">...</span>
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Derived1</span>(Base):
+    <span style="color: #AA22FF">@override</span>
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">f</span>(<span style="color: #008000">self</span>, x: <span style="color: #008000">int</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:   <span style="color: #3D7B7B; font-style: italic"># OK</span>
+        <span style="color: #666666">...</span>
+
+    <span style="color: #AA22FF">@override</span>
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">g</span>(<span style="color: #008000">self</span>, y: <span style="color: #008000">str</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:   <span style="color: #3D7B7B; font-style: italic"># Error: no corresponding base method found</span>
+        <span style="color: #666666">...</span>
+</code></pre></div>
+<p>You can also override a statically typed method with a dynamically typed one. This allows dynamically typed code to override methods defined in library classes without worrying about their type signatures.</p>
+<p>As always, relying on dynamically typed code can be unsafe. There is no runtime enforcement that the method override returns a value that is compatible with the original return type, since annotations have no effect at runtime:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Base</span>:
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">inc</span>(<span style="color: #008000">self</span>, x: <span style="color: #008000">int</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000">int</span>:
+        <span style="color: #008000; font-weight: bold">return</span> x <span style="color: #666666">+</span> <span style="color: #666666">1</span>
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Derived</span>(Base):
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">inc</span>(<span style="color: #008000">self</span>, x):   <span style="color: #3D7B7B; font-style: italic"># Override, dynamically typed</span>
+        <span style="color: #008000; font-weight: bold">return</span> <span style="color: #BA2121">&#39;hello&#39;</span>  <span style="color: #3D7B7B; font-style: italic"># Incompatible with &#39;Base&#39;, but no mypy error</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<h2 id="抽象基类和多重继承">抽象基类和多重继承<a class="headerlink" href="#抽象基类和多重继承" title="Permanent link">&para;</a></h2>
+<div class="tabbed-set tabbed-alternate" data-tabs="6:2"><input checked="checked" id="__tabbed_6_1" name="__tabbed_6" type="radio" /><input id="__tabbed_6_2" name="__tabbed_6" type="radio" /><div class="tabbed-labels"><label for="__tabbed_6_1">中文</label><label for="__tabbed_6_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>Mypy 支持 Python <a href="https://docs.python.org/3/library/abc.html"><code>抽象基类</code></a> (ABC)。 抽象类至少有一个抽象方法或属性，必须由任何 <strong>“具体”</strong>（非抽象）子类实现。 您可以使用 <a href="https://docs.python.org/3/library/abc.html#abc.ABCMeta"><code>abc.ABCMeta</code></a> 元类和 [<code>@abc.abstractmethod</code>]( https://docs.python.org/3/library/abc.html#abc.abstractmethod）函数装饰器。 例子：</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">abc</span> <span style="color: #008000; font-weight: bold">import</span> ABCMeta, abstractmethod
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Animal</span>(metaclass<span style="color: #666666">=</span>ABCMeta):
+    <span style="color: #AA22FF">@abstractmethod</span>
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">eat</span>(<span style="color: #008000">self</span>, food: <span style="color: #008000">str</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>: <span style="color: #008000; font-weight: bold">pass</span>
+
+    <span style="color: #AA22FF">@property</span>
+    <span style="color: #AA22FF">@abstractmethod</span>
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">can_walk</span>(<span style="color: #008000">self</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000">bool</span>: <span style="color: #008000; font-weight: bold">pass</span>
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Cat</span>(Animal):
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">eat</span>(<span style="color: #008000">self</span>, food: <span style="color: #008000">str</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:
+        <span style="color: #666666">...</span>  <span style="color: #3D7B7B; font-style: italic"># Body omitted</span>
+
+    <span style="color: #AA22FF">@property</span>
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">can_walk</span>(<span style="color: #008000">self</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000">bool</span>:
+        <span style="color: #008000; font-weight: bold">return</span> <span style="color: #008000; font-weight: bold">True</span>
+
+x <span style="color: #666666">=</span> Animal()  <span style="color: #3D7B7B; font-style: italic"># Error: &#39;Animal&#39; is abstract due to &#39;eat&#39; and &#39;can_walk&#39;</span>
+y <span style="color: #666666">=</span> Cat()     <span style="color: #3D7B7B; font-style: italic"># OK</span>
+</code></pre></div>
+<p>请注意，即使您省略了 <a href="https://docs.python.org/3/library/abc.html#abc.ABCMeta"><code>abc.ABCMeta</code></a> 元类，mypy 也会执行未实现的抽象方法的检查。 如果元类会导致运行时元类冲突，这可能很有用。</p>
+<p>由于您无法创建 ABC 的实例，因此它们最常用于类型注释中。 例如，此方法接受包含任意动物的任意迭代（具体“Animal”子类的实例）：</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">feed_all</span>(animals: Iterable[Animal], food: <span style="color: #008000">str</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:
+    <span style="color: #008000; font-weight: bold">for</span> animal <span style="color: #AA22FF; font-weight: bold">in</span> animals:
+        animal<span style="color: #666666">.</span>eat(food)
+</code></pre></div>
+<p>Python 中 ABC 的工作方式有一个重要的特点——特定类是否是抽象的在某种程度上是隐含的。 在下面的示例中，“Derived”被视为抽象基类，因为“Derived”从“Base”继承了抽象“f”方法，并且没有显式实现它。 <code>Derived</code> 的定义不会从 mypy 中生成错误，因为它是有效的 ABC：</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">abc</span> <span style="color: #008000; font-weight: bold">import</span> ABCMeta, abstractmethod
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Base</span>(metaclass<span style="color: #666666">=</span>ABCMeta):
+    <span style="color: #AA22FF">@abstractmethod</span>
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">f</span>(<span style="color: #008000">self</span>, x: <span style="color: #008000">int</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>: <span style="color: #008000; font-weight: bold">pass</span>
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Derived</span>(Base):  <span style="color: #3D7B7B; font-style: italic"># No error -- Derived 隐式 抽象</span>
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">g</span>(<span style="color: #008000">self</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:
+        <span style="color: #666666">...</span>
+</code></pre></div>
+<p>但是，尝试创建 “Derived” 实例将被拒绝：</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>d <span style="color: #666666">=</span> Derived()  <span style="color: #3D7B7B; font-style: italic"># Error: &#39;Derived&#39; is abstract</span>
+</code></pre></div>
+<div class="admonition info">
+<p class="admonition-title">Note</p>
+<p>忘记实现抽象方法是一个常见的错误。 如上所示，在这种情况下，类定义不会生成错误，但任何构造实例的尝试都将被标记为错误。</p>
+</div>
+<p>Mypy 允许您省略抽象方法的主体，但如果这样做，通过 <code>super()</code> 调用此类方法是不安全的。 例如：</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">abc</span> <span style="color: #008000; font-weight: bold">import</span> abstractmethod
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Base</span>:
+    <span style="color: #AA22FF">@abstractmethod</span>
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">foo</span>(<span style="color: #008000">self</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000">int</span>: <span style="color: #008000; font-weight: bold">pass</span>
+    <span style="color: #AA22FF">@abstractmethod</span>
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">bar</span>(<span style="color: #008000">self</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000">int</span>:
+        <span style="color: #008000; font-weight: bold">return</span> <span style="color: #666666">0</span>
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Sub</span>(Base):
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">foo</span>(<span style="color: #008000">self</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000">int</span>:
+        <span style="color: #008000; font-weight: bold">return</span> <span style="color: #008000">super</span>()<span style="color: #666666">.</span>foo() <span style="color: #666666">+</span> <span style="color: #666666">1</span>  <span style="color: #3D7B7B; font-style: italic"># error: 通过 super() 调用带有简单主体的“Base”的抽象方法“foo”是不安全的</span>
+    <span style="color: #AA22FF">@abstractmethod</span>
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">bar</span>(<span style="color: #008000">self</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000">int</span>:
+        <span style="color: #008000; font-weight: bold">return</span> <span style="color: #008000">super</span>()<span style="color: #666666">.</span>bar() <span style="color: #666666">+</span> <span style="color: #666666">1</span>  <span style="color: #3D7B7B; font-style: italic"># 不过这没关系。</span>
+</code></pre></div>
+<p>一个类可以继承任意数量的类，包括抽象类和具体类。 与普通重写一样，动态类型方法可以重写或实现任何基类中定义的静态类型方法，包括抽象基类中定义的抽象方法。</p>
+<p>您可以使用普通属性或实例变量来实现抽象属性。</p>
+</div>
+<div class="tabbed-block">
+<p><strong>Abstract base classes and multiple inheritance</strong></p>
+<p>Mypy supports Python <a href="https://docs.python.org/3/library/abc.html"><code>abstract base classes</code></a> (ABCs). Abstract classes have at least one abstract method or property that must be implemented by any <em>concrete</em> (non-abstract) subclass. You can define abstract base classes using the <a href="https://docs.python.org/3/library/abc.html#abc.ABCMeta"><code>abc.ABCMeta</code></a> metaclass and the <a href="https://docs.python.org/3/library/abc.html#abc.abstractmethod"><code>@abc.abstractmethod</code></a> function decorator. Example:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">abc</span> <span style="color: #008000; font-weight: bold">import</span> ABCMeta, abstractmethod
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Animal</span>(metaclass<span style="color: #666666">=</span>ABCMeta):
+    <span style="color: #AA22FF">@abstractmethod</span>
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">eat</span>(<span style="color: #008000">self</span>, food: <span style="color: #008000">str</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>: <span style="color: #008000; font-weight: bold">pass</span>
+
+    <span style="color: #AA22FF">@property</span>
+    <span style="color: #AA22FF">@abstractmethod</span>
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">can_walk</span>(<span style="color: #008000">self</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000">bool</span>: <span style="color: #008000; font-weight: bold">pass</span>
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Cat</span>(Animal):
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">eat</span>(<span style="color: #008000">self</span>, food: <span style="color: #008000">str</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:
+        <span style="color: #666666">...</span>  <span style="color: #3D7B7B; font-style: italic"># Body omitted</span>
+
+    <span style="color: #AA22FF">@property</span>
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">can_walk</span>(<span style="color: #008000">self</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000">bool</span>:
+        <span style="color: #008000; font-weight: bold">return</span> <span style="color: #008000; font-weight: bold">True</span>
+
+x <span style="color: #666666">=</span> Animal()  <span style="color: #3D7B7B; font-style: italic"># Error: &#39;Animal&#39; is abstract due to &#39;eat&#39; and &#39;can_walk&#39;</span>
+y <span style="color: #666666">=</span> Cat()     <span style="color: #3D7B7B; font-style: italic"># OK</span>
+</code></pre></div>
+<p>Note that mypy performs checking for unimplemented abstract methods even if you omit the <a href="https://docs.python.org/3/library/abc.html#abc.ABCMeta"><code>abc.ABCMeta</code></a> metaclass. This can be useful if the metaclass would cause runtime metaclass conflicts.</p>
+<p>Since you can't create instances of ABCs, they are most commonly used in type annotations. For example, this method accepts arbitrary iterables containing arbitrary animals (instances of concrete <code>Animal</code> subclasses):</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">feed_all</span>(animals: Iterable[Animal], food: <span style="color: #008000">str</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:
+    <span style="color: #008000; font-weight: bold">for</span> animal <span style="color: #AA22FF; font-weight: bold">in</span> animals:
+        animal<span style="color: #666666">.</span>eat(food)
+</code></pre></div>
+<p>There is one important peculiarity about how ABCs work in Python -- whether a particular class is abstract or not is somewhat implicit. In the example below, <code>Derived</code> is treated as an abstract base class since <code>Derived</code> inherits an abstract <code>f</code> method from <code>Base</code> and doesn't explicitly implement it. The definition of <code>Derived</code> generates no errors from mypy, since it's a valid ABC:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">abc</span> <span style="color: #008000; font-weight: bold">import</span> ABCMeta, abstractmethod
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Base</span>(metaclass<span style="color: #666666">=</span>ABCMeta):
+    <span style="color: #AA22FF">@abstractmethod</span>
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">f</span>(<span style="color: #008000">self</span>, x: <span style="color: #008000">int</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>: <span style="color: #008000; font-weight: bold">pass</span>
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Derived</span>(Base):  <span style="color: #3D7B7B; font-style: italic"># No error -- Derived is implicitly abstract</span>
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">g</span>(<span style="color: #008000">self</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:
+        <span style="color: #666666">...</span>
+</code></pre></div>
+<p>Attempting to create an instance of <code>Derived</code> will be rejected, however:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>d <span style="color: #666666">=</span> Derived()  <span style="color: #3D7B7B; font-style: italic"># Error: &#39;Derived&#39; is abstract</span>
+</code></pre></div>
+<div class="admonition info">
+<p class="admonition-title">Note</p>
+<p>It's a common error to forget to implement an abstract method. As shown above, the class definition will not generate an error in this case, but any attempt to construct an instance will be flagged as an error.</p>
+</div>
+<p>Mypy allows you to omit the body for an abstract method, but if you do so, it is unsafe to call such method via <code>super()</code>. For example:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">abc</span> <span style="color: #008000; font-weight: bold">import</span> abstractmethod
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Base</span>:
+    <span style="color: #AA22FF">@abstractmethod</span>
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">foo</span>(<span style="color: #008000">self</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000">int</span>: <span style="color: #008000; font-weight: bold">pass</span>
+    <span style="color: #AA22FF">@abstractmethod</span>
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">bar</span>(<span style="color: #008000">self</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000">int</span>:
+        <span style="color: #008000; font-weight: bold">return</span> <span style="color: #666666">0</span>
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Sub</span>(Base):
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">foo</span>(<span style="color: #008000">self</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000">int</span>:
+        <span style="color: #008000; font-weight: bold">return</span> <span style="color: #008000">super</span>()<span style="color: #666666">.</span>foo() <span style="color: #666666">+</span> <span style="color: #666666">1</span>  <span style="color: #3D7B7B; font-style: italic"># error: Call to abstract method &quot;foo&quot; of &quot;Base&quot;</span>
+                                  <span style="color: #3D7B7B; font-style: italic"># with trivial body via super() is unsafe</span>
+    <span style="color: #AA22FF">@abstractmethod</span>
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">bar</span>(<span style="color: #008000">self</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000">int</span>:
+        <span style="color: #008000; font-weight: bold">return</span> <span style="color: #008000">super</span>()<span style="color: #666666">.</span>bar() <span style="color: #666666">+</span> <span style="color: #666666">1</span>  <span style="color: #3D7B7B; font-style: italic"># This is OK however.</span>
+</code></pre></div>
+<p>A class can inherit any number of classes, both abstract and concrete. As with normal overrides, a dynamically typed method can override or implement a statically typed method defined in any base class, including an abstract method defined in an abstract base class.</p>
+<p>You can implement an abstract property using either a normal property or an instance variable.</p>
+</div>
+</div>
+</div>
+<h2 id="slots">Slots<a class="headerlink" href="#slots" title="Permanent link">&para;</a></h2>
+<div class="tabbed-set tabbed-alternate" data-tabs="7:2"><input checked="checked" id="__tabbed_7_1" name="__tabbed_7" type="radio" /><input id="__tabbed_7_2" name="__tabbed_7" type="radio" /><div class="tabbed-labels"><label for="__tabbed_7_1">中文</label><label for="__tabbed_7_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>当一个类显式定义了 <a href="https://docs.python.org/3/reference/datamodel.html#slots">__slots__</a> 时，mypy 将检查分配给的所有属性是否都是 <code>__slots__</code> 的成员  ：</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Album</span>:
+    <span style="color: #19177C">__slots__</span> <span style="color: #666666">=</span> (<span style="color: #BA2121">&#39;name&#39;</span>, <span style="color: #BA2121">&#39;year&#39;</span>)
+
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__init__</span>(<span style="color: #008000">self</span>, name: <span style="color: #008000">str</span>, year: <span style="color: #008000">int</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:
+       <span style="color: #008000">self</span><span style="color: #666666">.</span>name <span style="color: #666666">=</span> name
+       <span style="color: #008000">self</span><span style="color: #666666">.</span>year <span style="color: #666666">=</span> year
+       <span style="color: #3D7B7B; font-style: italic"># Error: Trying to assign name &quot;released&quot; that is not in &quot;__slots__&quot; of type &quot;Album&quot;</span>
+       <span style="color: #008000">self</span><span style="color: #666666">.</span>released <span style="color: #666666">=</span> <span style="color: #008000; font-weight: bold">True</span>
+
+my_album <span style="color: #666666">=</span> Album(<span style="color: #BA2121">&#39;Songs about Python&#39;</span>, <span style="color: #666666">2021</span>)
+</code></pre></div>
+<p>当满足以下条件时，Mypy 将仅检查 <code>__slots__</code> 的属性分配：</p>
+<ol>
+<li>所有基类（内置基类除外）必须明确定义 <code>__slots__</code>（这反映了 Python 语义）。</li>
+<li><code>__slots__</code> 不包括 <code>__dict__</code>。 如果 <code>__slots__</code> 包含 <code>__dict__</code> ，则可以设置任意属性，类似于未定义 <code>__slots__</code> 时（这反映了 Python 语义）。</li>
+<li><code>__slots__</code> 中的所有值都必须是字符串文字。</li>
+</ol>
+</div>
+<div class="tabbed-block">
+<p><strong>Slots</strong></p>
+<p>When a class has explicitly defined <a href="https://docs.python.org/3/reference/datamodel.html#slots">__slots__</a>, mypy will check that all attributes assigned to are members of <code>__slots__</code>:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Album</span>:
+    <span style="color: #19177C">__slots__</span> <span style="color: #666666">=</span> (<span style="color: #BA2121">&#39;name&#39;</span>, <span style="color: #BA2121">&#39;year&#39;</span>)
+
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__init__</span>(<span style="color: #008000">self</span>, name: <span style="color: #008000">str</span>, year: <span style="color: #008000">int</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:
+       <span style="color: #008000">self</span><span style="color: #666666">.</span>name <span style="color: #666666">=</span> name
+       <span style="color: #008000">self</span><span style="color: #666666">.</span>year <span style="color: #666666">=</span> year
+       <span style="color: #3D7B7B; font-style: italic"># Error: Trying to assign name &quot;released&quot; that is not in &quot;__slots__&quot; of type &quot;Album&quot;</span>
+       <span style="color: #008000">self</span><span style="color: #666666">.</span>released <span style="color: #666666">=</span> <span style="color: #008000; font-weight: bold">True</span>
+
+my_album <span style="color: #666666">=</span> Album(<span style="color: #BA2121">&#39;Songs about Python&#39;</span>, <span style="color: #666666">2021</span>)
+</code></pre></div>
+<p>Mypy will only check attribute assignments against <code>__slots__</code> when the following conditions hold:</p>
+<ol>
+<li>All base classes (except builtin ones) must have explicit <code>__slots__</code> defined (this mirrors Python semantics).</li>
+<li><code>__slots__</code> does not include <code>__dict__</code>. If <code>__slots__</code> includes <code>__dict__</code>, arbitrary attributes can be set, similar to when <code>__slots__</code> is not defined (this mirrors Python semantics).</li>
+<li>All values in <code>__slots__</code> must be string literals.</li>
+</ol>
+</div>
+</div>
+</div>
+
+  <hr>
+<div class="md-source-file">
+  <small>
+    
+      最后更新:
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2024年9月4日</span>
+      
+        <br>
+        创建日期:
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2024年9月4日</span>
+      
+    
+  </small>
+</div>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var tab,labels=set.querySelector(".tabbed-labels");for(tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["header.autohide", "navigation.top", "navigation.tabs", "navigation.tabs.sticky", "navigation.path", "content.tabs.link", "content.code.copy", "content.tooltips", "navigation.indexes", "navigation.prune", "navigation.instant"], "search": "../../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": {"provider": "mike"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.94c44541.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  <script>document$.subscribe(() => {const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});})</script></body>
+</html>

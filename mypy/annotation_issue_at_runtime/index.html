@@ -1,0 +1,2129 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="hellowac-类型检查">
+      
+      
+      
+      
+        <link rel="prev" href="../class_basics/">
+      
+      
+        <link rel="next" href="../protocol_and_struct_subtyping/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.4">
+    
+    
+      
+        <title>运行时的注解问题 - mypy类型检查</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.bd3936ea.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.356b1318.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+   <link href="../../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+        html.glightbox-open { overflow: initial; height: 100%; }
+        .gslide-title { margin-top: 0px; user-select: text; }
+        .gslide-desc { color: #666; user-select: text; }
+        .gslide-image img { background: white; }
+        
+            .gscrollbar-fixer { padding-right: 15px; }
+            .gdesc-inner { font-size: 0.75rem; }
+            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
+            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
+            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}
+            </style> <script src="../../assets/javascripts/glightbox.min.js"></script></head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="blue">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#运行时的注解问题" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+        
+          <aside class="md-banner md-banner--warning">
+            <div class="md-banner__inner md-grid md-typeset">
+              
+你当前浏览的版本已不是最新版本，
+<a href="../../..">
+    <strong>点击这里</strong>
+</a>查看最新版本的文档
+
+            </div>
+            <script>var el=document.querySelector("[data-md-component=outdated]"),outdated=__md_get("__outdated",sessionStorage);!0===outdated&&el&&(el.hidden=!1)</script>
+          </aside>
+        
+      </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="mypy类型检查" class="md-header__button md-logo" aria-label="mypy类型检查" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            mypy类型检查
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              运行时的注解问题
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/hellowac/mypy-zh-cn" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    hellowac/myppy-zh-cn
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../" class="md-tabs__link">
+          
+  
+    
+  
+  第一步
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../builtin_types/" class="md-tabs__link">
+          
+  
+    
+  
+  类型系统参考
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../mypy_conf/" class="md-tabs__link">
+          
+  
+    
+  
+  配置和运行mypy
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../mypy_other/" class="md-tabs__link">
+          
+  
+    
+  
+  其他杂项
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="mypy类型检查" class="md-nav__button md-logo" aria-label="mypy类型检查" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    mypy类型检查
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/hellowac/mypy-zh-cn" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    hellowac/myppy-zh-cn
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    第一步
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_1" id="__nav_1_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            第一步
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cheat_sheet_py3/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    类型提示备忘录
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../existing_code/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    将 mypy 与现有代码库结合使用
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    类型系统参考
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            类型系统参考
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../builtin_types/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    内置类型
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../type_inference_type_annotations/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    类型推断和类型注解
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../kind_of_types/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    类型种类
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../class_basics/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    类的基础
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    运行时的注解问题
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    运行时的注解问题
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#字符串文字类型和类型注释" class="md-nav__link">
+    字符串文字类型和类型注释
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#future-模块注解导入-pep-563" class="md-nav__link">
+    Future 模块注解导入 (PEP 563)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#typingtype_checking-变量" class="md-nav__link">
+    typing.TYPE_CHECKING 变量
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#类名前置引用" class="md-nav__link">
+    类名前置引用
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#循环导入" class="md-nav__link">
+    循环导入
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#使用存根中的泛型类但运行时不用" class="md-nav__link">
+    使用存根中的泛型类，但运行时不用
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#使用存根中定义的类型但不在运行时使用" class="md-nav__link">
+    使用存根中定义的类型，但不在运行时使用
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#使用内置的泛型" class="md-nav__link">
+    使用内置的泛型
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#使用union的-x--y-语法" class="md-nav__link">
+    使用Union的 X | Y 语法
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#使用typing模块的新功能" class="md-nav__link">
+    使用typing模块的新功能
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../protocol_and_struct_subtyping/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    协议及其子类型
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dynamic_typing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    动态类型
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../type_narrowing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    类型收缩
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../duck_type_compatibility/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    鸭子类型兼容
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../stub_files/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    存根文件
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../generics/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    泛型
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../more_types/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    更多类型
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../literal_and_enum/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    字面量和枚举
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../typeddict/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    类型字典
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../final_names_methods_classes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    最终名称、方法和类
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../metaclasses/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    元类
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../mypy_conf/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    配置和运行mypy
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            配置和运行mypy
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/running_mypy.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    运行mypy和管理导入
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/command_line.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    mypy命令行
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/config_file.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    mypy配置文件
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/inline_config.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    内联配置
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/mypy_daemon.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    mypy服务(守护进程)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/installed_packages.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    使用安装包
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/extending_mypy.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    扩展和集成 mypy
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/stubgen.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    自动存根生成
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/stubtest.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    自动存根测试
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../mypy_other/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    其他杂项
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            其他杂项
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/common_issues.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    常见问题及解决办法
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/supported_python_features.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    支持的 Python 特性
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/error_codes.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    错误码
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/error_code_list.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    默认启用的错误码
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/error_code_list2.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    可选检查的错误代码
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/additional_features.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    额外特性
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy.readthedocs.io/en/stable/faq.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    常见问题解答
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/python/mypy" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    项目地址
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy-lang.org/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    网页地址
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#字符串文字类型和类型注释" class="md-nav__link">
+    字符串文字类型和类型注释
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#future-模块注解导入-pep-563" class="md-nav__link">
+    Future 模块注解导入 (PEP 563)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#typingtype_checking-变量" class="md-nav__link">
+    typing.TYPE_CHECKING 变量
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#类名前置引用" class="md-nav__link">
+    类名前置引用
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#循环导入" class="md-nav__link">
+    循环导入
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#使用存根中的泛型类但运行时不用" class="md-nav__link">
+    使用存根中的泛型类，但运行时不用
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#使用存根中定义的类型但不在运行时使用" class="md-nav__link">
+    使用存根中定义的类型，但不在运行时使用
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#使用内置的泛型" class="md-nav__link">
+    使用内置的泛型
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#使用union的-x--y-语法" class="md-nav__link">
+    使用Union的 X | Y 语法
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#使用typing模块的新功能" class="md-nav__link">
+    使用typing模块的新功能
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="运行时的注解问题">运行时的注解问题<a class="headerlink" href="#运行时的注解问题" title="Permanent link">&para;</a></h1>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">中文</label><label for="__tabbed_1_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>类型注释的惯用用法有时可能会与给定版本的 Python 认为的合法代码相冲突。 本节描述这些场景并解释如何让代码再次运行。 一般来说，我们可以使用三种工具：</p>
+<ul>
+<li>使用 <code>from __future__ import annotations</code> (<a href="https://peps.python.org/pep-0563/"><code>PEP 563</code></a>) （此行为最终可能会在未来的 Python 版本中成为默认行为）</li>
+<li>使用字符串文字类型或类型注释</li>
+<li>使用 <code>typing.TYPE_CHECKING</code></li>
+</ul>
+<p>在讨论您可能遇到的具体问题之前，我们会先提供这些内容的描述。</p>
+</div>
+<div class="tabbed-block">
+<p><strong>Annotation issues at runtime</strong></p>
+<p>Idiomatic use of type annotations can sometimes run up against what a given version of Python considers legal code. This section describes these scenarios and explains how to get your code running again. Generally speaking, we have three tools at our disposal:</p>
+<ul>
+<li>Use of <code>from __future__ import annotations</code> (<a href="https://peps.python.org/pep-0563/"><code>PEP 563</code></a>)  (this behaviour may eventually be made the default in a future Python version)</li>
+<li>Use of string literal types or type comments</li>
+<li>Use of <code>typing.TYPE_CHECKING</code></li>
+</ul>
+<p>We provide a description of these before moving onto discussion of specific problems you may encounter.</p>
+</div>
+</div>
+</div>
+<h2 id="字符串文字类型和类型注释">字符串文字类型和类型注释<a class="headerlink" href="#字符串文字类型和类型注释" title="Permanent link">&para;</a></h2>
+<div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">中文</label><label for="__tabbed_2_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>Mypy 允许您使用以 <code># type:</code> 形式添加类型注释。 例如：</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>a <span style="color: #666666">=</span> <span style="color: #666666">1</span>  <span style="color: #3D7B7B; font-style: italic"># type: int</span>
+
+<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">f</span>(x):  <span style="color: #3D7B7B; font-style: italic"># type: (int) -&gt; int</span>
+    <span style="color: #008000; font-weight: bold">return</span> x <span style="color: #666666">+</span> <span style="color: #666666">1</span>
+
+<span style="color: #3D7B7B; font-style: italic"># 具有多个参数的函数的替代类型注释语法</span>
+<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">send_email</span>(
+    address,     <span style="color: #3D7B7B; font-style: italic"># type: Union[str, List[str]]</span>
+    sender,      <span style="color: #3D7B7B; font-style: italic"># type: str</span>
+    cc,          <span style="color: #3D7B7B; font-style: italic"># type: Optional[List[str]]</span>
+    subject<span style="color: #666666">=</span><span style="color: #BA2121">&#39;&#39;</span>,
+    body<span style="color: #666666">=</span><span style="color: #008000; font-weight: bold">None</span>    <span style="color: #3D7B7B; font-style: italic"># type: List[str]</span>
+):
+    <span style="color: #3D7B7B; font-style: italic"># type: (...) -&gt; bool</span>
+</code></pre></div>
+<p>类型注释不会导致运行时错误，因为 Python 不会评估注释。</p>
+<p>以类似的方式，使用字符串文字类型可以回避可能导致运行时错误的注释问题。</p>
+<p>任何类型都可以作为字符串文字输入，并且您可以自由地将字符串文字类型与非字符串文字类型组合：</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">f</span>(a: <span style="color: #008000">list</span>[<span style="color: #BA2121">&#39;A&#39;</span>]) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>: <span style="color: #666666">...</span>  <span style="color: #3D7B7B; font-style: italic"># OK, 防止 NameError 因为 A 是稍后定义的</span>
+<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">g</span>(n: <span style="color: #BA2121">&#39;int&#39;</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>: <span style="color: #666666">...</span>      <span style="color: #3D7B7B; font-style: italic"># 同样 OK, 虽然没用</span>
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">A</span>: <span style="color: #008000; font-weight: bold">pass</span>
+</code></pre></div>
+<p><code># type:</code> 注释和 <a href="../stub_files/"><code>存根文件</code></a> 中永远不需要字符串文字类型。</p>
+<p>字符串文字类型必须稍后在<em>同一模块</em>中定义（或导入）。 它们不能用于留下未解决的跨模块引用。(有关处理导入周期，请参阅 <a href="#循环导入"><code>import-cycles</code></a>.)</p>
+</div>
+<div class="tabbed-block">
+<p><strong>String literal types and type comments</strong></p>
+<p>Mypy allows you to add type annotations using <code># type:</code> type comments. For example:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>a <span style="color: #666666">=</span> <span style="color: #666666">1</span>  <span style="color: #3D7B7B; font-style: italic"># type: int</span>
+
+<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">f</span>(x):  <span style="color: #3D7B7B; font-style: italic"># type: (int) -&gt; int</span>
+    <span style="color: #008000; font-weight: bold">return</span> x <span style="color: #666666">+</span> <span style="color: #666666">1</span>
+
+<span style="color: #3D7B7B; font-style: italic"># Alternative type comment syntax for functions with many arguments</span>
+<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">send_email</span>(
+    address,     <span style="color: #3D7B7B; font-style: italic"># type: Union[str, List[str]]</span>
+    sender,      <span style="color: #3D7B7B; font-style: italic"># type: str</span>
+    cc,          <span style="color: #3D7B7B; font-style: italic"># type: Optional[List[str]]</span>
+    subject<span style="color: #666666">=</span><span style="color: #BA2121">&#39;&#39;</span>,
+    body<span style="color: #666666">=</span><span style="color: #008000; font-weight: bold">None</span>    <span style="color: #3D7B7B; font-style: italic"># type: List[str]</span>
+):
+    <span style="color: #3D7B7B; font-style: italic"># type: (...) -&gt; bool</span>
+</code></pre></div>
+<p>Type comments can't cause runtime errors because comments are not evaluated by Python.</p>
+<p>In a similar way, using string literal types sidesteps the problem of annotations tha would cause runtime errors.</p>
+<p>Any type can be entered as a string literal, and you can combine string-literal types with non-string-literal types freely:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">f</span>(a: <span style="color: #008000">list</span>[<span style="color: #BA2121">&#39;A&#39;</span>]) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>: <span style="color: #666666">...</span>  <span style="color: #3D7B7B; font-style: italic"># OK, prevents NameError since A is defined later</span>
+<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">g</span>(n: <span style="color: #BA2121">&#39;int&#39;</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>: <span style="color: #666666">...</span>      <span style="color: #3D7B7B; font-style: italic"># Also OK, though not useful</span>
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">A</span>: <span style="color: #008000; font-weight: bold">pass</span>
+</code></pre></div>
+<p>String literal types are never needed in <code># type:</code> comments and <a href="../stub_files/"><code>stub files</code></a>.</p>
+<p>String literal types must be defined (or imported) later <em>in the same module</em>. They cannot be used to leave cross-module references unresolved.  (For dealing with import cycles, see <a href="https://mypy.readthedocs.io/en/latest/runtime_troubles.html#import-cycles"><code>import-cycles</code></a>.)</p>
+<p>(future-annotations)=</p>
+</div>
+</div>
+</div>
+<h2 id="future-模块注解导入-pep-563">Future 模块注解导入 (PEP 563)<a class="headerlink" href="#future-模块注解导入-pep-563" title="Permanent link">&para;</a></h2>
+<div class="tabbed-set tabbed-alternate" data-tabs="3:2"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><input id="__tabbed_3_2" name="__tabbed_3" type="radio" /><div class="tabbed-labels"><label for="__tabbed_3_1">中文</label><label for="__tabbed_3_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>这里描述的许多问题都是由 Python 尝试评估注释引起的。 未来的 Python 版本（可能是 Python 3.12）将默认不再尝试计算函数和变量注释。 Python 3.7 及更高版本中通过使用 <code>from __future__ import annotation</code>提供了此行为。</p>
+<p>这可以被认为是所有函数和变量注释的自动字符串文字化。 请注意，函数和变量注释仍然需要是有效的 Python 语法。 有关更多详细信息，请参阅<a href="https://peps.python.org/pep-0563/"><code>PEP 563</code></a>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>即使使用 <code>__future__</code> 导入，在某些情况下仍然可能需要字符串文字或导致错误，通常涉及在以下情况中使用前置引用或泛型：</p>
+<ul>
+<li><a href="../kind_of_types/#类型别名"><code>type aliases</code></a>;</li>
+<li><a href="../type_narrowing/"><code>type narrowing</code></a>;</li>
+<li>类型定义 (参考 <a href="https://docs.python.org/3/library/typing.html#typing.TypeVar"><code>typing.TypeVar</code></a>, <a href="https://docs.python.org/3/library/typing.html#typing.NewType"><code>typing.NewType</code></a>, <a href="https://docs.python.org/3/library/typing.html#typing.NamedTuple"><code>typing.NamedTuple</code></a>);</li>
+<li>基类.</li>
+</ul>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #3D7B7B; font-style: italic"># 基类示例</span>
+<span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">__future__</span> <span style="color: #008000; font-weight: bold">import</span> annotations
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">A</span>(<span style="color: #008000">tuple</span>[<span style="color: #BA2121">&#39;B&#39;</span>, <span style="color: #BA2121">&#39;C&#39;</span>]): <span style="color: #666666">...</span> <span style="color: #3D7B7B; font-style: italic"># 这里需要字符串文字类型</span>
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">B</span>: <span style="color: #666666">...</span>
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">C</span>: <span style="color: #666666">...</span>
+</code></pre></div>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>某些库可能具有动态评估注释的用例，例如通过使用<code>typing.get_type_hints</code>或<code>eval</code>。 如果您的注释在评估时会引发错误（例如使用 Python 3.9 的 <a href="https://peps.python.org/pep-0604/"><code>PEP 604</code></a> 语法），则在使用此类时可能需要小心这样的库。</p>
+</div>
+</div>
+<div class="tabbed-block">
+<p><strong>Future annotations import (PEP 563)</strong></p>
+<p>Many of the issues described here are caused by Python trying to evaluate annotations. Future Python versions (potentially Python 3.12) will by default no longer attempt to evaluate function and variable annotations. This behaviour is made available in Python 3.7 and later through the use of <code>from __future__ import annotations</code>.</p>
+<p>This can be thought of as automatic string literal-ification of all function and variable annotations. Note that function and variable annotations are still required to be valid Python syntax. For more details, see <a href="https://peps.python.org/pep-0563/"><code>PEP 563</code></a>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Even with the <code>__future__</code> import, there are some scenarios that could still require string literals or result in errors, typically involving use of forward references or generics in:</p>
+<ul>
+<li><a href="../kind_of_types/#类型别名"><code>type aliases</code></a>;</li>
+<li><a href="../type_narrowing/"><code>type narrowing</code></a>;</li>
+<li>type definitions (see <a href="https://docs.python.org/3/library/typing.html#typing.TypeVar"><code>typing.TypeVar</code></a>, <a href="https://docs.python.org/3/library/typing.html#typing.NewType"><code>typing.NewType</code></a>, <a href="https://docs.python.org/3/library/typing.html#typing.NamedTuple"><code>typing.NamedTuple</code></a>);</li>
+<li>base classes.</li>
+</ul>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #3D7B7B; font-style: italic"># base class example</span>
+<span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">__future__</span> <span style="color: #008000; font-weight: bold">import</span> annotations
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">A</span>(<span style="color: #008000">tuple</span>[<span style="color: #BA2121">&#39;B&#39;</span>, <span style="color: #BA2121">&#39;C&#39;</span>]): <span style="color: #666666">...</span> <span style="color: #3D7B7B; font-style: italic"># String literal types needed here</span>
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">B</span>: <span style="color: #666666">...</span>
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">C</span>: <span style="color: #666666">...</span>
+</code></pre></div>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Some libraries may have use cases for dynamic evaluation of annotations, for instance, through use of <code>typing.get_type_hints</code> or <code>eval</code>. If your annotation would raise an error when evaluated (say by using <a href="https://peps.python.org/pep-0604/"><code>PEP 604</code></a> syntax with Python 3.9), you may need to be careful when using such libraries.</p>
+</div>
+</div>
+</div>
+</div>
+<h2 id="typingtype_checking-变量">typing.TYPE_CHECKING 变量<a class="headerlink" href="#typingtype_checking-变量" title="Permanent link">&para;</a></h2>
+<div class="tabbed-set tabbed-alternate" data-tabs="4:2"><input checked="checked" id="__tabbed_4_1" name="__tabbed_4" type="radio" /><input id="__tabbed_4_2" name="__tabbed_4" type="radio" /><div class="tabbed-labels"><label for="__tabbed_4_1">中文</label><label for="__tabbed_4_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p><a href="https://docs.python.org/3/library/typing.html#module-typing"><code>typing</code></a> 模块定义了一个 <a href="https://docs.python.org/3/library/typing.html#typing.TYPE_CHECKING"><code>typing.TYPE_CHECKING</code></a> 常量在运行时为 <code>False</code>，但在类型检查时被视为 <code>True</code>。</p>
+<p>在 <code>if TYPE_CHECKING</code> 代码的内部: 代码不会在运行时执行，因此它提供了一种方便的方法来告诉 mypy 某些内容，而无需在运行时评估代码。 这对于解决<a href="#循环导入">循环导入</a>最有用。</p>
+</div>
+<div class="tabbed-block">
+<p><strong>typing.TYPE_CHECKING</strong></p>
+<p>The <a href="https://docs.python.org/3/library/typing.html#module-typing"><code>typing</code></a> module defines a <a href="https://docs.python.org/3/library/typing.html#typing.TYPE_CHECKING"><code>typing.TYPE_CHECKING</code></a> constant that is <code>False</code> at runtime but treated as <code>True</code> while type checking.</p>
+<p>Since code inside <code>if TYPE_CHECKING:</code> is not executed at runtime, it provides a convenient way to tell mypy something without the code being evaluated at runtime. This is most useful for resolving <a href="#循环导入"><code>import cycles</code></a>.</p>
+</div>
+</div>
+</div>
+<h2 id="类名前置引用">类名前置引用<a class="headerlink" href="#类名前置引用" title="Permanent link">&para;</a></h2>
+<div class="tabbed-set tabbed-alternate" data-tabs="5:2"><input checked="checked" id="__tabbed_5_1" name="__tabbed_5" type="radio" /><input id="__tabbed_5_2" name="__tabbed_5" type="radio" /><div class="tabbed-labels"><label for="__tabbed_5_1">中文</label><label for="__tabbed_5_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>Python 不允许在定义类之前引用类对象（也称为前向引用）。 因此这段代码不能按预期工作：</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">f</span>(x: A) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>: <span style="color: #666666">...</span>  <span style="color: #3D7B7B; font-style: italic"># NameError: name &quot;A&quot; is not defined</span>
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">A</span>: <span style="color: #666666">...</span>
+</code></pre></div>
+<p>从 Python 3.7 开始，您可以添加 <code>from __future__ import annotations</code> 来解决此问题，如前所述：</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">__future__</span> <span style="color: #008000; font-weight: bold">import</span> annotations
+
+<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">f</span>(x: A) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>: <span style="color: #666666">...</span>  <span style="color: #3D7B7B; font-style: italic"># OK</span>
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">A</span>: <span style="color: #666666">...</span>
+</code></pre></div>
+<p>对于 Python 3.6 及更低版本，您可以将类型输入为字符串文字或类型注释：</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">f</span>(x: <span style="color: #BA2121">&#39;A&#39;</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>: <span style="color: #666666">...</span>  <span style="color: #3D7B7B; font-style: italic"># OK</span>
+
+<span style="color: #3D7B7B; font-style: italic"># Also OK</span>
+<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">g</span>(x):  <span style="color: #3D7B7B; font-style: italic"># type: (A) -&gt; None</span>
+    <span style="color: #666666">...</span>
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">A</span>: <span style="color: #666666">...</span>
+</code></pre></div>
+<p>当然，您可以将函数定义移到类定义之后，而不是使用将来的注释导入或字符串文字类型。 但这并不总是可取的，甚至是不可能的。</p>
+</div>
+<div class="tabbed-block">
+<p><strong>Class name forward references</strong></p>
+<p>Python does not allow references to a class object before the class is
+defined (aka forward reference). Thus this code does not work as expected:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">f</span>(x: A) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>: <span style="color: #666666">...</span>  <span style="color: #3D7B7B; font-style: italic"># NameError: name &quot;A&quot; is not defined</span>
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">A</span>: <span style="color: #666666">...</span>
+</code></pre></div>
+<p>Starting from Python 3.7, you can add <code>from __future__ import annotations</code> to
+resolve this, as discussed earlier:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">__future__</span> <span style="color: #008000; font-weight: bold">import</span> annotations
+
+<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">f</span>(x: A) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>: <span style="color: #666666">...</span>  <span style="color: #3D7B7B; font-style: italic"># OK</span>
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">A</span>: <span style="color: #666666">...</span>
+</code></pre></div>
+<p>For Python 3.6 and below, you can enter the type as a string literal or type comment:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">f</span>(x: <span style="color: #BA2121">&#39;A&#39;</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>: <span style="color: #666666">...</span>  <span style="color: #3D7B7B; font-style: italic"># OK</span>
+
+<span style="color: #3D7B7B; font-style: italic"># Also OK</span>
+<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">g</span>(x):  <span style="color: #3D7B7B; font-style: italic"># type: (A) -&gt; None</span>
+    <span style="color: #666666">...</span>
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">A</span>: <span style="color: #666666">...</span>
+</code></pre></div>
+<p>Of course, instead of using future annotations import or string literal types,
+you could move the function definition after the class definition. This is not
+always desirable or even possible, though.</p>
+</div>
+</div>
+</div>
+<h2 id="循环导入">循环导入<a class="headerlink" href="#循环导入" title="Permanent link">&para;</a></h2>
+<div class="tabbed-set tabbed-alternate" data-tabs="6:2"><input checked="checked" id="__tabbed_6_1" name="__tabbed_6" type="radio" /><input id="__tabbed_6_2" name="__tabbed_6" type="radio" /><div class="tabbed-labels"><label for="__tabbed_6_1">中文</label><label for="__tabbed_6_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>当模块 A 导入模块 B 并且模块 B 导入模块 A（可能是间接的，例如 <code>A -&gt; B -&gt; C -&gt; A</code>）时，会发生导入循环。 有时，为了添加类型注释，您必须向模块添加额外的导入，而这些导入会导致以前不存在的循环。 这可能会导致运行时出现错误，例如：</p>
+<div class="language-text highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>ImportError: cannot import name &#39;b&#39; from partially initialized module &#39;A&#39; (most likely due to a circular import)
+</code></pre></div>
+<p>如果这些循环在运行程序时确实成为问题，那么有一个技巧：如果仅类型注释需要导入并且您正在使用 a) <a href="https://mypy.readthedocs.io/en/latest/runtime_troubles.html#future-annotations"><code>future comments import</code></a>，或 b) 相关注释的字符串文字或类型注释，您可以将导入写入 <code>if TYPE_CHECKING:</code> 中，这样它们就不会在运行时执行。 例子：</p>
+<p>文件 <code>foo.py</code>:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">typing</span> <span style="color: #008000; font-weight: bold">import</span> TYPE_CHECKING
+
+<span style="color: #008000; font-weight: bold">if</span> TYPE_CHECKING:
+    <span style="color: #008000; font-weight: bold">import</span> <span style="color: #0000FF; font-weight: bold">bar</span>
+
+<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">listify</span>(arg: <span style="color: #BA2121">&#39;bar.BarClass&#39;</span>) <span style="color: #666666">-&gt;</span> <span style="color: #BA2121">&#39;list[bar.BarClass]&#39;</span>:
+    <span style="color: #008000; font-weight: bold">return</span> [arg]
+</code></pre></div>
+<p>文件 <code>bar.py</code>:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">foo</span> <span style="color: #008000; font-weight: bold">import</span> listify
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">BarClass</span>:
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">listifyme</span>(<span style="color: #008000">self</span>) <span style="color: #666666">-&gt;</span> <span style="color: #BA2121">&#39;list[BarClass]&#39;</span>:
+        <span style="color: #008000; font-weight: bold">return</span> listify(<span style="color: #008000">self</span>)
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<p><strong>Import cycles</strong></p>
+<p>An import cycle occurs where module A imports module B and module B imports module A (perhaps indirectly, e.g. <code>A -&gt; B -&gt; C -&gt; A</code>). Sometimes in order to add type annotations you have to add extra imports to a module and those imports cause cycles that didn't exist before. This can lead to errors at runtime like:</p>
+<div class="language-text highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>ImportError: cannot import name &#39;b&#39; from partially initialized module &#39;A&#39; (most likely due to a circular import)
+</code></pre></div>
+<p>If those cycles do become a problem when running your program, there's a trick: if the import is only needed for type annotations and you're using a) the <a href="https://mypy.readthedocs.io/en/latest/runtime_troubles.html#future-annotations"><code>future annotations import</code></a>, or b) string literals or type comments for the relevant annotations, you can write the imports inside <code>if TYPE_CHECKING:</code> so that they are not executed at runtime. Example:</p>
+<p>File <code>foo.py</code>:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">typing</span> <span style="color: #008000; font-weight: bold">import</span> TYPE_CHECKING
+
+<span style="color: #008000; font-weight: bold">if</span> TYPE_CHECKING:
+    <span style="color: #008000; font-weight: bold">import</span> <span style="color: #0000FF; font-weight: bold">bar</span>
+
+<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">listify</span>(arg: <span style="color: #BA2121">&#39;bar.BarClass&#39;</span>) <span style="color: #666666">-&gt;</span> <span style="color: #BA2121">&#39;list[bar.BarClass]&#39;</span>:
+    <span style="color: #008000; font-weight: bold">return</span> [arg]
+</code></pre></div>
+<p>File <code>bar.py</code>:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">foo</span> <span style="color: #008000; font-weight: bold">import</span> listify
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">BarClass</span>:
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">listifyme</span>(<span style="color: #008000">self</span>) <span style="color: #666666">-&gt;</span> <span style="color: #BA2121">&#39;list[BarClass]&#39;</span>:
+        <span style="color: #008000; font-weight: bold">return</span> listify(<span style="color: #008000">self</span>)
+</code></pre></div>
+</div>
+</div>
+</div>
+<h2 id="使用存根中的泛型类但运行时不用">使用存根中的泛型类，但运行时不用<a class="headerlink" href="#使用存根中的泛型类但运行时不用" title="Permanent link">&para;</a></h2>
+<div class="tabbed-set tabbed-alternate" data-tabs="7:2"><input checked="checked" id="__tabbed_7_1" name="__tabbed_7" type="radio" /><input id="__tabbed_7_2" name="__tabbed_7" type="radio" /><div class="tabbed-labels"><label for="__tabbed_7_1">中文</label><label for="__tabbed_7_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>有些类在存根中声明为 <a href="https://mypy.readthedocs.io/en/latest/generics.html#generic-classes"><code>generic</code></a>，但不是在运行时声明。</p>
+<p>在 Python 3.8 及更早版本中，标准库中有几个示例，例如 <a href="https://docs.python.org/3/library/os.html#os.PathLike"><code>os.PathLike</code></a> 和 <a href="https://docs.python.org/3/library/queue.html#queue.Queue"> <code>queue.Queue</code></a>。 为这样的类添加下标将导致运行时错误：</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">queue</span> <span style="color: #008000; font-weight: bold">import</span> Queue
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Tasks</span>(Queue[<span style="color: #008000">str</span>]):  <span style="color: #3D7B7B; font-style: italic"># TypeError: &#39;type&#39; object is not subscriptable</span>
+    <span style="color: #666666">...</span>
+
+results: Queue[<span style="color: #008000">int</span>] <span style="color: #666666">=</span> Queue()  <span style="color: #3D7B7B; font-style: italic"># TypeError: &#39;type&#39; object is not subscriptable</span>
+</code></pre></div>
+<p>为了避免在注释中使用这些泛型而产生错误，只需使用 <a href="https://mypy.readthedocs.io/en/latest/runtime_troubles.html#future-annotations"><code>future comments import</code></a> （或字符串文字或类型 Python 3.6 及以下版本的注释）。</p>
+<p>为了避免从这些类继承时出现错误，事情会稍微复杂一些，您需要使用 [<code>typing.TYPE_CHECKING</code>](https://mypy.readthedocs.io/en/latest/runtime_troubles.html#typing-type- 检查）：</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">typing</span> <span style="color: #008000; font-weight: bold">import</span> TYPE_CHECKING
+<span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">queue</span> <span style="color: #008000; font-weight: bold">import</span> Queue
+
+<span style="color: #008000; font-weight: bold">if</span> TYPE_CHECKING:
+    BaseQueue <span style="color: #666666">=</span> Queue[<span style="color: #008000">str</span>]  <span style="color: #3D7B7B; font-style: italic"># this is only processed by mypy</span>
+<span style="color: #008000; font-weight: bold">else</span>:
+    BaseQueue <span style="color: #666666">=</span> Queue  <span style="color: #3D7B7B; font-style: italic"># this is not seen by mypy but will be executed at runtime</span>
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Tasks</span>(BaseQueue):  <span style="color: #3D7B7B; font-style: italic"># OK</span>
+    <span style="color: #666666">...</span>
+
+task_queue: Tasks
+reveal_type(task_queue<span style="color: #666666">.</span>get())  <span style="color: #3D7B7B; font-style: italic"># Reveals str</span>
+</code></pre></div>
+<p>如果您的子类也是通用的，您可以使用以下内容：</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">typing</span> <span style="color: #008000; font-weight: bold">import</span> TYPE_CHECKING, TypeVar, Generic
+<span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">queue</span> <span style="color: #008000; font-weight: bold">import</span> Queue
+
+_T <span style="color: #666666">=</span> TypeVar(<span style="color: #BA2121">&quot;_T&quot;</span>)
+<span style="color: #008000; font-weight: bold">if</span> TYPE_CHECKING:
+    <span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">_MyQueueBase</span>(Queue[_T]): <span style="color: #008000; font-weight: bold">pass</span>
+<span style="color: #008000; font-weight: bold">else</span>:
+    <span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">_MyQueueBase</span>(Generic[_T], Queue): <span style="color: #008000; font-weight: bold">pass</span>
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">MyQueue</span>(_MyQueueBase[_T]): <span style="color: #008000; font-weight: bold">pass</span>
+
+task_queue: MyQueue[<span style="color: #008000">str</span>]
+reveal_type(task_queue<span style="color: #666666">.</span>get())  <span style="color: #3D7B7B; font-style: italic"># Reveals str</span>
+</code></pre></div>
+<p>在Python 3.9中，我们可以直接继承<code>Queue[str]</code>或<code>Queue[T]</code>，因为它的[<code>queue.Queue</code>](https://docs.python.org/3/library/queue.html#queue.Queue 实现了 <code>__class_getitem__</code>，因此类对象可以在运行时使用下标而不会出现问题。</p>
+</div>
+<div class="tabbed-block">
+<p><strong>Using classes that are generic in stubs but not at runtime</strong></p>
+<p>Some classes are declared as <a href="https://mypy.readthedocs.io/en/latest/generics.html#generic-classes"><code>generic</code></a> in stubs, but not at runtime.</p>
+<p>In Python 3.8 and earlier, there are several examples within the standard library, for instance, <a href="https://docs.python.org/3/library/os.html#os.PathLike"><code>os.PathLike</code></a> and <a href="https://docs.python.org/3/library/queue.html#queue.Queue"><code>queue.Queue</code></a>. Subscripting
+such a class will result in a runtime error:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">queue</span> <span style="color: #008000; font-weight: bold">import</span> Queue
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Tasks</span>(Queue[<span style="color: #008000">str</span>]):  <span style="color: #3D7B7B; font-style: italic"># TypeError: &#39;type&#39; object is not subscriptable</span>
+    <span style="color: #666666">...</span>
+
+results: Queue[<span style="color: #008000">int</span>] <span style="color: #666666">=</span> Queue()  <span style="color: #3D7B7B; font-style: italic"># TypeError: &#39;type&#39; object is not subscriptable</span>
+</code></pre></div>
+<p>To avoid errors from use of these generics in annotations, just use the <a href="https://mypy.readthedocs.io/en/latest/runtime_troubles.html#future-annotations"><code>future annotations import</code></a> (or string literals or type
+comments for Python 3.6 and below).</p>
+<p>To avoid errors when inheriting from these classes, things are a little more
+complicated and you need to use <a href="https://mypy.readthedocs.io/en/latest/runtime_troubles.html#typing-type-checking"><code>typing.TYPE_CHECKING</code></a>:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">typing</span> <span style="color: #008000; font-weight: bold">import</span> TYPE_CHECKING
+<span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">queue</span> <span style="color: #008000; font-weight: bold">import</span> Queue
+
+<span style="color: #008000; font-weight: bold">if</span> TYPE_CHECKING:
+    BaseQueue <span style="color: #666666">=</span> Queue[<span style="color: #008000">str</span>]  <span style="color: #3D7B7B; font-style: italic"># this is only processed by mypy</span>
+<span style="color: #008000; font-weight: bold">else</span>:
+    BaseQueue <span style="color: #666666">=</span> Queue  <span style="color: #3D7B7B; font-style: italic"># this is not seen by mypy but will be executed at runtime</span>
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Tasks</span>(BaseQueue):  <span style="color: #3D7B7B; font-style: italic"># OK</span>
+    <span style="color: #666666">...</span>
+
+task_queue: Tasks
+reveal_type(task_queue<span style="color: #666666">.</span>get())  <span style="color: #3D7B7B; font-style: italic"># Reveals str</span>
+</code></pre></div>
+<p>If your subclass is also generic, you can use the following:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">typing</span> <span style="color: #008000; font-weight: bold">import</span> TYPE_CHECKING, TypeVar, Generic
+<span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">queue</span> <span style="color: #008000; font-weight: bold">import</span> Queue
+
+_T <span style="color: #666666">=</span> TypeVar(<span style="color: #BA2121">&quot;_T&quot;</span>)
+<span style="color: #008000; font-weight: bold">if</span> TYPE_CHECKING:
+    <span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">_MyQueueBase</span>(Queue[_T]): <span style="color: #008000; font-weight: bold">pass</span>
+<span style="color: #008000; font-weight: bold">else</span>:
+    <span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">_MyQueueBase</span>(Generic[_T], Queue): <span style="color: #008000; font-weight: bold">pass</span>
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">MyQueue</span>(_MyQueueBase[_T]): <span style="color: #008000; font-weight: bold">pass</span>
+
+task_queue: MyQueue[<span style="color: #008000">str</span>]
+reveal_type(task_queue<span style="color: #666666">.</span>get())  <span style="color: #3D7B7B; font-style: italic"># Reveals str</span>
+</code></pre></div>
+<p>In Python 3.9, we can just inherit directly from <code>Queue[str]</code> or <code>Queue[T]</code> since its [<code>queue.Queue</code>](https://docs.python.org/3/library/queue.html#queue.Queue implements {py:meth}<code>__class_getitem__</code>, so the class object can be subscripted at runtime without issue.</p>
+</div>
+</div>
+</div>
+<h2 id="使用存根中定义的类型但不在运行时使用">使用存根中定义的类型，但不在运行时使用<a class="headerlink" href="#使用存根中定义的类型但不在运行时使用" title="Permanent link">&para;</a></h2>
+<div class="tabbed-set tabbed-alternate" data-tabs="8:2"><input checked="checked" id="__tabbed_8_1" name="__tabbed_8" type="radio" /><input id="__tabbed_8_2" name="__tabbed_8" type="radio" /><div class="tabbed-labels"><label for="__tabbed_8_1">中文</label><label for="__tabbed_8_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>有时，您正在使用的存根可能会定义您希望重用的类型，但这些类型在运行时并不存在。 天真地导入这些类型将导致您的代码在运行时失败，并出现“ImportError”或“ModuleNotFoundError”。 与前面的部分类似，这些可以通过使用 <a href="https://mypy.readthedocs.io/en/latest/runtime_troubles.html#typing-type-checking"><code>typing.TYPE_CHECKING</code></a> 来处理：</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">__future__</span> <span style="color: #008000; font-weight: bold">import</span> annotations
+<span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">typing</span> <span style="color: #008000; font-weight: bold">import</span> TYPE_CHECKING
+<span style="color: #008000; font-weight: bold">if</span> TYPE_CHECKING:
+    <span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">_typeshed</span> <span style="color: #008000; font-weight: bold">import</span> SupportsRichComparison
+
+<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">f</span>(x: SupportsRichComparison) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>
+</code></pre></div>
+<p>使用导入符号时需要使用 “from <strong>future</strong> import annotations” 以避免出现 “NameError”。 有关更多信息和注意事项，请参阅有关<a href="https://mypy.readthedocs.io/en/latest/runtime_troubles.html#future-annotations"><code>future annotations</code></a>的部分。</p>
+</div>
+<div class="tabbed-block">
+<p><strong>Using types defined in stubs but not at runtime</strong></p>
+<p>Sometimes stubs that you're using may define types you wish to re-use that do not exist at runtime. Importing these types naively will cause your code to fail at runtime with <code>ImportError</code> or <code>ModuleNotFoundError</code>. Similar to previous sections, these can be dealt with by using <a href="https://mypy.readthedocs.io/en/latest/runtime_troubles.html#typing-type-checking"><code>typing.TYPE_CHECKING</code></a>:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">__future__</span> <span style="color: #008000; font-weight: bold">import</span> annotations
+<span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">typing</span> <span style="color: #008000; font-weight: bold">import</span> TYPE_CHECKING
+<span style="color: #008000; font-weight: bold">if</span> TYPE_CHECKING:
+    <span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">_typeshed</span> <span style="color: #008000; font-weight: bold">import</span> SupportsRichComparison
+
+<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">f</span>(x: SupportsRichComparison) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>
+</code></pre></div>
+<p>The <code>from __future__ import annotations</code> is required to avoid a <code>NameError</code> when using the imported symbol. For more information and caveats, see the section on <a href="https://mypy.readthedocs.io/en/latest/runtime_troubles.html#future-annotations"><code>future annotations</code></a>.</p>
+</div>
+</div>
+</div>
+<h2 id="使用内置的泛型">使用内置的泛型<a class="headerlink" href="#使用内置的泛型" title="Permanent link">&para;</a></h2>
+<div class="tabbed-set tabbed-alternate" data-tabs="9:2"><input checked="checked" id="__tabbed_9_1" name="__tabbed_9" type="radio" /><input id="__tabbed_9_2" name="__tabbed_9" type="radio" /><div class="tabbed-labels"><label for="__tabbed_9_1">中文</label><label for="__tabbed_9_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>从Python 3.9（<a href="https://peps.python.org/pep-0585/"><code>585</code></a>）开始，标准库中许多集合的类型对象支持运行时订阅。 这意味着您不再需要从 <a href="https://docs.python.org/3/library/typing.html#module-typing"><code>typing</code></a> 导入等效项； 您可以简单地使用内置集合或来自 <a href="https://docs.python.org/3/library/collections.abc.html#module-collections.abc"><code>collections.abc</code></a> 的集合：</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">collections.abc</span> <span style="color: #008000; font-weight: bold">import</span> Sequence
+x: <span style="color: #008000">list</span>[<span style="color: #008000">str</span>]
+y: <span style="color: #008000">dict</span>[<span style="color: #008000">int</span>, <span style="color: #008000">str</span>]
+z: Sequence[<span style="color: #008000">str</span>] <span style="color: #666666">=</span> x
+</code></pre></div>
+<p>Python 3.7 及更高版本中对使用此语法的支持也很有限：如果您使用 “from <strong>future</strong> import annotations”，mypy 将在注释中理解此语法。 但是，由于 Python 解释器在运行时不支持此功能，因此请确保您了解 <a href="https://mypy.readthedocs.io/"><code>future comments import</code></a> 注释中提到的注意事项 en/latest/runtime_troubles.html#future-annotations）。</p>
+</div>
+<div class="tabbed-block">
+<p><strong>Using generic builtins</strong></p>
+<p>Starting with Python 3.9 (<a href="https://peps.python.org/pep-0585/"><code>585</code></a>), the type objects of many collections in the standard library support subscription at runtime. This means that you no longer have to import the equivalents from <a href="https://docs.python.org/3/library/typing.html#module-typing"><code>typing</code></a>; you can simply use the built-in collections or those from <a href="https://docs.python.org/3/library/collections.abc.html#module-collections.abc"><code>collections.abc</code></a>:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">collections.abc</span> <span style="color: #008000; font-weight: bold">import</span> Sequence
+x: <span style="color: #008000">list</span>[<span style="color: #008000">str</span>]
+y: <span style="color: #008000">dict</span>[<span style="color: #008000">int</span>, <span style="color: #008000">str</span>]
+z: Sequence[<span style="color: #008000">str</span>] <span style="color: #666666">=</span> x
+</code></pre></div>
+<p>There is limited support for using this syntax in Python 3.7 and later as well: if you use <code>from __future__ import annotations</code>, mypy will understand this syntax in annotations. However, since this will not be supported by the Python interpreter at runtime, make sure you're aware of the caveats mentioned in the notes at {ref} <a href="https://mypy.readthedocs.io/en/latest/runtime_troubles.html#future-annotations"><code>future annotations import</code></a>.</p>
+</div>
+</div>
+</div>
+<h2 id="使用union的-x--y-语法">使用Union的 X | Y 语法<a class="headerlink" href="#使用union的-x--y-语法" title="Permanent link">&para;</a></h2>
+<div class="tabbed-set tabbed-alternate" data-tabs="10:2"><input checked="checked" id="__tabbed_10_1" name="__tabbed_10" type="radio" /><input id="__tabbed_10_2" name="__tabbed_10" type="radio" /><div class="tabbed-labels"><label for="__tabbed_10_1">中文</label><label for="__tabbed_10_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>从 Python 3.10 <a href="https://peps.python.org/pep-0604/"><code>PEP 604</code></a> 开始，您可以将联合类型拼写为 <code>x: int | str</code>，而不是<code>x:typing.Union[int, str]</code>。</p>
+<p>Python 3.7 及更高版本中对使用此语法的支持也很有限：如果您使用“from <strong>future</strong> import annotations”，mypy 将在注释、字符串文字类型、类型注释和存根文件中理解此语法。 但是，由于 Python 解释器在运行时不支持这一点（如果计算，<code>int | str</code> 将引发 <code>TypeError: unsupported operand type(s) for |: 'type' and 'type'</code>），请确保 了解 <a href="https://mypy.readthedocs.io/en/latest/runtime_troubles.html#future-annotations"><code>future 注释 import&lt;future-annotations&gt;</code></a> 的注释中提到的警告。</p>
+</div>
+<div class="tabbed-block">
+<p><strong>Using X | Y syntax for Unions</strong></p>
+<p>Starting with Python 3.10 <a href="https://peps.python.org/pep-0604/"><code>PEP 604</code></a>, you can spell union types as <code>x: int | str</code>, instead of <code>x: typing.Union[int, str]</code>.</p>
+<p>There is limited support for using this syntax in Python 3.7 and later as well: if you use <code>from __future__ import annotations</code>, mypy will understand this syntax in annotations, string literal types, type comments and stub files. However, since this will not be supported by the Python interpreter at runtime (if evaluated, <code>int | str</code> will raise <code>TypeError: unsupported operand type(s) for |: 'type' and 'type'</code>), make sure you're aware of the caveats mentioned in the notes at <a href="https://mypy.readthedocs.io/en/latest/runtime_troubles.html#future-annotations"><code>future annotations import&lt;future-annotations&gt;</code></a>.</p>
+</div>
+</div>
+</div>
+<h2 id="使用typing模块的新功能">使用typing模块的新功能<a class="headerlink" href="#使用typing模块的新功能" title="Permanent link">&para;</a></h2>
+<div class="tabbed-set tabbed-alternate" data-tabs="11:2"><input checked="checked" id="__tabbed_11_1" name="__tabbed_11" type="radio" /><input id="__tabbed_11_2" name="__tabbed_11" type="radio" /><div class="tabbed-labels"><label for="__tabbed_11_1">中文</label><label for="__tabbed_11_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>您可能会发现自己想要使用早期版本的 Python 中添加到 <a href="https://docs.python.org/3/library/typing.html#module-typing"><code>typing</code></a> 模块的功能，例如，在 Python 3.6 中使用 <code>Literal</code>、<code>Protocol</code>、<code>TypedDict</code> 中的任何一个。</p>
+<p>最简单的方法是安装并使用 PyPI 中的 typing_extensions 包进行相关导入，例如：</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">typing_extensions</span> <span style="color: #008000; font-weight: bold">import</span> Literal
+x: Literal[<span style="color: #BA2121">&quot;open&quot;</span>, <span style="color: #BA2121">&quot;close&quot;</span>]
+</code></pre></div>
+<p>如果您不想依赖在较新的 Python 上安装的 <code>typing_extensions</code>，您也可以使用：</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">import</span> <span style="color: #0000FF; font-weight: bold">sys</span>
+<span style="color: #008000; font-weight: bold">if</span> sys<span style="color: #666666">.</span>version_info <span style="color: #666666">&gt;=</span> (<span style="color: #666666">3</span>, <span style="color: #666666">8</span>):
+    <span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">typing</span> <span style="color: #008000; font-weight: bold">import</span> Literal
+<span style="color: #008000; font-weight: bold">else</span>:
+    <span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">typing_extensions</span> <span style="color: #008000; font-weight: bold">import</span> Literal
+
+x: Literal[<span style="color: #BA2121">&quot;open&quot;</span>, <span style="color: #BA2121">&quot;close&quot;</span>]
+</code></pre></div>
+<p>这与以下 <a href="https://peps.python.org/pep-0508/"><code>PEP 508</code></a> 依赖项规范配合得很好：<code>typing_extensions; python_version &lt;“3.8”</code></p>
+</div>
+<div class="tabbed-block">
+<p><strong>Using new additions to the typing module</strong></p>
+<p>You may find yourself wanting to use features added to the {py:mod}<code>typing</code> module in earlier versions of Python than the addition, for example, using any of <code>Literal</code>, <code>Protocol</code>, <code>TypedDict</code> with Python 3.6.</p>
+<p>The easiest way to do this is to install and use the <code>typing_extensions</code> package from PyPI for the relevant imports, for example:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">typing_extensions</span> <span style="color: #008000; font-weight: bold">import</span> Literal
+x: Literal[<span style="color: #BA2121">&quot;open&quot;</span>, <span style="color: #BA2121">&quot;close&quot;</span>]
+</code></pre></div>
+<p>If you don't want to rely on <code>typing_extensions</code> being installed on newer Pythons, you could alternatively use:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">import</span> <span style="color: #0000FF; font-weight: bold">sys</span>
+<span style="color: #008000; font-weight: bold">if</span> sys<span style="color: #666666">.</span>version_info <span style="color: #666666">&gt;=</span> (<span style="color: #666666">3</span>, <span style="color: #666666">8</span>):
+    <span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">typing</span> <span style="color: #008000; font-weight: bold">import</span> Literal
+<span style="color: #008000; font-weight: bold">else</span>:
+    <span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">typing_extensions</span> <span style="color: #008000; font-weight: bold">import</span> Literal
+
+x: Literal[<span style="color: #BA2121">&quot;open&quot;</span>, <span style="color: #BA2121">&quot;close&quot;</span>]
+</code></pre></div>
+<p>This plays nicely well with following <a href="https://peps.python.org/pep-0508/"><code>PEP 508</code></a> dependency specification: <code>typing_extensions; python_version&lt;"3.8"</code></p>
+</div>
+</div>
+</div>
+
+  <hr>
+<div class="md-source-file">
+  <small>
+    
+      最后更新:
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2024年9月4日</span>
+      
+        <br>
+        创建日期:
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2024年9月4日</span>
+      
+    
+  </small>
+</div>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var tab,labels=set.querySelector(".tabbed-labels");for(tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["header.autohide", "navigation.top", "navigation.tabs", "navigation.tabs.sticky", "navigation.path", "content.tabs.link", "content.code.copy", "content.tooltips", "navigation.indexes", "navigation.prune", "navigation.instant"], "search": "../../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": {"provider": "mike"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.94c44541.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  <script>document$.subscribe(() => {const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});})</script></body>
+</html>
