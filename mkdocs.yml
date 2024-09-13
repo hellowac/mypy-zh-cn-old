@@ -148,22 +148,22 @@ nav:
         - 配置和运行mypy:
                   - mypy_conf/index.md
                   - 运行mypy和管理导入: mypy_conf/running_mypy.md # https://mypy.readthedocs.io/en/stable/running_mypy.html
-                  - mypy命令行: https://mypy.readthedocs.io/en/stable/command_line.html
-                  - mypy配置文件: https://mypy.readthedocs.io/en/stable/config_file.html
-                  - 内联配置: https://mypy.readthedocs.io/en/stable/inline_config.html
-                  - mypy服务(守护进程): https://mypy.readthedocs.io/en/stable/mypy_daemon.html
-                  - 使用安装包: https://mypy.readthedocs.io/en/stable/installed_packages.html
-                  - 扩展和集成 mypy: https://mypy.readthedocs.io/en/stable/extending_mypy.html
-                  - 自动存根生成: https://mypy.readthedocs.io/en/stable/stubgen.html
-                  - 自动存根测试: https://mypy.readthedocs.io/en/stable/stubtest.html
+                  - mypy命令行: mypy_conf/command_line.md # https://mypy.readthedocs.io/en/stable/command_line.html
+                  - mypy配置文件: mypy_conf/config_file.md # https://mypy.readthedocs.io/en/stable/config_file.html
+                  - 内联配置: mypy_conf/inline_config.md # https://mypy.readthedocs.io/en/stable/inline_config.html
+                  - mypy服务(守护进程): mypy_conf/mypy_daemon.md # https://mypy.readthedocs.io/en/stable/mypy_daemon.html
+                  - 使用安装包: mypy_conf/installed_packages.md # https://mypy.readthedocs.io/en/stable/installed_packages.html
+                  - 扩展和集成 mypy: mypy_conf/extending_mypy.md # https://mypy.readthedocs.io/en/stable/extending_mypy.html
+                  - 自动存根生成: mypy_conf/stubgen.md # https://mypy.readthedocs.io/en/stable/stubgen.html
+                  - 自动存根测试: mypy_conf/stubtest.md # https://mypy.readthedocs.io/en/stable/stubtest.html
         - 其他杂项:
                   - mypy_other/index.md
-                  - 常见问题及解决办法: https://mypy.readthedocs.io/en/stable/common_issues.html
-                  - 支持的 Python 特性: https://mypy.readthedocs.io/en/stable/supported_python_features.html
-                  - 错误码: https://mypy.readthedocs.io/en/stable/error_codes.html
-                  - 默认启用的错误码: https://mypy.readthedocs.io/en/stable/error_code_list.html
-                  - 可选检查的错误代码: https://mypy.readthedocs.io/en/stable/error_code_list2.html
-                  - 额外特性: https://mypy.readthedocs.io/en/stable/additional_features.html
-                  - 常见问题解答: https://mypy.readthedocs.io/en/stable/faq.html
+                  - 常见问题及解决办法: mypy_other/common_issues.md  # https://mypy.readthedocs.io/en/stable/common_issues.html
+                  - 支持的 Python 特性: mypy_other/supported_python_features.md  # https://mypy.readthedocs.io/en/stable/supported_python_features.html
+                  - 错误码: mypy_other/error_codes.md  # https://mypy.readthedocs.io/en/stable/error_codes.html
+                  - 默认启用的错误码: mypy_other/error_code_list.md  # https://mypy.readthedocs.io/en/stable/error_code_list.html
+                  - 可选检查的错误代码: mypy_other/error_code_list2.md  # https://mypy.readthedocs.io/en/stable/error_code_list2.html
+                  - 额外特性: mypy_other/additional_features.md  # https://mypy.readthedocs.io/en/stable/additional_features.html
+                  - 常见问题解答: mypy_other/faq.md  # https://mypy.readthedocs.io/en/stable/faq.html
                   - 项目地址: https://github.com/python/mypy
                   - 网页地址: https://mypy-lang.org/

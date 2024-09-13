@@ -8,7 +8,7 @@ Getting started
 
     本章介绍了mypy的一些核心概念，包括函数注解、[typing](https://docs.python.org/3/library/typing.html#module-typing) 模块、存根文件等。
     
-    如果你想要一个快速的介绍，请查看[mypy速查表](./mypy/cheat_sheet_py3.md)。
+    如果你想要一个快速的介绍，请查看[mypy速查表](./cheat_sheet_py3.md)。
     
     如果你不熟悉静态和动态类型检查的概念，请确保仔细阅读本章，因为否则文档的其余部分可能不太容易理解。
 
@@ -16,7 +16,7 @@ Getting started
 
     This chapter introduces some core concepts of mypy, including function annotations, the [typing](https://docs.python.org/3/library/typing.html#module-typing) module, stub files, and more.
     
-    If you’re looking for a quick intro, see the [mypy cheatsheet](./mypy/cheat_sheet_py3.md).
+    If you’re looking for a quick intro, see the [mypy cheatsheet](./cheat_sheet_py3.md).
     
     If you’re unfamiliar with the concepts of static and dynamic type checking, be sure to read this chapter carefully, as the rest of the documentation may not make much sense otherwise.
 
@@ -254,7 +254,7 @@ Getting started
     
     [typing](https://docs.python.org/3/library/typing.html#module-typing) 模块包含许多其他有用的类型。
     
-    要快速了解，可以查看 [mypy cheatsheet](./mypy/cheat_sheet_py3.md)。
+    要快速了解，可以查看 [mypy cheatsheet](./cheat_sheet_py3.md)。
     
     要获得详细的概述（包括如何创建自己的泛型类型或类型别名），可以查看 **类型系统参考**。
     
@@ -318,7 +318,7 @@ Getting started
     
     The [typing](https://docs.python.org/3/library/typing.html#module-typing) module contains many other useful types.
     
-    For a quick overview, look through the [mypy cheatsheet](./mypy/cheat_sheet_py3.md).
+    For a quick overview, look through the [mypy cheatsheet](./cheat_sheet_py3.md).
     
     For a detailed overview (including information on how to make your own generic types or your own type aliases), look through the **type system reference**.
     
@@ -466,7 +466,7 @@ Getting started
 
     如果你时间紧迫，不想在开始之前阅读大量文档，以下是一些快速学习资源的指引：
     
-    - 阅读 [mypy cheatsheet](./mypy/cheat_sheet_py3.md)。
+    - 阅读 [mypy cheatsheet](./cheat_sheet_py3.md)。
     
     - 如果你有一个现有的大型代码库但没有很多类型注解，可以阅读 [如何在现有代码库中使用 mypy](https://mypy.readthedocs.io/en/stable/existing_code.html#existing-code)。
     
@@ -491,7 +491,7 @@ Getting started
 
     If you are in a hurry and don’t want to read lots of documentation before getting started, here are some pointers to quick learning resources:
     
-    - Read the [mypy cheatsheet](./mypy/cheat_sheet_py3.md).
+    - Read the [mypy cheatsheet](./cheat_sheet_py3.md).
     
     - Read [Using mypy with an existing codebase](https://mypy.readthedocs.io/en/stable/existing_code.html#existing-code) if you have a significant existing codebase without many type annotations.
     
