@@ -147,7 +147,7 @@ nav:
                   - 元类: mypy/metaclasses.md
         - 配置和运行mypy:
                   - mypy_conf/index.md
-                  - 运行mypy和管理导入: https://mypy.readthedocs.io/en/stable/running_mypy.html
+                  - 运行mypy和管理导入: mypy_conf/running_mypy.md # https://mypy.readthedocs.io/en/stable/running_mypy.html
                   - mypy命令行: https://mypy.readthedocs.io/en/stable/command_line.html
                   - mypy配置文件: https://mypy.readthedocs.io/en/stable/config_file.html
                   - 内联配置: https://mypy.readthedocs.io/en/stable/inline_config.html
