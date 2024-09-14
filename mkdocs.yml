@@ -165,5 +165,4 @@ nav:
                   - 可选检查的错误代码: mypy_other/error_code_list2.md  # https://mypy.readthedocs.io/en/stable/error_code_list2.html
                   - 额外特性: mypy_other/additional_features.md  # https://mypy.readthedocs.io/en/stable/additional_features.html
                   - 常见问题解答: mypy_other/faq.md  # https://mypy.readthedocs.io/en/stable/faq.html
-                  - 项目地址: https://github.com/python/mypy
-                  - 网页地址: https://mypy-lang.org/
+        - 项目链接: mypy_other/project_links.md
