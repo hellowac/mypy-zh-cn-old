@@ -1,0 +1,2755 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="hellowac-类型检查">
+      
+      
+      
+      
+        <link rel="prev" href="../command_line/">
+      
+      
+        <link rel="next" href="../inline_config/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.4">
+    
+    
+      
+        <title>mypy配置文件 - mypy类型检查</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.bd3936ea.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.356b1318.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+   <link href="../../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+        html.glightbox-open { overflow: initial; height: 100%; }
+        .gslide-title { margin-top: 0px; user-select: text; }
+        .gslide-desc { color: #666; user-select: text; }
+        .gslide-image img { background: white; }
+        
+            .gscrollbar-fixer { padding-right: 15px; }
+            .gdesc-inner { font-size: 0.75rem; }
+            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
+            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
+            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}
+            </style> <script src="../../assets/javascripts/glightbox.min.js"></script></head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="blue">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#mypy-配置文件" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+        
+          <aside class="md-banner md-banner--warning">
+            <div class="md-banner__inner md-grid md-typeset">
+              
+你当前浏览的版本已不是最新版本，
+<a href="../../..">
+    <strong>点击这里</strong>
+</a>查看最新版本的文档
+
+            </div>
+            <script>var el=document.querySelector("[data-md-component=outdated]"),outdated=__md_get("__outdated",sessionStorage);!0===outdated&&el&&(el.hidden=!1)</script>
+          </aside>
+        
+      </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="mypy类型检查" class="md-header__button md-logo" aria-label="mypy类型检查" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            mypy类型检查
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              mypy配置文件
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/hellowac/mypy-zh-cn" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    hellowac/myppy-zh-cn
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+    
+  
+  欢迎来到mypy文档!
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../mypy/" class="md-tabs__link">
+          
+  
+    
+  
+  第一步
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../mypy/builtin_types/" class="md-tabs__link">
+          
+  
+    
+  
+  类型系统参考
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../" class="md-tabs__link">
+          
+  
+    
+  
+  配置和运行mypy
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../mypy_other/" class="md-tabs__link">
+          
+  
+    
+  
+  其他杂项
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="mypy类型检查" class="md-nav__button md-logo" aria-label="mypy类型检查" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    mypy类型检查
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/hellowac/mypy-zh-cn" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    hellowac/myppy-zh-cn
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    欢迎来到mypy文档!
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../mypy/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    第一步
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            第一步
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mypy/cheat_sheet_py3/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    类型提示备忘录
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mypy/existing_code/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    将 mypy 与现有代码库结合使用
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    类型系统参考
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            类型系统参考
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mypy/builtin_types/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    内置类型
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mypy/type_inference_type_annotations/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    类型推断和类型注解
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mypy/kind_of_types/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    类型种类
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mypy/class_basics/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    类的基础
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mypy/annotation_issue_at_runtime/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    运行时的注解问题
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mypy/protocol_and_struct_subtyping/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    协议及其子类型
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mypy/dynamic_typing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    动态类型
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mypy/type_narrowing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    类型收缩
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mypy/duck_type_compatibility/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    鸭子类型兼容
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mypy/stub_files/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    存根文件
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mypy/generics/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    泛型
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mypy/more_types/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    更多类型
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mypy/literal_and_enum/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    字面量和枚举
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mypy/typeddict/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    类型字典
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mypy/final_names_methods_classes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    最终名称、方法和类
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mypy/metaclasses/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    元类
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    配置和运行mypy
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            配置和运行mypy
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../running_mypy/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    运行mypy和管理导入
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../command_line/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    mypy命令行
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    mypy配置文件
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    mypy配置文件
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#配置文件格式" class="md-nav__link">
+    配置文件格式
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#每个模块和全局选项" class="md-nav__link">
+    每个模块和全局选项
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#反转选项值" class="md-nav__link">
+    反转选项值
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#示例-mypyini" class="md-nav__link">
+    示例 mypy.ini
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#导入发现" class="md-nav__link">
+    导入发现
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#平台配置" class="md-nav__link">
+    平台配置
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#禁止动态类型" class="md-nav__link">
+    禁止动态类型
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#未类型化的定义与调用" class="md-nav__link">
+    未类型化的定义与调用
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#none-和-optional-的处理" class="md-nav__link">
+    None 和 Optional 的处理
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#配置警告warnings" class="md-nav__link">
+    配置警告(warnings)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#抑制错误" class="md-nav__link">
+    抑制错误
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#其他严格性标志" class="md-nav__link">
+    其他严格性标志
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#配置错误消息" class="md-nav__link">
+    配置错误消息
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#增量模式" class="md-nav__link">
+    增量模式
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#高级选项" class="md-nav__link">
+    高级选项
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#报告生成" class="md-nav__link">
+    报告生成
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#其他" class="md-nav__link">
+    其他
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#使用-pyprojecttoml-文件" class="md-nav__link">
+    使用 pyproject.toml 文件
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#示例-pyprojecttoml" class="md-nav__link">
+    示例 pyproject.toml
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../inline_config/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    内联配置
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mypy_daemon/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    mypy服务(守护进程)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../installed_packages/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    使用安装包
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../extending_mypy/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    扩展和集成 mypy
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../stubgen/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    自动存根生成
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../stubtest/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    自动存根测试
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../mypy_other/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    其他杂项
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            其他杂项
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mypy_other/common_issues/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    常见问题及解决办法
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mypy_other/supported_python_features/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    支持的 Python 特性
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mypy_other/error_codes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    错误码
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mypy_other/error_code_list/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    默认启用的错误码
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mypy_other/error_code_list2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    可选检查的错误代码
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mypy_other/additional_features/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    额外特性
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mypy_other/faq/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    常见问题解答
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/python/mypy" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    项目地址
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy-lang.org/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    网页地址
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#配置文件格式" class="md-nav__link">
+    配置文件格式
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#每个模块和全局选项" class="md-nav__link">
+    每个模块和全局选项
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#反转选项值" class="md-nav__link">
+    反转选项值
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#示例-mypyini" class="md-nav__link">
+    示例 mypy.ini
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#导入发现" class="md-nav__link">
+    导入发现
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#平台配置" class="md-nav__link">
+    平台配置
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#禁止动态类型" class="md-nav__link">
+    禁止动态类型
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#未类型化的定义与调用" class="md-nav__link">
+    未类型化的定义与调用
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#none-和-optional-的处理" class="md-nav__link">
+    None 和 Optional 的处理
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#配置警告warnings" class="md-nav__link">
+    配置警告(warnings)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#抑制错误" class="md-nav__link">
+    抑制错误
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#其他严格性标志" class="md-nav__link">
+    其他严格性标志
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#配置错误消息" class="md-nav__link">
+    配置错误消息
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#增量模式" class="md-nav__link">
+    增量模式
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#高级选项" class="md-nav__link">
+    高级选项
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#报告生成" class="md-nav__link">
+    报告生成
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#其他" class="md-nav__link">
+    其他
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#使用-pyprojecttoml-文件" class="md-nav__link">
+    使用 pyproject.toml 文件
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#示例-pyprojecttoml" class="md-nav__link">
+    示例 pyproject.toml
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="mypy-配置文件">mypy 配置文件<a class="headerlink" href="#mypy-配置文件" title="Permanent link">&para;</a></h1>
+<p><strong>The mypy configuration file</strong></p>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">中文</label><label for="__tabbed_1_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block"></div>
+<div class="tabbed-block"></div>
+</div>
+</div>
+<p>Mypy is very configurable. This is most useful when introducing typing to an existing codebase. See <a href="../../mypy/existing_code/">Using mypy with an existing codebase</a> for concrete advice for that situation.</p>
+<p>Mypy supports reading configuration settings from a file with the following precedence order:</p>
+<div class="language-text highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>1. ./mypy.ini
+2. ./.mypy.ini
+3. ./pyproject.toml
+4. ./setup.cfg
+5. $XDG_CONFIG_HOME/mypy/config
+6. ~/.config/mypy/config
+7. ~/.mypy.ini
+</code></pre></div>
+<p>It is important to understand that there is no merging of configuration files, as it would lead to ambiguity. The <a href="../command_line/#config-file">--config-file</a> command-line flag has the highest precedence and must be correct; otherwise mypy will report an error and exit. Without the command line option, mypy will look for configuration files in the precedence order above.</p>
+<p>Most flags correspond closely to <a href="../command_line/">command-line flags</a> but there are some differences in flag names and some flags may take a different value based on the module being processed.</p>
+<p>Some flags support user home directory and environment variable expansion. To refer to the user home directory, use <code>~</code> at the beginning of the path. To expand environment variables use <code>$VARNAME</code> or <code>${VARNAME}</code>.</p>
+<h2 id="配置文件格式">配置文件格式<a class="headerlink" href="#配置文件格式" title="Permanent link">&para;</a></h2>
+<p><strong>Config file format</strong></p>
+<div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">中文</label><label for="__tabbed_2_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block"></div>
+<div class="tabbed-block"></div>
+</div>
+</div>
+<p>The configuration file format is the usual <a href="https://docs.python.org/3/library/configparser.html">ini file</a> format. It should contain section names in square brackets and flag settings of the form <code>NAME = VALUE</code>. Comments start with <code>#</code> characters.</p>
+<ul>
+<li>
+<p>A section named <code>[mypy]</code> must be present.  This specifies the global flags.</p>
+</li>
+<li>
+<p>Additional sections named <code>[mypy-PATTERN1,PATTERN2,...]</code> may be present, where <code>PATTERN1</code>, <code>PATTERN2</code>, etc., are comma-separated patterns of fully-qualified module names, with some components optionally replaced by the '<em>' character (e.g. <code>foo.bar</code>, <code>foo.bar.*</code>, <code>foo.*.baz</code>). These sections specify additional flags that only apply to </em>modules* whose name matches at least one of the patterns.</p>
+<p>A pattern of the form <code>qualified_module_name</code> matches only the named module, while <code>dotted_module_name.*</code> matches <code>dotted_module_name</code> and any submodules (so <code>foo.bar.*</code> would match all of <code>foo.bar</code>, <code>foo.bar.baz</code>, and <code>foo.bar.baz.quux</code>).</p>
+<p>Patterns may also be "unstructured" wildcards, in which stars may appear in the middle of a name (e.g <code>site.*.migrations.*</code>). Stars match zero or more module components (so <code>site.*.migrations.*</code> can match <code>site.migrations</code>).</p>
+<p><span id="config-precedence"></span>When options conflict, the precedence order for configuration is:</p>
+<p>1.&nbsp;<a href="../inline_config/">Inline configuration</a> in the source file</p>
+<p>2.&nbsp;Sections with concrete module names (<code>foo.bar</code>)</p>
+<p>3.&nbsp;Sections with "unstructured" wildcard patterns (<code>foo.*.baz</code>), with sections later in the configuration file overriding sections earlier.</p>
+<p>4.&nbsp;Sections with "well-structured" wildcard patterns (<code>foo.bar.*</code>), with more specific overriding more general.</p>
+<p>5.&nbsp;Command line options.</p>
+<p>6.&nbsp;Top-level configuration file options.</p>
+</li>
+</ul>
+<p>The difference in precedence order between "structured" patterns (by specificity) and "unstructured" patterns (by order in the file) is unfortunate, and is subject to change in future versions.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The <a href="./#warn_unused_configs">warn_unused_configs</a> flag may be useful to debug misspelled section names.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Configuration flags are liable to change between releases.</p>
+</div>
+<h2 id="每个模块和全局选项">每个模块和全局选项<a class="headerlink" href="#每个模块和全局选项" title="Permanent link">&para;</a></h2>
+<p><strong>Per-module and global options</strong></p>
+<div class="tabbed-set tabbed-alternate" data-tabs="3:2"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><input id="__tabbed_3_2" name="__tabbed_3" type="radio" /><div class="tabbed-labels"><label for="__tabbed_3_1">中文</label><label for="__tabbed_3_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block"></div>
+<div class="tabbed-block"></div>
+</div>
+</div>
+<p>Some of the config options may be set either globally (in the <code>[mypy]</code> section) or on a per-module basis (in sections like <code>[mypy-foo.bar]</code>).</p>
+<p>If you set an option both globally and for a specific module, the module configuration options take precedence. This lets you set global defaults and override them on a module-by-module basis. If multiple pattern sections match a module, <a href="#config-precedence">the options from the most specific section are used where they disagree</a>.</p>
+<p>Some other options, as specified in their description, may only be set in the global section (<code>[mypy]</code>).</p>
+<h2 id="反转选项值">反转选项值<a class="headerlink" href="#反转选项值" title="Permanent link">&para;</a></h2>
+<p><strong>Inverting option values</strong></p>
+<div class="tabbed-set tabbed-alternate" data-tabs="4:2"><input checked="checked" id="__tabbed_4_1" name="__tabbed_4" type="radio" /><input id="__tabbed_4_2" name="__tabbed_4" type="radio" /><div class="tabbed-labels"><label for="__tabbed_4_1">中文</label><label for="__tabbed_4_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block"></div>
+<div class="tabbed-block"></div>
+</div>
+</div>
+<p>Options that take a boolean value may be inverted by adding <code>no_</code> to their name or by (when applicable) swapping their prefix from <code>disallow</code> to <code>allow</code> (and vice versa).</p>
+<h2 id="示例-mypyini">示例 <code>mypy.ini</code><a class="headerlink" href="#示例-mypyini" title="Permanent link">&para;</a></h2>
+<p><strong>Example <code>mypy.ini</code></strong></p>
+<p>Here is an example of a <code>mypy.ini</code> file. To use this config file, place it at the root of your repo and run mypy.</p>
+<div class="language-ini highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #3D7B7B; font-style: italic"># Global options:</span>
+
+<span style="color: #008000; font-weight: bold">[mypy]</span>
+<span style="color: #687822">warn_return_any</span><span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span><span style="color: #BA2121">True</span>
+<span style="color: #687822">warn_unused_configs</span><span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span><span style="color: #BA2121">True</span>
+
+<span style="color: #3D7B7B; font-style: italic"># Per-module options:</span>
+
+<span style="color: #008000; font-weight: bold">[mypy-mycode.foo.*]</span>
+<span style="color: #687822">disallow_untyped_defs</span><span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span><span style="color: #BA2121">True</span>
+
+<span style="color: #008000; font-weight: bold">[mypy-mycode.bar]</span>
+<span style="color: #687822">warn_return_any</span><span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span><span style="color: #BA2121">False</span>
+
+<span style="color: #008000; font-weight: bold">[mypy-somelibrary]</span>
+<span style="color: #687822">ignore_missing_imports</span><span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span><span style="color: #BA2121">True</span>
+</code></pre></div>
+<p>This config file specifies two global options in the <code>[mypy]</code> section. These two options will:</p>
+<ol>
+<li>
+<p>Report an error whenever a function returns a value that is inferred to have type <code>Any</code>.</p>
+</li>
+<li>
+<p>Report any config options that are unused by mypy. (This will help us catch typos when making changes to our config file).</p>
+</li>
+</ol>
+<p>Next, this module specifies three per-module options. The first two options change how mypy type checks code in <code>mycode.foo.*</code> and <code>mycode.bar</code>, which we assume here are two modules that you wrote. The final config option changes how mypy type checks <code>somelibrary</code>, which we assume here is some 3<sup>rd</sup> party library you've installed and are importing. These options will:</p>
+<ol>
+<li>
+<p>Selectively disallow untyped function definitions only within the <code>mycode.foo</code> package -- that is, only for function definitions defined in the <code>mycode/foo</code> directory.</p>
+</li>
+<li>
+<p>Selectively <em>disable</em> the "function is returning any" warnings within <code>mycode.bar</code> only. This overrides the global default we set earlier.</p>
+</li>
+<li>
+<p>Suppress any error messages generated when your codebase tries importing the module <code>somelibrary</code>. This is useful if <code>somelibrary</code> is some 3<sup>rd</sup> party library missing type hints.</p>
+</li>
+</ol>
+<h2 id="导入发现">导入发现<a class="headerlink" href="#导入发现" title="Permanent link">&para;</a></h2>
+<p><strong>Import discovery</strong></p>
+<div class="tabbed-set tabbed-alternate" data-tabs="5:2"><input checked="checked" id="__tabbed_5_1" name="__tabbed_5" type="radio" /><input id="__tabbed_5_2" name="__tabbed_5" type="radio" /><div class="tabbed-labels"><label for="__tabbed_5_1">中文</label><label for="__tabbed_5_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block"></div>
+<div class="tabbed-block"></div>
+</div>
+</div>
+<p>For more information, see the :ref:<code>Import discovery &lt;import-discovery&gt;</code>
+section of the command line docs.</p>
+<dl>
+<dt><span id="mypy_path"></span><code>mypy_path</code></dt>
+<dd>
+<p><strong>type:</strong> string</p>
+<p>Specifies the paths to use, after trying the paths from <code>MYPYPATH</code> environment variable.  Useful if you'd like to keep stubs in your repo, along with the config file. Multiple paths are always separated with a <code>:</code> or <code>,</code> regardless of the platform. User home directory and environment variables will be expanded.</p>
+<p>Relative paths are treated relative to the working directory of the mypy command, not the config file. Use the <code>MYPY_CONFIG_FILE_DIR</code> environment variable to refer to paths relative to the config file (e.g. <code>mypy_path = $MYPY_CONFIG_FILE_DIR/src</code>).</p>
+<p>This option may only be set in the global section (<code>[mypy]</code>).</p>
+<p><strong>Note:</strong> On Windows, use UNC paths to avoid using <code>:</code> (e.g. <code>\\127.0.0.1\X$\MyDir</code> where <code>X</code> is the driv letter).</p>
+</dd>
+<dt><span id="files"></span><code>files</code></dt>
+<dd>
+<p><strong>type:</strong> comma-separated list of strings</p>
+<p>A comma-separated list of paths which should be checked by mypy if none are given on the command line. Supports recursive file globbing using <a href="https://docs.python.org/3/library/glob.html#module-glob">glob</a>, where <code>*</code> (e.g. <code>*.py</code>) matches files in the current directory and <code>**/</code> (e.g. <code>**/*.py</code>) matches files in any directories below the current one. User home directory and environment variables will be expanded.</p>
+<p>This option may only be set in the global section (<code>[mypy]</code>).</p>
+</dd>
+<dt><span id="modules"></span><code>modules</code></dt>
+<dd>
+<p><strong>type:</strong> comma-separated list of strings</p>
+<p>A comma-separated list of packages which should be checked by mypy if none are given on the command line. Mypy <em>will not</em> recursively type check any submodules of the provided module.</p>
+<p>This option may only be set in the global section (<code>[mypy]</code>).</p>
+</dd>
+<dt><span id="packages"></span><code>packages</code></dt>
+<dd>
+<p><strong>type:</strong> comma-separated list of strings</p>
+<p>A comma-separated list of packages which should be checked by mypy if none are given on the command line.  Mypy <em>will</em> recursively type check any submodules of the provided package. This flag is identical to <a href="#modules">modules</a> apart from this behavior.</p>
+<p>This option may only be set in the global section (<code>[mypy]</code>).</p>
+</dd>
+<dt><span id="exclude"></span><code>exclude</code></dt>
+<dd>
+<p><strong>type:</strong> regular expression</p>
+<p>A regular expression that matches file names, directory names and paths which mypy should ignore while recursively discovering files to check. Use forward slashes (<code>/</code>) as directory separators on all platforms.</p>
+<div class="language-ini highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #bbbbbb">  </span><span style="color: #008000; font-weight: bold">[mypy]</span>
+<span style="color: #bbbbbb">  </span><span style="color: #687822">exclude</span><span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span><span style="color: #BA2121">(?x)(</span>
+<span style="color: #bbbbbb">      </span><span style="color: #687822">^one\.py$    # files named &quot;one.py&quot;</span>
+<span style="color: #bbbbbb">      </span><span style="color: #687822">| two\.pyi$  # or files ending with &quot;two.pyi&quot;</span>
+<span style="color: #bbbbbb">      </span><span style="color: #687822">| ^three\.   # or files starting with &quot;three.&quot;</span>
+<span style="color: #bbbbbb">    </span><span style="color: #687822">)</span>
+</code></pre></div>
+<p>Crafting a single regular expression that excludes multiple files while remaining human-readable can be a challenge. The above example demonstrates one approach. <code>(?x)</code> enables the <code>VERBOSE</code> flag for the subsequent regular expression, which <a href="https://docs.python.org/3/library/re.html#re.VERBOSE">ignores most whitespace and supports comments</a>. The above is equivalent to: <code>(^one\.py$|two\.pyi$|^three\.)</code>.</p>
+<p>For more details, see <a href="../command_line/#exclude">--exclude</a>.</p>
+<p>This option may only be set in the global section (<code>[mypy]</code>).</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Note that the TOML equivalent differs slightly. It can be either a single string (including a multi-line string) -- which is treated as a single regular expression -- or an array of such strings. The following TOML examples are equivalent to the above INI example.</p>
+<p>Array of strings:</p>
+<div class="language-toml highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">[tool.mypy]</span>
+exclude<span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span>[
+<span style="color: #bbbbbb">    </span><span style="color: #BA2121">&quot;^one\\.py$&quot;</span>,<span style="color: #bbbbbb">  </span><span style="color: #3D7B7B; font-style: italic"># TOML&#39;s double-quoted strings require escaping backslashes</span>
+<span style="color: #bbbbbb">    </span><span style="color: #BA2121">&#39;two\.pyi$&#39;</span>,<span style="color: #bbbbbb">  </span><span style="color: #3D7B7B; font-style: italic"># but TOML&#39;s single-quoted strings do not</span>
+<span style="color: #bbbbbb">    </span><span style="color: #BA2121">&#39;^three\.&#39;</span>,
+]
+</code></pre></div>
+<p>A single, multi-line string:</p>
+<div class="language-toml highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">[tool.mypy]</span>
+exclude<span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span><span style="color: #BA2121">&#39;&#39;&#39;(?x)(</span>
+<span style="color: #BA2121">    ^one\.py$    # files named &quot;one.py&quot;</span>
+<span style="color: #BA2121">    | two\.pyi$  # or files ending with &quot;two.pyi&quot;</span>
+<span style="color: #BA2121">    | ^three\.   # or files starting with &quot;three.&quot;</span>
+<span style="color: #BA2121">)&#39;&#39;&#39;</span><span style="color: #bbbbbb">  </span><span style="color: #3D7B7B; font-style: italic"># TOML&#39;s single-quoted strings do not require escaping backslashes</span>
+</code></pre></div>
+<p>See <a href="#使用-pyprojecttoml-文件">Using a pyproject.toml file</a>.</p>
+</div>
+</dd>
+<dt><span id="namespace_packages"></span><code>namespace_packages</code></dt>
+<dd>
+<p><strong>type:</strong> boolean
+<strong>default:</strong> True</p>
+<p>Enables <a href="https://peps.python.org/pep-0420/">PEP 420</a> style namespace packages.  See the corresponding flag <a href="../command_line/#no-namespace-packages">--no-namespace-packages</a> for more information.</p>
+<p>This option may only be set in the global section (<code>[mypy]</code>).</p>
+</dd>
+<dt><span id="explicit_package_bases"></span><code>explicit_package_bases</code></dt>
+<dd>
+<p><strong>type:</strong> boolean</p>
+<p><strong>default:</strong> False</p>
+<p>This flag tells mypy that top-level packages will be based in either the current directory, or a member of the <code>MYPYPATH</code> environment variable or <a href="#mypy_path">mypy_path</a> config option. This option is only useful in the absence of <code>__init__.py</code>. See <a href="../running_mypy/#映射文件路径到模块">Mapping file paths to modules</a> for details.</p>
+<p>This option may only be set in the global section (<code>[mypy]</code>).</p>
+</dd>
+<dt><span id="ignore_missing_imports"></span><code>ignore_missing_imports</code></dt>
+<dd>
+<p><strong>type:</strong> boolean</p>
+<p><strong>default:</strong> False</p>
+<p>Suppresses error messages about imports that cannot be resolved.</p>
+<p>If this option is used in a per-module section, the module name should match the name of the <em>imported</em> module, not the module containing the import statement.</p>
+</dd>
+<dt><span id="follow_imports"></span><code>follow_imports</code></dt>
+<dd>
+<p><strong>type:</strong> string</p>
+<p><strong>default:</strong> <code>normal</code></p>
+<p>Directs what to do with imports when the imported module is found as a <code>.py</code> file and not part of the files, modules and packages provided on the command line.</p>
+<p>The four possible values are <code>normal</code>, <code>silent</code>, <code>skip</code> and <code>error</code>.  For explanations see the discussion for the <a href="../command_line/#follow-imports">--follow-imports</a> command line flag.</p>
+<p>Using this option in a per-module section (potentially with a wildcard, as described at the top of this page) is a good way to prevent mypy from checking portions of your code.</p>
+<p>If this option is used in a per-module section, the module name should match the name of the <em>imported</em> module, not the module containing the import statement.</p>
+</dd>
+<dt><span id="follow_imports_for_stubs"></span><code>follow_imports_for_stubs</code></dt>
+<dd>
+<p><strong>type:</strong> boolean</p>
+<p><strong>default:</strong> False</p>
+<p>Determines whether to respect the <a href="#follow_imports">follow_imports</a> setting even for stub (<code>.pyi</code>) files.</p>
+<p>Used in conjunction with <a href="#follow_imports">follow_imports=skip</a>, this can be used to suppress the import of a module from <code>typeshed</code>, replacing it with <code>Any</code>.</p>
+<p>Used in conjunction with <a href="#follow_imports">follow_imports=error</a>, this can be used to make any use of a particular <code>typeshed</code> module an error.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This is not supported by the mypy daemon.</p>
+</div>
+</dd>
+<dt><span id="python_executable"></span><code>python_executable</code></dt>
+<dd>
+<p><strong>type:</strong> string</p>
+<p>Specifies the path to the Python executable to inspect to collect a list of available <a href="https://mypy.readthedocs.io/en/stable/installed_packages.html#installed-packages">PEP 561 packages</a>. User home directory and environment variables will be expanded. Defaults to the executable used to run mypy.</p>
+<p>This option may only be set in the global section (<code>[mypy]</code>).</p>
+</dd>
+<dt><span id="no_site_packages"></span><code>no_site_packages</code></dt>
+<dd>
+<p><strong>type:</strong> boolean</p>
+<p><strong>default:</strong> False</p>
+<p>Disables using type information in installed packages (see <a href="https://peps.python.org/pep-0561/">PEP 561</a>). This will also disable searching for a usable Python executable. This acts the same as <a href="../command_line/#no-site-packages">--no-site-packages</a> command line flag.</p>
+</dd>
+<dt><span id="no_silence_site_packages"></span><code>no_silence_site_packages</code></dt>
+<dd>
+<p><strong>type:</strong> boolean</p>
+<p><strong>default:</strong> False</p>
+<p>Enables reporting error messages generated within installed packages (see <a href="https://peps.python.org/pep-0561/">PEP 561</a> for more details on distributing type information). Those error messages are suppressed by default, since you are usually not able to control errors in 3<sup>rd</sup> party code.</p>
+<p>This option may only be set in the global section (<code>[mypy]</code>).</p>
+</dd>
+</dl>
+<h2 id="平台配置">平台配置<a class="headerlink" href="#平台配置" title="Permanent link">&para;</a></h2>
+<p><strong>Platform configuration</strong></p>
+<div class="tabbed-set tabbed-alternate" data-tabs="6:2"><input checked="checked" id="__tabbed_6_1" name="__tabbed_6" type="radio" /><input id="__tabbed_6_2" name="__tabbed_6" type="radio" /><div class="tabbed-labels"><label for="__tabbed_6_1">中文</label><label for="__tabbed_6_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block"></div>
+<div class="tabbed-block"></div>
+</div>
+</div>
+<dl>
+<dt><span id="python_version"></span><code>python_version</code></dt>
+<dd>
+<p><strong>type:</strong> string</p>
+<p>Specifies the Python version used to parse and check the target program.  The string should be in the format <code>MAJOR.MINOR</code> -- for example <code>2.7</code>.  The default is the version of the Python interpreter used to run mypy.</p>
+<p>This option may only be set in the global section (<code>[mypy]</code>).</p>
+</dd>
+<dt><span id="platform"></span><code>platform</code></dt>
+<dd>
+<p><strong>type:</strong> string</p>
+<p>Specifies the OS platform for the target program, for example <code>darwin</code> or <code>win32</code> (meaning OS X or Windows, respectively). The default is the current platform as revealed by Python's <a href="https://docs.python.org/3/library/sys.html#sys.platform">sys.platform</a> variable.</p>
+<p>This option may only be set in the global section (<code>[mypy]</code>).</p>
+</dd>
+<dt><span id="always_true"></span><code>always_true</code></dt>
+<dd>
+<p><strong>type:</strong> comma-separated list of strings</p>
+<p>Specifies a list of variables that mypy will treat as compile-time constants that are always true.</p>
+</dd>
+<dt><span id="always_false"></span><code>always_false</code></dt>
+<dd>
+<p><strong>type:</strong> comma-separated list of strings</p>
+<p>Specifies a list of variables that mypy will treat as compile-time constants that are always false.</p>
+</dd>
+</dl>
+<h2 id="禁止动态类型">禁止动态类型<a class="headerlink" href="#禁止动态类型" title="Permanent link">&para;</a></h2>
+<p><strong>Disallow dynamic typing</strong></p>
+<div class="tabbed-set tabbed-alternate" data-tabs="7:2"><input checked="checked" id="__tabbed_7_1" name="__tabbed_7" type="radio" /><input id="__tabbed_7_2" name="__tabbed_7" type="radio" /><div class="tabbed-labels"><label for="__tabbed_7_1">中文</label><label for="__tabbed_7_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block"></div>
+<div class="tabbed-block"></div>
+</div>
+</div>
+<p>For more information, see the <a href="../command_line/#禁止动态类型">Disallow dynamic typing</a> section of the command line docs.</p>
+<dl>
+<dt><span id="disallow_any_unimported"></span><code>disallow_any_unimported</code></dt>
+<dd>
+<p><strong>type:</strong> boolean</p>
+<p><strong>default:</strong> False</p>
+<p>Disallows usage of types that come from unfollowed imports (anything imported from an unfollowed import is automatically given a type of <code>Any</code>).</p>
+</dd>
+<dt><span id="disallow_any_expr"></span><code>disallow_any_expr</code></dt>
+<dd>
+<p><strong>type:</strong> boolean</p>
+<p><strong>default:</strong> False</p>
+<p>Disallows all expressions in the module that have type <code>Any</code>.</p>
+</dd>
+<dt><span id="disallow_any_decorated"></span><code>disallow_any_decorated</code></dt>
+<dd>
+<p><strong>type:</strong> boolean</p>
+<p><strong>default:</strong> False</p>
+<p>Disallows functions that have <code>Any</code> in their signature after decorator transformation.</p>
+</dd>
+<dt><span id="disallow_any_explicit"></span><code>disallow_any_explicit</code></dt>
+<dd>
+<p><strong>type:</strong> boolean</p>
+<p><strong>default:</strong> False</p>
+<p>Disallows explicit <code>Any</code> in type positions such as type annotations and generic type parameters.</p>
+</dd>
+<dt><span id="disallow_any_generics"></span><code>disallow_any_generics</code></dt>
+<dd>
+<p><strong>type:</strong> boolean</p>
+<p><strong>default:</strong> False</p>
+<p>Disallows usage of generic types that do not specify explicit type parameters.</p>
+</dd>
+<dt><span id="disallow_subclassing_any"></span><code>disallow_subclassing_any</code></dt>
+<dd>
+<p><strong>type:</strong> boolean</p>
+<p><strong>default:</strong> False</p>
+<p>Disallows subclassing a value of type <code>Any</code>.</p>
+</dd>
+</dl>
+<h2 id="未类型化的定义与调用">未类型化的定义与调用<a class="headerlink" href="#未类型化的定义与调用" title="Permanent link">&para;</a></h2>
+<p><strong>Untyped definitions and calls</strong></p>
+<div class="tabbed-set tabbed-alternate" data-tabs="8:2"><input checked="checked" id="__tabbed_8_1" name="__tabbed_8" type="radio" /><input id="__tabbed_8_2" name="__tabbed_8" type="radio" /><div class="tabbed-labels"><label for="__tabbed_8_1">中文</label><label for="__tabbed_8_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block"></div>
+<div class="tabbed-block"></div>
+</div>
+</div>
+<p>For more information, see the <a href="../command_line/#未类型化的定义与调用">Untyped definitions and calls</a> section of the command line docs.</p>
+<dl>
+<dt><span id="disallow_untyped_calls"></span><code>disallow_untyped_calls</code></dt>
+<dd>
+<p><strong>type:</strong> boolean</p>
+<p><strong>default:</strong> False</p>
+<p>Disallows calling functions without type annotations from functions with type annotations. Note that when used in per-module options, it enables/disables this check <strong>inside</strong> the module(s) specified, not for functions that come from that module(s), for example config like this:</p>
+<div class="language-ini highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">[mypy]</span>
+<span style="color: #687822">disallow_untyped_calls</span><span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span><span style="color: #BA2121">True</span>
+
+<span style="color: #008000; font-weight: bold">[mypy-some.library.*]</span>
+<span style="color: #687822">disallow_untyped_calls</span><span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span><span style="color: #BA2121">False</span>
+</code></pre></div>
+<p>will disable this check inside <code>some.library</code>, not for your code that imports <code>some.library</code>. If you want to selectively disable this check for all your code that imports <code>some.library</code> you should instead use <a href="#untyped_calls_exclude">untyped_calls_exclude</a>, for example:</p>
+<div class="language-ini highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #bbbbbb">    </span><span style="color: #008000; font-weight: bold">[mypy]</span>
+<span style="color: #bbbbbb">    </span><span style="color: #687822">disallow_untyped_calls</span><span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span><span style="color: #BA2121">True</span>
+<span style="color: #bbbbbb">    </span><span style="color: #687822">untyped_calls_exclude</span><span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span><span style="color: #BA2121">some.library</span>
+</code></pre></div>
+</dd>
+<dt><span id="untyped_calls_exclude"></span><code>untyped_calls_exclude</code></dt>
+<dd>
+<p><strong>type:</strong> comma-separated list of strings</p>
+<p>Selectively excludes functions and methods defined in specific packages, modules, and classes from action of <a href="#disallow_untyped_calls">disallow_untyped_calls</a>. This also applies to all submodules of packages (i.e. everything inside a given prefix). Note, this option does not support per-file configuration, the exclusions list is defined globally for all your code.</p>
+</dd>
+<dt><span id="disallow_untyped_defs"></span><code>disallow_untyped_defs</code></dt>
+<dd>
+<p><strong>type:</strong> boolean</p>
+<p><strong>default:</strong> False</p>
+<p>Disallows defining functions without type annotations or with incomplete type annotations (a superset of <a href="#disallow_incomplete_defs">disallow_incomplete_defs</a>).</p>
+<p>For example, it would report an error for <code>def f(a, b)</code> and <code>def f(a: int, b)</code>.</p>
+</dd>
+<dt><span id="disallow_incomplete_defs"></span><code>disallow_incomplete_defs</code></dt>
+<dd>
+<p><strong>type:</strong> boolean</p>
+<p><strong>default:</strong> False</p>
+<p>Disallows defining functions with incomplete type annotations, while still allowing entirely unannotated definitions.</p>
+<p>For example, it would report an error for <code>def f(a: int, b)</code> but not <code>def f(a, b)</code>.</p>
+</dd>
+<dt><span id="check_untyped_defs"></span><code>check_untyped_defs</code></dt>
+<dd>
+<p><strong>type:</strong> boolean</p>
+<p><strong>default:</strong> False</p>
+<p>Type-checks the interior of functions without type annotations.</p>
+</dd>
+<dt><span id="disallow_untyped_decorators"></span><code>disallow_untyped_decorators</code></dt>
+<dd>
+<p><strong>type:</strong> boolean</p>
+<p><strong>default:</strong> False</p>
+<p>Reports an error whenever a function with type annotations is decorated with a decorator without annotations.</p>
+</dd>
+</dl>
+<h2 id="none-和-optional-的处理">None 和 Optional 的处理<a class="headerlink" href="#none-和-optional-的处理" title="Permanent link">&para;</a></h2>
+<p><strong>None and Optional handling</strong></p>
+<div class="tabbed-set tabbed-alternate" data-tabs="9:2"><input checked="checked" id="__tabbed_9_1" name="__tabbed_9" type="radio" /><input id="__tabbed_9_2" name="__tabbed_9" type="radio" /><div class="tabbed-labels"><label for="__tabbed_9_1">中文</label><label for="__tabbed_9_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block"></div>
+<div class="tabbed-block"></div>
+</div>
+</div>
+<p>For more information, see the <a href="../command_line/#none-和-optional-的处理">None and Optional handling</a> section of the command line docs.</p>
+<dl>
+<dt><span id="implicit_optional"></span><code>implicit_optional</code></dt>
+<dd>
+<p><strong>type:</strong> boolean</p>
+<p><strong>default:</strong> False</p>
+<p>Causes mypy to treat arguments with a <code>None</code> default value as having an implicit <a href="https://docs.python.org/3/library/typing.html#typing.Optional">Optional</a> type.</p>
+<p><strong>Note:</strong> This was True by default in mypy versions 0.980 and earlier.</p>
+</dd>
+<dt><span id="strict_optional"></span><code>strict_optional</code></dt>
+<dd>
+<p><strong>type:</strong> boolean</p>
+<p><strong>default:</strong> True</p>
+<p>Effectively disables checking of <img alt="🇵🇾" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@14.1.2/assets/svg/1f1f5-1f1fe.svg" title=":py:" />data:<code>~typing.Optional</code> types and <code>None</code> values. With this option, mypy doesn't generally check the use of <code>None</code> values -- it is treated as compatible with every type.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p><code>strict_optional = false</code> is evil. Avoid using it and definitely do
+not use it without understanding what it does.</p>
+</div>
+</dd>
+</dl>
+<h2 id="配置警告warnings">配置警告(warnings)<a class="headerlink" href="#配置警告warnings" title="Permanent link">&para;</a></h2>
+<p><strong>Configuring warnings</strong></p>
+<div class="tabbed-set tabbed-alternate" data-tabs="10:2"><input checked="checked" id="__tabbed_10_1" name="__tabbed_10" type="radio" /><input id="__tabbed_10_2" name="__tabbed_10" type="radio" /><div class="tabbed-labels"><label for="__tabbed_10_1">中文</label><label for="__tabbed_10_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block"></div>
+<div class="tabbed-block"></div>
+</div>
+</div>
+<p>For more information, see the <a href="#配置警告warnings">Configuring warnings</a> section of the command line docs.</p>
+<dl>
+<dt><span id="warn_redundant_casts"></span><code>warn_redundant_casts</code></dt>
+<dd>
+<p><strong>type:</strong> boolean</p>
+<p><strong>default:</strong> False</p>
+<p>Warns about casting an expression to its inferred type.</p>
+<p>This option may only be set in the global section (<code>[mypy]</code>).</p>
+</dd>
+<dt><span id="warn_unused_ignores"></span><code>warn_unused_ignores</code></dt>
+<dd>
+<p><strong>type:</strong> boolean</p>
+<p><strong>default:</strong> False</p>
+<p>Warns about unneeded <code># type: ignore</code> comments.`</p>
+</dd>
+</dl>
+<p><span id="warn_no_return"></span><code>warn_no_return</code></p>
+<div class="codehilite"><pre><span></span><code><span class="o">**</span><span class="k">type</span><span class="p">:</span><span class="o">**</span><span class="w"> </span><span class="nx">boolean</span>
+
+<span class="o">**</span><span class="k">default</span><span class="p">:</span><span class="o">**</span><span class="w"> </span><span class="nx">True</span>
+
+<span class="nx">Shows</span><span class="w"> </span><span class="nx">errors</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="nx">missing</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="nx">statements</span><span class="w"> </span><span class="nx">on</span><span class="w"> </span><span class="nx">some</span><span class="w"> </span><span class="nx">execution</span><span class="w"> </span><span class="nx">paths</span><span class="p">.</span>
+</code></pre></div>
+
+<dl>
+<dt><span id="warn_return_any"></span><code>warn_return_any</code></dt>
+<dd>
+<p><strong>type:</strong> boolean</p>
+<p><strong>default:</strong> False</p>
+<p>Shows a warning when returning a value with type <code>Any</code> from a function declared with a non- <code>Any</code> return type.</p>
+</dd>
+<dt><span id="warn_unreachable"></span><code>warn_unreachable</code></dt>
+<dd>
+<p><strong>type:</strong> boolean</p>
+<p><strong>default:</strong> False</p>
+<p>Shows a warning when encountering any code inferred to be unreachable or redundant after performing type analysis.</p>
+</dd>
+</dl>
+<h2 id="抑制错误">抑制错误<a class="headerlink" href="#抑制错误" title="Permanent link">&para;</a></h2>
+<p><strong>Suppressing errors</strong></p>
+<div class="tabbed-set tabbed-alternate" data-tabs="11:2"><input checked="checked" id="__tabbed_11_1" name="__tabbed_11" type="radio" /><input id="__tabbed_11_2" name="__tabbed_11" type="radio" /><div class="tabbed-labels"><label for="__tabbed_11_1">中文</label><label for="__tabbed_11_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block"></div>
+<div class="tabbed-block"></div>
+</div>
+</div>
+<p>Note: these configuration options are available in the config file only. There is no analog available via the command line options.</p>
+<dl>
+<dt><span id="ignore_errors"></span><code>ignore_errors</code></dt>
+<dd>
+<p><strong>type:</strong> boolean</p>
+<p><strong>default:</strong> False</p>
+<p>Ignores all non-fatal errors.</p>
+</dd>
+</dl>
+<h2 id="其他严格性标志">其他严格性标志<a class="headerlink" href="#其他严格性标志" title="Permanent link">&para;</a></h2>
+<p><strong>Miscellaneous strictness flags</strong></p>
+<div class="tabbed-set tabbed-alternate" data-tabs="12:2"><input checked="checked" id="__tabbed_12_1" name="__tabbed_12" type="radio" /><input id="__tabbed_12_2" name="__tabbed_12" type="radio" /><div class="tabbed-labels"><label for="__tabbed_12_1">中文</label><label for="__tabbed_12_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block"></div>
+<div class="tabbed-block"></div>
+</div>
+</div>
+<p>For more information, see the <a href="../command_line/#其他严格性标志">Miscellaneous strictness flags</a> section of the command line docs.</p>
+<dl>
+<dt><span id="allow_untyped_globals"></span><code>allow_untyped_globals</code></dt>
+<dd>
+<p><strong>type:</strong> boolean</p>
+<p><strong>default:</strong> False</p>
+<p>Causes mypy to suppress errors caused by not being able to fully infer the types of global and class variables.</p>
+</dd>
+<dt><span id="allow_redefinition"></span><code>allow_redefinition</code></dt>
+<dd>
+<p><strong>type:</strong> boolean</p>
+<p><strong>default:</strong> False</p>
+<p>Allows variables to be redefined with an arbitrary type, as long as the redefinition is in the same block and nesting level as the original definition. Example where this can be useful:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">process</span>(items: <span style="color: #008000">list</span>[<span style="color: #008000">str</span>]) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:
+    <span style="color: #3D7B7B; font-style: italic"># &#39;items&#39; has type list[str]</span>
+    items <span style="color: #666666">=</span> [item<span style="color: #666666">.</span>split() <span style="color: #008000; font-weight: bold">for</span> item <span style="color: #AA22FF; font-weight: bold">in</span> items]
+    <span style="color: #3D7B7B; font-style: italic"># &#39;items&#39; now has type list[list[str]]</span>
+</code></pre></div>
+<p>The variable must be used before it can be redefined:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">process</span>(items: <span style="color: #008000">list</span>[<span style="color: #008000">str</span>]) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:
+    items <span style="color: #666666">=</span> <span style="color: #BA2121">&quot;mypy&quot;</span>  <span style="color: #3D7B7B; font-style: italic"># invalid redefinition to str because the variable hasn&#39;t been used yet</span>
+    <span style="color: #008000">print</span>(items)
+    items <span style="color: #666666">=</span> <span style="color: #BA2121">&quot;100&quot;</span>  <span style="color: #3D7B7B; font-style: italic"># valid, items now has type str</span>
+    items <span style="color: #666666">=</span> <span style="color: #008000">int</span>(items)  <span style="color: #3D7B7B; font-style: italic"># valid, items now has type int</span>
+</code></pre></div>
+</dd>
+<dt><span id="local_partial_types"></span><code>local_partial_types</code></dt>
+<dd>
+<p><strong>type:</strong> boolean</p>
+<p><strong>default:</strong> False</p>
+<p>Disallows inferring variable type for <code>None</code> from two assignments in different scopes. This is always implicitly enabled when using the <a href="../mypy_daemon/">mypy daemon</a>.</p>
+</dd>
+<dt><span id="disable_error_code"></span><code>disable_error_code</code></dt>
+<dd>
+<p><strong>type:</strong> comma-separated list of strings</p>
+<p>Allows disabling one or multiple error codes globally.</p>
+</dd>
+<dt><span id="aaenable_error_codea"></span><code>enable_error_code</code></dt>
+<dd>
+<p><strong>type:</strong> comma-separated list of strings</p>
+<p>Allows enabling one or multiple error codes globally.</p>
+<p>Note: This option will override disabled error codes from the disable_error_code option.</p>
+</dd>
+<dt><span id="implicit_reexport"></span><code>implicit_reexport</code></dt>
+<dd>
+<p><strong>type:</strong> boolean</p>
+<p><strong>default:</strong> True</p>
+<p>By default, imported values to a module are treated as exported and mypy allows other modules to import them. When false, mypy will not re-export unless the item is imported using from-as or is included in <code>__all__</code>. Note that mypy treats stub files as if this is always disabled. For example:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #3D7B7B; font-style: italic"># This won&#39;t re-export the value</span>
+<span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">foo</span> <span style="color: #008000; font-weight: bold">import</span> bar
+<span style="color: #3D7B7B; font-style: italic"># This will re-export it as bar and allow other modules to import it</span>
+<span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">foo</span> <span style="color: #008000; font-weight: bold">import</span> bar <span style="color: #008000; font-weight: bold">as</span> bar
+<span style="color: #3D7B7B; font-style: italic"># This will also re-export bar</span>
+<span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">foo</span> <span style="color: #008000; font-weight: bold">import</span> bar
+__all__ <span style="color: #666666">=</span> [<span style="color: #BA2121">&#39;bar&#39;</span>]
+</code></pre></div>
+</dd>
+<dt><span id="strict_concatenate"></span><code>strict_concatenate</code></dt>
+<dd>
+<p><strong>type:</strong> boolean</p>
+<p><strong>default:</strong> False</p>
+<p>Make arguments prepended via <code>Concatenate</code> be truly positional-only.</p>
+</dd>
+<dt><span id="strict_equality"></span><code>strict_equality</code></dt>
+<dd>
+<p><strong>type:</strong> boolean</p>
+<p><strong>default:</strong> False</p>
+</dd>
+</dl>
+<p>Prohibit equality checks, identity checks, and container checks between
+   non-overlapping types.</p>
+<dl>
+<dt><span id="strict"></span><code>strict</code></dt>
+<dd>
+<p><strong>type:</strong> boolean</p>
+<p><strong>default:</strong> False</p>
+</dd>
+</dl>
+<p>Enable all optional error checking flags.  You can see the list of flags enabled by strict mode in the full <a href="../command_line/#h">mypy --help</a> output.</p>
+<p>Note: the exact list of flags enabled by <a href="#strict">strict</a> may change over time.</p>
+<h2 id="配置错误消息">配置错误消息<a class="headerlink" href="#配置错误消息" title="Permanent link">&para;</a></h2>
+<p><strong>Configuring error messages</strong></p>
+<div class="tabbed-set tabbed-alternate" data-tabs="13:2"><input checked="checked" id="__tabbed_13_1" name="__tabbed_13" type="radio" /><input id="__tabbed_13_2" name="__tabbed_13" type="radio" /><div class="tabbed-labels"><label for="__tabbed_13_1">中文</label><label for="__tabbed_13_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block"></div>
+<div class="tabbed-block"></div>
+</div>
+</div>
+<p>For more information, see the <a href="../command_line/#配置错误消息">Configuring error messages</a> section of the command line docs.</p>
+<p>These options may only be set in the global section (<code>[mypy]</code>).</p>
+<dl>
+<dt><span id="show_error_context"></span><code>show_error_context</code></dt>
+<dd>
+<p><strong>type:</strong> boolean</p>
+<p><strong>default:</strong> False</p>
+<p>Prefixes each error with the relevant context.</p>
+</dd>
+<dt><span id="show_column_numbers"></span><code>show_column_numbers</code></dt>
+<dd>
+<p><strong>type:</strong> boolean</p>
+<p><strong>default:</strong> False</p>
+<p>Shows column numbers in error messages.</p>
+</dd>
+<dt><span id="show_error_code_links"></span><code>show_error_code_links</code></dt>
+<dd>
+<p><strong>type:</strong> boolean</p>
+<p><strong>default:</strong> False</p>
+<p>Shows documentation link to corresponding error code.</p>
+</dd>
+<dt><span id="hide_error_codes"></span><code>hide_error_codes</code></dt>
+<dd>
+<p><strong>type:</strong> boolean</p>
+<p><strong>default:</strong> False</p>
+<p>Hides error codes in error messages. See <a href="../../mypy_other/error_codes/">Error codes</a> for more information.</p>
+</dd>
+<dt><span id="pretty"></span><code>pretty</code></dt>
+<dd>
+<p><strong>type:</strong> boolean</p>
+<p><strong>default:</strong> False</p>
+<p>Use visually nicer output in error messages: use soft word wrap, show source code snippets, and show error location markers.</p>
+</dd>
+<dt><span id="color_output"></span><code>color_output</code></dt>
+<dd>
+<p><strong>type:</strong> boolean</p>
+<p><strong>default:</strong> True</p>
+<p>Shows error messages with color enabled.</p>
+</dd>
+<dt><span id="error_summary"></span><code>error_summary</code></dt>
+<dd>
+<p><strong>type:</strong> boolean</p>
+<p><strong>default:</strong> True</p>
+<p>Shows a short summary line after error messages.</p>
+</dd>
+<dt><span id="show_absolute_path"></span><code>show_absolute_path</code></dt>
+<dd>
+<p><strong>type:</strong> boolean</p>
+<p><strong>default:</strong> False</p>
+<p>Show absolute paths to files.</p>
+</dd>
+<dt><span id="force_uppercase_builtins"></span><code>force_uppercase_builtins</code></dt>
+<dd>
+<p><strong>type:</strong> boolean</p>
+<p><strong>default:</strong> False</p>
+<p>Always use <code>List</code> instead of <code>list</code> in error messages, even on Python 3.9+.</p>
+</dd>
+<dt><span id="force_union_syntax"></span><code>force_union_syntax</code></dt>
+<dd>
+<p><strong>type:</strong> boolean</p>
+<p><strong>default:</strong> False</p>
+<p>Always use <code>Union[]</code> and <code>Optional[]</code> for union types in error messages (instead of the <code>|</code> operator), even on Python 3.10+.</p>
+</dd>
+</dl>
+<h2 id="增量模式">增量模式<a class="headerlink" href="#增量模式" title="Permanent link">&para;</a></h2>
+<p><strong>Incremental mode</strong></p>
+<div class="tabbed-set tabbed-alternate" data-tabs="14:2"><input checked="checked" id="__tabbed_14_1" name="__tabbed_14" type="radio" /><input id="__tabbed_14_2" name="__tabbed_14" type="radio" /><div class="tabbed-labels"><label for="__tabbed_14_1">中文</label><label for="__tabbed_14_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block"></div>
+<div class="tabbed-block"></div>
+</div>
+</div>
+<p>These options may only be set in the global section (<code>[mypy]</code>).</p>
+<dl>
+<dt><span id="incremental"></span><code>incremental</code></dt>
+<dd>
+<p><strong>type:</strong> boolean</p>
+<p><strong>default:</strong> True</p>
+<p>Enables <a href="../command_line/#增量模式">incremental mode</a>.</p>
+</dd>
+<dt><span id="cache_dir"></span><code>cache_dir</code></dt>
+<dd>
+<p><strong>type:</strong> string</p>
+<p><strong>default:</strong> <code>.mypy_cache</code></p>
+<p>Specifies the location where mypy stores incremental cache info. User home directory and environment variables will be expanded. This setting will be overridden by the <code>MYPY_CACHE_DIR</code> environment variable.</p>
+<p>Note that the cache is only read when incremental mode is enabled but is always written to, unless the value is set to <code>/dev/null</code> (UNIX) or <code>nul</code> (Windows).</p>
+</dd>
+<dt><span id="sqlite_cache"></span><code>sqlite_cache</code></dt>
+<dd>
+<p><strong>type:</strong> boolean</p>
+<p><strong>default:</strong> False</p>
+<p>Use an <a href="https://www.sqlite.org/">SQLite</a> database to store the cache.</p>
+</dd>
+<dt><span id="cache_fine_grained"></span><code>cache_fine_grained</code></dt>
+<dd>
+<p><strong>type:</strong> boolean</p>
+<p><strong>default:</strong> False</p>
+<p>Include fine-grained dependency information in the cache for the mypy daemon.</p>
+</dd>
+<dt><span id="skip_version_check"></span><code>skip_version_check</code></dt>
+<dd>
+<p><strong>type:</strong> boolean</p>
+<p><strong>default:</strong> False</p>
+<p>Makes mypy use incremental cache data even if it was generated by a different version of mypy. (By default, mypy will perform a version check and regenerate the cache if it was written by older versions of mypy.)</p>
+</dd>
+<dt><span id="skip_cache_mtime_checks"></span><code>skip_cache_mtime_checks</code></dt>
+<dd>
+<p><strong>type:</strong> boolean</p>
+<p><strong>default:</strong> False</p>
+<p>Skip cache internal consistency checks based on mtime.</p>
+</dd>
+</dl>
+<h2 id="高级选项">高级选项<a class="headerlink" href="#高级选项" title="Permanent link">&para;</a></h2>
+<p><strong>Advanced options</strong></p>
+<div class="tabbed-set tabbed-alternate" data-tabs="15:2"><input checked="checked" id="__tabbed_15_1" name="__tabbed_15" type="radio" /><input id="__tabbed_15_2" name="__tabbed_15" type="radio" /><div class="tabbed-labels"><label for="__tabbed_15_1">中文</label><label for="__tabbed_15_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block"></div>
+<div class="tabbed-block"></div>
+</div>
+</div>
+<p>These options may only be set in the global section (<code>[mypy]</code>).</p>
+<dl>
+<dt><span id="plugins"></span><code>plugins</code></dt>
+<dd>
+<p><strong>type:</strong> comma-separated list of strings</p>
+<p>A comma-separated list of mypy plugins. See <a href="../extending_mypy/#使用插件扩展-mypy">Extending mypy using plugins</a>.</p>
+</dd>
+<dt><span id="pdb"></span><code>pdb</code></dt>
+<dd>
+<p><strong>type:</strong> boolean</p>
+<p><strong>default:</strong> False</p>
+<p>Invokes <a href="https://docs.python.org/3/library/pdb.html#module-pdb">pdb</a> on fatal error.</p>
+</dd>
+<dt><span id="show_traceback"></span><code>show_traceback</code></dt>
+<dd>
+<p><strong>type:</strong> boolean</p>
+<p><strong>default:</strong> False</p>
+<p>Shows traceback on fatal error.</p>
+</dd>
+<dt><span id="raise_exceptions"></span><code>raise_exceptions</code></dt>
+<dd>
+<p><strong>type:</strong> boolean</p>
+<p><strong>default:</strong> False</p>
+<p>Raise exception on fatal error.</p>
+</dd>
+<dt><span id="custom_typing_module"></span><code>custom_typing_module</code></dt>
+<dd>
+<p><strong>type:</strong> string</p>
+<p>Specifies a custom module to use as a substitute for the <img alt="🇵🇾" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@14.1.2/assets/svg/1f1f5-1f1fe.svg" title=":py:" />mod:<code>typing</code> module.</p>
+</dd>
+<dt><span id="custom_typeshed_dir"></span><code>custom_typeshed_dir</code></dt>
+<dd>
+<p><strong>type:</strong> string</p>
+<p>This specifies the directory where mypy looks for standard library typeshed stubs, instead of the typeshed that ships with mypy.  This is primarily intended to make it easier to test typeshed changes before submitting them upstream, but also allows you to use a forked version of typeshed.</p>
+<p>User home directory and environment variables will be expanded.</p>
+<p>Note that this doesn't affect third-party library stubs. To test third-party stubs, for example try <code>MYPYPATH=stubs/six mypy ...</code>.</p>
+</dd>
+<dt><span id="warn_incomplete_stub"></span><code>warn_incomplete_stub</code></dt>
+<dd>
+<p><strong>type:</strong> boolean</p>
+<p><strong>default:</strong> False</p>
+<p>Warns about missing type annotations in typeshed.  This is only relevant in combination with <a href="#disallow_untyped_defs">disallow_untyped_defs</a> or <a href="#disallow_incomplete_defs">disallow_incomplete_defs</a>.</p>
+</dd>
+</dl>
+<h2 id="报告生成">报告生成<a class="headerlink" href="#报告生成" title="Permanent link">&para;</a></h2>
+<p><strong>Report generation</strong></p>
+<div class="tabbed-set tabbed-alternate" data-tabs="16:2"><input checked="checked" id="__tabbed_16_1" name="__tabbed_16" type="radio" /><input id="__tabbed_16_2" name="__tabbed_16" type="radio" /><div class="tabbed-labels"><label for="__tabbed_16_1">中文</label><label for="__tabbed_16_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block"></div>
+<div class="tabbed-block"></div>
+</div>
+</div>
+<p>If these options are set, mypy will generate a report in the specified format into the specified directory.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Generating reports disables incremental mode and can significantly slow down your workflow. It is recommended to enable reporting only for specific runs (e.g. in CI).</p>
+</div>
+<dl>
+<dt><span id="any_exprs_report"></span><code>any_exprs_report</code></dt>
+<dd>
+<p><strong>type:</strong> string</p>
+<p>Causes mypy to generate a text file report documenting how many expressions of type <code>Any</code> are present within your codebase.</p>
+</dd>
+<dt><span id="cobertura_xml_report"></span><code>cobertura_xml_report</code></dt>
+<dd>
+<p><strong>type:</strong> string</p>
+<p>Causes mypy to generate a Cobertura XML type checking coverage report.</p>
+<p>To generate this report, you must either manually install the [lxml] library or specify mypy installation with the setuptools extra <code>mypy[reports]</code>.</p>
+</dd>
+<dt><span id="html_report-xslt_html_report"></span><code>html_report / xslt_html_report</code></dt>
+<dd>
+<p><strong>type:</strong> string</p>
+<p>Causes mypy to generate an HTML type checking coverage report.</p>
+<p>To generate this report, you must either manually install the [lxml] library or specify mypy installation with the setuptools extra <code>mypy[reports]</code>.</p>
+</dd>
+<dt><span id="linecount_report"></span><code>linecount_report</code></dt>
+<dd>
+<p><strong>type:</strong> string</p>
+<p>Causes mypy to generate a text file report documenting the functions and lines that are typed and untyped within your codebase.</p>
+</dd>
+<dt><span id="linecoverage_report"></span><code>linecoverage_report</code></dt>
+<dd>
+<p><strong>type:</strong> string</p>
+<p>Causes mypy to generate a JSON file that maps each source file's absolute filename to a list of line numbers that belong to typed functions in that file.</p>
+</dd>
+<dt><span id="lineprecision_report"></span><code>lineprecision_report</code></dt>
+<dd>
+<p><strong>type:</strong> string</p>
+<p>Causes mypy to generate a flat text file report with per-module statistics of how many lines are typechecked etc.</p>
+</dd>
+<dt><span id="txt_report-xslt_txt_report"></span><code>txt_report / xslt_txt_report</code></dt>
+<dd>
+<p><strong>type:</strong> string</p>
+<p>Causes mypy to generate a text file type checking coverage report.</p>
+<p>To generate this report, you must either manually install the [lxml] library or specify mypy installation with the setuptools extra <code>mypy[reports]</code>.</p>
+</dd>
+<dt><span id="xml_report"></span><code>xml_report</code></dt>
+<dd>
+<p><strong>type:</strong> string</p>
+<p>Causes mypy to generate an XML type checking coverage report.</p>
+<p>To generate this report, you must either manually install the [lxml] library or specify mypy installation with the setuptools extra <code>mypy[reports]</code>.</p>
+</dd>
+</dl>
+<h2 id="其他">其他<a class="headerlink" href="#其他" title="Permanent link">&para;</a></h2>
+<p><strong>Miscellaneous</strong></p>
+<div class="tabbed-set tabbed-alternate" data-tabs="17:2"><input checked="checked" id="__tabbed_17_1" name="__tabbed_17" type="radio" /><input id="__tabbed_17_2" name="__tabbed_17" type="radio" /><div class="tabbed-labels"><label for="__tabbed_17_1">中文</label><label for="__tabbed_17_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block"></div>
+<div class="tabbed-block"></div>
+</div>
+</div>
+<p>These options may only be set in the global section (<code>[mypy]</code>).</p>
+<dl>
+<dt><span id="junit_xml"></span><code>junit_xml</code></dt>
+<dd>
+<p><strong>type:</strong> string</p>
+<p>Causes mypy to generate a JUnit XML test result document with type checking results. This can make it easier to integrate mypy with continuous integration (CI) tools.</p>
+</dd>
+<dt><span id="scripts_are_modules"></span><code>scripts_are_modules</code></dt>
+<dd>
+<p><strong>type:</strong> boolean</p>
+<p><strong>default:</strong> False</p>
+<p>Makes script <code>x</code> become module <code>x</code> instead of <code>__main__</code>.  This is useful when checking multiple scripts in a single run.</p>
+</dd>
+<dt><span id="warn_unused_configs"></span><code>warn_unused_configs</code></dt>
+<dd>
+<p><strong>type:</strong> boolean</p>
+<p><strong>default:</strong> False</p>
+<p>Warns about per-module sections in the config file that do not match any files processed when invoking mypy. (This requires turning off incremental mode using <a href="#incremental">incremental = False</a>.)</p>
+</dd>
+<dt><span id="verbosity"></span><code>verbosity</code></dt>
+<dd>
+<p><strong>type:</strong> integer</p>
+<p><strong>default:</strong> 0</p>
+<p>Controls how much debug output will be generated.  Higher numbers are more verbose.</p>
+</dd>
+</dl>
+<h2 id="使用-pyprojecttoml-文件">使用 pyproject.toml 文件<a class="headerlink" href="#使用-pyprojecttoml-文件" title="Permanent link">&para;</a></h2>
+<p><strong>Using a pyproject.toml file</strong></p>
+<div class="tabbed-set tabbed-alternate" data-tabs="18:2"><input checked="checked" id="__tabbed_18_1" name="__tabbed_18" type="radio" /><input id="__tabbed_18_2" name="__tabbed_18" type="radio" /><div class="tabbed-labels"><label for="__tabbed_18_1">中文</label><label for="__tabbed_18_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block"></div>
+<div class="tabbed-block"></div>
+</div>
+</div>
+<p>Instead of using a <code>mypy.ini</code> file, a <code>pyproject.toml</code> file (as specified by <a href="https://www.python.org/dev/peps/pep-0518/">PEP 518</a>) may be used instead. A few notes on doing so:</p>
+<ul>
+<li>
+<p>The <code>[mypy]</code> section should have <code>tool.</code> prepended to its name:</p>
+<ul>
+<li>I.e., <code>[mypy]</code> would become <code>[tool.mypy]</code></li>
+</ul>
+</li>
+<li>
+<p>The module specific sections should be moved into <code>[[tool.mypy.overrides]]</code> sections:</p>
+<ul>
+<li>For example, <code>[mypy-packagename]</code> would become:</li>
+</ul>
+</li>
+</ul>
+<div class="language-toml highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">[[tool.mypy.overrides]]</span>
+module<span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span><span style="color: #BA2121">&#39;packagename&#39;</span>
+...
+</code></pre></div>
+<ul>
+<li>
+<p>Multi-module specific sections can be moved into a single <code>[[tool.mypy.overrides]]</code> section with a module property set to an array of modules:</p>
+<ul>
+<li>For example, <code>[mypy-packagename,packagename2]</code> would become:</li>
+</ul>
+</li>
+</ul>
+<div class="language-toml highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">[[tool.mypy.overrides]]</span>
+module<span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span>[
+<span style="color: #bbbbbb">    </span><span style="color: #BA2121">&#39;packagename&#39;</span>,
+<span style="color: #bbbbbb">    </span><span style="color: #BA2121">&#39;packagename2&#39;</span>
+]
+...
+</code></pre></div>
+<ul>
+<li>
+<p>The following care should be given to values in the <code>pyproject.toml</code> files as compared to <code>ini</code> files:</p>
+</li>
+<li>
+<p>Strings must be wrapped in double quotes, or single quotes if the string contains special characters</p>
+</li>
+<li>
+<p>Boolean values should be all lower case</p>
+</li>
+</ul>
+<p>Please see the <a href="https://toml.io/">TOML Documentation</a>` for more details and information on what is allowed in a <code>toml</code> file. See <a href="https://www.python.org/dev/peps/pep-0518/">PEP 518</a> for more information on the layout and structure of the <code>pyproject.toml</code> file.</p>
+<h2 id="示例-pyprojecttoml">示例 <code>pyproject.toml</code><a class="headerlink" href="#示例-pyprojecttoml" title="Permanent link">&para;</a></h2>
+<p><strong>Example <code>pyproject.toml</code></strong></p>
+<p>Here is an example of a <code>pyproject.toml</code> file. To use this config file, place it at the root of your repo (or append it to the end of an existing <code>pyproject.toml</code> file) and run mypy.</p>
+<div class="language-toml highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #bbbbbb">    </span><span style="color: #3D7B7B; font-style: italic"># mypy global options:</span>
+
+<span style="color: #bbbbbb">    </span><span style="color: #008000; font-weight: bold">[tool.mypy]</span>
+<span style="color: #bbbbbb">    </span>python_version<span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span><span style="color: #BA2121">&quot;2.7&quot;</span>
+<span style="color: #bbbbbb">    </span>warn_return_any<span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span><span style="color: #008000; font-weight: bold">true</span>
+<span style="color: #bbbbbb">    </span>warn_unused_configs<span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span><span style="color: #008000; font-weight: bold">true</span>
+<span style="color: #bbbbbb">    </span>exclude<span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span>[
+<span style="color: #bbbbbb">        </span><span style="color: #BA2121">&#39;^file1\.py$&#39;</span>,<span style="color: #bbbbbb">  </span><span style="color: #3D7B7B; font-style: italic"># TOML literal string (single-quotes, no escaping necessary)</span>
+<span style="color: #bbbbbb">        </span><span style="color: #BA2121">&quot;^file2\\.py$&quot;</span>,<span style="color: #bbbbbb">  </span><span style="color: #3D7B7B; font-style: italic"># TOML basic string (double-quotes, backslash and other characters need escaping)</span>
+<span style="color: #bbbbbb">    </span>]
+
+<span style="color: #bbbbbb">    </span><span style="color: #3D7B7B; font-style: italic"># mypy per-module options:</span>
+
+<span style="color: #bbbbbb">    </span><span style="color: #008000; font-weight: bold">[[tool.mypy.overrides]]</span>
+<span style="color: #bbbbbb">    </span>module<span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span><span style="color: #BA2121">&quot;mycode.foo.*&quot;</span>
+<span style="color: #bbbbbb">    </span>disallow_untyped_defs<span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span><span style="color: #008000; font-weight: bold">true</span>
+
+<span style="color: #bbbbbb">    </span><span style="color: #008000; font-weight: bold">[[tool.mypy.overrides]]</span>
+<span style="color: #bbbbbb">    </span>module<span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span><span style="color: #BA2121">&quot;mycode.bar&quot;</span>
+<span style="color: #bbbbbb">    </span>warn_return_any<span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span><span style="color: #008000; font-weight: bold">false</span>
+
+<span style="color: #bbbbbb">    </span><span style="color: #008000; font-weight: bold">[[tool.mypy.overrides]]</span>
+<span style="color: #bbbbbb">    </span>module<span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span>[
+<span style="color: #bbbbbb">        </span><span style="color: #BA2121">&quot;somelibrary&quot;</span>,
+<span style="color: #bbbbbb">        </span><span style="color: #BA2121">&quot;some_other_library&quot;</span>
+<span style="color: #bbbbbb">    </span>]
+<span style="color: #bbbbbb">    </span>ignore_missing_imports<span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span><span style="color: #008000; font-weight: bold">true</span>
+</code></pre></div>
+<p>.. _lxml: https://pypi.org/project/lxml/
+.. _SQLite: https://www.sqlite.org/
+.. _PEP 518: https://www.python.org/dev/peps/pep-0518/
+.. _TOML Documentation: https://toml.io/</p>
+
+  <hr>
+<div class="md-source-file">
+  <small>
+    
+      最后更新:
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2024年9月14日</span>
+      
+        <br>
+        创建日期:
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2024年9月13日</span>
+      
+    
+  </small>
+</div>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var tab,labels=set.querySelector(".tabbed-labels");for(tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["header.autohide", "navigation.top", "navigation.tabs", "navigation.tabs.sticky", "navigation.path", "content.tabs.link", "content.code.copy", "content.tooltips", "navigation.indexes", "navigation.prune", "navigation.instant"], "search": "../../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": {"provider": "mike"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.94c44541.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  <script>document$.subscribe(() => {const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});})</script></body>
+</html>

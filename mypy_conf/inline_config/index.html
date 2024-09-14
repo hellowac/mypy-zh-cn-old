@@ -11,10 +11,10 @@
       
       
       
-        <link rel="prev" href="../type_narrowing/">
+        <link rel="prev" href="../config_file/">
       
       
-        <link rel="next" href="../stub_files/">
+        <link rel="next" href="../mypy_daemon/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -22,7 +22,7 @@
     
     
       
-        <title>鸭子类型兼容 - mypy类型检查</title>
+        <title>内联配置 - mypy类型检查</title>
       
     
     
@@ -86,7 +86,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#鸭子类型兼容性" class="md-skip">
+        <a href="#内联配置" class="md-skip">
           跳转至
         </a>
       
@@ -138,7 +138,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              鸭子类型兼容
+              内联配置
             
           </span>
         </div>
@@ -231,12 +231,32 @@
     
     
       <li class="md-tabs__item">
-        <a href="../" class="md-tabs__link">
+        <a href="../../mypy/" class="md-tabs__link">
           
   
     
   
   第一步
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../mypy/builtin_types/" class="md-tabs__link">
+          
+  
+    
+  
+  类型系统参考
 
         </a>
       </li>
@@ -253,27 +273,7 @@
     
     
       <li class="md-tabs__item md-tabs__item--active">
-        <a href="../builtin_types/" class="md-tabs__link">
-          
-  
-    
-  
-  类型系统参考
-
-        </a>
-      </li>
-    
-  
-
-      
-        
-  
-  
-  
-    
-    
-      <li class="md-tabs__item">
-        <a href="../../mypy_conf/" class="md-tabs__link">
+        <a href="../" class="md-tabs__link">
           
   
     
@@ -409,7 +409,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../" class="md-nav__link ">
+            <a href="../../mypy/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -441,7 +441,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../cheat_sheet_py3/" class="md-nav__link">
+      <a href="../../mypy/cheat_sheet_py3/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -461,7 +461,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../existing_code/" class="md-nav__link">
+      <a href="../../mypy/existing_code/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -486,8 +486,6 @@
       
   
   
-    
-  
   
     
     
@@ -504,406 +502,6 @@
       
         
       
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-    
-    
-    
-    
-      
-      
-    
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
-      
-        
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
-        
-          
-          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
-            
-  
-  <span class="md-ellipsis">
-    类型系统参考
-  </span>
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_3">
-            <span class="md-nav__icon md-icon"></span>
-            类型系统参考
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../builtin_types/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    内置类型
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../type_inference_type_annotations/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    类型推断和类型注解
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../kind_of_types/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    类型种类
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../class_basics/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    类的基础
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../annotation_issue_at_runtime/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    运行时的注解问题
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../protocol_and_struct_subtyping/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    协议及其子类型
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../dynamic_typing/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    动态类型
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../type_narrowing/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    类型收缩
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-    
-  
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
-        
-  
-  <span class="md-ellipsis">
-    鸭子类型兼容
-  </span>
-  
-
-      </a>
-      
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../stub_files/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    存根文件
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../generics/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    泛型
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../more_types/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    更多类型
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../literal_and_enum/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    字面量和枚举
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../typeddict/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    类型字典
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../final_names_methods_classes/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    最终名称、方法和类
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../metaclasses/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    元类
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-    
-    
-      
-        
-          
         
       
         
@@ -936,12 +534,404 @@
         
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    类型系统参考
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            类型系统参考
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mypy/builtin_types/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    内置类型
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mypy/type_inference_type_annotations/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    类型推断和类型注解
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mypy/kind_of_types/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    类型种类
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mypy/class_basics/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    类的基础
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mypy/annotation_issue_at_runtime/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    运行时的注解问题
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mypy/protocol_and_struct_subtyping/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    协议及其子类型
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mypy/dynamic_typing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    动态类型
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mypy/type_narrowing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    类型收缩
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mypy/duck_type_compatibility/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    鸭子类型兼容
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mypy/stub_files/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    存根文件
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mypy/generics/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    泛型
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mypy/more_types/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    更多类型
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mypy/literal_and_enum/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    字面量和枚举
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mypy/typeddict/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    类型字典
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mypy/final_names_methods_classes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    最终名称、方法和类
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mypy/metaclasses/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    元类
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
         
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../mypy_conf/" class="md-nav__link ">
+            <a href="../" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -958,7 +948,7 @@
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_4">
             <span class="md-nav__icon md-icon"></span>
             配置和运行mypy
@@ -973,7 +963,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../mypy_conf/running_mypy/" class="md-nav__link">
+      <a href="../running_mypy/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -993,7 +983,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../mypy_conf/command_line/" class="md-nav__link">
+      <a href="../command_line/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1013,7 +1003,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../mypy_conf/config_file/" class="md-nav__link">
+      <a href="../config_file/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1031,9 +1021,29 @@
                 
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../../mypy_conf/inline_config/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    内联配置
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -1042,6 +1052,33 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#配置注释格式" class="md-nav__link">
+    配置注释格式
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1053,7 +1090,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../mypy_conf/mypy_daemon/" class="md-nav__link">
+      <a href="../mypy_daemon/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1073,7 +1110,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../mypy_conf/installed_packages/" class="md-nav__link">
+      <a href="../installed_packages/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1093,7 +1130,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../mypy_conf/extending_mypy/" class="md-nav__link">
+      <a href="../extending_mypy/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1113,7 +1150,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../mypy_conf/stubgen/" class="md-nav__link">
+      <a href="../stubgen/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1133,7 +1170,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../mypy_conf/stubtest/" class="md-nav__link">
+      <a href="../stubtest/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1434,6 +1471,21 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#配置注释格式" class="md-nav__link">
+    配置注释格式
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -1450,59 +1502,48 @@
   
 
 
-<h1 id="鸭子类型兼容性">鸭子类型兼容性<a class="headerlink" href="#鸭子类型兼容性" title="Permanent link">&para;</a></h1>
+<h1 id="内联配置">内联配置<a class="headerlink" href="#内联配置" title="Permanent link">&para;</a></h1>
+<p><strong>Inline configuration</strong></p>
 <div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">中文</label><label for="__tabbed_1_2">英文</label></div>
 <div class="tabbed-content">
-<div class="tabbed-block">
-<p>在 Python 中，某些类型是兼容的，即使它们不是彼此的子类。 例如，每当需要 <code>float</code> 对象时，<code>int</code>对象都是有效的。 Mypy 通过 <em>duck 类型兼容性</em> 支持这种习惯用法。 一小组内置类型支持这一点：</p>
-<ul>
-<li><code>int</code> 是与 <code>float</code> 和 <code>complex</code> 兼容的鸭子类型。</li>
-<li><code>float</code> 是与 <code>complex</code> 兼容的鸭子类型。</li>
-<li><code>bytearray</code> 和 <code>memoryview</code> 是与 <code>bytes</code> 兼容的鸭子类型。</li>
-</ul>
-<p>例如，只要需要 <code>float</code> 对象，mypy 就会认为 <code>int</code> 对象有效。 因此，这样的代码干净整洁，并且行为也符合预期：</p>
-<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">import</span> <span style="color: #0000FF; font-weight: bold">math</span>
-
-<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">degrees_to_radians</span>(degrees: <span style="color: #008000">float</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000">float</span>:
-    <span style="color: #008000; font-weight: bold">return</span> math<span style="color: #666666">.</span>pi <span style="color: #666666">*</span> degrees <span style="color: #666666">/</span> <span style="color: #666666">180</span>
-
-n <span style="color: #666666">=</span> <span style="color: #666666">90</span>  <span style="color: #3D7B7B; font-style: italic"># 推断类型“int”</span>
-<span style="color: #008000">print</span>(degrees_to_radians(n))  <span style="color: #3D7B7B; font-style: italic"># Okay!</span>
+<div class="tabbed-block"></div>
+<div class="tabbed-block"></div>
+</div>
+</div>
+<p>Mypy supports setting per-file configuration options inside files themselves using <code># mypy:</code> comments. For example:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #3D7B7B; font-style: italic"># mypy: disallow-any-generics</span>
 </code></pre></div>
-<p>您还可以经常使用<a href="../protocol_and_struct_subtyping/">协议和结构子类型</a>以更有原则和可扩展的方式实现类似的效果。 协议不适用于像<code>int</code>与<code>float</code>兼容的情况，因为<code>float</code>不是一个协议类，而是一个常规的具体类，并且许多标准库函数期望<code>float</code>（或<code>int</code>）的具体实例 `）。</p>
+<p>Inline configuration comments take precedence over all other configuration mechanisms.</p>
+<h2 id="配置注释格式">配置注释格式<a class="headerlink" href="#配置注释格式" title="Permanent link">&para;</a></h2>
+<p><strong>Configuration comment format</strong></p>
+<div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">中文</label><label for="__tabbed_2_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block"></div>
+<div class="tabbed-block"></div>
 </div>
-<div class="tabbed-block">
-<p><strong>Duck type compatibility</strong></p>
-<p>In Python, certain types are compatible even though they aren't subclasses of each other. For example, <code>int</code> objects are valid whenever <code>float</code> objects are expected. Mypy supports this idiom via <em>duck type compatibility</em>. This is supported for a small set of built-in types:</p>
-<ul>
-<li><code>int</code> is duck type compatible with <code>float</code> and <code>complex</code>.</li>
-<li><code>float</code> is duck type compatible with <code>complex</code>.</li>
-<li><code>bytearray</code> and <code>memoryview</code> are duck type compatible with <code>bytes</code>.</li>
-</ul>
-<p>For example, mypy considers an <code>int</code> object to be valid whenever a <code>float</code> object is expected.  Thus code like this is nice and clean and also behaves as expected:</p>
-<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">import</span> <span style="color: #0000FF; font-weight: bold">math</span>
-
-<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">degrees_to_radians</span>(degrees: <span style="color: #008000">float</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000">float</span>:
-    <span style="color: #008000; font-weight: bold">return</span> math<span style="color: #666666">.</span>pi <span style="color: #666666">*</span> degrees <span style="color: #666666">/</span> <span style="color: #666666">180</span>
-
-n <span style="color: #666666">=</span> <span style="color: #666666">90</span>  <span style="color: #3D7B7B; font-style: italic"># Inferred type &#39;int&#39;</span>
-<span style="color: #008000">print</span>(degrees_to_radians(n))  <span style="color: #3D7B7B; font-style: italic"># Okay!</span>
+</div>
+<p>Flags correspond to <a href="../config_file/">config file flags</a> but allow hyphens to be substituted for underscores.</p>
+<p>Values are specified using <code>=</code>, but <code>= True</code> may be omitted:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #3D7B7B; font-style: italic"># mypy: disallow-any-generics</span>
+<span style="color: #3D7B7B; font-style: italic"># mypy: always-true=FOO</span>
 </code></pre></div>
-<p>You can also often use <a href="../protocol_and_struct_subtyping/"><code>protocol-types</code></a> to achieve a similar effect in a more principled and extensible fashion. Protocols don't apply to cases like <code>int</code> being compatible with <code>float</code>, since <code>float</code> is not a protocol class but a regular, concrete class, and many standard library functions expect concrete instances of <code>float</code> (or <code>int</code>).</p>
-</div>
-</div>
-</div>
+<p>Multiple flags can be separated by commas or placed on separate lines. To include a comma as part of an option's value, place the value inside quotes:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #3D7B7B; font-style: italic"># mypy: disallow-untyped-defs, always-false=&quot;FOO,BAR&quot;</span>
+</code></pre></div>
+<p>Like in the configuration file, options that take a boolean value may be inverted by adding <code>no-</code> to their name or by (when applicable) swapping their prefix from <code>disallow</code> to <code>allow</code> (and vice versa):</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #3D7B7B; font-style: italic"># mypy: allow-untyped-defs, no-strict-optional</span>
+</code></pre></div>
 
   <hr>
 <div class="md-source-file">
   <small>
     
       最后更新:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2024年9月4日</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2024年9月14日</span>
       
         <br>
         创建日期:
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2024年9月4日</span>
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2024年9月13日</span>
       
     
   </small>

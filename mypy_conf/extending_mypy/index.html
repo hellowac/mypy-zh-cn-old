@@ -11,10 +11,10 @@
       
       
       
-        <link rel="prev" href="../type_narrowing/">
+        <link rel="prev" href="../installed_packages/">
       
       
-        <link rel="next" href="../stub_files/">
+        <link rel="next" href="../stubgen/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -22,7 +22,7 @@
     
     
       
-        <title>鸭子类型兼容 - mypy类型检查</title>
+        <title>扩展和集成 mypy - mypy类型检查</title>
       
     
     
@@ -86,7 +86,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#鸭子类型兼容性" class="md-skip">
+        <a href="#扩展和集成-mypy" class="md-skip">
           跳转至
         </a>
       
@@ -138,7 +138,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              鸭子类型兼容
+              扩展和集成 mypy
             
           </span>
         </div>
@@ -231,12 +231,32 @@
     
     
       <li class="md-tabs__item">
-        <a href="../" class="md-tabs__link">
+        <a href="../../mypy/" class="md-tabs__link">
           
   
     
   
   第一步
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../mypy/builtin_types/" class="md-tabs__link">
+          
+  
+    
+  
+  类型系统参考
 
         </a>
       </li>
@@ -253,27 +273,7 @@
     
     
       <li class="md-tabs__item md-tabs__item--active">
-        <a href="../builtin_types/" class="md-tabs__link">
-          
-  
-    
-  
-  类型系统参考
-
-        </a>
-      </li>
-    
-  
-
-      
-        
-  
-  
-  
-    
-    
-      <li class="md-tabs__item">
-        <a href="../../mypy_conf/" class="md-tabs__link">
+        <a href="../" class="md-tabs__link">
           
   
     
@@ -409,7 +409,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../" class="md-nav__link ">
+            <a href="../../mypy/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -441,7 +441,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../cheat_sheet_py3/" class="md-nav__link">
+      <a href="../../mypy/cheat_sheet_py3/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -461,7 +461,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../existing_code/" class="md-nav__link">
+      <a href="../../mypy/existing_code/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -486,8 +486,6 @@
       
   
   
-    
-  
   
     
     
@@ -504,406 +502,6 @@
       
         
       
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-    
-    
-    
-    
-      
-      
-    
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
-      
-        
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
-        
-          
-          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
-            
-  
-  <span class="md-ellipsis">
-    类型系统参考
-  </span>
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_3">
-            <span class="md-nav__icon md-icon"></span>
-            类型系统参考
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../builtin_types/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    内置类型
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../type_inference_type_annotations/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    类型推断和类型注解
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../kind_of_types/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    类型种类
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../class_basics/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    类的基础
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../annotation_issue_at_runtime/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    运行时的注解问题
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../protocol_and_struct_subtyping/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    协议及其子类型
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../dynamic_typing/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    动态类型
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../type_narrowing/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    类型收缩
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-    
-  
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
-        
-  
-  <span class="md-ellipsis">
-    鸭子类型兼容
-  </span>
-  
-
-      </a>
-      
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../stub_files/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    存根文件
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../generics/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    泛型
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../more_types/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    更多类型
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../literal_and_enum/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    字面量和枚举
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../typeddict/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    类型字典
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../final_names_methods_classes/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    最终名称、方法和类
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../metaclasses/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    元类
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-    
-    
-      
-        
-          
         
       
         
@@ -936,12 +534,404 @@
         
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    类型系统参考
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            类型系统参考
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mypy/builtin_types/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    内置类型
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mypy/type_inference_type_annotations/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    类型推断和类型注解
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mypy/kind_of_types/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    类型种类
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mypy/class_basics/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    类的基础
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mypy/annotation_issue_at_runtime/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    运行时的注解问题
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mypy/protocol_and_struct_subtyping/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    协议及其子类型
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mypy/dynamic_typing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    动态类型
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mypy/type_narrowing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    类型收缩
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mypy/duck_type_compatibility/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    鸭子类型兼容
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mypy/stub_files/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    存根文件
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mypy/generics/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    泛型
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mypy/more_types/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    更多类型
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mypy/literal_and_enum/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    字面量和枚举
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mypy/typeddict/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    类型字典
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mypy/final_names_methods_classes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    最终名称、方法和类
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mypy/metaclasses/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    元类
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
         
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../mypy_conf/" class="md-nav__link ">
+            <a href="../" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -958,7 +948,7 @@
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_4">
             <span class="md-nav__icon md-icon"></span>
             配置和运行mypy
@@ -973,7 +963,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../mypy_conf/running_mypy/" class="md-nav__link">
+      <a href="../running_mypy/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -993,7 +983,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../mypy_conf/command_line/" class="md-nav__link">
+      <a href="../command_line/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1013,7 +1003,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../mypy_conf/config_file/" class="md-nav__link">
+      <a href="../config_file/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1033,7 +1023,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../mypy_conf/inline_config/" class="md-nav__link">
+      <a href="../inline_config/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1053,7 +1043,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../mypy_conf/mypy_daemon/" class="md-nav__link">
+      <a href="../mypy_daemon/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1073,7 +1063,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../mypy_conf/installed_packages/" class="md-nav__link">
+      <a href="../installed_packages/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1091,9 +1081,29 @@
                 
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../../mypy_conf/extending_mypy/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    扩展和集成 mypy
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -1102,6 +1112,68 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#将-mypy-集成到其他-python-应用中" class="md-nav__link">
+    将 mypy 集成到其他 Python 应用中
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#使用插件扩展-mypy" class="md-nav__link">
+    使用插件扩展 mypy
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#配置-mypy-使用插件" class="md-nav__link">
+    配置 mypy 使用插件
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#高级概览" class="md-nav__link">
+    高级概览
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#当前插件钩子列表" class="md-nav__link">
+    当前插件钩子列表
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#实用工具" class="md-nav__link">
+    实用工具
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1113,7 +1185,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../mypy_conf/stubgen/" class="md-nav__link">
+      <a href="../stubgen/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1133,7 +1205,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../mypy_conf/stubtest/" class="md-nav__link">
+      <a href="../stubtest/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1434,6 +1506,56 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#将-mypy-集成到其他-python-应用中" class="md-nav__link">
+    将 mypy 集成到其他 Python 应用中
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#使用插件扩展-mypy" class="md-nav__link">
+    使用插件扩展 mypy
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#配置-mypy-使用插件" class="md-nav__link">
+    配置 mypy 使用插件
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#高级概览" class="md-nav__link">
+    高级概览
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#当前插件钩子列表" class="md-nav__link">
+    当前插件钩子列表
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#实用工具" class="md-nav__link">
+    实用工具
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -1450,59 +1572,159 @@
   
 
 
-<h1 id="鸭子类型兼容性">鸭子类型兼容性<a class="headerlink" href="#鸭子类型兼容性" title="Permanent link">&para;</a></h1>
+<h1 id="扩展和集成-mypy">扩展和集成 mypy<a class="headerlink" href="#扩展和集成-mypy" title="Permanent link">&para;</a></h1>
+<p><strong>Extending and integrating mypy</strong></p>
+<h2 id="将-mypy-集成到其他-python-应用中">将 mypy 集成到其他 Python 应用中<a class="headerlink" href="#将-mypy-集成到其他-python-应用中" title="Permanent link">&para;</a></h2>
+<p><strong>Integrating mypy into another Python application</strong></p>
 <div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">中文</label><label for="__tabbed_1_2">英文</label></div>
 <div class="tabbed-content">
-<div class="tabbed-block">
-<p>在 Python 中，某些类型是兼容的，即使它们不是彼此的子类。 例如，每当需要 <code>float</code> 对象时，<code>int</code>对象都是有效的。 Mypy 通过 <em>duck 类型兼容性</em> 支持这种习惯用法。 一小组内置类型支持这一点：</p>
-<ul>
-<li><code>int</code> 是与 <code>float</code> 和 <code>complex</code> 兼容的鸭子类型。</li>
-<li><code>float</code> 是与 <code>complex</code> 兼容的鸭子类型。</li>
-<li><code>bytearray</code> 和 <code>memoryview</code> 是与 <code>bytes</code> 兼容的鸭子类型。</li>
-</ul>
-<p>例如，只要需要 <code>float</code> 对象，mypy 就会认为 <code>int</code> 对象有效。 因此，这样的代码干净整洁，并且行为也符合预期：</p>
-<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">import</span> <span style="color: #0000FF; font-weight: bold">math</span>
+<div class="tabbed-block"></div>
+<div class="tabbed-block"></div>
+</div>
+</div>
+<p>It is possible to integrate mypy into another Python 3 application by importing <code>mypy.api</code> and calling the <code>run</code> function with a parameter of type <code>list[str]</code>, containing what normally would have been the command line arguments to mypy.</p>
+<p>Function <code>run</code> returns a <code>tuple[str, str, int]</code>, namely <code>(&lt;normal_report&gt;, &lt;error_report&gt;, &lt;exit_status&gt;)</code>, in which <code>&lt;normal_report&gt;</code> is what mypy normally writes to <a href="https://docs.python.org/3/library/sys.html#sys.stdout">sys.stdout</a>, <code>&lt;error_report&gt;</code> is what mypy normally writes to <a href="https://docs.python.org/3/library/sys.html#sys.stderr">sys.stderr</a> and <code>exit_status</code> is the exit status mypy normally returns to the operating system.</p>
+<p>A trivial example of using the api is the following</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">import</span> <span style="color: #0000FF; font-weight: bold">sys</span>
+<span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">mypy</span> <span style="color: #008000; font-weight: bold">import</span> api
 
-<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">degrees_to_radians</span>(degrees: <span style="color: #008000">float</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000">float</span>:
-    <span style="color: #008000; font-weight: bold">return</span> math<span style="color: #666666">.</span>pi <span style="color: #666666">*</span> degrees <span style="color: #666666">/</span> <span style="color: #666666">180</span>
+result <span style="color: #666666">=</span> api<span style="color: #666666">.</span>run(sys<span style="color: #666666">.</span>argv[<span style="color: #666666">1</span>:])
 
-n <span style="color: #666666">=</span> <span style="color: #666666">90</span>  <span style="color: #3D7B7B; font-style: italic"># 推断类型“int”</span>
-<span style="color: #008000">print</span>(degrees_to_radians(n))  <span style="color: #3D7B7B; font-style: italic"># Okay!</span>
+<span style="color: #008000; font-weight: bold">if</span> result[<span style="color: #666666">0</span>]:
+    <span style="color: #008000">print</span>(<span style="color: #BA2121">&#39;</span><span style="color: #AA5D1F; font-weight: bold">\n</span><span style="color: #BA2121">Type checking report:</span><span style="color: #AA5D1F; font-weight: bold">\n</span><span style="color: #BA2121">&#39;</span>)
+    <span style="color: #008000">print</span>(result[<span style="color: #666666">0</span>])  <span style="color: #3D7B7B; font-style: italic"># stdout</span>
+
+<span style="color: #008000; font-weight: bold">if</span> result[<span style="color: #666666">1</span>]:
+    <span style="color: #008000">print</span>(<span style="color: #BA2121">&#39;</span><span style="color: #AA5D1F; font-weight: bold">\n</span><span style="color: #BA2121">Error report:</span><span style="color: #AA5D1F; font-weight: bold">\n</span><span style="color: #BA2121">&#39;</span>)
+    <span style="color: #008000">print</span>(result[<span style="color: #666666">1</span>])  <span style="color: #3D7B7B; font-style: italic"># stderr</span>
+
+<span style="color: #008000">print</span>(<span style="color: #BA2121">&#39;</span><span style="color: #AA5D1F; font-weight: bold">\n</span><span style="color: #BA2121">Exit status:&#39;</span>, result[<span style="color: #666666">2</span>])
 </code></pre></div>
-<p>您还可以经常使用<a href="../protocol_and_struct_subtyping/">协议和结构子类型</a>以更有原则和可扩展的方式实现类似的效果。 协议不适用于像<code>int</code>与<code>float</code>兼容的情况，因为<code>float</code>不是一个协议类，而是一个常规的具体类，并且许多标准库函数期望<code>float</code>（或<code>int</code>）的具体实例 `）。</p>
+<h2 id="使用插件扩展-mypy">使用插件扩展 mypy<a class="headerlink" href="#使用插件扩展-mypy" title="Permanent link">&para;</a></h2>
+<p><strong>Extending mypy using plugins</strong></p>
+<div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">中文</label><label for="__tabbed_2_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block"></div>
+<div class="tabbed-block"></div>
 </div>
-<div class="tabbed-block">
-<p><strong>Duck type compatibility</strong></p>
-<p>In Python, certain types are compatible even though they aren't subclasses of each other. For example, <code>int</code> objects are valid whenever <code>float</code> objects are expected. Mypy supports this idiom via <em>duck type compatibility</em>. This is supported for a small set of built-in types:</p>
-<ul>
-<li><code>int</code> is duck type compatible with <code>float</code> and <code>complex</code>.</li>
-<li><code>float</code> is duck type compatible with <code>complex</code>.</li>
-<li><code>bytearray</code> and <code>memoryview</code> are duck type compatible with <code>bytes</code>.</li>
-</ul>
-<p>For example, mypy considers an <code>int</code> object to be valid whenever a <code>float</code> object is expected.  Thus code like this is nice and clean and also behaves as expected:</p>
-<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">import</span> <span style="color: #0000FF; font-weight: bold">math</span>
-
-<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">degrees_to_radians</span>(degrees: <span style="color: #008000">float</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000">float</span>:
-    <span style="color: #008000; font-weight: bold">return</span> math<span style="color: #666666">.</span>pi <span style="color: #666666">*</span> degrees <span style="color: #666666">/</span> <span style="color: #666666">180</span>
-
-n <span style="color: #666666">=</span> <span style="color: #666666">90</span>  <span style="color: #3D7B7B; font-style: italic"># Inferred type &#39;int&#39;</span>
-<span style="color: #008000">print</span>(degrees_to_radians(n))  <span style="color: #3D7B7B; font-style: italic"># Okay!</span>
+</div>
+<p>Python is a highly dynamic language and has extensive metaprogramming capabilities. Many popular libraries use these to create APIs that may be more flexible and/or natural for humans, but are hard to express using static types. Extending the <a href="https://peps.python.org/pep-0484/">PEP 484</a> type system to accommodate all existing dynamic patterns is impractical and often just impossible.</p>
+<p>Mypy supports a plugin system that lets you customize the way mypy type checks code. This can be useful if you want to extend mypy so it can type check code that uses a library that is difficult to express using just <a href="https://peps.python.org/pep-0484/">PEP 484</a> types.</p>
+<p>The plugin system is focused on improving mypy's understanding of <em>semantics</em> of third party frameworks. There is currently no way to define new first class kinds of types.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+</div>
+<p>The plugin system is experimental and prone to change. If you want to write a mypy plugin, we recommend you start by contacting the mypy core developers on <a href="https://gitter.im/python/typing">gitter</a>. In particular, there are no guarantees about backwards compatibility.</p>
+<p>Backwards incompatible changes may be made without a deprecation period, but we will announce them in <a href="https://github.com/python/mypy/issues/6617">the plugin API changes announcement issue</a>.</p>
+<h2 id="配置-mypy-使用插件">配置 mypy 使用插件<a class="headerlink" href="#配置-mypy-使用插件" title="Permanent link">&para;</a></h2>
+<p><strong>Configuring mypy to use plugins</strong></p>
+<div class="tabbed-set tabbed-alternate" data-tabs="3:2"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><input id="__tabbed_3_2" name="__tabbed_3" type="radio" /><div class="tabbed-labels"><label for="__tabbed_3_1">中文</label><label for="__tabbed_3_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block"></div>
+<div class="tabbed-block"></div>
+</div>
+</div>
+<p>Plugins are Python files that can be specified in a mypy <a href="../config_file/">config file</a> using the <a href="../config_file/#plugins">plugins</a> option and one of the two formats: relative or absolute path to the plugin file, or a module name (if the plugin is installed using <code>pip install</code> in the same virtual environment where mypy is running). The two formats can be mixed, for example:</p>
+<div class="language-ini highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #bbbbbb">    </span><span style="color: #008000; font-weight: bold">[mypy]</span>
+<span style="color: #bbbbbb">    </span><span style="color: #687822">plugins</span><span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span><span style="color: #BA2121">/one/plugin.py, other.plugin</span>
 </code></pre></div>
-<p>You can also often use <a href="../protocol_and_struct_subtyping/"><code>protocol-types</code></a> to achieve a similar effect in a more principled and extensible fashion. Protocols don't apply to cases like <code>int</code> being compatible with <code>float</code>, since <code>float</code> is not a protocol class but a regular, concrete class, and many standard library functions expect concrete instances of <code>float</code> (or <code>int</code>).</p>
+<p>Mypy will try to import the plugins and will look for an entry point function named <code>plugin</code>. If the plugin entry point function has a different name, it can be specified after colon:</p>
+<div class="language-ini highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #bbbbbb">    </span><span style="color: #008000; font-weight: bold">[mypy]</span>
+<span style="color: #bbbbbb">    </span><span style="color: #687822">plugins</span><span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span><span style="color: #BA2121">custom_plugin:custom_entry_point</span>
+</code></pre></div>
+<p>In the following sections we describe the basics of the plugin system with some examples. For more technical details, please read the docstrings in <a href="https://github.com/python/mypy/blob/master/mypy/plugin.py">mypy/plugin.py</a> in mypy source code. Also you can find good examples in the bundled plugins located in <a href="https://github.com/python/mypy/tree/master/mypy/plugins">mypy/plugins</a>.</p>
+<h2 id="高级概览">高级概览<a class="headerlink" href="#高级概览" title="Permanent link">&para;</a></h2>
+<p><strong>High-level overview</strong></p>
+<div class="tabbed-set tabbed-alternate" data-tabs="4:2"><input checked="checked" id="__tabbed_4_1" name="__tabbed_4" type="radio" /><input id="__tabbed_4_2" name="__tabbed_4" type="radio" /><div class="tabbed-labels"><label for="__tabbed_4_1">中文</label><label for="__tabbed_4_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block"></div>
+<div class="tabbed-block"></div>
 </div>
 </div>
+<p>Every entry point function should accept a single string argument that is a full mypy version and return a subclass of <code>mypy.plugin.Plugin</code>:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">mypy.plugin</span> <span style="color: #008000; font-weight: bold">import</span> Plugin
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">CustomPlugin</span>(Plugin):
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">get_type_analyze_hook</span>(<span style="color: #008000">self</span>, fullname: <span style="color: #008000">str</span>):
+        <span style="color: #3D7B7B; font-style: italic"># see explanation below</span>
+        <span style="color: #666666">...</span>
+
+<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">plugin</span>(version: <span style="color: #008000">str</span>):
+    <span style="color: #3D7B7B; font-style: italic"># ignore version argument if the plugin works with all mypy versions.</span>
+    <span style="color: #008000; font-weight: bold">return</span> CustomPlugin
+</code></pre></div>
+<p>During different phases of analyzing the code (first in semantic analysis, and then in type checking) mypy calls plugin methods such as <code>get_type_analyze_hook()</code> on user plugins. This particular method, for example, can return a callback that mypy will use to analyze unbound types with the given full name. See the full plugin hook method list <a href="#当前插件钩子列表">below</a>.</p>
+<p>Mypy maintains a list of plugins it gets from the config file plus the default (built-in) plugin that is always enabled. Mypy calls a method once for each plugin in the list until one of the methods returns a non-<code>None</code> value. This callback will be then used to customize the corresponding aspect of analyzing/checking the current abstract syntax tree node.</p>
+<p>The callback returned by the <code>get_xxx</code> method will be given a detailed current context and an API to create new nodes, new types, emit error messages, etc., and the result will be used for further processing.</p>
+<p>Plugin developers should ensure that their plugins work well in incremental and daemon modes. In particular, plugins should not hold global state due to caching of plugin hook results.</p>
+<h2 id="当前插件钩子列表">当前插件钩子列表<a class="headerlink" href="#当前插件钩子列表" title="Permanent link">&para;</a></h2>
+<p><strong>Current list of plugin hooks</strong></p>
+<div class="tabbed-set tabbed-alternate" data-tabs="5:2"><input checked="checked" id="__tabbed_5_1" name="__tabbed_5" type="radio" /><input id="__tabbed_5_2" name="__tabbed_5" type="radio" /><div class="tabbed-labels"><label for="__tabbed_5_1">中文</label><label for="__tabbed_5_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block"></div>
+<div class="tabbed-block"></div>
 </div>
+</div>
+<p><strong>get_type_analyze_hook()</strong> customizes behaviour of the type analyzer. For example, <a href="https://peps.python.org/pep-0484/">PEP 484</a> doesn't support defining variadic generic types:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>   <span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">lib</span> <span style="color: #008000; font-weight: bold">import</span> Vector
+
+   a: Vector[<span style="color: #008000">int</span>, <span style="color: #008000">int</span>]
+   b: Vector[<span style="color: #008000">int</span>, <span style="color: #008000">int</span>, <span style="color: #008000">int</span>]
+</code></pre></div>
+<p>When analyzing this code, mypy will call <code>get_type_analyze_hook("lib.Vector")</code>, so the plugin can return some valid type for each variable.</p>
+<p><strong>get_function_hook()</strong> is used to adjust the return type of a function call. This hook will be also called for instantiation of classes. This is a good choice if the return type is too complex to be expressed by regular python typing.</p>
+<p><strong>get_function_signature_hook()</strong> is used to adjust the signature of a function.</p>
+<p><strong>get_method_hook()</strong> is the same as <code>get_function_hook()</code> but for methods instead of module level functions.</p>
+<p><strong>get_method_signature_hook()</strong> is used to adjust the signature of a method. This includes special Python methods except <a href="https://docs.python.org/3/reference/datamodel.html#object.__init__">__init__()</a> and <a href="https://docs.python.org/3/reference/datamodel.html#object.__new__">__new__()</a>. For example in this code:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">ctypes</span> <span style="color: #008000; font-weight: bold">import</span> Array, c_int
+
+x: Array[c_int]
+x[<span style="color: #666666">0</span>] <span style="color: #666666">=</span> <span style="color: #666666">42</span>
+</code></pre></div>
+<p>mypy will call <code>get_method_signature_hook("ctypes.Array.__setitem__")</code> so that the plugin can mimic the <a href="https://docs.python.org/3/library/ctypes.html#module-ctypes">ctypes</a> auto-convert behavior.</p>
+<p><strong>get_attribute_hook()</strong> overrides instance member field lookups and property access (not assignments, and not method calls). This hook is only called for fields which already exist on the class. <em>Exception:</em> if <a href="https://docs.python.org/3/reference/datamodel.html#object.__getattr__">__getattr__</a> or <a href="https://docs.python.org/3/reference/datamodel.html#object.__getattribute__">__getattribute__</a> is a method on the class, the hook is called for all fields which do not refer to methods.</p>
+<p><strong>get_class_attribute_hook()</strong> is similar to above, but for attributes on classes rather than instances. Unlike above, this does not have special casing for <a href="https://docs.python.org/3/reference/datamodel.html#object.__getattr__">__getattr__</a> or <a href="https://docs.python.org/3/reference/datamodel.html#object.__getattribute__">__getattribute__</a>.</p>
+<p><strong>get_class_decorator_hook()</strong> can be used to update class definition for given class decorators. For example, you can add some attributes to the class to match runtime behaviour:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">dataclasses</span> <span style="color: #008000; font-weight: bold">import</span> dataclass
+
+<span style="color: #AA22FF">@dataclass</span>  <span style="color: #3D7B7B; font-style: italic"># built-in plugin adds `__init__` method here</span>
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">User</span>:
+    name: <span style="color: #008000">str</span>
+
+user <span style="color: #666666">=</span> User(name<span style="color: #666666">=</span><span style="color: #BA2121">&#39;example&#39;</span>)  <span style="color: #3D7B7B; font-style: italic"># mypy can understand this using a plugin</span>
+</code></pre></div>
+<p><strong>get_metaclass_hook()</strong> is similar to above, but for metaclasses.</p>
+<p><strong>get_base_class_hook()</strong> is similar to above, but for base classes.</p>
+<p><strong>get_dynamic_class_hook()</strong> can be used to allow dynamic class definitions in mypy. This plugin hook is called for every assignment to a simple name where right hand side is a function call:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">lib</span> <span style="color: #008000; font-weight: bold">import</span> dynamic_class
+
+X <span style="color: #666666">=</span> dynamic_class(<span style="color: #BA2121">&#39;X&#39;</span>, [])
+</code></pre></div>
+<p>For such definition, mypy will call <code>get_dynamic_class_hook("lib.dynamic_class")</code>. The plugin should create the corresponding <code>mypy.nodes.TypeInfo</code> object, and place it into a relevant symbol table. (Instances of this class represent classes in mypy and hold essential information such as qualified name, method resolution order, etc.)</p>
+<p><strong>get_customize_class_mro_hook()</strong> can be used to modify class MRO (for example insert some entries there) before the class body is analyzed.</p>
+<p><strong>get_additional_deps()</strong> can be used to add new dependencies for a module. It is called before semantic analysis. For example, this can be used if a library has dependencies that are dynamically loaded based on configuration information.</p>
+<p><strong>report_config_data()</strong> can be used if the plugin has some sort of per-module configuration that can affect typechecking. In that case, when the configuration for a module changes, we want to invalidate mypy's cache for that module so that it can be rechecked. This hook should be used to report to mypy any relevant configuration data, so that mypy knows to recheck the module if the configuration changes. The hooks should return data encodable as JSON.</p>
+<h2 id="实用工具">实用工具<a class="headerlink" href="#实用工具" title="Permanent link">&para;</a></h2>
+<p><strong>Useful tools</strong></p>
+<div class="tabbed-set tabbed-alternate" data-tabs="6:2"><input checked="checked" id="__tabbed_6_1" name="__tabbed_6" type="radio" /><input id="__tabbed_6_2" name="__tabbed_6" type="radio" /><div class="tabbed-labels"><label for="__tabbed_6_1">中文</label><label for="__tabbed_6_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block"></div>
+<div class="tabbed-block"></div>
+</div>
+</div>
+<p>Mypy ships <code>mypy.plugins.proper_plugin</code> plugin which can be useful for plugin authors, since it finds missing <code>get_proper_type()</code> calls, which is a pretty common mistake.</p>
+<p>It is recommended to enable it is a part of your plugin's CI.</p>
 
   <hr>
 <div class="md-source-file">
   <small>
     
       最后更新:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2024年9月4日</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2024年9月14日</span>
       
         <br>
         创建日期:
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2024年9月4日</span>
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2024年9月13日</span>
       
     
   </small>

@@ -1,0 +1,2271 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="hellowac-类型检查">
+      
+      
+      
+      
+        <link rel="prev" href="../error_code_list2/">
+      
+      
+        <link rel="next" href="../faq/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.4">
+    
+    
+      
+        <title>额外特性 - mypy类型检查</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.bd3936ea.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.356b1318.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+   <link href="../../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+        html.glightbox-open { overflow: initial; height: 100%; }
+        .gslide-title { margin-top: 0px; user-select: text; }
+        .gslide-desc { color: #666; user-select: text; }
+        .gslide-image img { background: white; }
+        
+            .gscrollbar-fixer { padding-right: 15px; }
+            .gdesc-inner { font-size: 0.75rem; }
+            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
+            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
+            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}
+            </style> <script src="../../assets/javascripts/glightbox.min.js"></script></head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="blue">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#附加功能" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+        
+          <aside class="md-banner md-banner--warning">
+            <div class="md-banner__inner md-grid md-typeset">
+              
+你当前浏览的版本已不是最新版本，
+<a href="../../..">
+    <strong>点击这里</strong>
+</a>查看最新版本的文档
+
+            </div>
+            <script>var el=document.querySelector("[data-md-component=outdated]"),outdated=__md_get("__outdated",sessionStorage);!0===outdated&&el&&(el.hidden=!1)</script>
+          </aside>
+        
+      </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="mypy类型检查" class="md-header__button md-logo" aria-label="mypy类型检查" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            mypy类型检查
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              额外特性
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/hellowac/mypy-zh-cn" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    hellowac/myppy-zh-cn
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+    
+  
+  欢迎来到mypy文档!
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../mypy/" class="md-tabs__link">
+          
+  
+    
+  
+  第一步
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../mypy/builtin_types/" class="md-tabs__link">
+          
+  
+    
+  
+  类型系统参考
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../mypy_conf/" class="md-tabs__link">
+          
+  
+    
+  
+  配置和运行mypy
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../" class="md-tabs__link">
+          
+  
+    
+  
+  其他杂项
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="mypy类型检查" class="md-nav__button md-logo" aria-label="mypy类型检查" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    mypy类型检查
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/hellowac/mypy-zh-cn" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    hellowac/myppy-zh-cn
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    欢迎来到mypy文档!
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../mypy/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    第一步
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            第一步
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mypy/cheat_sheet_py3/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    类型提示备忘录
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mypy/existing_code/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    将 mypy 与现有代码库结合使用
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    类型系统参考
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            类型系统参考
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mypy/builtin_types/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    内置类型
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mypy/type_inference_type_annotations/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    类型推断和类型注解
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mypy/kind_of_types/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    类型种类
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mypy/class_basics/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    类的基础
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mypy/annotation_issue_at_runtime/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    运行时的注解问题
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mypy/protocol_and_struct_subtyping/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    协议及其子类型
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mypy/dynamic_typing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    动态类型
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mypy/type_narrowing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    类型收缩
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mypy/duck_type_compatibility/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    鸭子类型兼容
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mypy/stub_files/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    存根文件
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mypy/generics/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    泛型
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mypy/more_types/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    更多类型
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mypy/literal_and_enum/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    字面量和枚举
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mypy/typeddict/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    类型字典
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mypy/final_names_methods_classes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    最终名称、方法和类
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mypy/metaclasses/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    元类
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../mypy_conf/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    配置和运行mypy
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            配置和运行mypy
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mypy_conf/running_mypy/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    运行mypy和管理导入
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mypy_conf/command_line/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    mypy命令行
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mypy_conf/config_file/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    mypy配置文件
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mypy_conf/inline_config/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    内联配置
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mypy_conf/mypy_daemon/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    mypy服务(守护进程)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mypy_conf/installed_packages/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    使用安装包
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mypy_conf/extending_mypy/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    扩展和集成 mypy
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mypy_conf/stubgen/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    自动存根生成
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mypy_conf/stubtest/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    自动存根测试
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    其他杂项
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            其他杂项
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../common_issues/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    常见问题及解决办法
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../supported_python_features/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    支持的 Python 特性
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../error_codes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    错误码
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../error_code_list/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    默认启用的错误码
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../error_code_list2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    可选检查的错误代码
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    额外特性
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    额外特性
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#数据类" class="md-nav__link">
+    数据类
+  </a>
+  
+    <nav class="md-nav" aria-label="数据类">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#注意事项已知问题" class="md-nav__link">
+    注意事项/已知问题
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#数据类转换" class="md-nav__link">
+    数据类转换
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#attrs-包" class="md-nav__link">
+    attrs 包
+  </a>
+  
+    <nav class="md-nav" aria-label="attrs 包">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#注意事项已知问题2" class="md-nav__link">
+    注意事项/已知问题2
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#使用远程缓存加速-mypy-运行" class="md-nav__link">
+    使用远程缓存加速 mypy 运行
+  </a>
+  
+    <nav class="md-nav" aria-label="使用远程缓存加速 mypy 运行">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#缓存文件的共享仓库" class="md-nav__link">
+    缓存文件的共享仓库
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#持续集成构建" class="md-nav__link">
+    持续集成构建
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mypy-包装脚本" class="md-nav__link">
+    Mypy 包装脚本
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#使用-mypy-守护进程进行缓存" class="md-nav__link">
+    使用 mypy 守护进程进行缓存
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#改进" class="md-nav__link">
+    改进
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#扩展的-callable-类型" class="md-nav__link">
+    扩展的 Callable 类型
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../faq/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    常见问题解答
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/python/mypy" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    项目地址
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mypy-lang.org/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    网页地址
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#数据类" class="md-nav__link">
+    数据类
+  </a>
+  
+    <nav class="md-nav" aria-label="数据类">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#注意事项已知问题" class="md-nav__link">
+    注意事项/已知问题
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#数据类转换" class="md-nav__link">
+    数据类转换
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#attrs-包" class="md-nav__link">
+    attrs 包
+  </a>
+  
+    <nav class="md-nav" aria-label="attrs 包">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#注意事项已知问题2" class="md-nav__link">
+    注意事项/已知问题2
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#使用远程缓存加速-mypy-运行" class="md-nav__link">
+    使用远程缓存加速 mypy 运行
+  </a>
+  
+    <nav class="md-nav" aria-label="使用远程缓存加速 mypy 运行">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#缓存文件的共享仓库" class="md-nav__link">
+    缓存文件的共享仓库
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#持续集成构建" class="md-nav__link">
+    持续集成构建
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mypy-包装脚本" class="md-nav__link">
+    Mypy 包装脚本
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#使用-mypy-守护进程进行缓存" class="md-nav__link">
+    使用 mypy 守护进程进行缓存
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#改进" class="md-nav__link">
+    改进
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#扩展的-callable-类型" class="md-nav__link">
+    扩展的 Callable 类型
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="附加功能">附加功能<a class="headerlink" href="#附加功能" title="Permanent link">&para;</a></h1>
+<p><strong>Additional features</strong></p>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">中文</label><label for="__tabbed_1_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block"></div>
+<div class="tabbed-block"></div>
+</div>
+</div>
+<p>This section discusses various features that did not fit in naturally in one
+of the previous sections.</p>
+<h2 id="数据类">数据类<a class="headerlink" href="#数据类" title="Permanent link">&para;</a></h2>
+<p><strong>Dataclasses</strong></p>
+<p>The <a href="https://docs.python.org/3/library/dataclasses.html#module-dataclasses">dataclasses</a> module allows defining and customizing simple boilerplate-free classes. They can be defined using the <a href="https://docs.python.org/3/library/dataclasses.html#dataclasses.dataclass">@dataclasses.dataclass</a> decorator:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>    <span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">dataclasses</span> <span style="color: #008000; font-weight: bold">import</span> dataclass, field
+
+    <span style="color: #AA22FF">@dataclass</span>
+    <span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Application</span>:
+        name: <span style="color: #008000">str</span>
+        plugins: <span style="color: #008000">list</span>[<span style="color: #008000">str</span>] <span style="color: #666666">=</span> field(default_factory<span style="color: #666666">=</span><span style="color: #008000">list</span>)
+
+    test <span style="color: #666666">=</span> Application(<span style="color: #BA2121">&quot;Testing...&quot;</span>)  <span style="color: #3D7B7B; font-style: italic"># OK</span>
+    bad <span style="color: #666666">=</span> Application(<span style="color: #BA2121">&quot;Testing...&quot;</span>, <span style="color: #BA2121">&quot;with plugin&quot;</span>)  <span style="color: #3D7B7B; font-style: italic"># Error: list[str] expected</span>
+</code></pre></div>
+<p>Mypy will detect special methods (such as <img alt="🇵🇾" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@14.1.2/assets/svg/1f1f5-1f1fe.svg" title=":py:" />meth:<code>__lt__ &lt;object.__lt__&gt;</code>) depending on the flags used to
+define dataclasses. For example:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>    <span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">dataclasses</span> <span style="color: #008000; font-weight: bold">import</span> dataclass
+
+    <span style="color: #AA22FF">@dataclass</span>(order<span style="color: #666666">=</span><span style="color: #008000; font-weight: bold">True</span>)
+    <span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">OrderedPoint</span>:
+        x: <span style="color: #008000">int</span>
+        y: <span style="color: #008000">int</span>
+
+    <span style="color: #AA22FF">@dataclass</span>(order<span style="color: #666666">=</span><span style="color: #008000; font-weight: bold">False</span>)
+    <span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">UnorderedPoint</span>:
+        x: <span style="color: #008000">int</span>
+        y: <span style="color: #008000">int</span>
+
+    OrderedPoint(<span style="color: #666666">1</span>, <span style="color: #666666">2</span>) <span style="color: #666666">&lt;</span> OrderedPoint(<span style="color: #666666">3</span>, <span style="color: #666666">4</span>)  <span style="color: #3D7B7B; font-style: italic"># OK</span>
+    UnorderedPoint(<span style="color: #666666">1</span>, <span style="color: #666666">2</span>) <span style="color: #666666">&lt;</span> UnorderedPoint(<span style="color: #666666">3</span>, <span style="color: #666666">4</span>)  <span style="color: #3D7B7B; font-style: italic"># Error: Unsupported operand types</span>
+</code></pre></div>
+<p>Dataclasses can be generic and can be used in any other way a normal
+class can be used:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>    <span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">dataclasses</span> <span style="color: #008000; font-weight: bold">import</span> dataclass
+    <span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">typing</span> <span style="color: #008000; font-weight: bold">import</span> Generic, TypeVar
+
+    T <span style="color: #666666">=</span> TypeVar(<span style="color: #BA2121">&#39;T&#39;</span>)
+
+    <span style="color: #AA22FF">@dataclass</span>
+    <span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">BoxedData</span>(Generic[T]):
+        data: T
+        label: <span style="color: #008000">str</span>
+
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">unbox</span>(bd: BoxedData[T]) <span style="color: #666666">-&gt;</span> T:
+        <span style="color: #666666">...</span>
+
+    val <span style="color: #666666">=</span> unbox(BoxedData(<span style="color: #666666">42</span>, <span style="color: #BA2121">&quot;&lt;important&gt;&quot;</span>))  <span style="color: #3D7B7B; font-style: italic"># OK, inferred type is int</span>
+</code></pre></div>
+<p>For more information see :doc:<code>official docs &lt;python:library/dataclasses&gt;</code>
+and :pep:<code>557</code>.</p>
+<h3 id="注意事项已知问题">注意事项/已知问题<a class="headerlink" href="#注意事项已知问题" title="Permanent link">&para;</a></h3>
+<p><strong>Caveats/Known Issues</strong></p>
+<div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">中文</label><label for="__tabbed_2_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block"></div>
+<div class="tabbed-block"></div>
+</div>
+</div>
+<p>Some functions in the <img alt="🇵🇾" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@14.1.2/assets/svg/1f1f5-1f1fe.svg" title=":py:" />mod:<code>dataclasses</code> module, such as <a href="https://docs.python.org/3/library/dataclasses.html#dataclasses.asdict">asdict()</a>,
+have imprecise (too permissive) types. This will be fixed in future releases.</p>
+<p>Mypy does not yet recognize aliases of <a href="https://docs.python.org/3/library/dataclasses.html#dataclasses.dataclass">dataclasses.dataclass</a>, and will
+probably never recognize dynamically computed decorators. The following example
+does <strong>not</strong> work:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>    <span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">dataclasses</span> <span style="color: #008000; font-weight: bold">import</span> dataclass
+
+    dataclass_alias <span style="color: #666666">=</span> dataclass
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">dataclass_wrapper</span>(<span style="color: #008000">cls</span>):
+      <span style="color: #008000; font-weight: bold">return</span> dataclass(<span style="color: #008000">cls</span>)
+
+    <span style="color: #AA22FF">@dataclass_alias</span>
+    <span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">AliasDecorated</span>:
+<span style="color: #bbbbbb">      </span><span style="color: #BA2121; font-style: italic">&quot;&quot;&quot;</span>
+<span style="color: #BA2121; font-style: italic">      Mypy doesn&#39;t recognize this as a dataclass because it is decorated by an</span>
+<span style="color: #BA2121; font-style: italic">      alias of `dataclass` rather than by `dataclass` itself.</span>
+<span style="color: #BA2121; font-style: italic">      &quot;&quot;&quot;</span>
+      attribute: <span style="color: #008000">int</span>
+
+    AliasDecorated(attribute<span style="color: #666666">=1</span>) <span style="color: #3D7B7B; font-style: italic"># error: Unexpected keyword argument</span>
+</code></pre></div>
+<p>To have Mypy recognize a wrapper of <a href="https://docs.python.org/3/library/dataclasses.html#dataclasses.dataclass">dataclasses.dataclass</a>
+as a dataclass decorator, consider using the <a href="https://docs.python.org/3/library/typing.html#typing.dataclass_transform">dataclass_transform()</a> decorator:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>    <span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">dataclasses</span> <span style="color: #008000; font-weight: bold">import</span> dataclass, Field
+    <span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">typing</span> <span style="color: #008000; font-weight: bold">import</span> TypeVar, dataclass_transform
+
+    T <span style="color: #666666">=</span> TypeVar(<span style="color: #BA2121">&#39;T&#39;</span>)
+
+    <span style="color: #AA22FF">@dataclass_transform</span>(field_specifiers<span style="color: #666666">=</span>(Field,))
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">my_dataclass</span>(<span style="color: #008000">cls</span>: <span style="color: #008000">type</span>[T]) <span style="color: #666666">-&gt;</span> <span style="color: #008000">type</span>[T]:
+        <span style="color: #666666">...</span>
+        <span style="color: #008000; font-weight: bold">return</span> dataclass(<span style="color: #008000">cls</span>)
+</code></pre></div>
+<h2 id="数据类转换">数据类转换<a class="headerlink" href="#数据类转换" title="Permanent link">&para;</a></h2>
+<p><strong>Data Class Transforms</strong></p>
+<div class="tabbed-set tabbed-alternate" data-tabs="3:2"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><input id="__tabbed_3_2" name="__tabbed_3" type="radio" /><div class="tabbed-labels"><label for="__tabbed_3_1">中文</label><label for="__tabbed_3_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block"></div>
+<div class="tabbed-block"></div>
+</div>
+</div>
+<p>Mypy supports the <a href="https://docs.python.org/3/library/typing.html#typing.dataclass_transform">dataclass_transform()</a> decorator as described in
+<code>PEP 681 &lt;https://www.python.org/dev/peps/pep-0681/#the-dataclass-transform-decorator&gt;</code>_.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Pragmatically, mypy will assume such classes have the internal attribute <code>__dataclass_fields__</code>
+(even though they might lack it in runtime) and will assume functions such as <a href="https://docs.python.org/3/library/dataclasses.html#dataclasses.is_dataclass">dataclasses.is_dataclass()</a>
+and <a href="https://docs.python.org/3/library/dataclasses.html#dataclasses.fields">dataclasses.fields()</a> treat them as if they were dataclasses
+(even though they may fail at runtime).</p>
+</div>
+<h2 id="attrs-包">attrs 包<a class="headerlink" href="#attrs-包" title="Permanent link">&para;</a></h2>
+<p><strong>The attrs package</strong></p>
+<div class="tabbed-set tabbed-alternate" data-tabs="4:2"><input checked="checked" id="__tabbed_4_1" name="__tabbed_4" type="radio" /><input id="__tabbed_4_2" name="__tabbed_4" type="radio" /><div class="tabbed-labels"><label for="__tabbed_4_1">中文</label><label for="__tabbed_4_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block"></div>
+<div class="tabbed-block"></div>
+</div>
+</div>
+<p>:doc:<code>attrs &lt;attrs:index&gt;</code> is a package that lets you define
+classes without writing boilerplate code. Mypy can detect uses of the
+package and will generate the necessary method definitions for decorated
+classes using the type annotations it finds.
+Type annotations can be added as follows:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>    <span style="color: #008000; font-weight: bold">import</span> <span style="color: #0000FF; font-weight: bold">attr</span>
+
+    <span style="color: #AA22FF">@attrs</span><span style="color: #666666">.</span>define
+    <span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">A</span>:
+        one: <span style="color: #008000">int</span>
+        two: <span style="color: #008000">int</span> <span style="color: #666666">=</span> <span style="color: #666666">7</span>
+        three: <span style="color: #008000">int</span> <span style="color: #666666">=</span> attrs<span style="color: #666666">.</span>field(<span style="color: #666666">8</span>)
+</code></pre></div>
+<p>If you're using <code>auto_attribs=False</code> you must use <code>attrs.field</code>:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>    <span style="color: #008000; font-weight: bold">import</span> <span style="color: #0000FF; font-weight: bold">attrs</span>
+
+    <span style="color: #AA22FF">@attrs</span><span style="color: #666666">.</span>define
+    <span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">A</span>:
+        one: <span style="color: #008000">int</span> <span style="color: #666666">=</span> attrs<span style="color: #666666">.</span>field()          <span style="color: #3D7B7B; font-style: italic"># Variable annotation (Python 3.6+)</span>
+        two <span style="color: #666666">=</span> attrs<span style="color: #666666">.</span>field()  <span style="color: #3D7B7B; font-style: italic"># type: int  # Type comment</span>
+        three <span style="color: #666666">=</span> attrs<span style="color: #666666">.</span>field(<span style="color: #008000">type</span><span style="color: #666666">=</span><span style="color: #008000">int</span>)     <span style="color: #3D7B7B; font-style: italic"># type= argument</span>
+</code></pre></div>
+<p>Typeshed has a couple of "white lie" annotations to make type checking
+easier. [attrs.field] and <a href="https://www.attrs.org/en/stable/api.html#attrs.Factory">attrs.Factory</a> actually return objects, but the
+annotation says these return the types that they expect to be assigned to.
+That enables this to work:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>    <span style="color: #008000; font-weight: bold">import</span> <span style="color: #0000FF; font-weight: bold">attrs</span>
+
+    <span style="color: #AA22FF">@attrs</span><span style="color: #666666">.</span>define
+    <span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">A</span>:
+        one: <span style="color: #008000">int</span> <span style="color: #666666">=</span> attrs<span style="color: #666666">.</span>field(<span style="color: #666666">8</span>)
+        two: <span style="color: #008000">dict</span>[<span style="color: #008000">str</span>, <span style="color: #008000">str</span>] <span style="color: #666666">=</span> attrs<span style="color: #666666">.</span>Factory(<span style="color: #008000">dict</span>)
+        bad: <span style="color: #008000">str</span> <span style="color: #666666">=</span> attrs<span style="color: #666666">.</span>field(<span style="color: #666666">16</span>)   <span style="color: #3D7B7B; font-style: italic"># Error: can&#39;t assign int to str</span>
+</code></pre></div>
+<h3 id="注意事项已知问题2">注意事项/已知问题2<a class="headerlink" href="#注意事项已知问题2" title="Permanent link">&para;</a></h3>
+<p><strong>Caveats/Known Issues2</strong></p>
+<div class="tabbed-set tabbed-alternate" data-tabs="5:2"><input checked="checked" id="__tabbed_5_1" name="__tabbed_5" type="radio" /><input id="__tabbed_5_2" name="__tabbed_5" type="radio" /><div class="tabbed-labels"><label for="__tabbed_5_1">中文</label><label for="__tabbed_5_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block"></div>
+<div class="tabbed-block"></div>
+</div>
+</div>
+<ul>
+<li>
+<p>The detection of attr classes and attributes works by function name only.
+  This means that if you have your own helper functions that, for example,
+  <code>return attrs.field()</code> mypy will not see them.</p>
+</li>
+<li>
+<p>All boolean arguments that mypy cares about must be literal <code>True</code> or <code>False</code>.
+  e.g the following will not work:</p>
+</li>
+</ul>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>    <span style="color: #008000; font-weight: bold">import</span> <span style="color: #0000FF; font-weight: bold">attrs</span>
+    YES <span style="color: #666666">=</span> <span style="color: #008000; font-weight: bold">True</span>
+    <span style="color: #AA22FF">@attrs</span><span style="color: #666666">.</span>define(init<span style="color: #666666">=</span>YES)
+    <span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">A</span>:
+        <span style="color: #666666">...</span>
+</code></pre></div>
+<ul>
+<li>
+<p>Currently, <code>converter</code> only supports named functions.  If mypy finds something else it
+  will complain about not understanding the argument and the type annotation in
+  <img alt="🇵🇾" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@14.1.2/assets/svg/1f1f5-1f1fe.svg" title=":py:" />meth:<code>__init__ &lt;object.__init__&gt;</code> will be replaced by <code>Any</code>.</p>
+</li>
+<li>
+<p>:ref:<code>Validator decorators &lt;attrs:examples-validators&gt;</code>
+  and <code>default decorators &lt;https://www.attrs.org/en/stable/examples.html#defaults&gt;</code>_
+  are not type-checked against the attribute they are setting/validating.</p>
+</li>
+<li>
+<p>Method definitions added by mypy currently overwrite any existing method
+  definitions.</p>
+</li>
+</ul>
+<h2 id="使用远程缓存加速-mypy-运行">使用远程缓存加速 mypy 运行<a class="headerlink" href="#使用远程缓存加速-mypy-运行" title="Permanent link">&para;</a></h2>
+<p><strong>Using a remote cache to speed up mypy runs</strong></p>
+<div class="tabbed-set tabbed-alternate" data-tabs="6:2"><input checked="checked" id="__tabbed_6_1" name="__tabbed_6" type="radio" /><input id="__tabbed_6_2" name="__tabbed_6" type="radio" /><div class="tabbed-labels"><label for="__tabbed_6_1">中文</label><label for="__tabbed_6_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block"></div>
+<div class="tabbed-block"></div>
+</div>
+</div>
+<p>Mypy performs type checking <em>incrementally</em>, reusing results from
+previous runs to speed up successive runs. If you are type checking a
+large codebase, mypy can still be sometimes slower than desirable. For
+example, if you create a new branch based on a much more recent commit
+than the target of the previous mypy run, mypy may have to
+process almost every file, as a large fraction of source files may
+have changed. This can also happen after you've rebased a local
+branch.</p>
+<p>Mypy supports using a <em>remote cache</em> to improve performance in cases
+such as the above.  In a large codebase, remote caching can sometimes
+speed up mypy runs by a factor of 10, or more.</p>
+<p>Mypy doesn't include all components needed to set
+this up -- generally you will have to perform some simple integration
+with your Continuous Integration (CI) or build system to configure
+mypy to use a remote cache. This discussion assumes you have a CI
+system set up for the mypy build you want to speed up, and that you
+are using a central git repository. Generalizing to different
+environments should not be difficult.</p>
+<p>Here are the main components needed:</p>
+<ul>
+<li>
+<p>A shared repository for storing mypy cache files for all landed commits.</p>
+</li>
+<li>
+<p>CI build that uploads mypy incremental cache files to the shared repository for
+  each commit for which the CI build runs.</p>
+</li>
+<li>
+<p>A wrapper script around mypy that developers use to run mypy with remote
+  caching enabled.</p>
+</li>
+</ul>
+<p>Below we discuss each of these components in some detail.</p>
+<h3 id="缓存文件的共享仓库">缓存文件的共享仓库<a class="headerlink" href="#缓存文件的共享仓库" title="Permanent link">&para;</a></h3>
+<p><strong>Shared repository for cache files</strong></p>
+<div class="tabbed-set tabbed-alternate" data-tabs="7:2"><input checked="checked" id="__tabbed_7_1" name="__tabbed_7" type="radio" /><input id="__tabbed_7_2" name="__tabbed_7" type="radio" /><div class="tabbed-labels"><label for="__tabbed_7_1">中文</label><label for="__tabbed_7_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block"></div>
+<div class="tabbed-block"></div>
+</div>
+</div>
+<p>You need a repository that allows you to upload mypy cache files from
+your CI build and make the cache files available for download based on
+a commit id.  A simple approach would be to produce an archive of the
+<code>.mypy_cache</code> directory (which contains the mypy cache data) as a
+downloadable <em>build artifact</em> from your CI build (depending on the
+capabilities of your CI system).  Alternatively, you could upload the
+data to a web server or to S3, for example.</p>
+<h3 id="持续集成构建">持续集成构建<a class="headerlink" href="#持续集成构建" title="Permanent link">&para;</a></h3>
+<p><strong>Continuous Integration build</strong></p>
+<div class="tabbed-set tabbed-alternate" data-tabs="8:2"><input checked="checked" id="__tabbed_8_1" name="__tabbed_8" type="radio" /><input id="__tabbed_8_2" name="__tabbed_8" type="radio" /><div class="tabbed-labels"><label for="__tabbed_8_1">中文</label><label for="__tabbed_8_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block"></div>
+<div class="tabbed-block"></div>
+</div>
+</div>
+<p>The CI build would run a regular mypy build and create an archive containing
+the <code>.mypy_cache</code> directory produced by the build. Finally, it will produce
+the cache as a build artifact or upload it to a repository where it is
+accessible by the mypy wrapper script.</p>
+<p>Your CI script might work like this:</p>
+<ul>
+<li>
+<p>Run mypy normally. This will generate cache data under the
+  <code>.mypy_cache</code> directory.</p>
+</li>
+<li>
+<p>Create a tarball from the <code>.mypy_cache</code> directory.</p>
+</li>
+<li>
+<p>Determine the current git master branch commit id (say, using
+  <code>git rev-parse HEAD</code>).</p>
+</li>
+<li>
+<p>Upload the tarball to the shared repository with a name derived from the
+  commit id.</p>
+</li>
+</ul>
+<h3 id="mypy-包装脚本">Mypy 包装脚本<a class="headerlink" href="#mypy-包装脚本" title="Permanent link">&para;</a></h3>
+<p><strong>Mypy wrapper script</strong></p>
+<div class="tabbed-set tabbed-alternate" data-tabs="9:2"><input checked="checked" id="__tabbed_9_1" name="__tabbed_9" type="radio" /><input id="__tabbed_9_2" name="__tabbed_9" type="radio" /><div class="tabbed-labels"><label for="__tabbed_9_1">中文</label><label for="__tabbed_9_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block"></div>
+<div class="tabbed-block"></div>
+</div>
+</div>
+<p>The wrapper script is used by developers to run mypy locally during
+development instead of invoking mypy directly.  The wrapper first
+populates the local <code>.mypy_cache</code> directory from the shared
+repository and then runs a normal incremental build.</p>
+<p>The wrapper script needs some logic to determine the most recent
+central repository commit (by convention, the <code>origin/master</code> branch
+for git) the local development branch is based on. In a typical git
+setup you can do it like this:</p>
+<p><code>git merge-base HEAD origin/master</code></p>
+<p>The next step is to download the cache data (contents of the
+<code>.mypy_cache</code> directory) from the shared repository based on the
+commit id of the merge base produced by the git command above. The
+script will decompress the data so that mypy will start with a fresh
+<code>.mypy_cache</code>. Finally, the script runs mypy normally. And that's all!</p>
+<h3 id="使用-mypy-守护进程进行缓存">使用 mypy 守护进程进行缓存<a class="headerlink" href="#使用-mypy-守护进程进行缓存" title="Permanent link">&para;</a></h3>
+<p><strong>Caching with mypy daemon</strong></p>
+<div class="tabbed-set tabbed-alternate" data-tabs="10:2"><input checked="checked" id="__tabbed_10_1" name="__tabbed_10" type="radio" /><input id="__tabbed_10_2" name="__tabbed_10" type="radio" /><div class="tabbed-labels"><label for="__tabbed_10_1">中文</label><label for="__tabbed_10_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block"></div>
+<div class="tabbed-block"></div>
+</div>
+</div>
+<p>You can also use remote caching with the :ref:<code>mypy daemon &lt;mypy_daemon&gt;</code>.
+The remote cache will significantly speed up the first <code>dmypy check</code>
+run after starting or restarting the daemon.</p>
+<p>The mypy daemon requires extra fine-grained dependency data in
+the cache files which aren't included by default. To use caching with
+the mypy daemon, use the :option:<code>--cache-fine-grained &lt;mypy --cache-fine-grained&gt;</code> option in your CI
+build</p>
+<div class="language-shell highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>$<span style="color: #bbbbbb"> </span>mypy<span style="color: #bbbbbb"> </span>--cache-fine-grained<span style="color: #bbbbbb"> </span>&lt;args...&gt;
+</code></pre></div>
+<p>This flag adds extra information for the daemon to the cache. In
+order to use this extra information, you will also need to use the
+<code>--use-fine-grained-cache</code> option with <code>dmypy start</code> or
+<code>dmypy restart</code>. Example</p>
+<div class="language-shell highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>$<span style="color: #bbbbbb"> </span>dmypy<span style="color: #bbbbbb"> </span>start<span style="color: #bbbbbb"> </span>--<span style="color: #bbbbbb"> </span>--use-fine-grained-cache<span style="color: #bbbbbb"> </span>&lt;options...&gt;
+</code></pre></div>
+<p>Now your first <code>dmypy check</code> run should be much faster, as it can use
+cache information to avoid processing the whole program.</p>
+<h3 id="改进">改进<a class="headerlink" href="#改进" title="Permanent link">&para;</a></h3>
+<p><strong>Refinements</strong></p>
+<div class="tabbed-set tabbed-alternate" data-tabs="11:2"><input checked="checked" id="__tabbed_11_1" name="__tabbed_11" type="radio" /><input id="__tabbed_11_2" name="__tabbed_11" type="radio" /><div class="tabbed-labels"><label for="__tabbed_11_1">中文</label><label for="__tabbed_11_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block"></div>
+<div class="tabbed-block"></div>
+</div>
+</div>
+<p>There are several optional refinements that may improve things further,
+at least if your codebase is hundreds of thousands of lines or more:</p>
+<ul>
+<li>
+<p>If the wrapper script determines that the merge base hasn't changed
+  from a previous run, there's no need to download the cache data and
+  it's better to instead reuse the existing local cache data.</p>
+</li>
+<li>
+<p>If you use the mypy daemon, you may want to restart the daemon each time
+  after the merge base or local branch has changed to avoid processing a
+  potentially large number of changes in an incremental build, as this can
+  be much slower than downloading cache data and restarting the daemon.</p>
+</li>
+<li>
+<p>If the current local branch is based on a very recent master commit,
+  the remote cache data may not yet be available for that commit, as
+  there will necessarily be some latency to build the cache files. It
+  may be a good idea to look for cache data for, say, the 5 latest
+  master commits and use the most recent data that is available.</p>
+</li>
+<li>
+<p>If the remote cache is not accessible for some reason (say, from a public
+  network), the script can still fall back to a normal incremental build.</p>
+</li>
+<li>
+<p>You can have multiple local cache directories for different local branches
+  using the :option:<code>--cache-dir &lt;mypy --cache-dir&gt;</code> option. If the user switches to an existing
+  branch where downloaded cache data is already available, you can continue
+  to use the existing cache data instead of redownloading the data.</p>
+</li>
+<li>
+<p>You can set up your CI build to use a remote cache to speed up the
+  CI build. This would be particularly useful if each CI build starts
+  from a fresh state without access to cache files from previous
+  builds. It's still recommended to run a full, non-incremental
+  mypy build to create the cache data, as repeatedly updating cache
+  data incrementally could result in drift over a long time period (due
+  to a mypy caching issue, perhaps).</p>
+</li>
+</ul>
+<h2 id="扩展的-callable-类型">扩展的 Callable 类型<a class="headerlink" href="#扩展的-callable-类型" title="Permanent link">&para;</a></h2>
+<p><strong>Extended Callable types</strong></p>
+<div class="tabbed-set tabbed-alternate" data-tabs="12:2"><input checked="checked" id="__tabbed_12_1" name="__tabbed_12" type="radio" /><input id="__tabbed_12_2" name="__tabbed_12" type="radio" /><div class="tabbed-labels"><label for="__tabbed_12_1">中文</label><label for="__tabbed_12_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block"></div>
+<div class="tabbed-block"></div>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+</div>
+<p>This feature is deprecated.  You can use
+   :ref:<code>callback protocols &lt;callback_protocols&gt;</code> as a replacement.</p>
+<p>As an experimental mypy extension, you can specify <img alt="🇵🇾" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@14.1.2/assets/svg/1f1f5-1f1fe.svg" title=":py:" />data:<code>~typing.Callable</code> types
+that support keyword arguments, optional arguments, and more.  When
+you specify the arguments of a <img alt="🇵🇾" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@14.1.2/assets/svg/1f1f5-1f1fe.svg" title=":py:" />data:<code>~typing.Callable</code>, you can choose to supply just
+the type of a nameless positional argument, or an "argument specifier"
+representing a more complicated form of argument.  This allows one to
+more closely emulate the full range of possibilities given by the
+<code>def</code> statement in Python.</p>
+<p>As an example, here's a complicated function definition and the
+corresponding <img alt="🇵🇾" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@14.1.2/assets/svg/1f1f5-1f1fe.svg" title=":py:" />data:<code>~typing.Callable</code>:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>   <span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">typing</span> <span style="color: #008000; font-weight: bold">import</span> Callable
+   <span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">mypy_extensions</span> <span style="color: #008000; font-weight: bold">import</span> (Arg, DefaultArg, NamedArg,
+                                DefaultNamedArg, VarArg, KwArg)
+
+   <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">func</span>(__a: <span style="color: #008000">int</span>,  <span style="color: #3D7B7B; font-style: italic"># This convention is for nameless arguments</span>
+            b: <span style="color: #008000">int</span>,
+            c: <span style="color: #008000">int</span> <span style="color: #666666">=</span> <span style="color: #666666">0</span>,
+            <span style="color: #666666">*</span>args: <span style="color: #008000">int</span>,
+            d: <span style="color: #008000">int</span>,
+            e: <span style="color: #008000">int</span> <span style="color: #666666">=</span> <span style="color: #666666">0</span>,
+            <span style="color: #666666">**</span>kwargs: <span style="color: #008000">int</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000">int</span>:
+       <span style="color: #666666">...</span>
+
+   F <span style="color: #666666">=</span> Callable[[<span style="color: #008000">int</span>,  <span style="color: #3D7B7B; font-style: italic"># Or Arg(int)</span>
+                 Arg(<span style="color: #008000">int</span>, <span style="color: #BA2121">&#39;b&#39;</span>),
+                 DefaultArg(<span style="color: #008000">int</span>, <span style="color: #BA2121">&#39;c&#39;</span>),
+                 VarArg(<span style="color: #008000">int</span>),
+                 NamedArg(<span style="color: #008000">int</span>, <span style="color: #BA2121">&#39;d&#39;</span>),
+                 DefaultNamedArg(<span style="color: #008000">int</span>, <span style="color: #BA2121">&#39;e&#39;</span>),
+                 KwArg(<span style="color: #008000">int</span>)],
+                <span style="color: #008000">int</span>]
+
+   f: F <span style="color: #666666">=</span> func
+</code></pre></div>
+<p>Argument specifiers are special function calls that can specify the
+following aspects of an argument:</p>
+<ul>
+<li>
+<p>its type (the only thing that the basic format supports)</p>
+</li>
+<li>
+<p>its name (if it has one)</p>
+</li>
+<li>
+<p>whether it may be omitted</p>
+</li>
+<li>
+<p>whether it may or must be passed using a keyword</p>
+</li>
+<li>
+<p>whether it is a <code>*args</code> argument (representing the remaining
+  positional arguments)</p>
+</li>
+<li>
+<p>whether it is a <code>**kwargs</code> argument (representing the remaining
+  keyword arguments)</p>
+</li>
+</ul>
+<p>The following functions are available in <code>mypy_extensions</code> for this
+purpose:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>   <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">Arg</span>(<span style="color: #008000">type</span><span style="color: #666666">=</span>Any, name<span style="color: #666666">=</span><span style="color: #008000; font-weight: bold">None</span>):
+       <span style="color: #3D7B7B; font-style: italic"># A normal, mandatory, positional argument.</span>
+       <span style="color: #3D7B7B; font-style: italic"># If the name is specified it may be passed as a keyword.</span>
+
+   <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">DefaultArg</span>(<span style="color: #008000">type</span><span style="color: #666666">=</span>Any, name<span style="color: #666666">=</span><span style="color: #008000; font-weight: bold">None</span>):
+       <span style="color: #3D7B7B; font-style: italic"># An optional positional argument (i.e. with a default value).</span>
+       <span style="color: #3D7B7B; font-style: italic"># If the name is specified it may be passed as a keyword.</span>
+
+   <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">NamedArg</span>(<span style="color: #008000">type</span><span style="color: #666666">=</span>Any, name<span style="color: #666666">=</span><span style="color: #008000; font-weight: bold">None</span>):
+       <span style="color: #3D7B7B; font-style: italic"># A mandatory keyword-only argument.</span>
+
+   <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">DefaultNamedArg</span>(<span style="color: #008000">type</span><span style="color: #666666">=</span>Any, name<span style="color: #666666">=</span><span style="color: #008000; font-weight: bold">None</span>):
+       <span style="color: #3D7B7B; font-style: italic"># An optional keyword-only argument (i.e. with a default value).</span>
+
+   <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">VarArg</span>(<span style="color: #008000">type</span><span style="color: #666666">=</span>Any):
+       <span style="color: #3D7B7B; font-style: italic"># A *args-style variadic positional argument.</span>
+       <span style="color: #3D7B7B; font-style: italic"># A single VarArg() specifier represents all remaining</span>
+       <span style="color: #3D7B7B; font-style: italic"># positional arguments.</span>
+
+   <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">KwArg</span>(<span style="color: #008000">type</span><span style="color: #666666">=</span>Any):
+       <span style="color: #3D7B7B; font-style: italic"># A **kwargs-style variadic keyword argument.</span>
+       <span style="color: #3D7B7B; font-style: italic"># A single KwArg() specifier represents all remaining</span>
+       <span style="color: #3D7B7B; font-style: italic"># keyword arguments.</span>
+</code></pre></div>
+<p>In all cases, the <code>type</code> argument defaults to <code>Any</code>, and if the
+<code>name</code> argument is omitted the argument has no name (the name is
+required for <code>NamedArg</code> and <code>DefaultNamedArg</code>).  A basic
+<img alt="🇵🇾" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@14.1.2/assets/svg/1f1f5-1f1fe.svg" title=":py:" />data:<code>~typing.Callable</code> such as</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>   MyFunc <span style="color: #666666">=</span> Callable[[<span style="color: #008000">int</span>, <span style="color: #008000">str</span>, <span style="color: #008000">int</span>], <span style="color: #008000">float</span>]
+</code></pre></div>
+<p>is equivalent to the following:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>   MyFunc <span style="color: #666666">=</span> Callable[[Arg(<span style="color: #008000">int</span>), Arg(<span style="color: #008000">str</span>), Arg(<span style="color: #008000">int</span>)], <span style="color: #008000">float</span>]
+</code></pre></div>
+<p>A <img alt="🇵🇾" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@14.1.2/assets/svg/1f1f5-1f1fe.svg" title=":py:" />data:<code>~typing.Callable</code> with unspecified argument types, such as</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>   MyOtherFunc <span style="color: #666666">=</span> Callable[<span style="color: #666666">...</span>, <span style="color: #008000">int</span>]
+</code></pre></div>
+<p>is (roughly) equivalent to</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>   MyOtherFunc <span style="color: #666666">=</span> Callable[[VarArg(), KwArg()], <span style="color: #008000">int</span>]
+</code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+</div>
+<p>Each of the functions above currently just returns its <code>type</code>
+   argument at runtime, so the information contained in the argument
+   specifiers is not available at runtime.  This limitation is
+   necessary for backwards compatibility with the existing
+   <code>typing.py</code> module as present in the Python 3.5+ standard library
+   and distributed via PyPI.</p>
+
+  <hr>
+<div class="md-source-file">
+  <small>
+    
+      最后更新:
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2024年9月14日</span>
+      
+        <br>
+        创建日期:
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2024年9月13日</span>
+      
+    
+  </small>
+</div>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var tab,labels=set.querySelector(".tabbed-labels");for(tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["header.autohide", "navigation.top", "navigation.tabs", "navigation.tabs.sticky", "navigation.path", "content.tabs.link", "content.code.copy", "content.tooltips", "navigation.indexes", "navigation.prune", "navigation.instant"], "search": "../../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": {"provider": "mike"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.94c44541.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  <script>document$.subscribe(() => {const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});})</script></body>
+</html>

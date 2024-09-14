@@ -11,10 +11,10 @@
       
       
       
-        <link rel="prev" href="../final_names_methods_classes/">
+        <link rel="prev" href="../inline_config/">
       
       
-        <link rel="next" href="../../mypy_conf/">
+        <link rel="next" href="../installed_packages/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -22,7 +22,7 @@
     
     
       
-        <title>元类 - mypy类型检查</title>
+        <title>mypy服务(守护进程) - mypy类型检查</title>
       
     
     
@@ -86,7 +86,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#元类" class="md-skip">
+        <a href="#mypy-守护进程-mypy-server" class="md-skip">
           跳转至
         </a>
       
@@ -138,7 +138,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              元类
+              mypy服务(守护进程)
             
           </span>
         </div>
@@ -231,12 +231,32 @@
     
     
       <li class="md-tabs__item">
-        <a href="../" class="md-tabs__link">
+        <a href="../../mypy/" class="md-tabs__link">
           
   
     
   
   第一步
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../mypy/builtin_types/" class="md-tabs__link">
+          
+  
+    
+  
+  类型系统参考
 
         </a>
       </li>
@@ -253,27 +273,7 @@
     
     
       <li class="md-tabs__item md-tabs__item--active">
-        <a href="../builtin_types/" class="md-tabs__link">
-          
-  
-    
-  
-  类型系统参考
-
-        </a>
-      </li>
-    
-  
-
-      
-        
-  
-  
-  
-    
-    
-      <li class="md-tabs__item">
-        <a href="../../mypy_conf/" class="md-tabs__link">
+        <a href="../" class="md-tabs__link">
           
   
     
@@ -409,7 +409,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../" class="md-nav__link ">
+            <a href="../../mypy/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -441,7 +441,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../cheat_sheet_py3/" class="md-nav__link">
+      <a href="../../mypy/cheat_sheet_py3/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -461,7 +461,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../existing_code/" class="md-nav__link">
+      <a href="../../mypy/existing_code/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -486,8 +486,6 @@
       
   
   
-    
-  
   
     
     
@@ -504,457 +502,6 @@
       
         
       
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-    
-    
-    
-    
-      
-      
-    
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
-      
-        
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
-        
-          
-          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
-            
-  
-  <span class="md-ellipsis">
-    类型系统参考
-  </span>
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_3">
-            <span class="md-nav__icon md-icon"></span>
-            类型系统参考
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../builtin_types/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    内置类型
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../type_inference_type_annotations/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    类型推断和类型注解
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../kind_of_types/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    类型种类
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../class_basics/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    类的基础
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../annotation_issue_at_runtime/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    运行时的注解问题
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../protocol_and_struct_subtyping/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    协议及其子类型
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../dynamic_typing/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    动态类型
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../type_narrowing/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    类型收缩
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../duck_type_compatibility/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    鸭子类型兼容
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../stub_files/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    存根文件
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../generics/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    泛型
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../more_types/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    更多类型
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../literal_and_enum/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    字面量和枚举
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../typeddict/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    类型字典
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../final_names_methods_classes/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    最终名称、方法和类
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-    
-  
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    元类
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
-        
-  
-  <span class="md-ellipsis">
-    元类
-  </span>
-  
-
-      </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="目录">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      目录
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#定义元类" class="md-nav__link">
-    定义元类
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#元类使用示例" class="md-nav__link">
-    元类使用示例
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#元类支持的陷阱和限制" class="md-nav__link">
-    元类支持的陷阱和限制
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-    
-    
-      
-        
-          
         
       
         
@@ -987,12 +534,404 @@
         
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    类型系统参考
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            类型系统参考
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mypy/builtin_types/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    内置类型
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mypy/type_inference_type_annotations/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    类型推断和类型注解
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mypy/kind_of_types/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    类型种类
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mypy/class_basics/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    类的基础
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mypy/annotation_issue_at_runtime/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    运行时的注解问题
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mypy/protocol_and_struct_subtyping/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    协议及其子类型
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mypy/dynamic_typing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    动态类型
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mypy/type_narrowing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    类型收缩
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mypy/duck_type_compatibility/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    鸭子类型兼容
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mypy/stub_files/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    存根文件
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mypy/generics/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    泛型
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mypy/more_types/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    更多类型
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mypy/literal_and_enum/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    字面量和枚举
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mypy/typeddict/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    类型字典
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mypy/final_names_methods_classes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    最终名称、方法和类
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mypy/metaclasses/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    元类
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
         
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../mypy_conf/" class="md-nav__link ">
+            <a href="../" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -1009,7 +948,7 @@
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_4">
             <span class="md-nav__icon md-icon"></span>
             配置和运行mypy
@@ -1024,7 +963,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../mypy_conf/running_mypy/" class="md-nav__link">
+      <a href="../running_mypy/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1044,7 +983,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../mypy_conf/command_line/" class="md-nav__link">
+      <a href="../command_line/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1064,7 +1003,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../mypy_conf/config_file/" class="md-nav__link">
+      <a href="../config_file/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1084,7 +1023,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../mypy_conf/inline_config/" class="md-nav__link">
+      <a href="../inline_config/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1102,9 +1041,29 @@
                 
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../../mypy_conf/mypy_daemon/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    mypy服务(守护进程)
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -1113,6 +1072,61 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#基本用法" class="md-nav__link">
+    基本用法
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#守护进程客户端命令" class="md-nav__link">
+    守护进程客户端命令
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#额外的守护进程标志" class="md-nav__link">
+    额外的守护进程标志
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#注解的静态推断" class="md-nav__link">
+    注解的静态推断
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#静态检查表达式" class="md-nav__link">
+    静态检查表达式
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1124,7 +1138,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../mypy_conf/installed_packages/" class="md-nav__link">
+      <a href="../installed_packages/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1144,7 +1158,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../mypy_conf/extending_mypy/" class="md-nav__link">
+      <a href="../extending_mypy/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1164,7 +1178,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../mypy_conf/stubgen/" class="md-nav__link">
+      <a href="../stubgen/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1184,7 +1198,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../mypy_conf/stubtest/" class="md-nav__link">
+      <a href="../stubtest/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1492,22 +1506,36 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#定义元类" class="md-nav__link">
-    定义元类
+  <a href="#基本用法" class="md-nav__link">
+    基本用法
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#元类使用示例" class="md-nav__link">
-    元类使用示例
+  <a href="#守护进程客户端命令" class="md-nav__link">
+    守护进程客户端命令
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#元类支持的陷阱和限制" class="md-nav__link">
-    元类支持的陷阱和限制
+  <a href="#额外的守护进程标志" class="md-nav__link">
+    额外的守护进程标志
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#注解的静态推断" class="md-nav__link">
+    注解的静态推断
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#静态检查表达式" class="md-nav__link">
+    静态检查表达式
   </a>
   
 </li>
@@ -1530,164 +1558,280 @@
   
 
 
-<h1 id="元类">元类<a class="headerlink" href="#元类" title="Permanent link">&para;</a></h1>
+<h1 id="mypy-守护进程-mypy-server">Mypy 守护进程 (mypy server)<a class="headerlink" href="#mypy-守护进程-mypy-server" title="Permanent link">&para;</a></h1>
+<p><strong>Mypy daemon (mypy server)</strong></p>
 <div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">中文</label><label for="__tabbed_1_2">英文</label></div>
 <div class="tabbed-content">
-<div class="tabbed-block">
-<p>元类 <a href="https://docs.python.org/3/reference/datamodel.html#metaclasses"><code>metaclasses</code></a> 是一个描述其他类的构造和行为的类，类似于类描述对象的构造和行为。 默认元类是 <a href="https://docs.python.org/3/library/functions.html#type"><code>type</code></a>，但可以使用其他元类。 元类允许创建 “一种不同类型的类”，例如 <a href="https://docs.python.org/3/library/enum.html#enum.Enum"><code>enum.Enum</code></a>、<a href="https://docs.python.org/3/library/typing.html#typing.NamedTuple"><code>typing.NamedTuple</code></a> 和单例。</p>
-<p>Mypy 对 <a href="https://docs.python.org/3/library/abc.html#abc.ABCMeta"><code>abc.ABCMeta</code></a> 和 <code>EnumMeta</code> 有一些特殊的理解。</p>
-</div>
-<div class="tabbed-block">
-<p><strong>Metaclasses</strong></p>
-<p>A <a href="https://docs.python.org/3/reference/datamodel.html#metaclasses"><code>metaclasses</code></a> is a class that describes the construction and behavior of other classes, similarly to how classes describe the construction and behavior of objects. The default metaclass is <a href="https://docs.python.org/3/library/functions.html#type"><code>type</code></a>, but it's possible to use other metaclasses. Metaclasses allows one to create "a different kind of class", such as <a href="https://docs.python.org/3/library/enum.html#enum.Enum"><code>enum.Enum</code></a>s、<a href="https://docs.python.org/3/library/typing.html#typing.NamedTuple"><code>typing.NamedTuple</code></a>s and singletons.</p>
-<p>Mypy has some special understanding of {py:class}<code>~abc.ABCMeta</code> and <code>EnumMeta</code>.</p>
+<div class="tabbed-block"></div>
+<div class="tabbed-block"></div>
 </div>
 </div>
+<p>Instead of running mypy as a command-line tool, you can also run it as a long-running daemon (server) process and use a command-line client to send type-checking requests to the server.  This way mypy can perform type checking much faster, since program state cached from previous runs is kept in memory and doesn't have to be read from the file system on each run. The server also uses finer-grained dependency tracking to reduce the amount of work that needs to be done.</p>
+<p>If you have a large codebase to check, running mypy using the mypy daemon can be <em>10 or more times faster</em> than the regular command-line <code>mypy</code> tool, especially if your workflow involves running mypy repeatedly after small edits -- which is often a good idea, as this way you'll find errors sooner.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The command-line interface of mypy daemon may change in future mypy releases.</p>
 </div>
-<h2 id="定义元类">定义元类<a class="headerlink" href="#定义元类" title="Permanent link">&para;</a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Each mypy daemon process supports one user and one set of source files, and it can only process one type checking request at a time. You can run multiple mypy daemon processes to type check multiple repositories.</p>
+</div>
+<h2 id="基本用法">基本用法<a class="headerlink" href="#基本用法" title="Permanent link">&para;</a></h2>
+<p><strong>Basic usage</strong></p>
 <div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">中文</label><label for="__tabbed_2_2">英文</label></div>
 <div class="tabbed-content">
-<div class="tabbed-block">
-<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">M</span>(<span style="color: #008000">type</span>):
-    <span style="color: #008000; font-weight: bold">pass</span>
-
-<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">A</span>(metaclass<span style="color: #666666">=</span>M):
-    <span style="color: #008000; font-weight: bold">pass</span>
+<div class="tabbed-block"></div>
+<div class="tabbed-block"></div>
+</div>
+</div>
+<p>The client utility <code>dmypy</code> is used to control the mypy daemon. Use <code>dmypy run -- &lt;flags&gt; &lt;files&gt;</code> to type check a set of files (or directories). This will launch the daemon if it is not running. You can use almost arbitrary mypy flags after <code>--</code>.  The daemon will always run on the current host. Example</p>
+<div class="language-shell highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>dmypy<span style="color: #bbbbbb"> </span>run<span style="color: #bbbbbb"> </span>--<span style="color: #bbbbbb"> </span>prog.py<span style="color: #bbbbbb"> </span>pkg/*.py
 </code></pre></div>
+<p><code>dmypy run</code> will automatically restart the daemon if the configuration or mypy version changes.</p>
+<p>The initial run will process all the code and may take a while to finish, but subsequent runs will be quick, especially if you've only changed a few files. (You can use <a href="../../mypy_other/additional_features/#使用远程缓存加速-mypy-运行">remote caching</a> to speed up the initial run. The speedup can be significant if you have a large codebase.)</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
 </div>
-<div class="tabbed-block">
-<p><strong>Defining a metaclass</strong></p>
-<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">M</span>(<span style="color: #008000">type</span>):
-    <span style="color: #008000; font-weight: bold">pass</span>
-
-<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">A</span>(metaclass<span style="color: #666666">=</span>M):
-    <span style="color: #008000; font-weight: bold">pass</span>
-</code></pre></div>
+<p>Mypy 0.780 added support for following imports in dmypy (enabled by default). This functionality is still experimental. You can use <code>--follow-imports=skip</code> or <code>--follow-imports=error</code> to fall back to the stable functionality.  See :ref:<code>follow-imports</code> for details on how these work.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The mypy daemon requires <code>--local-partial-types</code> and automatically enables it.</p>
 </div>
-</div>
-</div>
-<h2 id="元类使用示例">元类使用示例<a class="headerlink" href="#元类使用示例" title="Permanent link">&para;</a></h2>
+<h2 id="守护进程客户端命令">守护进程客户端命令<a class="headerlink" href="#守护进程客户端命令" title="Permanent link">&para;</a></h2>
+<p><strong>Daemon client commands</strong></p>
 <div class="tabbed-set tabbed-alternate" data-tabs="3:2"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><input id="__tabbed_3_2" name="__tabbed_3" type="radio" /><div class="tabbed-labels"><label for="__tabbed_3_1">中文</label><label for="__tabbed_3_2">英文</label></div>
 <div class="tabbed-content">
-<div class="tabbed-block">
-<p>Mypy 支持在元类中查找属性：</p>
-<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">typing</span> <span style="color: #008000; font-weight: bold">import</span> Type, TypeVar, ClassVar
-T <span style="color: #666666">=</span> TypeVar(<span style="color: #BA2121">&#39;T&#39;</span>)
-
-<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">M</span>(<span style="color: #008000">type</span>):
-    count: ClassVar[<span style="color: #008000">int</span>] <span style="color: #666666">=</span> <span style="color: #666666">0</span>
-
-    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">make</span>(<span style="color: #008000">cls</span>: Type[T]) <span style="color: #666666">-&gt;</span> T:
-        M<span style="color: #666666">.</span>count <span style="color: #666666">+=</span> <span style="color: #666666">1</span>
-        <span style="color: #008000; font-weight: bold">return</span> <span style="color: #008000">cls</span>()
-
-<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">A</span>(metaclass<span style="color: #666666">=</span>M):
-    <span style="color: #008000; font-weight: bold">pass</span>
-
-a: A <span style="color: #666666">=</span> A<span style="color: #666666">.</span>make()  <span style="color: #3D7B7B; font-style: italic"># make() 会在 M 中查找； 结果是 A 类型的对象</span>
-<span style="color: #008000">print</span>(A<span style="color: #666666">.</span>count)
-
-<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">B</span>(A):
-    <span style="color: #008000; font-weight: bold">pass</span>
-
-b: B <span style="color: #666666">=</span> B<span style="color: #666666">.</span>make()  <span style="color: #3D7B7B; font-style: italic"># 元类是继承的</span>
-<span style="color: #008000">print</span>(B<span style="color: #666666">.</span>count <span style="color: #666666">+</span> <span style="color: #BA2121">&quot; objects were created&quot;</span>)  <span style="color: #3D7B7B; font-style: italic"># Error: Unsupported operand types for + (&quot;int&quot; and &quot;str&quot;)</span>
-</code></pre></div>
-</div>
-<div class="tabbed-block">
-<p><strong>Metaclass usage example</strong></p>
-<p>Mypy supports the lookup of attributes in the metaclass:</p>
-<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">typing</span> <span style="color: #008000; font-weight: bold">import</span> Type, TypeVar, ClassVar
-T <span style="color: #666666">=</span> TypeVar(<span style="color: #BA2121">&#39;T&#39;</span>)
-
-<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">M</span>(<span style="color: #008000">type</span>):
-    count: ClassVar[<span style="color: #008000">int</span>] <span style="color: #666666">=</span> <span style="color: #666666">0</span>
-
-    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">make</span>(<span style="color: #008000">cls</span>: Type[T]) <span style="color: #666666">-&gt;</span> T:
-        M<span style="color: #666666">.</span>count <span style="color: #666666">+=</span> <span style="color: #666666">1</span>
-        <span style="color: #008000; font-weight: bold">return</span> <span style="color: #008000">cls</span>()
-
-<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">A</span>(metaclass<span style="color: #666666">=</span>M):
-    <span style="color: #008000; font-weight: bold">pass</span>
-
-a: A <span style="color: #666666">=</span> A<span style="color: #666666">.</span>make()  <span style="color: #3D7B7B; font-style: italic"># make() is looked up at M; the result is an object of type A</span>
-<span style="color: #008000">print</span>(A<span style="color: #666666">.</span>count)
-
-<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">B</span>(A):
-    <span style="color: #008000; font-weight: bold">pass</span>
-
-b: B <span style="color: #666666">=</span> B<span style="color: #666666">.</span>make()  <span style="color: #3D7B7B; font-style: italic"># metaclasses are inherited</span>
-<span style="color: #008000">print</span>(B<span style="color: #666666">.</span>count <span style="color: #666666">+</span> <span style="color: #BA2121">&quot; objects were created&quot;</span>)  <span style="color: #3D7B7B; font-style: italic"># Error: Unsupported operand types for + (&quot;int&quot; and &quot;str&quot;)</span>
-</code></pre></div>
+<div class="tabbed-block"></div>
+<div class="tabbed-block"></div>
 </div>
 </div>
-</div>
-<h2 id="元类支持的陷阱和限制">元类支持的陷阱和限制<a class="headerlink" href="#元类支持的陷阱和限制" title="Permanent link">&para;</a></h2>
+<p>While <code>dmypy run</code> is sufficient for most uses, some workflows (ones using <a href="../../mypy_other/additional_features/#使用远程缓存加速-mypy-运行">remote caching</a>, perhaps), require more precise control over the lifetime of the daemon process:</p>
+<ul>
+<li>
+<p><code>dmypy stop</code> stops the daemon.</p>
+</li>
+<li>
+<p><code>dmypy start -- &lt;flags&gt;</code> starts the daemon but does not check any files. You can use almost arbitrary mypy flags after <code>--</code>.</p>
+</li>
+<li>
+<p><code>dmypy restart -- &lt;flags&gt;</code> restarts the daemon. The flags are the same as with <code>dmypy start</code>. This is equivalent to a stop command followed by a start.</p>
+</li>
+<li>
+<p>Use <code>dmypy run --timeout SECONDS -- &lt;flags&gt;</code> (or <code>start</code> or <code>restart</code>) to automatically shut down the daemon after inactivity. By default, the daemon runs until it's explicitly stopped.</p>
+</li>
+<li>
+<p><code>dmypy check &lt;files&gt;</code> checks a set of files using an already running daemon.</p>
+</li>
+<li>
+<p><code>dmypy recheck</code> checks the same set of files as the most recent <code>check</code> or <code>recheck</code> command. (You can also use the <a href="#update">--update</a> and <a href="#remove">--remove</a> options to alter the set of files, and to define which files should be processed.)</p>
+</li>
+<li>
+<p><code>dmypy status</code> checks whether a daemon is running. It prints a diagnostic and exits with <code>0</code> if there is a running daemon.</p>
+</li>
+</ul>
+<p>Use <code>dmypy --help</code> for help on additional commands and command-line options not discussed here, and <code>dmypy &lt;command&gt; --help</code> for help on command-specific options.</p>
+<h2 id="额外的守护进程标志">额外的守护进程标志<a class="headerlink" href="#额外的守护进程标志" title="Permanent link">&para;</a></h2>
+<p><strong>Additional daemon flags</strong></p>
 <div class="tabbed-set tabbed-alternate" data-tabs="4:2"><input checked="checked" id="__tabbed_4_1" name="__tabbed_4" type="radio" /><input id="__tabbed_4_2" name="__tabbed_4" type="radio" /><div class="tabbed-labels"><label for="__tabbed_4_1">中文</label><label for="__tabbed_4_2">英文</label></div>
 <div class="tabbed-content">
-<div class="tabbed-block">
-<p>请注意，元类对继承结构提出了一些要求，因此最好不要将元类和类层次结构结合起来：</p>
-<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">M1</span>(<span style="color: #008000">type</span>): <span style="color: #008000; font-weight: bold">pass</span>
-<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">M2</span>(<span style="color: #008000">type</span>): <span style="color: #008000; font-weight: bold">pass</span>
+<div class="tabbed-block"></div>
+<div class="tabbed-block"></div>
+</div>
+</div>
+<dl>
+<dt><span id="status-file"></span><code>--status-file FILE</code></dt>
+<dd>
+<p>Use <code>FILE</code> as the status file for storing daemon runtime state. This is normally a JSON file that contains information about daemon process and connection. The default path is <code>.dmypy.json</code> in the current working directory.</p>
+</dd>
+<dt><span id="log-file"></span><code>--log-file FILE</code></dt>
+<dd>
+<p>Direct daemon stdout/stderr to <code>FILE</code>. This is useful for debugging daemon crashes, since the server traceback is not always printed by the client. This is available for the <code>start</code>, <code>restart</code>, and <code>run</code> commands.</p>
+</dd>
+<dt><span id="timeout"></span><code>--timeout TIMEOUT</code></dt>
+<dd>
+<p>Automatically shut down server after <code>TIMEOUT</code> seconds of inactivity. This is available for the <code>start</code>, <code>restart</code>, and <code>run</code> commands.</p>
+</dd>
+<dt><span id="update"></span><code>--update FILE</code></dt>
+<dd>
+<p>Re-check <code>FILE</code>, or add it to the set of files being checked (and check it). This option may be repeated, and it's only available for the <code>recheck</code> command.  By default, mypy finds and checks all files changed since the previous run and files that depend on them.  However, if you use this option (and/or <a href="#remove">--remove</a>), mypy assumes that only the explicitly specified files have changed. This is only useful to speed up mypy if you type check a very large number of files, and use an external, fast file system watcher, such as <a href="https://facebook.github.io/watchman/">watchman</a> or <a href="https://pypi.org/project/watchdog/">watchdog</a>, to determine which files got edited or deleted. <em>Note:</em> This option is never required and is only available for performance tuning.</p>
+</dd>
+<dt><span id="remove"></span><code>--remove FILE</code></dt>
+<dd>
+<p>Remove <code>FILE</code> from the set of files being checked. This option may be repeated. This is only available for the <code>recheck</code> command. See <a href="#update">--update</a> above for when this may be useful. <em>Note:</em> This option is never required and is only available for performance tuning.</p>
+</dd>
+<dt><span id="fswatcher-dump-file"></span><code>--fswatcher-dump-file FILE</code></dt>
+<dd>
+<p>Collect information about the current internal file state. This is only available for the <code>status</code> command. This will dump JSON to <code>FILE</code> in the format <code>{path: [modification_time, size, content_hash]}</code>. This is useful for debugging the built-in file system watcher. <em>Note:</em> This is an internal flag and the format may change.</p>
+</dd>
+<dt><span id="perf-stats-file"></span><code>--perf-stats-file FILE</code></dt>
+<dd>
+<p>Write performance profiling information to <code>FILE</code>. This is only available for the <code>check</code>, <code>recheck</code>, and <code>run</code> commands.</p>
+</dd>
+<dt><span id="export-types"></span><code>--export-types</code></dt>
+<dd>
+<p>Store all expression types in memory for future use. This is useful to speed up future calls to <code>dmypy inspect</code> (but uses more memory). Only valid for <code>check</code>, <code>recheck</code>, and <code>run</code> command.</p>
+</dd>
+</dl>
+<h2 id="注解的静态推断">注解的静态推断<a class="headerlink" href="#注解的静态推断" title="Permanent link">&para;</a></h2>
+<p><strong>Static inference of annotations</strong></p>
+<div class="tabbed-set tabbed-alternate" data-tabs="5:2"><input checked="checked" id="__tabbed_5_1" name="__tabbed_5" type="radio" /><input id="__tabbed_5_2" name="__tabbed_5" type="radio" /><div class="tabbed-labels"><label for="__tabbed_5_1">中文</label><label for="__tabbed_5_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block"></div>
+<div class="tabbed-block"></div>
+</div>
+</div>
+<p>The mypy daemon supports (as an experimental feature) statically inferring draft function and method type annotations. Use <code>dmypy suggest FUNCTION</code> to generate a draft signature in the format <code>(param_type_1, param_type_2, ...) -&gt; ret_type</code> (types are included for all arguments, including keyword-only arguments, <code>*args</code> and <code>**kwargs</code>).</p>
+<p>This is a low-level feature intended to be used by editor integrations, IDEs, and other tools (for example, the <a href="https://github.com/dropbox/mypy-PyCharm-plugin">mypy plugin for PyCharm</a>), to automatically add annotations to source files, or to propose function signatures.</p>
+<p>In this example, the function <code>format_id()</code> has no annotation:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>   <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">format_id</span>(user):
+       <span style="color: #008000; font-weight: bold">return</span> <span style="color: #BA2121">f&quot;User: </span><span style="color: #A45A77; font-weight: bold">{</span>user<span style="color: #A45A77; font-weight: bold">}</span><span style="color: #BA2121">&quot;</span>
 
-<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">A1</span>(metaclass<span style="color: #666666">=</span>M1): <span style="color: #008000; font-weight: bold">pass</span>
-<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">A2</span>(metaclass<span style="color: #666666">=</span>M2): <span style="color: #008000; font-weight: bold">pass</span>
-
-<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">B1</span>(A1, metaclass<span style="color: #666666">=</span>M2): <span style="color: #008000; font-weight: bold">pass</span>  <span style="color: #3D7B7B; font-style: italic"># Mypy Error: metaclass conflict</span>
-<span style="color: #3D7B7B; font-style: italic"># 在运行时，上面的定义会引发异常</span>
-<span style="color: #3D7B7B; font-style: italic"># TypeError: metaclass conflict: 派生类的元类必须是其所有基类的元类的（非严格）子类</span>
-
-<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">B12</span>(A1, A2): <span style="color: #008000; font-weight: bold">pass</span>  <span style="color: #3D7B7B; font-style: italic"># Mypy Error: metaclass conflict</span>
-
-<span style="color: #3D7B7B; font-style: italic"># 这可以通过通用元类子类型来解决：</span>
-<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">CorrectMeta</span>(M1, M2): <span style="color: #008000; font-weight: bold">pass</span>
-<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">B2</span>(A1, A2, metaclass<span style="color: #666666">=</span>CorrectMeta): <span style="color: #008000; font-weight: bold">pass</span>  <span style="color: #3D7B7B; font-style: italic"># OK, 运行时也没问题</span>
+   root <span style="color: #666666">=</span> format_id(<span style="color: #666666">0</span>)
 </code></pre></div>
+<p><code>dmypy suggest</code> uses call sites, return statements, and other heuristics (such as looking for signatures in base classes) to infer that <code>format_id()</code> accepts an <code>int</code> argument and returns a <code>str</code>. Use <code>dmypy suggest module.format_id</code> to print the suggested signature for the function.</p>
+<p>More generally, the target function may be specified in two ways:</p>
 <ul>
-<li>Mypy 不理解动态计算的元类，例如 <code>class A(metaclass=f()): ...</code></li>
-<li>Mypy 不会也不可能理解任意元类代码。</li>
-<li>Mypy 仅将 <a href="https://docs.python.org/3/library/functions.html#type"><code>type</code></a> 的子类识别为潜在的元类。</li>
+<li>
+<p>By its fully qualified name, i.e. <code>[package.]module.[class.]function</code>.</p>
+</li>
+<li>
+<p>By its location in a source file, i.e. <code>/path/to/file.py:line</code>. The path can be absolute or relative, and <code>line</code> can refer to any line number within the function body.</p>
+</li>
 </ul>
-</div>
-<div class="tabbed-block">
-<p><strong>Gotchas and limitations of metaclass support</strong></p>
-<p>Note that metaclasses pose some requirements on the inheritance structure,
-so it's better not to combine metaclasses and class hierarchies:</p>
-<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">M1</span>(<span style="color: #008000">type</span>): <span style="color: #008000; font-weight: bold">pass</span>
-<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">M2</span>(<span style="color: #008000">type</span>): <span style="color: #008000; font-weight: bold">pass</span>
-
-<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">A1</span>(metaclass<span style="color: #666666">=</span>M1): <span style="color: #008000; font-weight: bold">pass</span>
-<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">A2</span>(metaclass<span style="color: #666666">=</span>M2): <span style="color: #008000; font-weight: bold">pass</span>
-
-<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">B1</span>(A1, metaclass<span style="color: #666666">=</span>M2): <span style="color: #008000; font-weight: bold">pass</span>  <span style="color: #3D7B7B; font-style: italic"># Mypy Error: metaclass conflict</span>
-<span style="color: #3D7B7B; font-style: italic"># At runtime the above definition raises an exception</span>
-<span style="color: #3D7B7B; font-style: italic"># TypeError: metaclass conflict: the metaclass of a derived class must be a (non-strict) subclass of the metaclasses of all its bases</span>
-
-<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">B12</span>(A1, A2): <span style="color: #008000; font-weight: bold">pass</span>  <span style="color: #3D7B7B; font-style: italic"># Mypy Error: metaclass conflict</span>
-
-<span style="color: #3D7B7B; font-style: italic"># This can be solved via a common metaclass subtype:</span>
-<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">CorrectMeta</span>(M1, M2): <span style="color: #008000; font-weight: bold">pass</span>
-<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">B2</span>(A1, A2, metaclass<span style="color: #666666">=</span>CorrectMeta): <span style="color: #008000; font-weight: bold">pass</span>  <span style="color: #3D7B7B; font-style: italic"># OK, runtime is also OK</span>
+<p>This command can also be used to find a more precise alternative for an existing, imprecise annotation with some <code>Any</code> types.</p>
+<p>The following flags customize various aspects of the <code>dmypy suggest</code> command.</p>
+<dl>
+<dt><span id="json"></span><code>--json</code></dt>
+<dd>
+<p>Output the signature as JSON, so that <a href="https://github.com/dropbox/pyannotate">PyAnnotate</a> can read it and add the signature to the source file. Here is what the JSON looks like:</p>
+</dd>
+</dl>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>[{<span style="color: #BA2121">&quot;func_name&quot;</span>: <span style="color: #BA2121">&quot;example.format_id&quot;</span>,
+   <span style="color: #BA2121">&quot;line&quot;</span>: <span style="color: #666666">1</span>,
+   <span style="color: #BA2121">&quot;path&quot;</span>: <span style="color: #BA2121">&quot;/absolute/path/to/example.py&quot;</span>,
+   <span style="color: #BA2121">&quot;samples&quot;</span>: <span style="color: #666666">0</span>,
+   <span style="color: #BA2121">&quot;signature&quot;</span>: {<span style="color: #BA2121">&quot;arg_types&quot;</span>: [<span style="color: #BA2121">&quot;int&quot;</span>], <span style="color: #BA2121">&quot;return_type&quot;</span>: <span style="color: #BA2121">&quot;str&quot;</span>}}]
 </code></pre></div>
+<dl>
+<dt><span id="no-errors"></span><code>--no-errors</code></dt>
+<dd>
+<p>Only produce suggestions that cause no errors in the checked code. By default, mypy will try to find the most precise type, even if it causes some type errors.</p>
+</dd>
+<dt><span id="no-any"></span><code>--no-any</code></dt>
+<dd>
+<p>Only produce suggestions that don't contain <code>Any</code> types. By default mypy proposes the most precise signature found, even if it contains <code>Any</code> types.</p>
+</dd>
+<dt><span id="flex-any"></span><code>--flex-any FRACTION</code></dt>
+<dd>
+<p>Only allow some fraction of types in the suggested signature to be <code>Any</code> types. The fraction ranges from <code>0</code> (same as <code>--no-any</code>) to <code>1</code>.</p>
+</dd>
+<dt><span id="callsites"></span><code>--callsites</code></dt>
+<dd>
+<p>Only find call sites for a given function instead of suggesting a type. This will produce a list with line numbers and types of actual arguments for each call: <code>/path/to/file.py:line: (arg_type_1, arg_type_2, ...)</code>.</p>
+</dd>
+<dt><span id="use-fixme"></span><code>--use-fixme NAME</code></dt>
+<dd>
+<p>Use a dummy name instead of plain <code>Any</code> for types that cannot be inferred. This may be useful to emphasize to a user that a given type couldn't be inferred and needs to be entered manually.</p>
+</dd>
+<dt><span id="max-guesses"></span><code>--max-guesses NUMBER</code></dt>
+<dd>
+<p>Set the maximum number of types to try for a function (default: <code>64</code>).</p>
+</dd>
+</dl>
+<h2 id="静态检查表达式">静态检查表达式<a class="headerlink" href="#静态检查表达式" title="Permanent link">&para;</a></h2>
+<p><strong>Statically inspect expressions</strong></p>
+<div class="tabbed-set tabbed-alternate" data-tabs="6:2"><input checked="checked" id="__tabbed_6_1" name="__tabbed_6" type="radio" /><input id="__tabbed_6_2" name="__tabbed_6" type="radio" /><div class="tabbed-labels"><label for="__tabbed_6_1">中文</label><label for="__tabbed_6_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block"></div>
+<div class="tabbed-block"></div>
+</div>
+</div>
+<p>The daemon allows to get declared or inferred type of an expression (or other information about an expression, such as known attributes or definition location) using <code>dmypy inspect LOCATION</code> command. The location of the expression should be specified in the format <code>path/to/file.py:line:column[:end_line:end_column]</code>. Both line and column are 1-based. Both start and end position are inclusive. These rules match how mypy prints the error location in error messages.</p>
+<p>If a span is given (i.e. all 4 numbers), then only an exactly matching expression is inspected. If only a position is given (i.e. 2 numbers, line and column), mypy will inspect all <em>expressions</em>, that include this position, starting from the innermost one.</p>
+<p>Consider this Python code snippet:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">foo</span>(x: <span style="color: #008000">int</span>, longer_name: <span style="color: #008000">str</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:
+      x
+      longer_name
+</code></pre></div>
+<p>Here to find the type of <code>x</code> one needs to call <code>dmypy inspect src.py:2:5:2:5</code> or <code>dmypy inspect src.py:2:5</code>. While for <code>longer_name</code> one needs to call <code>dmypy inspect src.py:3:5:3:15</code> or, for example, <code>dmypy inspect src.py:3:10</code>. Please note that this command is only valid after daemon had a successful type check (without parse errors), so that types are populated, e.g. using <code>dmypy check</code>. In case where multiple expressions match the provided location, their types are returned separated by a newline.</p>
+<p>Important note: it is recommended to check files with <a href="#export-types">--export-types</a> since otherwise most inspections will not work without <a href="#force-reload">--force-reload</a>.</p>
+<dl>
+<dt><span id="show"></span><code>--show INSPECTION</code></dt>
+<dd>
+<p>What kind of inspection to run for expression(s) found. Currently the supported inspections are:</p>
+</dd>
+</dl>
 <ul>
-<li>Mypy does not understand dynamically-computed metaclasses, such as <code>class A(metaclass=f()): ...</code></li>
-<li>Mypy does not and cannot understand arbitrary metaclass code.</li>
-<li>Mypy only recognizes subclasses of <a href="https://docs.python.org/3/library/functions.html#type"><code>type</code></a> as potential metaclasses.</li>
+<li><code>type</code> (default): Show the best known type of a given expression.</li>
+<li><code>attrs</code>: Show which attributes are valid for an expression (e.g. for auto-completion). Format is <code>{"Base1": ["name_1", "name_2", ...]; "Base2": ...}</code>. Names are sorted by method resolution order. If expression refers to a module, then module attributes will be under key like <code>"&lt;full.module.name&gt;"</code>.</li>
+<li><code>definition</code> (experimental): Show the definition location for a name expression or member expression. Format is <code>path/to/file.py:line:column:Symbol</code>. If multiple definitions are found (e.g. for a Union attribute), they are separated by comma.</li>
 </ul>
-</div>
-</div>
-</div>
+<dl>
+<dt><span id="verbose"></span><code>--verbose</code></dt>
+<dd>
+<p>Increase verbosity of types string representation (can be repeated). For example, this will print fully qualified names of instance types (like <code>"builtins.str"</code>), instead of just a short name (like <code>"str"</code>).</p>
+</dd>
+<dt><span id="limit"></span><code>--limit NUM</code></dt>
+<dd>
+<p>If the location is given as <code>line:column</code>, this will cause daemon to return only at most <code>NUM</code> inspections of innermost expressions. Value of 0 means no limit (this is the default). For example, if one calls <code>dmypy inspect src.py:4:10 --limit=1</code> with this code</p>
+</dd>
+</dl>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">foo</span>(x: <span style="color: #008000">int</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000">str</span>: <span style="color: #666666">..</span>
+<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">bar</span>(x: <span style="color: #008000">str</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>: <span style="color: #666666">...</span>
+baz: <span style="color: #008000">int</span>
+bar(foo(baz))
+</code></pre></div>
+<p>This will output just one type <code>"int"</code> (for <code>baz</code> name expression). While without the limit option, it would output all three types: <code>"int"</code>, <code>"str"</code>, and <code>"None"</code>.</p>
+<dl>
+<dt><span id="include-span"></span><code>--include-span</code></dt>
+<dd>
+<p>With this option on, the daemon will prepend each inspection result with the full span of corresponding expression, formatted as <code>1:2:1:4 -&gt; "int"</code>. This may be useful in case multiple expressions match a location.</p>
+</dd>
+<dt><span id="include-kind"></span><code>--include-kind</code></dt>
+<dd>
+<p>With this option on, the daemon will prepend each inspection result with the kind of corresponding expression, formatted as <code>NameExpr -&gt; "int"</code>. If both this option and <a href="#include-span">--include-span</a> are on, the kind will appear first, for example <code>NameExpr:1:2:1:4 -&gt; "int"</code>.</p>
+</dd>
+<dt><span id="include-object-attrs"></span><code>--include-object-attrs</code></dt>
+<dd>
+<p>This will make the daemon include attributes of <code>object</code> (excluded by default) in case of an <code>atts</code> inspection.</p>
+</dd>
+<dt><span id="union-attrs"></span><code>--union-attrs</code></dt>
+<dd>
+<p>Include attributes valid for some of possible expression types (by default an intersection is returned). This is useful for union types of type variables with values. For example, with this code:</p>
+</dd>
+</dl>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">typing</span> <span style="color: #008000; font-weight: bold">import</span> Union
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">A</span>:
+      x: <span style="color: #008000">int</span>
+      z: <span style="color: #008000">int</span>
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">B</span>:
+      y: <span style="color: #008000">int</span>
+      z: <span style="color: #008000">int</span>
+var: Union[A, B]
+var
+</code></pre></div>
+<p>The command <code>dmypy inspect --show attrs src.py:10:1</code> will return
+   <code>{"A": ["z"], "B": ["z"]}</code>, while with <code>--union-attrs</code> it will return
+   <code>{"A": ["x", "z"], "B": ["y", "z"]}</code>.</p>
+<dl>
+<dt><span id="force-reload"></span><code>--force-reload</code></dt>
+<dd>
+<p>Force re-parsing and re-type-checking file before inspection. By default this is done only when needed (for example file was not loaded from cache or daemon was initially run without <code>--export-types</code> mypy option), since reloading may be slow (up to few seconds for very large files).</p>
+</dd>
+</dl>
+<p>.. TODO: Add similar section about find usages when added, and then move this to a separate file.</p>
 
   <hr>
 <div class="md-source-file">
   <small>
     
       最后更新:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2024年9月4日</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2024年9月14日</span>
       
         <br>
         创建日期:
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2024年9月4日</span>
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2024年9月13日</span>
       
     
   </small>
