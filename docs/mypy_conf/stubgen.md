@@ -1,6 +1,10 @@
-# Automatic stub generation (stubgen)
+# 自动生成存根 (stubgen)
 
 **Automatic stub generation (stubgen)**
+
+=== "中文"
+
+=== "英文"
 
 A stub file (see :pep:`484`) contains only type hints for the public
 interface of a module, with empty function bodies. Mypy can use a stub
@@ -27,6 +31,7 @@ For example, consider this source file:
 
    def create_empty() -> Window:
        return Window(0, 0)
+```
 
 Stubgen can generate this stub file based on the above file:
 
@@ -43,6 +48,7 @@ Stubgen can generate this stub file based on the above file:
        def __init__(self, width, height) -> None: ...
 
    def create_empty() -> Window: ...
+```
 
 Stubgen generates *draft* stubs. The auto-generated stub files often
 require some manual updates, and most types will default to ``Any``.
@@ -52,13 +58,17 @@ at least for the most commonly used functionality.
 The rest of this section documents the command line interface of stubgen.
 Run :option:`stubgen --help` for a quick summary of options.
 
-.. note::
+!!! note 
 
   The command-line flags may change between releases.
 
-## Specifying what to stub
+## 指定要生成存根的内容
 
 **Specifying what to stub**
+
+=== "中文"
+
+=== "英文"
 
 You can give stubgen paths of the source files for which you want to
 generate stubs::
@@ -80,24 +90,24 @@ Alternatively, you can give module or package names using the
 
 Details of the options:
 
-.. option:: -m MODULE, --module MODULE
+<span id="m"></span>`-m MODULE, --module MODULE`
 
-    Generate a stub file for the given module. This flag may be repeated
+   : Generate a stub file for the given module. This flag may be repeated
     multiple times.
 
     Stubgen *will not* recursively generate stubs for any submodules of
     the provided module.
 
-.. option:: -p PACKAGE, --package PACKAGE
+<span id="p"></span>`-p PACKAGE, --package PACKAGE`
 
-    Generate stubs for the given package. This flag maybe repeated
+   : Generate stubs for the given package. This flag maybe repeated
     multiple times.
 
     Stubgen *will* recursively generate stubs for all submodules of
     the provided package. This flag is identical to :option:`--module` apart from
     this behavior.
 
-.. note::
+!!! note 
 
    You can't mix paths and :option:`-m`/:option:`-p` options in the same stubgen
    invocation.
@@ -105,9 +115,13 @@ Details of the options:
 Stubgen applies heuristics to avoid generating stubs for submodules
 that include tests or vendored third-party packages.
 
-## Specifying how to generate stubs
+## 指定如何生成存根
 
 **Specifying how to generate stubs**
+
+=== "中文"
+
+=== "英文"
 
 By default stubgen will try to import the target modules and packages.
 This allows stubgen to use runtime introspection to generate stubs for C
@@ -116,9 +130,9 @@ stubs. By default, stubgen will also use mypy to perform light-weight
 semantic analysis of any Python modules. Use the following flags to
 alter the default behavior:
 
-.. option:: --no-import
+<span id="no-import"></span>`--no-import`
 
-    Don't try to import modules. Instead only use mypy's normal search mechanism to find
+   : Don't try to import modules. Instead only use mypy's normal search mechanism to find
     sources. This does not support C extension modules. This flag also disables
     runtime introspection functionality, which mypy uses to find the value of
     ``__all__``. As result the set of exported imported names in stubs may be
@@ -126,74 +140,74 @@ alter the default behavior:
     unwanted side effects, such as the running of tests. Stubgen tries to skip test
     modules even without this option, but this does not always work.
 
-.. option:: --no-analysis
+<span id="no-analysis"></span>`--no-analysis`
 
-    Don't perform semantic analysis of source files. This may generate
+   : Don't perform semantic analysis of source files. This may generate
     worse stubs -- in particular, some module, class, and function aliases may
     be represented as variables with the ``Any`` type. This is generally only
     useful if semantic analysis causes a critical mypy error.  Does not apply to
     C extension modules.  Incompatible with :option:`--inspect-mode`.
 
-.. option:: --inspect-mode
+<span id="inspect-mode"></span>`--inspect-mode`
 
-    Import and inspect modules instead of parsing source code. This is the default
+   : Import and inspect modules instead of parsing source code. This is the default
     behavior for C modules and pyc-only packages.  The flag is useful to force
     inspection for pure Python modules that make use of dynamically generated
     members that would otherwise be omitted when using the default behavior of
     code parsing.  Implies :option:`--no-analysis` as analysis requires source
     code.
 
-.. option:: --doc-dir PATH
+<span id="doc-dir"></span>`--doc-dir PATH`
 
-    Try to infer better signatures by parsing .rst documentation in ``PATH``.
+   : Try to infer better signatures by parsing .rst documentation in ``PATH``.
     This may result in better stubs, but currently it only works for C extension
     modules.
 
-## Additional flags
+## 额外标志
 
 **Additional flags**
 
-.. option:: -h, --help
+<span id="h"></span>`-h, --help`
 
-    Show help message and exit.
+   : Show help message and exit.
 
-.. option:: --ignore-errors
+<span id="ignore-errors"></span>`--ignore-errors`
 
-    If an exception was raised during stub generation, continue to process any
+   : If an exception was raised during stub generation, continue to process any
     remaining modules instead of immediately failing with an error.
 
-.. option:: --include-private
+<span id="include-private"></span>`--include-private`
 
-    Include definitions that are considered private in stubs (with names such
+   : Include definitions that are considered private in stubs (with names such
     as ``_foo`` with single leading underscore and no trailing underscores).
 
-.. option:: --export-less
+<span id="export-less"></span>`--export-less`
 
-    Don't export all names imported from other modules within the same package.
+   : Don't export all names imported from other modules within the same package.
     Instead, only export imported names that are not referenced in the module
     that contains the import.
 
-.. option:: --include-docstrings
+<span id="include-docstrings"></span>`--include-docstrings`
 
-    Include docstrings in stubs. This will add docstrings to Python function and
+   : Include docstrings in stubs. This will add docstrings to Python function and
     classes stubs and to C extension function stubs.
 
-.. option:: --search-path PATH
+<span id="search-path"></span>`--search-path PATH`
 
-    Specify module search directories, separated by colons (only used if
+   : Specify module search directories, separated by colons (only used if
     :option:`--no-import` is given).
 
-.. option:: -o PATH, --output PATH
+<span id="o"></span>`-o PATH, --output PATH`
 
-    Change the output directory. By default the stubs are written in the
+   : Change the output directory. By default the stubs are written in the
     ``./out`` directory. The output directory will be created if it doesn't
     exist. Existing stubs in the output directory will be overwritten without
     warning.
 
-.. option:: -v, --verbose
+<span id="v"></span>`-v, --verbose`
 
-    Produce more verbose output.
+   : Produce more verbose output.
 
-.. option:: -q, --quiet
+<span id="q"></span>`-q, --quiet`
 
-    Produce less verbose output.
+   : Produce less verbose output.

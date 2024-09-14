@@ -1,10 +1,14 @@
-# Frequently Asked Questions
+# 常见问题
 
 **Frequently Asked Questions**
 
-## Why have both dynamic and static typing?
+## 为什么既有动态类型又有静态类型？
 
 **Why have both dynamic and static typing?**
+
+=== "中文"
+
+=== "英文"
 
 Dynamic typing can be flexible, powerful, convenient and easy. But
 it's not always the best approach; there are good reasons why many
@@ -41,9 +45,13 @@ Here are some potential benefits of mypy-style static typing:
 See also the `front page <https://www.mypy-lang.org>`_ of the mypy web
 site.
 
-## Would my project benefit from static typing?
+## 我的项目会从静态类型中受益吗？
 
 **Would my project benefit from static typing?**
+
+=== "中文"
+
+=== "英文"
 
 For many projects dynamic typing is perfectly fine (we think that
 Python is a great language). But sometimes your projects demand bigger
@@ -70,9 +78,13 @@ may be useful:
   above really apply. The earlier you start, the easier it will be to
   adopt static typing.
 
-## Can I use mypy to type check my existing Python code?
+## 我可以使用 mypy 对现有的 Python 代码进行类型检查吗？
 
 **Can I use mypy to type check my existing Python code?**
+
+=== "中文"
+
+=== "英文"
 
 Mypy supports most Python features and idioms, and many large Python
 projects are using mypy successfully. Code that uses complex
@@ -80,9 +92,13 @@ introspection or metaprogramming may be impractical to type check, but
 it should still be possible to use static typing in other parts of a
 codebase that are less dynamic.
 
-## Will static typing make my programs run faster?
+## 静态类型会让我的程序运行得更快吗？
 
 **Will static typing make my programs run faster?**
+
+=== "中文"
+
+=== "英文"
 
 Mypy only does static type checking and it does not improve
 performance. It has a minimal performance impact. In the future, there
@@ -90,16 +106,24 @@ could be other tools that can compile statically typed mypy code to C
 modules or to efficient JVM bytecode, for example, but this is outside
 the scope of the mypy project.
 
-## Is mypy free?
+## mypy 是免费的么？
 
 **Is mypy free?**
+
+=== "中文"
+
+=== "英文"
 
 Yes. Mypy is free software, and it can also be used for commercial and
 proprietary projects. Mypy is available under the MIT license.
 
-## Can I use duck typing with mypy?
+## 我可以在 mypy 中使用鸭子类型吗？
 
 **Can I use duck typing with mypy?**
+
+=== "中文"
+
+=== "英文"
 
 Mypy provides support for both `nominal subtyping
 <https://en.wikipedia.org/wiki/Nominative_type_system>`_ and
@@ -131,9 +155,13 @@ As a rule of thumb, we recommend using nominal classes where possible, and
 protocols where necessary. For more details about protocol types and structural
 subtyping see :ref:`protocol-types` and :pep:`544`.
 
-## I like Python and I have no need for static typing
+## 我喜欢 Python，并且不需要静态类型
 
 **I like Python and I have no need for static typing**
+
+=== "中文"
+
+=== "英文"
 
 The aim of mypy is not to convince everybody to write statically typed
 Python -- static typing is entirely optional, now and in the
@@ -142,9 +170,13 @@ make Python a more competitive alternative to other statically typed
 languages in large projects, to improve programmer productivity, and
 to improve software quality.
 
-## How are mypy programs different from normal Python?
+## mypy 程序与普通 Python 有什么不同？
 
 **How are mypy programs different from normal Python?**
+
+=== "中文"
+
+=== "英文"
 
 Since you use a vanilla Python implementation to run mypy programs,
 mypy programs are also Python programs. The type checker may give
@@ -161,9 +193,13 @@ Mypy supports modular, efficient type checking, and this seems to
 rule out type checking some language features, such as arbitrary
 monkey patching of methods.
 
-## How is mypy different from Cython?
+## mypy 与 Cython 有何不同？
 
 **How is mypy different from Cython?**
+
+=== "中文"
+
+=== "英文"
 
 :doc:`Cython <cython:index>` is a variant of Python that supports
 compilation to CPython C modules. It can give major speedups to
@@ -200,18 +236,26 @@ the following aspects, among others:
   Python semantics, and mypy does not deal with accessing C library
   functionality.
 
-## Does it run on PyPy?
+## 它可以在 PyPy 上运行吗？
 
 **Does it run on PyPy?**
+
+=== "中文"
+
+=== "英文"
 
 Somewhat. With PyPy 3.8, mypy is at least able to type check itself.
 With older versions of PyPy, mypy relies on `typed-ast
 <https://github.com/python/typed_ast>`_, which uses several APIs that
 PyPy does not support (including some internal CPython APIs).
 
-## Mypy is a cool project. Can I help?
+## mypy 是一个很棒的项目。我可以帮助吗？
 
 **Mypy is a cool project. Can I help?**
+
+=== "中文"
+
+=== "英文"
 
 Any help is much appreciated! `Contact
 <https://www.mypy-lang.org/contact.html>`_ the developers if you would

@@ -1,17 +1,23 @@
-# Error codes enabled by default
+# 默认启用的错误代码
 
 **Error codes enabled by default**
+
+=== "中文"
+
+=== "英文"
 
 This section documents various errors codes that mypy can generate
 with default options. See :ref:`error-codes` for general documentation
 about error codes. :ref:`error-codes-optional` documents additional
 error codes that you can enable.
 
-.. _code-attr-defined:
-
-## Check that attribute exists [attr-defined]
+## 检查属性是否存在 [attr-defined]
 
 **Check that attribute exists [attr-defined]**
+
+=== "中文"
+
+=== "英文"
 
 Mypy checks that an attribute is defined in the target class or module
 when using the dot operator. This applies to both getting and setting
@@ -31,6 +37,7 @@ Example:
    print(r.name)  # OK
    print(r.id)  # Error: "Resource" has no attribute "id"  [attr-defined]
    r.id = 5  # Error: "Resource" has no attribute "id"  [attr-defined]
+```
 
 This error code is also generated if an imported name is not defined
 in the module in a ``from ... import`` statement (as long as the
@@ -40,16 +47,19 @@ target module can be found):
 
     # Error: Module "os" has no attribute "non_existent"  [attr-defined]
     from os import non_existent
+```
 
 A reference to a missing attribute is given the ``Any`` type. In the
 above example, the type of ``non_existent`` will be ``Any``, which can
 be important if you silence the error.
 
-.. _code-union-attr:
-
-## Check that attribute exists in each union item [union-attr]
+## 检查每个联合项中是否存在属性 [union-attr]
 
 **Check that attribute exists in each union item [union-attr]**
+
+=== "中文"
+
+=== "英文"
 
 If you access the attribute of a value with a union type, mypy checks
 that the attribute is defined for *every* type in that
@@ -75,16 +85,19 @@ Example:
        animal.sleep()
        # Error: Item "Cat" of "Union[Cat, Dog]" has no attribute "follow_me"  [union-attr]
        animal.follow_me()
+```
 
 You can often work around these errors by using ``assert isinstance(obj, ClassName)``
 or ``assert obj is not None`` to tell mypy that you know that the type is more specific
 than what mypy thinks.
 
-.. _code-name-defined:
-
-## Check that name is defined [name-defined]
+## 检查名称是否已定义 [name-defined]
 
 **Check that name is defined [name-defined]**
+
+=== "中文"
+
+=== "英文"
 
 Mypy expects that all references to names have a corresponding
 definition in an active scope, such as an assignment, function
@@ -96,12 +109,15 @@ This example accidentally calls ``sort()`` instead of :py:func:`sorted`:
 ```python
 
     x = sort([3, 2, 4])  # Error: Name "sort" is not defined  [name-defined]
+```
 
-.. _code-used-before-def:
-
-## Check that a variable is not used before it's defined [used-before-def]
+## 检查变量是否在定义前被使用 [used-before-def]
 
 **Check that a variable is not used before it's defined [used-before-def]**
+
+=== "中文"
+
+=== "英文"
 
 Mypy will generate an error if a name is used before it's defined.
 While the name-defined check will catch issues with names that are undefined,
@@ -114,12 +130,15 @@ Example:
 
     print(x)  # Error: Name "x" is used before definition [used-before-def]
     x = 123
+```
 
-.. _code-call-arg:
-
-## Check arguments in calls [call-arg]
+## 检查调用中的参数 [call-arg]
 
 **Check arguments in calls [call-arg]**
+
+=== "中文"
+
+=== "英文"
 
 Mypy expects that the number and names of arguments match the called function.
 Note that argument type checks have a separate error code ``arg-type``.
@@ -135,12 +154,15 @@ Example:
 
     greet('jack')  # OK
     greet('jill', 'jack')  # Error: Too many arguments for "greet"  [call-arg]
+```
 
-.. _code-arg-type:
-
-## Check argument types [arg-type]
+## 检查参数类型 [arg-type]
 
 **Check argument types [arg-type]**
+
+=== "中文"
+
+=== "英文"
 
 Mypy checks that argument types in a call match the declared argument
 types in the signature of the called function (if one exists).
@@ -158,12 +180,15 @@ Example:
     # Error: Argument 1 to "first" has incompatible type "tuple[int, int]";
     #        expected "list[int]"  [arg-type]
     print(first(t))
+```
 
-.. _code-call-overload:
-
-## Check calls to overloaded functions [call-overload]
+## 检查对重载函数的调用 [call-overload]
 
 **Check calls to overloaded functions [call-overload]**
+
+=== "中文"
+
+=== "英文"
 
 When you call an overloaded function, mypy checks that at least one of
 the signatures of the overload items match the argument types in the
@@ -192,12 +217,15 @@ Example:
 
    # Error: No overload variant of "inc_maybe" matches argument type "float"  [call-overload]
    inc_maybe(1.2)
+```
 
-.. _code-valid-type:
-
-## Check validity of types [valid-type]
+## 检查类型的有效性 [valid-type]
 
 **Check validity of types [valid-type]**
+
+=== "中文"
+
+=== "英文"
 
 Mypy checks that each type annotation and any expression that
 represents a type is a valid type. Examples of valid types include
@@ -216,6 +244,7 @@ This example incorrectly uses the function ``log`` as a type:
     def log_all(objs: list[object], f: log) -> None:
         for x in objs:
             f(x)
+```
 
 You can use :py:data:`~typing.Callable` as the type for callable objects:
 
@@ -227,12 +256,15 @@ You can use :py:data:`~typing.Callable` as the type for callable objects:
     def log_all(objs: list[object], f: Callable[[object], None]) -> None:
         for x in objs:
             f(x)
+```
 
-.. _code-var-annotated:
-
-## Require annotation if variable type is unclear [var-annotated]
+## 如果变量类型不明确，则要求注解 [var-annotated]
 
 **Require annotation if variable type is unclear [var-annotated]**
+
+=== "中文"
+
+=== "英文"
 
 In some cases mypy can't infer the type of a variable without an
 explicit annotation. Mypy treats this as an error. This typically
@@ -252,6 +284,7 @@ Example with an error:
             self.items = []
 
     reveal_type(Bundle().items)  # list[Any]
+```
 
 To address this, we add an explicit annotation:
 
@@ -262,12 +295,15 @@ To address this, we add an explicit annotation:
             self.items: list[str] = []  # OK
 
    reveal_type(Bundle().items)  # list[str]
+```
 
-.. _code-override:
-
-## Check validity of overrides [override]
+## 检查重写的有效性 [override]
 
 **Check validity of overrides [override]**
+
+=== "中文"
+
+=== "英文"
 
 Mypy checks that an overridden method or attribute is compatible with
 the base class.  A method in a subclass must accept all arguments
@@ -301,12 +337,15 @@ Example:
        def method(self,
                   arg: bool) -> int:
            ...
+```
 
-.. _code-return:
-
-## Check that function returns a value [return]
+## 检查函数是否返回值 [return]
 
 **Check that function returns a value [return]**
+
+=== "中文"
+
+=== "英文"
 
 If a function has a non-``None`` return type, mypy expects that the
 function always explicitly returns a value (or raises an exception).
@@ -332,12 +371,15 @@ Example:
             return x - 1
         else:
             raise ValueError('not defined for zero')
+```
 
-.. _code-empty-body:
-
-## Check that functions don't have empty bodies outside stubs [empty-body]
+## 检查函数体是否为空（不包括存根） [empty-body]
 
 **Check that functions don't have empty bodies outside stubs [empty-body]**
+
+=== "中文"
+
+=== "英文"
 
 This error code is similar to the ``[return]`` code but is emitted specifically
 for functions and methods with empty bodies (if they are annotated with
@@ -365,12 +407,15 @@ are considered implicitly abstract:
    class Proto(Protocol):
        def bar(self) -> int:
            pass  # OK
+```
 
-.. _code-return-value:
-
-## Check that return value is compatible [return-value]
+## 检查返回值是否兼容 [return-value]
 
 **Check that return value is compatible [return-value]**
+
+=== "中文"
+
+=== "英文"
 
 Mypy checks that the returned value is compatible with the type
 signature of the function.
@@ -382,12 +427,15 @@ Example:
    def func(x: int) -> str:
        # Error: Incompatible return value type (got "int", expected "str")  [return-value]
        return x + 1
+```
 
-.. _code-assignment:
-
-## Check types in assignment statement [assignment]
+## 检查赋值语句中的类型 [assignment]
 
 **Check types in assignment statement [assignment]**
+
+=== "中文"
+
+=== "英文"
 
 Mypy checks that the assigned expression is compatible with the
 assignment target (or targets).
@@ -407,12 +455,15 @@ Example:
     # Error: Incompatible types in assignment (expression has type "int",
     #        variable has type "str")  [assignment]
     r.name = 5
+```
 
-.. _code-method-assign:
-
-## Check that assignment target is not a method [method-assign]
+## 检查赋值目标是否不是方法 [method-assign]
 
 **Check that assignment target is not a method [method-assign]**
+
+=== "中文"
+
+=== "英文"
 
 In general, assigning to a method on class object or instance (a.k.a.
 monkey-patching) is ambiguous in terms of types, since Python's static type
@@ -431,20 +482,23 @@ Consider this example:
    A().f()  # This works
    A.f = A().g  # Type of A().g is Callable[[], None]
    A().f()  # ...but this also works at runtime
+```
 
 To prevent the ambiguity, mypy will flag both assignments by default. If this
 error code is disabled, mypy will treat the assigned value in all method assignments as unbound,
 so only the second assignment will still generate an error.
 
-.. note::
+!!! note 
 
     This error code is a subcode of the more general ``[assignment]`` code.
 
-.. _code-type-var:
-
-## Check type variable values [type-var]
+## 检查类型变量值 [type-var]
 
 **Check type variable values [type-var]**
+
+=== "中文"
+
+=== "英文"
 
 Mypy checks that value of a type variable is compatible with a value
 restriction or the upper bound type.
@@ -464,12 +518,15 @@ Example:
 
     # Error: Value of type variable "T1" of "add" cannot be "str"  [type-var]
     add('x', 'y')
+```
 
-.. _code-operator:
-
-## Check uses of various operators [operator]
+## 检查各种操作符的使用 [operator]
 
 **Check uses of various operators [operator]**
+
+=== "中文"
+
+=== "英文"
 
 Mypy checks that operands support a binary or unary operation, such as
 ``+`` or ``~``. Indexing operations are so common that they have their
@@ -481,12 +538,15 @@ Example:
 
    # Error: Unsupported operand types for + ("int" and "str")  [operator]
    1 + 'x'
+```
 
-.. _code-index:
-
-## Check indexing operations [index]
+## 检查索引操作 [index]
 
 **Check indexing operations [index]**
+
+=== "中文"
+
+=== "英文"
 
 Mypy checks that the indexed value in indexing operation such as
 ``x[y]`` supports indexing, and that the index expression has a valid
@@ -505,12 +565,15 @@ Example:
 
    # Error: Invalid index type "bytes" for "dict[str, int]"; expected type "str"  [index]
    a[b'x'] = 4
+```
 
-.. _code-list-item:
-
-## Check list items [list-item]
+## 检查列表项 [list-item]
 
 **Check list items [list-item]**
+
+=== "中文"
+
+=== "英文"
 
 When constructing a list using ``[item, ...]``, mypy checks that each item
 is compatible with the list type that is inferred from the surrounding
@@ -522,12 +585,15 @@ Example:
 
     # Error: List item 0 has incompatible type "int"; expected "str"  [list-item]
     a: list[str] = [0]
+```
 
-.. _code-dict-item:
-
-## Check dict items [dict-item]
+## 检查字典项 [dict-item]
 
 **Check dict items [dict-item]**
+
+=== "中文"
+
+=== "英文"
 
 When constructing a dictionary using ``{key: value, ...}`` or ``dict(key=value, ...)``,
 mypy checks that each key and value is compatible with the dictionary type that is
@@ -539,12 +605,15 @@ Example:
 
     # Error: Dict entry 0 has incompatible type "str": "str"; expected "str": "int"  [dict-item]
     d: dict[str, int] = {'key': 'value'}
+```
 
-.. _code-typeddict-item:
-
-## Check TypedDict items [typeddict-item]
+## 检查 TypedDict 项 [typeddict-item]
 
 **Check TypedDict items [typeddict-item]**
+
+=== "中文"
+
+=== "英文"
 
 When constructing a TypedDict object, mypy checks that each key and value is compatible
 with the TypedDict type that is inferred from the surrounding context.
@@ -566,12 +635,15 @@ Example:
     # Error: Incompatible types (expression has type "float",
     #        TypedDict item "x" has type "int")  [typeddict-item]
     p: Point = {'x': 1.2, 'y': 4}
+```
 
-.. _code-typeddict-unknown-key:
-
-## Check TypedDict Keys [typeddict-unknown-key]
+## 检查 TypedDict 键 [typeddict-unknown-key]
 
 **Check TypedDict Keys [typeddict-unknown-key]**
+
+=== "中文"
+
+=== "英文"
 
 When constructing a TypedDict object, mypy checks whether the
 definition contains unknown keys, to catch invalid keys and
@@ -602,6 +674,7 @@ to have been validated at the point of construction. Example:
 
     # Error: Extra key "z" for TypedDict "Point"  [typeddict-unknown-key]
     add_x_coordinates(a, {"x": 1, "y": 4, "z": 5})
+```
 
 Setting a TypedDict item using an unknown key will also generate this
 error, since it could be a misspelling:
@@ -611,6 +684,7 @@ error, since it could be a misspelling:
     a: Point = {"x": 1, "y": 2}
     # Error: Extra key "z" for TypedDict "Point"  [typeddict-unknown-key]
     a["z"] = 3
+```
 
 Reading an unknown key will generate the more general (and serious)
 ``typeddict-item`` error, which is likely to result in an exception at
@@ -621,16 +695,19 @@ runtime:
     a: Point = {"x": 1, "y": 2}
     # Error: TypedDict "Point" has no key "z"  [typeddict-item]
     _ = a["z"]
+```
 
-.. note::
+!!! note 
 
     This error code is a subcode of the wider ``[typeddict-item]`` code.
 
-.. _code-has-type:
-
-## Check that type of target is known [has-type]
+## 检查目标类型是否已知 [has-type]
 
 **Check that type of target is known [has-type]**
+
+=== "中文"
+
+=== "英文"
 
 Mypy sometimes generates an error when it hasn't inferred any type for
 a variable being referenced. This can happen for references to
@@ -649,6 +726,7 @@ In this example the definitions of ``x`` and ``y`` are circular:
 
        def set_y(self) -> None:
            self.y = self.x
+```
 
 To work around this error, you can add an explicit type annotation to
 the target variable or attribute. Sometimes you can also reorganize
@@ -667,23 +745,28 @@ the issue:
 
        def set_y(self) -> None:
            self.y: int = self.x  # Added annotation here
+```
 
-.. _code-import:
-
-## Check for an issue with imports [import]
+## 检查导入问题 [import]
 
 **Check for an issue with imports [import]**
+
+=== "中文"
+
+=== "英文"
 
 Mypy generates an error if it can't resolve an `import` statement.
 This is a parent error code of `import-not-found` and `import-untyped`
 
 See :ref:`ignore-missing-imports` for how to work around these errors.
 
-.. _code-import-not-found:
-
-## Check that import target can be found [import-not-found]
+## 检查导入目标是否可以找到 [import-not-found]
 
 **Check that import target can be found [import-not-found]**
+
+=== "中文"
+
+=== "英文"
 
 Mypy generates an error if it can't find the source code or a stub file
 for an imported module.
@@ -694,14 +777,17 @@ Example:
 
     # Error: Cannot find implementation or library stub for module named "m0dule_with_typo"  [import-not-found]
     import m0dule_with_typo
+```
 
 See :ref:`ignore-missing-imports` for how to work around these errors.
 
-.. _code-import-untyped:
-
-## Check that import target can be found [import-untyped]
+## 检查导入目标是否可以找到 [import-untyped]
 
 **Check that import target can be found [import-untyped]**
+
+=== "中文"
+
+=== "英文"
 
 Mypy generates an error if it can find the source code for an imported module,
 but that module does not provide type annotations (via :ref:`PEP 561 <installed-packages>`).
@@ -714,15 +800,18 @@ Example:
     import bs4
     # Error: Skipping analyzing "no_py_typed": module is installed, but missing library stubs or py.typed marker  [import-untyped]
     import no_py_typed
+```
 
 In some cases, these errors can be fixed by installing an appropriate
 stub package. See :ref:`ignore-missing-imports` for more details.
 
-.. _code-no-redef:
-
-## Check that each name is defined once [no-redef]
+## 检查每个名称是否仅定义一次 [no-redef]
 
 **Check that each name is defined once [no-redef]**
+
+=== "中文"
+
+=== "英文"
 
 Mypy may generate an error if you have multiple definitions for a name
 in the same namespace.  The reason is that this is often an error, as
@@ -746,12 +835,15 @@ Example:
    # Error: Argument 1 to "A" has incompatible type "str"; expected "int"
    #        (the first definition wins!)
    A('x')
+```
 
-.. _code-func-returns-value:
-
-## Check that called function returns a value [func-returns-value]
+## 检查被调用的函数是否返回值 [func-returns-value]
 
 **Check that called function returns a value [func-returns-value]**
+
+=== "中文"
+
+=== "英文"
 
 Mypy reports an error if you call a function with a ``None``
 return type and don't ignore the return value, as this is
@@ -771,12 +863,15 @@ returns ``None``:
    # Error: "f" does not return a value (it only ever returns None)  [func-returns-value]
    if f():
         print("not false")
+```
 
-.. _code-abstract:
-
-## Check instantiation of abstract classes [abstract]
+## 检查抽象类的实例化 [abstract]
 
 **Check instantiation of abstract classes [abstract]**
+
+=== "中文"
+
+=== "英文"
 
 Mypy generates an error if you try to instantiate an abstract base
 class (ABC). An abstract base class is a class with at least one
@@ -805,12 +900,15 @@ Example:
 
     # Error: Cannot instantiate abstract class "Thing" with abstract attribute "save"  [abstract]
     t = Thing()
+```
 
-.. _code-type-abstract:
-
-## Safe handling of abstract type object types [type-abstract]
+## 安全处理抽象类型对象类型 [type-abstract]
 
 **Safe handling of abstract type object types [type-abstract]**
+
+=== "中文"
+
+=== "英文"
 
 Mypy always allows instantiating (calling) type objects typed as ``Type[t]``,
 even if it is not known that ``t`` is non-abstract, since it is a common
@@ -834,12 +932,15 @@ Example:
 
    # Error: Only concrete class can be given where "Type[Config]" is expected [type-abstract]
    make_many(Config, 5)
+```
 
-.. _code-safe-super:
-
-## Check that call to an abstract method via super is valid [safe-super]
+## 检查通过 super 调用抽象方法是否有效 [safe-super]
 
 **Check that call to an abstract method via super is valid [safe-super]**
+
+=== "中文"
+
+=== "英文"
 
 Abstract methods often don't have any default implementation, i.e. their
 bodies are just empty. Calling such methods in subclasses via ``super()``
@@ -856,15 +957,18 @@ will cause runtime errors, so mypy prevents you from doing so:
            return super().foo() + 1  # error: Call to abstract method "foo" of "Base" with
                                      # trivial body via super() is unsafe  [safe-super]
    Sub().foo()  # This will crash at runtime.
+```
 
 Mypy considers the following as trivial bodies: a ``pass`` statement, a literal
 ellipsis ``...``, a docstring, and a ``raise NotImplementedError`` statement.
 
-.. _code-valid-newtype:
-
-## Check the target of NewType [valid-newtype]
+## 检查 NewType 的目标 [valid-newtype]
 
 **Check the target of NewType [valid-newtype]**
+
+=== "中文"
+
+=== "英文"
 
 The target of a :py:class:`~typing.NewType` definition must be a class type. It can't
 be a union type, ``Any``, or various other special types.
@@ -882,16 +986,19 @@ treated by mypy as values with ``Any`` types. Example:
 
    # Error: Argument 2 to NewType(...) must be subclassable (got "Any")  [valid-newtype]
    UserEntity = NewType('UserEntity', Entity)
+```
 
 To work around the issue, you can either give mypy access to the sources
 for ``acme`` or create a stub file for the module.  See :ref:`ignore-missing-imports`
 for more information.
 
-.. _code-exit-return:
-
-## Check the return type of __exit__ [exit-return]
+## 检查 `__exit__` 的返回类型 [exit-return]
 
 **Check the return type of __exit__ [exit-return]**
+
+=== "中文"
+
+=== "英文"
 
 If mypy can determine that :py:meth:`__exit__ <object.__exit__>` always returns ``False``, mypy
 checks that the return type is *not* ``bool``.  The boolean value of
@@ -914,6 +1021,7 @@ Example:
        def __exit__(self, exc, value, tb) -> bool:  # Error
            print('exit')
            return False
+```
 
 This produces the following output from mypy:
 
@@ -924,6 +1032,7 @@ This produces the following output from mypy:
        "None"
    example.py:3: note: If return type of "__exit__" implies that it may return True, the context
        manager may swallow exceptions
+```
 
 You can use ``Literal[False]`` to fix the error:
 
@@ -936,6 +1045,7 @@ You can use ``Literal[False]`` to fix the error:
        def __exit__(self, exc, value, tb) -> Literal[False]:  # OK
            print('exit')
            return False
+```
 
 You can also use ``None``:
 
@@ -945,12 +1055,15 @@ You can also use ``None``:
        ...
        def __exit__(self, exc, value, tb) -> None:  # Also OK
            print('exit')
+```
 
-.. _code-name-match:
-
-## Check that naming is consistent [name-match]
+## 检查命名是否一致 [name-match]
 
 **Check that naming is consistent [name-match]**
+
+=== "中文"
+
+=== "英文"
 
 The definition of a named tuple or a TypedDict must be named
 consistently when using the call-based syntax. Example:
@@ -961,10 +1074,9 @@ consistently when using the call-based syntax. Example:
 
     # Error: First argument to namedtuple() should be "Point2D", not "Point"
     Point2D = NamedTuple("Point", [("x", int), ("y", int)])
+```
 
-.. _code-literal-required:
-
-## Check that literal is used where expected [literal-required]
+## 检查文字是否在预期位置使用 [literal-required]
 
 **Check that literal is used where expected [literal-required]**
 
@@ -993,12 +1105,15 @@ or ``Literal`` variables. Example:
        # Error: TypedDict key must be a string literal;
        #   expected one of ("x", "y")  [literal-required]
        p[key]
+```
 
-.. _code-no-overload-impl:
-
-## Check that overloaded functions have an implementation [no-overload-impl]
+## 检查重载函数是否有实现 [no-overload-impl]
 
 **Check that overloaded functions have an implementation [no-overload-impl]**
+
+=== "中文"
+
+=== "英文"
 
 Overloaded functions outside of stub files must be followed by a non overloaded
 implementation.
@@ -1018,12 +1133,15 @@ implementation.
    # presence of required function below is checked
    def func(value):
        pass  # actual implementation
+```
 
-.. _code-unused-coroutine:
-
-## Check that coroutine return value is used [unused-coroutine]
+## 检查协程返回值是否被使用 [unused-coroutine]
 
 **Check that coroutine return value is used [unused-coroutine]**
+
+=== "中文"
+
+=== "英文"
 
 Mypy ensures that return values of async def functions are not
 ignored, as this is usually a programming error, as the coroutine
@@ -1037,6 +1155,7 @@ won't be executed at the call site.
    async def g() -> None:
        f()  # Error: missing await
        await f()  # OK
+```
 
 You can work around this error by assigning the result to a temporary,
 otherwise unused variable:
@@ -1044,12 +1163,15 @@ otherwise unused variable:
 ```python
 
        _ = f()  # No error
+```
 
-.. _code-top-level-await:
-
-## Warn about top level await expressions [top-level-await]
+## 警告顶层 await 表达式 [top-level-await]
 
 **Warn about top level await expressions [top-level-await]**
+
+=== "中文"
+
+=== "英文"
 
 This error code is separate from the general ``[syntax]`` errors, because in
 some environments (e.g. IPython) a top level ``await`` is allowed. In such
@@ -1063,12 +1185,15 @@ example:
        ...
 
    top = await f()  # Error: "await" outside function  [top-level-await]
+```
 
-.. _code-await-not-async:
-
-## Warn about await expressions used outside of coroutines [await-not-async]
+## 警告在协程外部使用 await 表达式 [await-not-async]
 
 **Warn about await expressions used outside of coroutines [await-not-async]**
+
+=== "中文"
+
+=== "英文"
 
 ``await`` must be used inside a coroutine.
 
@@ -1079,12 +1204,15 @@ example:
 
    def g() -> None:
        await f()  # Error: "await" outside coroutine ("async def")  [await-not-async]
+```
 
-.. _code-assert-type:
-
-## Check types in assert_type [assert-type]
+## 检查 assert_type 中的类型 [assert-type]
 
 **Check types in assert_type [assert-type]**
+
+=== "中文"
+
+=== "英文"
 
 The inferred type for an expression passed to ``assert_type`` must match
 the provided type.
@@ -1096,12 +1224,15 @@ the provided type.
    assert_type([1], list[int])  # OK
 
    assert_type([1], list[str])  # Error
+```
 
-.. _code-truthy-function:
-
-## Check that function isn't used in boolean context [truthy-function]
+## 检查函数是否未在布尔上下文中使用 [truthy-function]
 
 **Check that function isn't used in boolean context [truthy-function]**
+
+=== "中文"
+
+=== "英文"
 
 Functions will always evaluate to true in boolean contexts.
 
@@ -1112,12 +1243,15 @@ Functions will always evaluate to true in boolean contexts.
 
     if f:  # Error: Function "Callable[[], Any]" could always be true in boolean context  [truthy-function]
         pass
+```
 
-.. _code-str-format:
-
-## Check that string formatting/interpolation is type-safe [str-format]
+## 检查字符串格式化/插值是否类型安全 [str-format]
 
 **Check that string formatting/interpolation is type-safe [str-format]**
+
+=== "中文"
+
+=== "英文"
 
 Mypy will check that f-strings, ``str.format()`` calls, and ``%`` interpolations
 are valid (when corresponding template is a literal string). This includes
@@ -1134,12 +1268,15 @@ checking number and types of replacements, for example:
     # Error: Incompatible types in string interpolation
     # (expression has type "float", placeholder has type "int") [str-format]
     "{:d}".format(3.14)
+```
 
-.. _code-str-bytes-safe:
-
-## Check for implicit bytes coercions [str-bytes-safe]
+## 检查隐式字节强制转换 [str-bytes-safe]
 
 **Check for implicit bytes coercions [str-bytes-safe]**
+
+=== "中文"
+
+=== "英文"
 
 Warn about cases where a bytes object may be converted to a string in an unexpected manner.
 
@@ -1155,12 +1292,15 @@ Warn about cases where a bytes object may be converted to a string in an unexpec
     # Okay
     print(f"The alphabet starts with {b!r}")  # The alphabet starts with b'abc'
     print(f"The alphabet starts with {b.decode('utf-8')}")  # The alphabet starts with abc
+```
 
-.. _code-overload-overlap:
-
-## Check that overloaded functions don't overlap [overload-overlap]
+## 检查重载函数是否没有重叠 [overload-overlap]
 
 **Check that overloaded functions don't overlap [overload-overlap]**
+
+=== "中文"
+
+=== "英文"
 
 Warn if multiple ``@overload`` variants overlap in potentially unsafe ways.
 This guards against the following situation:
@@ -1185,6 +1325,7 @@ This guards against the following situation:
     value = takes_a(a)
     # mypy will think that value is a str, but it could actually be an int
     reveal_type(value) # Revealed type is "builtins.str"
+```
 
 
 Note that in cases where you ignore this error, mypy will usually still infer the
@@ -1192,11 +1333,13 @@ types you expect.
 
 See :ref:`overloading <function-overloading>` for more explanation.
 
-.. _code-annotation-unchecked:
-
-## Notify about an annotation in an unchecked function [annotation-unchecked]
+## 通知未检查函数中的注解 [annotation-unchecked]
 
 **Notify about an annotation in an unchecked function [annotation-unchecked]**
+
+=== "中文"
+
+=== "英文"
 
 Sometimes a user may accidentally omit an annotation for a function, and mypy
 will not check the body of this function (unless one uses
@@ -1211,15 +1354,18 @@ annotations in an unchecked function:
         # Note: By default the bodies of untyped functions are not checked,
         # consider using --check-untyped-defs [annotation-unchecked]
         x: int = "no way"
+```
 
 Note that mypy will still exit with return code ``0``, since such behaviour is
 specified by :pep:`484`.
 
-.. _code-prop-decorator:
-
-## Decorator preceding property not supported [prop-decorator]
+## 装饰器在属性前不被支持 [prop-decorator]
 
 **Decorator preceding property not supported [prop-decorator]**
+
+=== "中文"
+
+=== "英文"
 
 Mypy does not yet support analysis of decorators that precede the property
 decorator. If the decorator does not preserve the declared type of the property,
@@ -1234,26 +1380,31 @@ comment:
         @property
         def magic(self) -> str:
             return "xyzzy"
+```
 
-.. note::
+!!! note 
 
     For backward compatibility, this error code is a subcode of the generic ``[misc]`` code.
 
-.. _code-syntax:
-
-## Report syntax errors [syntax]
+## 报告语法错误 [syntax]
 
 **Report syntax errors [syntax]**
+
+=== "中文"
+
+=== "英文"
 
 If the code being checked is not syntactically valid, mypy issues a
 syntax error. Most, but not all, syntax errors are *blocking errors*:
 they can't be ignored with a ``# type: ignore`` comment.
 
-.. _code-misc:
-
-## Miscellaneous checks [misc]
+## 杂项检查 [misc]
 
 **Miscellaneous checks [misc]**
+
+=== "中文"
+
+=== "英文"
 
 Mypy performs numerous other, less commonly failing checks that don't
 have specific error codes. These use the ``misc`` error code. Other
@@ -1264,7 +1415,7 @@ are not expected to be common, it's unlikely that you'll see two
 *different* errors with the ``misc`` code on a single line -- though
 this can certainly happen once in a while.
 
-.. note::
+!!! note 
 
     Future mypy versions will likely add new error codes for some errors
     that currently use the ``misc`` error code.

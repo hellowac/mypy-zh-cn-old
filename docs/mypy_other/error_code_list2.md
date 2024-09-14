@@ -1,24 +1,30 @@
-# Error codes for optional checks
+# 可选检查的错误代码
 
 **Error codes for optional checks**
+
+=== "中文"
+
+=== "英文"
 
 This section documents various errors codes that mypy generates only
 if you enable certain options. See :ref:`error-codes` for general
 documentation about error codes and their configuration.
 :ref:`error-code-list` documents error codes that are enabled by default.
 
-.. note::
+!!! note 
 
    The examples in this section use :ref:`inline configuration
    <inline-config>` to specify mypy options. You can also set the same
    options by using a :ref:`configuration file <config-file>` or
    :ref:`command-line options <command-line>`.
 
-.. _code-type-arg:
-
-## Check that type arguments exist [type-arg]
+## 检查类型参数是否存在 [type-arg]
 
 **Check that type arguments exist [type-arg]**
+
+=== "中文"
+
+=== "英文"
 
 If you use :option:`--disallow-any-generics <mypy --disallow-any-generics>`, mypy requires that each generic
 type has values for each type argument. For example, the types ``list`` or
@@ -35,12 +41,15 @@ Example:
     # Error: Missing type parameters for generic type "list"  [type-arg]
     def remove_dups(items: list) -> list:
         ...
+```
 
-.. _code-no-untyped-def:
-
-## Check that every function has an annotation [no-untyped-def]
+## 检查每个函数是否有注解 [no-untyped-def]
 
 **Check that every function has an annotation [no-untyped-def]**
+
+=== "中文"
+
+=== "英文"
 
 If you use :option:`--disallow-untyped-defs <mypy --disallow-untyped-defs>`, mypy requires that all functions
 have annotations (either a Python 3 annotation or a type comment).
@@ -66,12 +75,16 @@ Example:
          # OK: An explicit "-> None" is needed if "__init__" takes no arguments
          def __init__(self) -> None:
              self.value = 0
+```
 
-.. _code-redundant-cast:
 
-## Check that cast is not redundant [redundant-cast]
+## 检查类型转换是否冗余 [redundant-cast]
 
 **Check that cast is not redundant [redundant-cast]**
+
+=== "中文"
+
+=== "英文"
 
 If you use :option:`--warn-redundant-casts <mypy --warn-redundant-casts>`, mypy will generate an error if the source
 type of a cast is the same as the target type.
@@ -89,12 +102,16 @@ Example:
     def example(x: Count) -> int:
         # Error: Redundant cast to "int"  [redundant-cast]
         return cast(int, x)
+```
 
-.. _code-redundant-self:
 
-## Check that methods do not have redundant Self annotations [redundant-self]
+## 检查方法是否有冗余的 Self 注解 [redundant-self]
 
 **Check that methods do not have redundant Self annotations [redundant-self]**
+
+=== "中文"
+
+=== "英文"
 
 If a method uses the ``Self`` type in the return type or the type of a
 non-self argument, there is no need to annotate the ``self`` argument
@@ -114,12 +131,16 @@ Example:
        # Error: Redundant "Self" annotation for the first method argument
        def copy(self: Self) -> Self:
            return type(self)()
+```
 
-.. _code-comparison-overlap:
 
-## Check that comparisons are overlapping [comparison-overlap]
+## 检查比较是否重叠 [comparison-overlap]
 
 **Check that comparisons are overlapping [comparison-overlap]**
+
+=== "中文"
+
+=== "英文"
 
 If you use :option:`--strict-equality <mypy --strict-equality>`, mypy will generate an error if it
 thinks that a comparison operation is always true or false. These are
@@ -148,12 +169,16 @@ literal:
 
     def is_magic(x: bytes) -> bool:
         return x == b'magic'  # OK
+```
 
-.. _code-no-untyped-call:
 
-## Check that no untyped functions are called [no-untyped-call]
+## 检查是否没有调用未注解的函数 [no-untyped-call]
 
 **Check that no untyped functions are called [no-untyped-call]**
+
+=== "中文"
+
+=== "英文"
 
 If you use :option:`--disallow-untyped-calls <mypy --disallow-untyped-calls>`, mypy generates an error when you
 call an unannotated function in an annotated function.
@@ -170,12 +195,16 @@ Example:
 
     def bad():
         ...
+```
 
-.. _code-no-any-return:
 
-## Check that function does not return Any value [no-any-return]
+## 检查函数是否不返回 Any 值 [no-any-return]
 
 **Check that function does not return Any value [no-any-return]**
+
+=== "中文"
+
+=== "英文"
 
 If you use :option:`--warn-return-any <mypy --warn-return-any>`, mypy generates an error if you return a
 value with an ``Any`` type in a function that is annotated to return a
@@ -193,12 +222,16 @@ Example:
     def first_field(x: str) -> str:
         # Error: Returning Any from function declared to return "str"  [no-any-return]
         return fields(x)[0]
+```
 
-.. _code-no-any-unimported:
 
-## Check that types have no Any components due to missing imports [no-any-unimported]
+## 检查类型是否由于缺少导入而包含 Any 组件 [no-any-unimported]
 
 **Check that types have no Any components due to missing imports [no-any-unimported]**
+
+=== "中文"
+
+=== "英文"
 
 If you use :option:`--disallow-any-unimported <mypy --disallow-any-unimported>`, mypy generates an error if a component of
 a type becomes ``Any`` because mypy couldn't resolve an import. These "stealth"
@@ -216,12 +249,16 @@ that ``Cat`` falls back to ``Any`` in a type annotation:
     # Error: Argument 1 to "feed" becomes "Any" due to an unfollowed import  [no-any-unimported]
     def feed(cat: Cat) -> None:
         ...
+```
 
-.. _code-unreachable:
 
-## Check that statement or expression is unreachable [unreachable]
+## 检查语句或表达式是否不可达 [unreachable]
 
 **Check that statement or expression is unreachable [unreachable]**
+
+=== "中文"
+
+=== "英文"
 
 If you use :option:`--warn-unreachable <mypy --warn-unreachable>`, mypy generates an error if it
 thinks that a statement or expression will never be executed. In most cases, this is due to
@@ -238,12 +275,16 @@ incorrect control flow or conditional checks that are accidentally always true o
         return
         # Error: Statement is unreachable  [unreachable]
         print('unreachable')
+```
 
-.. _code-redundant-expr:
 
-## Check that expression is redundant [redundant-expr]
+## 检查表达式是否冗余 [redundant-expr]
 
 **Check that expression is redundant [redundant-expr]**
+
+=== "中文"
+
+=== "英文"
 
 If you use :option:`--enable-error-code redundant-expr <mypy --enable-error-code>`,
 mypy generates an error if it thinks that an expression is redundant.
@@ -262,13 +303,17 @@ mypy generates an error if it thinks that an expression is redundant.
 
         # Error: If condition in comprehension is always true  [redundant-expr]
         [i for i in range(x) if isinstance(i, int)]
+```
 
 
-.. _code-possibly-undefined:
 
-## Warn about variables that are defined only in some execution paths [possibly-undefined]
+## 警告只在某些执行路径中定义的变量 [possibly-undefined]
 
 **Warn about variables that are defined only in some execution paths [possibly-undefined]**
+
+=== "中文"
+
+=== "英文"
 
 If you use :option:`--enable-error-code possibly-undefined <mypy --enable-error-code>`,
 mypy generates an error if it cannot verify that a variable will be defined in
@@ -290,12 +335,16 @@ example:
         for v in values:
             b = v
         z = b + 1  # Error: Name "b" may be undefined [possibly-undefined]
+```
 
-.. _code-truthy-bool:
 
-## Check that expression is not implicitly true in boolean context [truthy-bool]
+## 检查表达式在布尔上下文中是否隐式为真 [truthy-bool]
 
 **Check that expression is not implicitly true in boolean context [truthy-bool]**
+
+=== "中文"
+
+=== "英文"
 
 Warn when the type of an expression in a boolean context does not
 implement ``__bool__`` or ``__len__``. Unless one of these is
@@ -316,12 +365,16 @@ Using an iterable value in a boolean context has a separate error code
     # Error: "foo" has type "Foo" which does not implement __bool__ or __len__ so it could always be true in boolean context
     if foo:
          ...
+```
 
-.. _code-truthy-iterable:
 
-## Check that iterable is not implicitly true in boolean context [truthy-iterable]
+## 检查可迭代对象在布尔上下文中是否隐式为真 [truthy-iterable]
 
 **Check that iterable is not implicitly true in boolean context [truthy-iterable]**
+
+=== "中文"
+
+=== "英文"
 
 Generate an error if a value of type ``Iterable`` is used as a boolean
 condition, since ``Iterable`` does not implement ``__len__`` or ``__bool__``.
@@ -337,6 +390,8 @@ Example:
         if not items:
             return [42]
         return [x + 1 for x in items]
+```
+
 
 If ``transform`` is called with a ``Generator`` argument, such as
 ``int(x) for x in []``, this function would not return ``[42]`` unlike
@@ -346,11 +401,13 @@ items`` check is actually valid. If that is the case, it is
 recommended to annotate ``items`` as ``Collection[int]`` instead of
 ``Iterable[int]``.
 
-.. _code-ignore-without-code:
-
-## Check that ``# type: ignore`` include an error code [ignore-without-code]
+## 检查 ``# type: ignore`` 是否包含错误代码 [ignore-without-code]
 
 **Check that ``# type: ignore`` include an error code [ignore-without-code]**
+
+=== "中文"
+
+=== "英文"
 
 Warn when a ``# type: ignore`` comment does not specify any error codes.
 This clarifies the intent of the ignore and ensures that only the
@@ -378,12 +435,16 @@ Example:
     # This line warns correctly about the typo in the attribute name
     # Error: "Foo" has no attribute "nme"; maybe "name"?
     f.nme = 42  # type: ignore[assignment]
+```
 
-.. _code-unused-awaitable:
 
-## Check that awaitable return value is used [unused-awaitable]
+## 检查 awaitable 返回值是否被使用 [unused-awaitable]
 
 **Check that awaitable return value is used [unused-awaitable]**
+
+=== "中文"
+
+=== "英文"
 
 If you use :option:`--enable-error-code unused-awaitable <mypy --enable-error-code>`,
 mypy generates an error if you don't use a returned value that defines ``__await__``.
@@ -402,6 +463,8 @@ Example:
         # Error: Value of type "Task[int]" must be used
         #        Are you missing an await?
         asyncio.create_task(f())
+```
+
 
 You can assign the value to a temporary, otherwise unused variable to
 silence the error:
@@ -410,12 +473,16 @@ silence the error:
 
     async def g() -> None:
         _ = asyncio.create_task(f())  # No error
+```
 
-.. _code-unused-ignore:
 
-## Check that ``# type: ignore`` comment is used [unused-ignore]
+## 检查 ``# type: ignore`` 注释是否被使用 [unused-ignore]
 
 **Check that ``# type: ignore`` comment is used [unused-ignore]**
+
+=== "中文"
+
+=== "英文"
 
 If you use :option:`--enable-error-code unused-ignore <mypy --enable-error-code>`,
 or :option:`--warn-unused-ignores <mypy --warn-unused-ignores>`
@@ -432,6 +499,8 @@ Example:
     def add(a: int, b: int) -> int:
         # Error: unused "type: ignore" comment
         return a + b  # type: ignore
+```
+
 
 Note that due to a specific nature of this comment, the only way to selectively
 silence it, is to include the error code explicitly. Also note that this error is
@@ -457,19 +526,23 @@ Example:
         # The following will not generate an error on either
         # Python 3.8, or Python 3.9
         42 + "testing..."  # type: ignore
+```
 
-.. _code-explicit-override:
 
-## Check that ``@override`` is used when overriding a base class method [explicit-override]
+## 检查在重写基类方法时是否使用 ``@override`` [explicit-override]
 
 **Check that ``@override`` is used when overriding a base class method [explicit-override]**
+
+=== "中文"
+
+=== "英文"
 
 If you use :option:`--enable-error-code explicit-override <mypy --enable-error-code>`
 mypy generates an error if you override a base class method without using the
 ``@override`` decorator. An error will not be emitted for overrides of ``__init__``
 or ``__new__``. See `PEP 698 <https://peps.python.org/pep-0698/#strict-enforcement-per-project>`_.
 
-.. note::
+!!! note 
 
     Starting with Python 3.12, the ``@override`` decorator can be imported from ``typing``.
     To use it with older Python versions, import it from ``typing_extensions`` instead.
@@ -497,12 +570,16 @@ Example:
         @override
         def g(self, y: int) -> None:
             pass
+```
 
-.. _code-mutable-override:
 
-## Check that overrides of mutable attributes are safe [mutable-override]
+## 检查可变属性的重写是否安全 [mutable-override]
 
 **Check that overrides of mutable attributes are safe [mutable-override]**
+
+=== "中文"
+
+=== "英文"
 
 `mutable-override` will enable the check for unsafe overrides of mutable attributes.
 For historical reasons, and because this is a relatively common pattern in Python,
@@ -530,12 +607,16 @@ flagged when this error code is enabled:
     d = D()
     f(d)
     d.x >> 1  # This will crash at runtime, because d.x is now float, not an int
+```
 
-.. _code-unimported-reveal:
 
-## Check that ``reveal_type`` is imported from typing or typing_extensions [unimported-reveal]
+## 检查 ``reveal_type`` 是否从 typing 或 typing_extensions 导入 [unimported-reveal]
 
 **Check that ``reveal_type`` is imported from typing or typing_extensions [unimported-reveal]**
+
+=== "中文"
+
+=== "英文"
 
 Mypy used to have ``reveal_type`` as a special builtin
 that only existed during type-checking.
@@ -547,7 +628,7 @@ But, in Python3.11 :py:func:`typing.reveal_type` was added.
 
 Now users can actually import ``reveal_type`` to make the runtime code safe.
 
-.. note::
+!!! note 
 
     Starting with Python 3.11, the ``reveal_type`` function can be imported from ``typing``.
     To use it with older Python versions, import it from ``typing_extensions`` instead.
@@ -559,6 +640,8 @@ Now users can actually import ``reveal_type`` to make the runtime code safe.
     x = 1
     reveal_type(x)  # Note: Revealed type is "builtins.int" \
                     # Error: Name "reveal_type" is not defined
+```
+
 
 Correct usage:
 
@@ -570,19 +653,24 @@ Correct usage:
     x = 1
     # This won't raise an error:
     reveal_type(x)  # Note: Revealed type is "builtins.int"
+```
+
 
 When this code is enabled, using ``reveal_locals`` is always an error,
 because there's no way one can import it.
 
-.. _code-narrowed-type-not-subtype:
-
-## Check that ``TypeIs`` narrows types [narrowed-type-not-subtype]
+## 检查 ``TypeIs`` 是否缩小了类型 [narrowed-type-not-subtype]
 
 **Check that ``TypeIs`` narrows types [narrowed-type-not-subtype]**
+
+=== "中文"
+
+=== "英文"
 
 :pep:`742` requires that when ``TypeIs`` is used, the narrowed
 type must be a subtype of the original type::
 
+```python
     from typing_extensions import TypeIs
 
     def f(x: int) -> TypeIs[str]:  # Error, str is not a subtype of int
@@ -590,3 +678,4 @@ type must be a subtype of the original type::
 
     def g(x: object) -> TypeIs[str]:  # OK
         ...
+```

@@ -1,6 +1,10 @@
-# Using installed packages
+# 使用已安装的包
 
 **Using installed packages**
+
+=== "中文"
+
+=== "英文"
 
 
 Packages installed with pip can declare that they support type
@@ -20,12 +24,12 @@ the package.
 The sections below explain how mypy can use these packages, and how
 you can create such packages.
 
-.. note::
+!!! note 
 
    :pep:`561` specifies how a package can declare that it supports
    type checking.
 
-.. note::
+!!! note 
 
    New versions of stub packages often use type system features not
    supported by older, and even fairly recent mypy versions. If you
@@ -33,7 +37,7 @@ you can create such packages.
    example), it is recommended that you also pin the versions of all
    your stub package dependencies.
 
-.. note::
+!!! note 
 
    Starting in mypy 0.900, most third-party package stubs must be
    installed explicitly. This decouples mypy and stub versioning,
@@ -42,9 +46,13 @@ you can create such packages.
    mypy versions included a fixed set of stubs for third-party
    packages.
 
-## Using installed packages with mypy (PEP 561)
+## 使用 mypy 检查已安装的包（PEP 561）
 
 **Using installed packages with mypy (PEP 561)**
+
+=== "中文"
+
+=== "英文"
 
 Typically mypy will automatically find and use installed packages that
 support type checking or provide stubs. This requires that you install
@@ -77,11 +85,15 @@ legal package name, so mypy will not find it, unless it is installed
 (see :pep:`PEP 561: Stub-only Packages <561#stub-only-packages>` for
 more information).
 
-## Creating PEP 561 compatible packages
+## 创建兼容 PEP 561 的包
 
 **Creating PEP 561 compatible packages**
 
-.. note::
+=== "中文"
+
+=== "英文"
+
+!!! note 
 
   You can generally ignore this section unless you maintain a package on
   PyPI, or want to publish type information for an existing PyPI
@@ -116,6 +128,7 @@ package directory. For example, here is a typical directory structure:
         __init__.py
         lib.py
         py.typed
+```
 
 The ``setup.py`` file could look like this:
 
@@ -130,6 +143,7 @@ The ``setup.py`` file could look like this:
         package_data={"package_a": ["py.typed"]},
         packages=["package_a"]
     )
+```
 
 Some packages have a mix of stub files and runtime files. These packages also
 require a ``py.typed`` file. An example can be seen below:
@@ -142,6 +156,7 @@ require a ``py.typed`` file. An example can be seen below:
         lib.py
         lib.pyi
         py.typed
+```
 
 The ``setup.py`` file might look like this:
 
@@ -156,6 +171,7 @@ The ``setup.py`` file might look like this:
         package_data={"package_b": ["py.typed", "lib.pyi"]},
         packages=["package_b"]
     )
+```
 
 In this example, both ``lib.py`` and the ``lib.pyi`` stub file exist. At
 runtime, the Python interpreter will use ``lib.py``, but mypy will use
@@ -172,6 +188,7 @@ had stubs for ``package_c``, we might do the following:
     package_c-stubs/
         __init__.pyi
         lib.pyi
+```
 
 The ``setup.py`` might look like this:
 
@@ -186,6 +203,7 @@ The ``setup.py`` might look like this:
         package_data={"package_c-stubs": ["__init__.pyi", "lib.pyi"]},
         packages=["package_c-stubs"]
     )
+```
 
 The instructions above are enough to ensure that the built wheels
 contain the appropriate files. However, to ensure inclusion inside the
@@ -196,3 +214,4 @@ inclusion rules in your ``MANIFEST.in``:
 
     global-include *.pyi
     global-include *.typed
+```

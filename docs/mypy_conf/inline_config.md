@@ -1,6 +1,10 @@
-# Inline configuration
+# 内联配置
 
 **Inline configuration**
+
+=== "中文"
+
+=== "英文"
 
 Mypy supports setting per-file configuration options inside files themselves
 using ``# mypy:`` comments. For example:
@@ -12,9 +16,13 @@ using ``# mypy:`` comments. For example:
 Inline configuration comments take precedence over all other
 configuration mechanisms.
 
-## Configuration comment format
+## 配置注释格式
 
 **Configuration comment format**
+
+=== "中文"
+
+=== "英文"
 
 Flags correspond to :ref:`config file flags <config-file>` but allow
 hyphens to be substituted for underscores.

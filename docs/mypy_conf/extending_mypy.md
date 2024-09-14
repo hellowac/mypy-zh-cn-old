@@ -1,12 +1,14 @@
-# Extending and integrating mypy
+# 扩展和集成 mypy
 
 **Extending and integrating mypy**
 
-.. _integrating-mypy:
-
-## Integrating mypy into another Python application
+## 将 mypy 集成到其他 Python 应用中
 
 **Integrating mypy into another Python application**
+
+=== "中文"
+
+=== "英文"
 
 It is possible to integrate mypy into another Python 3 application by
 importing ``mypy.api`` and calling the ``run`` function with a parameter of type ``list[str]``, containing
@@ -36,13 +38,15 @@ A trivial example of using the api is the following
         print(result[1])  # stderr
 
     print('\nExit status:', result[2])
+```
 
-
-.. _extending-mypy-using-plugins:
-
-## Extending mypy using plugins
+## 使用插件扩展 mypy
 
 **Extending mypy using plugins**
+
+=== "中文"
+
+=== "英文"
 
 Python is a highly dynamic language and has extensive metaprogramming
 capabilities. Many popular libraries use these to create APIs that may
@@ -58,7 +62,7 @@ The plugin system is focused on improving mypy's understanding
 of *semantics* of third party frameworks. There is currently no way to define
 new first class kinds of types.
 
-.. note::
+!!! note 
 
    The plugin system is experimental and prone to change. If you want to write
    a mypy plugin, we recommend you start by contacting the mypy core developers
@@ -69,9 +73,13 @@ new first class kinds of types.
    but we will announce them in
    `the plugin API changes announcement issue <https://github.com/python/mypy/issues/6617>`_.
 
-## Configuring mypy to use plugins
+## 配置 mypy 使用插件
 
 **Configuring mypy to use plugins**
+
+=== "中文"
+
+=== "英文"
 
 Plugins are Python files that can be specified in a mypy
 :ref:`config file <config-file>` using the :confval:`plugins` option and one of the two formats: relative or
@@ -83,6 +91,7 @@ is running). The two formats can be mixed, for example:
 
     [mypy]
     plugins = /one/plugin.py, other.plugin
+```
 
 Mypy will try to import the plugins and will look for an entry point function
 named ``plugin``. If the plugin entry point function has a different name, it
@@ -92,6 +101,7 @@ can be specified after colon:
 
     [mypy]
     plugins = custom_plugin:custom_entry_point
+```
 
 In the following sections we describe the basics of the plugin system with
 some examples. For more technical details, please read the docstrings in
@@ -99,9 +109,13 @@ some examples. For more technical details, please read the docstrings in
 in mypy source code. Also you can find good examples in the bundled plugins
 located in `mypy/plugins <https://github.com/python/mypy/tree/master/mypy/plugins>`_.
 
-## High-level overview
+## 高级概览
 
 **High-level overview**
+
+=== "中文"
+
+=== "英文"
 
 Every entry point function should accept a single string argument
 that is a full mypy version and return a subclass of ``mypy.plugin.Plugin``:
@@ -118,6 +132,7 @@ that is a full mypy version and return a subclass of ``mypy.plugin.Plugin``:
    def plugin(version: str):
        # ignore version argument if the plugin works with all mypy versions.
        return CustomPlugin
+```
 
 During different phases of analyzing the code (first in semantic analysis,
 and then in type checking) mypy calls plugin methods such as
@@ -139,11 +154,13 @@ Plugin developers should ensure that their plugins work well in incremental and
 daemon modes. In particular, plugins should not hold global state due to caching
 of plugin hook results.
 
-.. _plugin_hooks:
-
-## Current list of plugin hooks
+## 当前插件钩子列表
 
 **Current list of plugin hooks**
+
+=== "中文"
+
+=== "英文"
 
 **get_type_analyze_hook()** customizes behaviour of the type analyzer.
 For example, :pep:`484` doesn't support defining variadic generic types:
@@ -154,6 +171,7 @@ For example, :pep:`484` doesn't support defining variadic generic types:
 
    a: Vector[int, int]
    b: Vector[int, int, int]
+```
 
 When analyzing this code, mypy will call ``get_type_analyze_hook("lib.Vector")``,
 so the plugin can return some valid type for each variable.
@@ -178,6 +196,7 @@ For example in this code:
 
    x: Array[c_int]
    x[0] = 42
+```
 
 mypy will call ``get_method_signature_hook("ctypes.Array.__setitem__")``
 so that the plugin can mimic the :py:mod:`ctypes` auto-convert behavior.
@@ -205,6 +224,7 @@ to match runtime behaviour:
        name: str
 
    user = User(name='example')  # mypy can understand this using a plugin
+```
 
 **get_metaclass_hook()** is similar to above, but for metaclasses.
 
@@ -219,6 +239,7 @@ where right hand side is a function call:
    from lib import dynamic_class
 
    X = dynamic_class('X', [])
+```
 
 For such definition, mypy will call ``get_dynamic_class_hook("lib.dynamic_class")``.
 The plugin should create the corresponding ``mypy.nodes.TypeInfo`` object, and
@@ -242,9 +263,13 @@ should be used to report to mypy any relevant configuration data,
 so that mypy knows to recheck the module if the configuration changes.
 The hooks should return data encodable as JSON.
 
-## Useful tools
+## 实用工具
 
 **Useful tools**
+
+=== "中文"
+
+=== "英文"
 
 Mypy ships ``mypy.plugins.proper_plugin`` plugin which can be useful
 for plugin authors, since it finds missing ``get_proper_type()`` calls,

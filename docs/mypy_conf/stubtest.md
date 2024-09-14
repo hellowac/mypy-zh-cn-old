@@ -1,6 +1,10 @@
-# Automatic stub testing (stubtest)
+# 自动存根测试 (stubtest)
 
 **Automatic stub testing (stubtest)**
+
+=== "中文"
+
+=== "英文"
 
 Stub files are files containing type annotations. See
 `PEP 484 <https://www.python.org/dev/peps/pep-0484/#stub-files>`_
@@ -11,9 +15,13 @@ actual implementation. Mypy includes the ``stubtest`` tool that can
 automatically check for discrepancies between the stubs and the
 implementation at runtime.
 
-## What stubtest does and does not do
+## stubtest 能做什么和不能做什么
 
 **What stubtest does and does not do**
+
+=== "中文"
+
+=== "英文"
 
 Stubtest will import your code and introspect your code objects at runtime, for
 example, by using the capabilities of the :py:mod:`inspect` module. Stubtest
@@ -39,13 +47,17 @@ stubs and implementation or to check for stub completeness. It's used to
 test Python's official collection of library stubs,
 `typeshed <https://github.com/python/typeshed>`_.
 
-.. warning::
+!!! warning
 
     stubtest will import and execute Python code from the packages it checks.
 
-## Example
+## 示例
 
 **Example**
+
+=== "中文"
+
+=== "英文"
 
 Here's a quick example of what stubtest can do:
 
@@ -76,11 +88,15 @@ Here's a quick example of what stubtest can do:
     builtins.int
     Runtime:
     'hello, stubtest'
+```
 
-
-## Usage
+## 使用方法
 
 **Usage**
+
+=== "中文"
+
+=== "英文"
 
 Running stubtest can be as simple as ``stubtest module_to_check``.
 Run :option:`stubtest --help` for a quick summary of options.
@@ -104,37 +120,37 @@ pretty handy allowlist system.
 
 The rest of this section documents the command line interface of stubtest.
 
-.. option:: --concise
+<span id="concise"></span>`--concise`
 
-    Makes stubtest's output more concise, one line per error
+   : Makes stubtest's output more concise, one line per error
 
-.. option:: --ignore-missing-stub
+<span id="ignore-missing-stub"></span>`--ignore-missing-stub`
 
-    Ignore errors for stub missing things that are present at runtime
+   : Ignore errors for stub missing things that are present at runtime
 
-.. option:: --ignore-positional-only
+<span id="ignore-positional-only"></span>`--ignore-positional-only`
 
-    Ignore errors for whether an argument should or shouldn't be positional-only
+   : Ignore errors for whether an argument should or shouldn't be positional-only
 
-.. option:: --allowlist FILE
+<span id="allowlist"></span>`--allowlist FILE`
 
-    Use file as an allowlist. Can be passed multiple times to combine multiple
+   : Use file as an allowlist. Can be passed multiple times to combine multiple
     allowlists. Allowlists can be created with --generate-allowlist. Allowlists
     support regular expressions.
 
     The presence of an entry in the allowlist means stubtest will not generate
     any errors for the corresponding definition.
 
-.. option:: --generate-allowlist
+<span id="generate-allowlist"></span>`--generate-allowlist`
 
-    Print an allowlist (to stdout) to be used with --allowlist
+   : Print an allowlist (to stdout) to be used with --allowlist
 
     When introducing stubtest to an existing project, this is an easy way to
     silence all existing errors.
 
-.. option:: --ignore-unused-allowlist
+<span id="ignore-unused-allowlist"></span>`--ignore-unused-allowlist`
 
-    Ignore unused allowlist entries
+   : Ignore unused allowlist entries
 
     Without this option enabled, the default is for stubtest to complain if an
     allowlist entry is not necessary for stubtest to pass successfully.
@@ -145,18 +161,18 @@ The rest of this section documents the command line interface of stubtest.
     ``foo.bar`` you could add an allowlist entry ``(foo\.bar)?``.
     This can be useful when an error only occurs on a specific platform.
 
-.. option:: --mypy-config-file FILE
+<span id="mypy-config-file"></span>`--mypy-config-file FILE`
 
-    Use specified mypy config file to determine mypy plugins and mypy path
+   : Use specified mypy config file to determine mypy plugins and mypy path
 
-.. option:: --custom-typeshed-dir DIR
+<span id="custom-typeshed-dir"></span>`--custom-typeshed-dir DIR`
 
-    Use the custom typeshed in DIR
+   : Use the custom typeshed in DIR
 
-.. option:: --check-typeshed
+<span id="check-typeshed"></span>`--check-typeshed`
 
-    Check all stdlib modules in typeshed
+   : Check all stdlib modules in typeshed
 
-.. option:: --help
+<span id="help"></span>`--help`
 
-    Show a help message :-)
+   : Show a help message :-)

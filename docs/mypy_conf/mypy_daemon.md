@@ -1,6 +1,10 @@
-# Mypy daemon (mypy server)
+# Mypy 守护进程 (mypy server)
 
 **Mypy daemon (mypy server)**
+
+=== "中文"
+
+=== "英文"
 
 Instead of running mypy as a command-line tool, you can also run it as
 a long-running daemon (server) process and use a command-line client to
@@ -16,21 +20,25 @@ daemon can be *10 or more times faster* than the regular command-line
 repeatedly after small edits -- which is often a good idea, as this way
 you'll find errors sooner.
 
-.. note::
+!!! note 
 
     The command-line interface of mypy daemon may change in future mypy
     releases.
 
-.. note::
+!!! note 
 
     Each mypy daemon process supports one user and one set of source files,
     and it can only process one type checking request at a time. You can
     run multiple mypy daemon processes to type check multiple repositories.
 
 
-## Basic usage
+## 基本用法
 
 **Basic usage**
+
+=== "中文"
+
+=== "英文"
 
 The client utility ``dmypy`` is used to control the mypy daemon.
 Use ``dmypy run -- <flags> <files>`` to type check a set of files
@@ -49,7 +57,7 @@ changed a few files. (You can use :ref:`remote caching <remote-cache>`
 to speed up the initial run. The speedup can be significant if
 you have a large codebase.)
 
-.. note::
+!!! note 
 
    Mypy 0.780 added support for following imports in dmypy (enabled by
    default). This functionality is still experimental. You can use
@@ -57,14 +65,18 @@ you have a large codebase.)
    back to the stable functionality.  See :ref:`follow-imports` for
    details on how these work.
 
-.. note::
+!!! note 
 
     The mypy daemon requires ``--local-partial-types`` and automatically enables it.
 
 
-## Daemon client commands
+## 守护进程客户端命令
 
 **Daemon client commands**
+
+=== "中文"
+
+=== "英文"
 
 While ``dmypy run`` is sufficient for most uses, some workflows
 (ones using :ref:`remote caching <remote-cache>`, perhaps),
@@ -99,31 +111,35 @@ Use ``dmypy --help`` for help on additional commands and command-line
 options not discussed here, and ``dmypy <command> --help`` for help on
 command-specific options.
 
-## Additional daemon flags
+## 额外的守护进程标志
 
 **Additional daemon flags**
 
-.. option:: --status-file FILE
+=== "中文"
 
-   Use ``FILE`` as the status file for storing daemon runtime state. This is
+=== "英文"
+
+<span id="status-file"></span>`--status-file FILE`
+
+   : Use ``FILE`` as the status file for storing daemon runtime state. This is
    normally a JSON file that contains information about daemon process and
    connection. The default path is ``.dmypy.json`` in the current working
    directory.
 
-.. option:: --log-file FILE
+<span id="log-file"></span>`--log-file FILE`
 
-   Direct daemon stdout/stderr to ``FILE``. This is useful for debugging daemon
+   : Direct daemon stdout/stderr to ``FILE``. This is useful for debugging daemon
    crashes, since the server traceback is not always printed by the client.
    This is available for the ``start``, ``restart``, and ``run`` commands.
 
-.. option:: --timeout TIMEOUT
+<span id="timeout"></span>`--timeout TIMEOUT`
 
-   Automatically shut down server after ``TIMEOUT`` seconds of inactivity.
+   : Automatically shut down server after ``TIMEOUT`` seconds of inactivity.
    This is available for the ``start``, ``restart``, and ``run`` commands.
 
-.. option:: --update FILE
+<span id="update"></span>`--update FILE`
 
-   Re-check ``FILE``, or add it to the set of files being
+   : Re-check ``FILE``, or add it to the set of files being
    checked (and check it). This option may be repeated, and it's only available for
    the ``recheck`` command.  By default, mypy finds and checks all files changed
    since the previous run and files that depend on them.  However, if you use this option
@@ -135,37 +151,41 @@ command-specific options.
    *Note:* This option is never required and is only available for
    performance tuning.
 
-.. option:: --remove FILE
+<span id="remove"></span>`--remove FILE`
 
-   Remove ``FILE`` from the set of files being checked. This option may be
+   : Remove ``FILE`` from the set of files being checked. This option may be
    repeated. This is only available for the
    ``recheck`` command. See :option:`--update` above for when this may be useful.
    *Note:* This option is never required and is only available for performance
    tuning.
 
-.. option:: --fswatcher-dump-file FILE
+<span id="fswatcher-dump-file"></span>`--fswatcher-dump-file FILE`
 
-   Collect information about the current internal file state. This is
+   : Collect information about the current internal file state. This is
    only available for the ``status`` command. This will dump JSON to
    ``FILE`` in the format ``{path: [modification_time, size,
    content_hash]}``. This is useful for debugging the built-in file
    system watcher. *Note:* This is an internal flag and the format may
    change.
 
-.. option:: --perf-stats-file FILE
+<span id="perf-stats-file"></span>`--perf-stats-file FILE`
 
-   Write performance profiling information to ``FILE``. This is only available
+   : Write performance profiling information to ``FILE``. This is only available
    for the ``check``, ``recheck``, and ``run`` commands.
 
-.. option:: --export-types
+<span id="export-types"></span>`--export-types`
 
-   Store all expression types in memory for future use. This is useful to speed
+   : Store all expression types in memory for future use. This is useful to speed
    up future calls to ``dmypy inspect`` (but uses more memory). Only valid for
    ``check``, ``recheck``, and ``run`` command.
 
-## Static inference of annotations
+## 注解的静态推断
 
 **Static inference of annotations**
+
+=== "中文"
+
+=== "英文"
 
 The mypy daemon supports (as an experimental feature) statically inferring
 draft function and method type annotations. Use ``dmypy suggest FUNCTION`` to
@@ -207,9 +227,9 @@ imprecise annotation with some ``Any`` types.
 The following flags customize various aspects of the ``dmypy suggest``
 command.
 
-.. option:: --json
+<span id="json"></span>`--json`
 
-   Output the signature as JSON, so that `PyAnnotate`_ can read it and add
+   : Output the signature as JSON, so that `PyAnnotate`_ can read it and add
    the signature to the source file. Here is what the JSON looks like:
 
    ```python
@@ -221,40 +241,44 @@ command.
    ```
    
 
-.. option:: --no-errors
+<span id="no-errors"></span>`--no-errors`
 
-   Only produce suggestions that cause no errors in the checked code. By default,
+   : Only produce suggestions that cause no errors in the checked code. By default,
    mypy will try to find the most precise type, even if it causes some type errors.
 
-.. option:: --no-any
+<span id="no-any"></span>`--no-any`
 
-   Only produce suggestions that don't contain ``Any`` types. By default mypy
+   : Only produce suggestions that don't contain ``Any`` types. By default mypy
    proposes the most precise signature found, even if it contains ``Any`` types.
 
-.. option:: --flex-any FRACTION
+<span id="flex-any"></span>`--flex-any FRACTION`
 
-   Only allow some fraction of types in the suggested signature to be ``Any`` types.
+   : Only allow some fraction of types in the suggested signature to be ``Any`` types.
    The fraction ranges from ``0`` (same as ``--no-any``) to ``1``.
 
-.. option:: --callsites
+<span id="callsites"></span>`--callsites`
 
-   Only find call sites for a given function instead of suggesting a type.
+   : Only find call sites for a given function instead of suggesting a type.
    This will produce a list with line numbers and types of actual
    arguments for each call: ``/path/to/file.py:line: (arg_type_1, arg_type_2, ...)``.
 
-.. option:: --use-fixme NAME
+<span id="use-fixme"></span>`--use-fixme NAME`
 
-   Use a dummy name instead of plain ``Any`` for types that cannot
+   : Use a dummy name instead of plain ``Any`` for types that cannot
    be inferred. This may be useful to emphasize to a user that a given type
    couldn't be inferred and needs to be entered manually.
 
-.. option:: --max-guesses NUMBER
+<span id="max-guesses"></span>`--max-guesses NUMBER`
 
-   Set the maximum number of types to try for a function (default: ``64``).
+   : Set the maximum number of types to try for a function (default: ``64``).
 
-## Statically inspect expressions
+## 静态检查表达式
 
 **Statically inspect expressions**
+
+=== "中文"
+
+=== "英文"
 
 The daemon allows to get declared or inferred type of an expression (or other
 information about an expression, such as known attributes or definition location)
@@ -289,9 +313,9 @@ their types are returned separated by a newline.
 Important note: it is recommended to check files with :option:`--export-types`
 since otherwise most inspections will not work without :option:`--force-reload`.
 
-.. option:: --show INSPECTION
+<span id="show"></span>`--show INSPECTION`
 
-   What kind of inspection to run for expression(s) found. Currently the supported
+   : What kind of inspection to run for expression(s) found. Currently the supported
    inspections are:
 
    * ``type`` (default): Show the best known type of a given expression.
@@ -304,15 +328,15 @@ since otherwise most inspections will not work without :option:`--force-reload`.
      If multiple definitions are found (e.g. for a Union attribute), they are
      separated by comma.
 
-.. option:: --verbose
+<span id="verbose"></span>`--verbose`
 
-   Increase verbosity of types string representation (can be repeated).
+   : Increase verbosity of types string representation (can be repeated).
    For example, this will print fully qualified names of instance types (like
    ``"builtins.str"``), instead of just a short name (like ``"str"``).
 
-.. option:: --limit NUM
+<span id="limit"></span>`--limit NUM`
 
-   If the location is given as ``line:column``, this will cause daemon to
+   : If the location is given as ``line:column``, this will cause daemon to
    return only at most ``NUM`` inspections of innermost expressions.
    Value of 0 means no limit (this is the default). For example, if one calls
    ``dmypy inspect src.py:4:10 --limit=1`` with this code
@@ -329,27 +353,27 @@ since otherwise most inspections will not work without :option:`--force-reload`.
    While without the limit option, it would output all three types: ``"int"``,
    ``"str"``, and ``"None"``.
 
-.. option:: --include-span
+<span id="include-span"></span>`--include-span`
 
-   With this option on, the daemon will prepend each inspection result with
+   : With this option on, the daemon will prepend each inspection result with
    the full span of corresponding expression, formatted as ``1:2:1:4 -> "int"``.
    This may be useful in case multiple expressions match a location.
 
-.. option:: --include-kind
+<span id="include-kind"></span>`--include-kind`
 
-   With this option on, the daemon will prepend each inspection result with
+   : With this option on, the daemon will prepend each inspection result with
    the kind of corresponding expression, formatted as ``NameExpr -> "int"``.
    If both this option and :option:`--include-span` are on, the kind will
    appear first, for example ``NameExpr:1:2:1:4 -> "int"``.
 
-.. option:: --include-object-attrs
+<span id="include-object-attrs"></span>`--include-object-attrs`
 
-   This will make the daemon include attributes of ``object`` (excluded by
+   : This will make the daemon include attributes of ``object`` (excluded by
    default) in case of an ``atts`` inspection.
 
-.. option:: --union-attrs
+<span id="union-attrs"></span>`--union-attrs`
 
-   Include attributes valid for some of possible expression types (by default
+   : Include attributes valid for some of possible expression types (by default
    an intersection is returned). This is useful for union types of type variables
    with values. For example, with this code:
 
@@ -372,9 +396,9 @@ since otherwise most inspections will not work without :option:`--force-reload`.
    ``{"A": ["z"], "B": ["z"]}``, while with ``--union-attrs`` it will return
    ``{"A": ["x", "z"], "B": ["y", "z"]}``.
 
-.. option:: --force-reload
+<span id="force-reload"></span>`--force-reload`
 
-   Force re-parsing and re-type-checking file before inspection. By default
+   : Force re-parsing and re-type-checking file before inspection. By default
    this is done only when needed (for example file was not loaded from cache
    or daemon was initially run without ``--export-types`` mypy option),
    since reloading may be slow (up to few seconds for very large files).
@@ -387,3 +411,4 @@ since otherwise most inspections will not work without :option:`--force-reload`.
 .. _watchdog: https://pypi.org/project/watchdog/
 .. _PyAnnotate: https://github.com/dropbox/pyannotate
 .. _mypy plugin for PyCharm: https://github.com/dropbox/mypy-PyCharm-plugin
+

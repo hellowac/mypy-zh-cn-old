@@ -1,6 +1,10 @@
-# The mypy configuration file
+# mypy 配置文件
 
 **The mypy configuration file**
+
+=== "中文"
+
+=== "英文"
 
 Mypy is very configurable. This is most useful when introducing typing to
 an existing codebase. See :ref:`existing-code` for concrete advice for
@@ -34,9 +38,13 @@ To refer to the user home directory, use ``~`` at the beginning of the path.
 To expand environment variables use ``$VARNAME`` or ``${VARNAME}``.
 
 
-## Config file format
+## 配置文件格式
 
 **Config file format**
+
+=== "中文"
+
+=== "英文"
 
 The configuration file format is the usual
 :doc:`ini file <python:library/configparser>` format. It should contain
@@ -81,19 +89,23 @@ The difference in precedence order between "structured" patterns (by
 specificity) and "unstructured" patterns (by order in the file) is
 unfortunate, and is subject to change in future versions.
 
-.. note::
+!!! note 
 
    The :confval:`warn_unused_configs` flag may be useful to debug misspelled
    section names.
 
-.. note::
+!!! note 
 
    Configuration flags are liable to change between releases.
 
 
-## Per-module and global options
+## 每个模块和全局选项
 
 **Per-module and global options**
+
+=== "中文"
+
+=== "英文"
 
 Some of the config options may be set either globally (in the ``[mypy]`` section)
 or on a per-module basis (in sections like ``[mypy-foo.bar]``).
@@ -107,16 +119,20 @@ Some other options, as specified in their description,
 may only be set in the global section (``[mypy]``).
 
 
-## Inverting option values
+## 反转选项值
 
 **Inverting option values**
+
+=== "中文"
+
+=== "英文"
 
 Options that take a boolean value may be inverted by adding ``no_`` to
 their name or by (when applicable) swapping their prefix from
 ``disallow`` to ``allow`` (and vice versa).
 
 
-## Example ``mypy.ini``
+## 示例 ``mypy.ini``
 
 **Example ``mypy.ini``**
 
@@ -141,6 +157,7 @@ of your repo and run mypy.
 
     [mypy-somelibrary]
     ignore_missing_imports = True
+```
 
 This config file specifies two global options in the ``[mypy]`` section. These two
 options will:
@@ -168,11 +185,13 @@ assume here is some 3rd party library you've installed and are importing. These 
     missing type hints.
 
 
-.. _config-file-import-discovery:
-
-## Import discovery
+## 导入发现
 
 **Import discovery**
+
+=== "中文"
+
+=== "英文"
 
 For more information, see the :ref:`Import discovery <import-discovery>`
 section of the command line docs.
@@ -244,6 +263,7 @@ section of the command line docs.
           | two\.pyi$  # or files ending with "two.pyi"
           | ^three\.   # or files starting with "three."
         )
+    ```
 
     Crafting a single regular expression that excludes multiple files while remaining
     human-readable can be a challenge. The above example demonstrates one approach.
@@ -255,7 +275,7 @@ section of the command line docs.
 
     This option may only be set in the global section (``[mypy]``).
 
-    .. note::
+    !!! note 
 
        Note that the TOML equivalent differs slightly. It can be either a single string
        (including a multi-line string) -- which is treated as a single regular
@@ -272,6 +292,7 @@ section of the command line docs.
               'two\.pyi$',  # but TOML's single-quoted strings do not
               '^three\.',
           ]
+       ```
 
        A single, multi-line string:
 
@@ -283,6 +304,7 @@ section of the command line docs.
               | two\.pyi$  # or files ending with "two.pyi"
               | ^three\.   # or files starting with "three."
           )'''  # TOML's single-quoted strings do not require escaping backslashes
+       ```
 
        See :ref:`using-a-pyproject-toml`.
 
@@ -357,7 +379,7 @@ section of the command line docs.
     Used in conjunction with :confval:`follow_imports=error <follow_imports>`, this can be used
     to make any use of a particular ``typeshed`` module an error.
 
-    .. note::
+    !!! note 
 
          This is not supported by the mypy daemon.
 
@@ -395,9 +417,13 @@ section of the command line docs.
     This option may only be set in the global section (``[mypy]``).
 
 
-## Platform configuration
+## 平台配置
 
 **Platform configuration**
+
+=== "中文"
+
+=== "英文"
 
 .. confval:: python_version
 
@@ -436,9 +462,13 @@ section of the command line docs.
     compile-time constants that are always false.
 
 
-## Disallow dynamic typing
+## 禁止动态类型
 
 **Disallow dynamic typing**
+
+=== "中文"
+
+=== "英文"
 
 For more information, see the :ref:`Disallow dynamic typing <disallow-dynamic-typing>`
 section of the command line docs.
@@ -488,9 +518,13 @@ section of the command line docs.
     Disallows subclassing a value of type ``Any``.
 
 
-## Untyped definitions and calls
+## 未类型化的定义与调用
 
 **Untyped definitions and calls**
+
+=== "中文"
+
+=== "英文"
 
 For more information, see the :ref:`Untyped definitions and calls <untyped-definitions-and-calls>`
 section of the command line docs.
@@ -512,6 +546,7 @@ section of the command line docs.
 
         [mypy-some.library.*]
         disallow_untyped_calls = False
+    ```
 
     will disable this check inside ``some.library``, not for your code that
     imports ``some.library``. If you want to selectively disable this check for
@@ -523,6 +558,7 @@ section of the command line docs.
         [mypy]
         disallow_untyped_calls = True
         untyped_calls_exclude = some.library
+    ```
 
 .. confval:: untyped_calls_exclude
 
@@ -542,7 +578,7 @@ section of the command line docs.
     Disallows defining functions without type annotations or with incomplete type
     annotations (a superset of :confval:`disallow_incomplete_defs`).
 
-    For example, it would report an error for :code:`def f(a, b)` and :code:`def f(a: int, b)`.
+    For example, it would report an error for `def f(a, b)` and `def f(a: int, b)`.
 
 .. confval:: disallow_incomplete_defs
 
@@ -552,7 +588,7 @@ section of the command line docs.
     Disallows defining functions with incomplete type annotations, while still
     allowing entirely unannotated definitions.
 
-    For example, it would report an error for :code:`def f(a: int, b)` but not :code:`def f(a, b)`.
+    For example, it would report an error for `def f(a: int, b)` but not `def f(a, b)`.
 
 .. confval:: check_untyped_defs
 
@@ -570,11 +606,13 @@ section of the command line docs.
     decorator without annotations.
 
 
-.. _config-file-none-and-optional-handling:
-
-## None and Optional handling
+## None 和 Optional 的处理
 
 **None and Optional handling**
+
+=== "中文"
+
+=== "英文"
 
 For more information, see the :ref:`None and Optional handling <none-and-optional-handling>`
 section of the command line docs.
@@ -599,15 +637,19 @@ section of the command line docs.
     generally check the use of ``None`` values -- it is treated
     as compatible with every type.
 
-    .. warning::
+    !!! warning
 
         ``strict_optional = false`` is evil. Avoid using it and definitely do
         not use it without understanding what it does.
 
 
-## Configuring warnings
+## 配置警告(warnings)
 
 **Configuring warnings**
+
+=== "中文"
+
+=== "英文"
 
 For more information, see the :ref:`Configuring warnings <configuring-warnings>`
 section of the command line docs.
@@ -652,9 +694,13 @@ section of the command line docs.
     redundant after performing type analysis.
 
 
-## Suppressing errors
+## 抑制错误
 
 **Suppressing errors**
+
+=== "中文"
+
+=== "英文"
 
 Note: these configuration options are available in the config file only. There is
 no analog available via the command line options.
@@ -667,9 +713,13 @@ no analog available via the command line options.
     Ignores all non-fatal errors.
 
 
-## Miscellaneous strictness flags
+## 其他严格性标志
 
 **Miscellaneous strictness flags**
+
+=== "中文"
+
+=== "英文"
 
 For more information, see the :ref:`Miscellaneous strictness flags <miscellaneous-strictness-flags>`
 section of the command line docs.
@@ -697,6 +747,7 @@ section of the command line docs.
            # 'items' has type list[str]
            items = [item.split() for item in items]
            # 'items' now has type list[list[str]]
+    ```
 
     The variable must be used before it can be redefined:
 
@@ -707,6 +758,7 @@ section of the command line docs.
            print(items)
            items = "100"  # valid, items now has type str
            items = int(items)  # valid, items now has type int
+    ```
 
 .. confval:: local_partial_types
 
@@ -749,6 +801,7 @@ section of the command line docs.
        # This will also re-export bar
        from foo import bar
        __all__ = ['bar']
+    ```
 
 .. confval:: strict_concatenate
 
@@ -778,9 +831,13 @@ section of the command line docs.
    change over time.
 
 
-## Configuring error messages
+## 配置错误消息
 
 **Configuring error messages**
+
+=== "中文"
+
+=== "英文"
 
 For more information, see the :ref:`Configuring error messages <configuring-error-messages>`
 section of the command line docs.
@@ -861,9 +918,13 @@ These options may only be set in the global section (``[mypy]``).
     in error messages (instead of the ``|`` operator),
     even on Python 3.10+.
 
-## Incremental mode
+## 增量模式
 
 **Incremental mode**
+
+=== "中文"
+
+=== "英文"
 
 These options may only be set in the global section (``[mypy]``).
 
@@ -919,9 +980,13 @@ These options may only be set in the global section (``[mypy]``).
     Skip cache internal consistency checks based on mtime.
 
 
-## Advanced options
+## 高级选项
 
 **Advanced options**
+
+=== "中文"
+
+=== "英文"
 
 These options may only be set in the global section (``[mypy]``).
 
@@ -982,18 +1047,22 @@ These options may only be set in the global section (``[mypy]``).
     in combination with :confval:`disallow_untyped_defs` or :confval:`disallow_incomplete_defs`.
 
 
-## Report generation
+## 报告生成
 
 **Report generation**
+
+=== "中文"
+
+=== "英文"
 
 If these options are set, mypy will generate a report in the specified
 format into the specified directory.
 
-.. warning::
+!!! warning
 
-  Generating reports disables incremental mode and can significantly slow down
-  your workflow. It is recommended to enable reporting only for specific runs
-  (e.g. in CI).
+    Generating reports disables incremental mode and can significantly slow down
+    your workflow. It is recommended to enable reporting only for specific runs
+    (e.g. in CI).
 
 .. confval:: any_exprs_report
 
@@ -1065,9 +1134,13 @@ format into the specified directory.
     ``mypy[reports]``.
 
 
-## Miscellaneous
+## 其他
 
 **Miscellaneous**
+
+=== "中文"
+
+=== "英文"
 
 These options may only be set in the global section (``[mypy]``).
 
@@ -1104,11 +1177,13 @@ These options may only be set in the global section (``[mypy]``).
     Controls how much debug output will be generated.  Higher numbers are more verbose.
 
 
-.. _using-a-pyproject-toml:
-
-## Using a pyproject.toml file
+## 使用 pyproject.toml 文件
 
 **Using a pyproject.toml file**
+
+=== "中文"
+
+=== "英文"
 
 Instead of using a ``mypy.ini`` file, a ``pyproject.toml`` file (as specified by
 `PEP 518`_) may be used instead. A few notes on doing so:
@@ -1140,6 +1215,7 @@ Instead of using a ``mypy.ini`` file, a ``pyproject.toml`` file (as specified by
       'packagename2'
   ]
   ...
+```
 
 * The following care should be given to values in the ``pyproject.toml`` files as compared to ``ini`` files:
 
@@ -1151,7 +1227,7 @@ Please see the `TOML Documentation`_ for more details and information on
 what is allowed in a ``toml`` file. See `PEP 518`_ for more information on the layout
 and structure of the ``pyproject.toml`` file.
 
-## Example ``pyproject.toml``
+## 示例 ``pyproject.toml``
 
 **Example ``pyproject.toml``**
 
@@ -1187,8 +1263,10 @@ of your repo (or append it to the end of an existing ``pyproject.toml`` file) an
         "some_other_library"
     ]
     ignore_missing_imports = true
+```
 
 .. _lxml: https://pypi.org/project/lxml/
 .. _SQLite: https://www.sqlite.org/
 .. _PEP 518: https://www.python.org/dev/peps/pep-0518/
 .. _TOML Documentation: https://toml.io/
+

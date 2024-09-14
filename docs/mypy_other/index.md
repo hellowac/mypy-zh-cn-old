@@ -1,3 +1,3 @@
 # 其他杂项
 
-暂没有时间汉化，看原文...
+<https://mypy.readthedocs.io/en/stable/common_issues.html>

@@ -1,6 +1,10 @@
-# Error codes
+# 错误代码
 
 **Error codes**
+
+=== "中文"
+
+=== "英文"
 
 Mypy can optionally display an error code such as ``[attr-defined]``
 after each error message. Error codes serve two purposes:
@@ -18,11 +22,13 @@ Most error codes are shared between multiple related error messages.
 Error codes may change in future mypy releases.
 
 
-.. _silence-error-codes:
-
-## Silencing errors based on error codes
+## 根据错误代码静默错误
 
 **Silencing errors based on error codes**
+
+=== "中文"
+
+=== "英文"
 
 You can use a special comment ``# type: ignore[code, ...]`` to only
 ignore errors with a specific error code (or codes) on a particular
@@ -37,10 +43,15 @@ thinks is undefined:
    # 'foo' is defined in 'foolib', even though mypy can't see the
    # definition.
    from foolib import foo  # type: ignore[attr-defined]
+```
 
-## Enabling/disabling specific error codes globally
+## 全局启用/禁用特定错误代码
 
 **Enabling/disabling specific error codes globally**
+
+=== "中文"
+
+=== "英文"
 
 There are command-line flags and config file settings for enabling
 certain optional error codes, such as :option:`--disallow-untyped-defs <mypy --disallow-untyped-defs>`,
@@ -51,9 +62,13 @@ and :option:`--disable-error-code <mypy --disable-error-code>`
 to enable or disable specific error codes that don't have a dedicated
 command-line flag or config file setting.
 
-## Per-module enabling/disabling error codes
+## 每模块启用/禁用错误代码
 
 **Per-module enabling/disabling error codes**
+
+=== "中文"
+
+=== "英文"
 
 You can use :ref:`configuration file <config-file>` sections to enable or
 disable specific error codes only in some modules. For example, this ``mypy.ini``
@@ -69,6 +84,7 @@ other parts of code checked in strict mode:
    allow_untyped_defs = True
    allow_untyped_calls = True
    disable_error_code = var-annotated, has-type
+```
 
 Note that per-module enabling/disabling acts as override over the global
 options. So that you don't need to repeat the error code lists for each
@@ -81,6 +97,7 @@ module if you have them in global config section. For example:
 
    [mypy-extensions.*]
    disable_error_code = unused-awaitable
+```
 
 The above config will allow unused awaitables in extension modules, but will
 still keep the other two error codes enabled. The overall logic is following:
@@ -96,14 +113,19 @@ still keep the other two error codes enabled. The overall logic is following:
 ```python
 
   # mypy: enable-error-code="truthy-bool, ignore-without-code"
+```
 
 So one can e.g. enable some code globally, disable it for all tests in
 the corresponding config section, and then re-enable it with an inline
 comment in some specific test.
 
-## Subcodes of error codes
+## 错误代码的子代码
 
 **Subcodes of error codes**
+
+=== "中文"
+
+=== "英文"
 
 In some cases, mostly for backwards compatibility reasons, an error
 code may be covered also by another, wider error code. For example, an error with
@@ -114,9 +136,14 @@ code. This hierarchy is not nested: there cannot be subcodes of other
 subcodes.
 
 
-## Requiring error codes
+## 要求错误代码
 
 **Requiring error codes**
 
+=== "中文"
+
+=== "英文"
+
 It's possible to require error codes be specified in ``type: ignore`` comments.
 See :ref:`ignore-without-code<code-ignore-without-code>` for more information.
+

@@ -1,6 +1,10 @@
-# Common issues and solutions
+# 常见问题及解决方案
 
 **Common issues and solutions**
+
+=== "中文"
+
+=== "英文"
 
 This section has examples of cases when you need to update your code
 to use static typing, and ideas for working around issues if mypy
@@ -8,11 +12,13 @@ doesn't work as expected. Statically typed code is often identical to
 normal Python code (except for type annotations), but sometimes you need
 to do things slightly differently.
 
-.. _annotations_needed:
-
-## No errors reported for obviously wrong code
+## 显然错误的代码未报告错误
 
 **No errors reported for obviously wrong code**
+
+=== "中文"
+
+=== "英文"
 
 There are several common reasons why obviously wrong code is not
 flagged as an error.
@@ -42,6 +48,7 @@ once you add annotations:
     def foo(a: str) -> str:
         return '(' + a.split() + ')'
     # error: Unsupported operand types for + ("str" and "list[str]")
+```
 
 If you don't know what types to add, you can use ``Any``, but beware:
 
@@ -55,6 +62,7 @@ no error:
 
     def foo(a) -> str:
         return '(' + a.split() + ')'  # No error!
+```
 
 The reason is that if the type of ``a`` is unknown, the type of
 ``a.split()`` is also unknown, so it is inferred as having type
@@ -87,7 +95,7 @@ without annotations can cause ``Any`` types leak into instance variables:
     class Good:
         def __init__(self) -> None:  # Explicitly return None
             self.value = value
-
+```
 
 **Some imports may be silently ignored**.
 
@@ -117,15 +125,18 @@ and mypy doesn't complain**.
 
     def foo() -> str:
         return None  # No error!
+```
 
 You may have disabled strict optional checking (see
 :ref:`--no-strict-optional <no_strict_optional>` for more).
 
-.. _silencing_checker:
-
-## Spurious errors and locally silencing the checker
+## 虚假错误和局部静默检查器
 
 **Spurious errors and locally silencing the checker**
+
+=== "中文"
+
+=== "英文"
 
 You can use a ``# type: ignore`` comment to silence the type checker
 on a particular line. For example, let's say our code is using
@@ -145,11 +156,12 @@ error:
 
     import frobnicate  # type: ignore
     frobnicate.start()  # Okay!
+```
 
 The second line is now fine, since the ignore comment causes the name
 ``frobnicate`` to get an implicit ``Any`` type.
 
-.. note::
+!!! note 
 
     You can use the form ``# type: ignore[<code>]`` to only ignore
     specific errors on the line. This way you are less likely to
@@ -157,7 +169,7 @@ The second line is now fine, since the ignore comment causes the name
     will also document what the purpose of the comment is.  See
     :ref:`error-codes` for more information.
 
-.. note::
+!!! note 
 
     The ``# type: ignore`` comment will only assign the implicit ``Any``
     type if mypy cannot find information about that particular module. So,
@@ -176,15 +188,20 @@ such as :py:meth:`__getattr__ <object.__getattr__>`:
        ...
        def __getattr__(self, a: str) -> Any:
            return getattr(self._wrapped, a)
+```
 
 Finally, you can create a stub file (``.pyi``) for a file that
 generates spurious errors. Mypy will only look at the stub file
 and ignore the implementation, since stub files take precedence
 over ``.py`` files.
 
-## Ignoring a whole file
+## 忽略整个文件
 
 **Ignoring a whole file**
+
+=== "中文"
+
+=== "英文"
 
 * To only ignore errors, use a top-level ``# mypy: ignore-errors`` comment instead.
 * To only ignore errors with a specific error code, use a top-level
@@ -197,9 +214,13 @@ including imports or docstrings) has the effect of ignoring the entire contents 
 This behaviour can be surprising and result in
 "Module ... has no attribute ... [attr-defined]" errors.
 
-## Issues with code at runtime
+## 运行时代码问题
 
 **Issues with code at runtime**
+
+=== "中文"
+
+=== "英文"
 
 Idiomatic use of type annotations can sometimes run up against what a given
 version of Python considers legal code. These can result in some of the
@@ -213,18 +234,26 @@ following errors when trying to run your code:
 
 For dealing with these, see :ref:`runtime_troubles`.
 
-## Mypy runs are slow
+## Mypy 运行速度慢
 
 **Mypy runs are slow**
+
+=== "中文"
+
+=== "英文"
 
 If your mypy runs feel slow, you should probably use the :ref:`mypy
 daemon <mypy_daemon>`, which can speed up incremental mypy runtimes by
 a factor of 10 or more. :ref:`Remote caching <remote-cache>` can
 make cold mypy runs several times faster.
 
-## Types of empty collections
+## 空集合的类型
 
 **Types of empty collections**
+
+=== "中文"
+
+=== "英文"
 
 You often need to specify the type when you assign an empty list or
 dict to a new variable, as mentioned earlier:
@@ -246,15 +275,20 @@ modification operation in the same scope (such as ``append`` for a list):
    a = []  # Okay because followed by append, inferred type list[int]
    for i in range(n):
        a.append(i * i)
+```
 
 However, in more complex cases an explicit type annotation can be
 required (mypy will tell you this). Often the annotation can
 make your code easier to understand, so it doesn't only help mypy but
 everybody who is reading the code!
 
-## Redefinitions with incompatible types
+## 具有不兼容类型的重新定义
 
 **Redefinitions with incompatible types**
+
+=== "中文"
+
+=== "英文"
 
 Each name within a function only has a single 'declared' type. You can
 reuse for loop indices etc., but if you want to use a variable with
@@ -267,8 +301,9 @@ multiple variables (or maybe declare the variable with an ``Any`` type).
        n = 1
        ...
        n = 'x'  # error: Incompatible types in assignment (expression has type "str", variable has type "int")
+```
 
-.. note::
+!!! note 
 
    Using the :option:`--allow-redefinition <mypy --allow-redefinition>`
    flag can suppress this error in several cases.
@@ -284,14 +319,17 @@ not support ``sort()``) as a list and sort it in-place:
         x = list(x)
         # Type of x is list[int] here.
         x.sort()  # Okay!
+```
 
 See :ref:`type-narrowing` for more information.
 
-.. _variance:
-
-## Invariance vs covariance
+## 不变性 vs 协变性
 
 **Invariance vs covariance**
+
+=== "中文"
+
+=== "英文"
 
 Most mutable generic collections are invariant, and mypy considers all
 user-defined generic classes invariant by default
@@ -306,6 +344,7 @@ unexpected errors when combined with type inference. For example:
    lst = [A(), A()]  # Inferred type is list[A]
    new_lst = [B(), B()]  # inferred type is list[B]
    lst = new_lst  # mypy will complain about this, because List is invariant
+```
 
 Possible strategies in such situations are:
 
@@ -315,12 +354,14 @@ Possible strategies in such situations are:
 
      new_lst: list[A] = [B(), B()]
      lst = new_lst  # OK
+  ```
 
 * Make a copy of the right hand side:
 
   ```python
 
      lst = list(new_lst) # Also OK
+  ```
 
 * Use immutable collections as annotations whenever possible:
 
@@ -333,10 +374,15 @@ Possible strategies in such situations are:
      def f_good(x: Sequence[A]) -> A:
          return x[0]
      f_good(new_lst) # OK
+  ```
 
-## Declaring a supertype as variable type
+## 将超类型声明为变量类型
 
 **Declaring a supertype as variable type**
+
+=== "中文"
+
+=== "英文"
 
 Sometimes the inferred type is a subtype (subclass) of the desired
 type. The type inference uses the first assignment to infer the type
@@ -350,6 +396,7 @@ of a name:
 
    shape = Circle()    # mypy infers the type of shape to be Circle
    shape = Triangle()  # error: Incompatible types in assignment (expression has type "Triangle", variable has type "Circle")
+```
 
 You can just give an explicit type for the variable in cases such the
 above example:
@@ -358,10 +405,15 @@ above example:
 
    shape: Shape = Circle()  # The variable s can be any Shape, not just Circle
    shape = Triangle()       # OK
+```
 
-## Complex type tests
+## 复杂类型测试
 
 **Complex type tests**
+
+=== "中文"
+
+=== "英文"
 
 Mypy can usually infer the types correctly when using :py:func:`isinstance <isinstance>`,
 :py:func:`issubclass <issubclass>`,
@@ -381,6 +433,7 @@ explicit type cast:
 
       found = a[index]  # Has type "object", despite the fact that we know it is "str"
       return cast(str, found)  # We need an explicit cast to make mypy happy
+```
 
 Alternatively, you can use an ``assert`` statement together with some
 of the supported type inference techniques:
@@ -395,8 +448,9 @@ of the supported type inference techniques:
       found = a[index]  # Has type "object", despite the fact that we know it is "str"
       assert isinstance(found, str)  # Now, "found" will be narrowed to "str"
       return found  # No need for the explicit "cast()" anymore
+```
 
-.. note::
+!!! note 
 
     Note that the :py:class:`object` type used in the above example is similar
     to ``Object`` in Java: it only supports operations defined for *all*
@@ -405,7 +459,7 @@ of the supported type inference techniques:
     runtime. The cast above would have been unnecessary if the type of
     ``o`` was ``Any``.
 
-.. note::
+!!! note 
 
    You can read more about type narrowing techniques :ref:`here <type-narrowing>`.
 
@@ -416,11 +470,13 @@ and difficult-to-predict failure modes and could result in very
 confusing error messages. The tradeoff is that you as a programmer
 sometimes have to give the type checker a little help.
 
-.. _version_and_platform_checks:
-
-## Python version and system platform checks
+## Python 版本和系统平台检查
 
 **Python version and system platform checks**
+
+=== "中文"
+
+=== "英文"
 
 Mypy supports the ability to perform Python version checks and platform
 checks (e.g. Windows vs Posix), ignoring code paths that won't be run on
@@ -450,6 +506,7 @@ More specifically, mypy will understand the use of :py:data:`sys.version_info` a
        # Windows-specific code
    else:
        # Other systems
+```
 
 As a special case, you can also use one of these checks in a top-level
 (unindented) ``assert``; this makes mypy skip the rest of the file.
@@ -462,13 +519,14 @@ Example:
    assert sys.platform != 'win32'
 
    # The rest of this file doesn't apply to Windows.
+```
 
 Some other expressions exhibit similar behavior; in particular,
 :py:data:`~typing.TYPE_CHECKING`, variables named ``MYPY``, and any variable
 whose name is passed to :option:`--always-true <mypy --always-true>` or :option:`--always-false <mypy --always-false>`.
 (However, ``True`` and ``False`` are not treated specially!)
 
-.. note::
+!!! note 
 
    Mypy currently does not support more complex checks, and does not assign
    any special meaning when assigning a :py:data:`sys.version_info` or :py:data:`sys.platform`
@@ -488,11 +546,13 @@ For example, to verify your code typechecks if it were run in Windows, pass
 in :option:`--platform win32 <mypy --platform>`. See the documentation for :py:data:`sys.platform`
 for examples of valid platform parameters.
 
-.. _reveal-type:
-
-## Displaying the type of an expression
+## 显示表达式的类型
 
 **Displaying the type of an expression**
+
+=== "中文"
+
+=== "英文"
 
 You can use ``reveal_type(expr)`` to ask mypy to display the inferred
 static type of an expression. This can be useful when you don't quite
@@ -501,6 +561,7 @@ understand how mypy handles a particular piece of code. Example:
 ```python
 
    reveal_type((1, 'hello'))  # Revealed type is "tuple[builtins.int, builtins.str]"
+```
 
 You can also use ``reveal_locals()`` at any line in a file
 to see the types of all local variables at once. Example:
@@ -513,7 +574,9 @@ to see the types of all local variables at once. Example:
    # Revealed local types are:
    #     a: builtins.int
    #     b: builtins.str
-.. note::
+```
+
+!!! note 
 
    ``reveal_type`` and ``reveal_locals`` are only understood by mypy and
    don't exist in Python. If you try to run your program, you'll have to
@@ -521,11 +584,13 @@ to see the types of all local variables at once. Example:
    run your code. Both are always available and you don't need to import
    them.
 
-.. _silencing-linters:
-
-## Silencing linters
+## 静默处理代码审查工具
 
 **Silencing linters**
+
+=== "中文"
+
+=== "英文"
 
 In some cases, linters will complain about unused imports or code. In
 these cases, you can silence them with a comment after type comments, or on
@@ -536,6 +601,7 @@ the same line as the import:
    # to silence complaints about unused imports
    from typing import List  # noqa
    a = None  # type: List[int]
+```
 
 
 To silence the linter on the same line as a type comment
@@ -544,10 +610,15 @@ put the linter comment *after* the type comment:
 ```python
 
     a = some_complex_thing()  # type: ignore  # noqa
+```
 
-## Covariant subtyping of mutable protocol members is rejected
+## 拒绝可变协议成员的协变子类型
 
 **Covariant subtyping of mutable protocol members is rejected**
+
+=== "中文"
+
+=== "英文"
 
 Mypy rejects this because this is potentially unsafe.
 Consider this example:
@@ -567,6 +638,7 @@ Consider this example:
    c = C()
    fun(c)  # This is not safe
    c.x << 5  # Since this will fail!
+```
 
 To work around this problem consider whether "mutating" is actually part
 of a protocol. If not, then one can use a :py:class:`@property <property>` in
@@ -587,10 +659,15 @@ the protocol definition:
    class C:
        x = 42
    fun(C())  # OK
+```
 
-## Dealing with conflicting names
+## 处理名称冲突
 
 **Dealing with conflicting names**
+
+=== "中文"
+
+=== "英文"
 
 Suppose you have a class with a method whose name is the same as an
 imported (or built-in) type, and you want to use the type in another
@@ -603,6 +680,7 @@ method signature.  E.g.:
            ...
        def register(self, path: bytes):  # error: Invalid type "mod.Message.bytes"
            ...
+```
 
 The third line elicits an error because mypy sees the argument type
 ``bytes`` as a reference to the method by that name.  Other than
@@ -616,10 +694,15 @@ renaming the method, a workaround is to use an alias:
            ...
        def register(self, path: bytes_):
            ...
+```
 
-## Using a development mypy build
+## 使用开发中的 mypy 版本
 
 **Using a development mypy build**
+
+=== "中文"
+
+=== "英文"
 
 You can install the latest development version of mypy from source. Clone the
 `mypy repository on GitHub <https://github.com/python/mypy>`_, and then run
@@ -630,13 +713,18 @@ You can install the latest development version of mypy from source. Clone the
     git clone https://github.com/python/mypy.git
     cd mypy
     python3 -m pip install --upgrade .
+```
 
 To install a development version of mypy that is mypyc-compiled, see the
 instructions at the `mypyc wheels repo <https://github.com/mypyc/mypy_mypyc-wheels>`_.
 
-## Variables vs type aliases
+## 变量 vs 类型别名
 
 **Variables vs type aliases**
+
+=== "中文"
+
+=== "英文"
 
 Mypy has both *type aliases* and variables with types like ``type[...]``. These are
 subtly different, and it's important to understand how they differ to avoid pitfalls.
@@ -648,6 +736,7 @@ subtly different, and it's important to understand how they differ to avoid pitf
 
      class A: ...
      tp: type[A] = A
+   ```
 
 2. You can define a type alias using an assignment without an explicit type annotation
    at the top level of a module:
@@ -656,6 +745,7 @@ subtly different, and it's important to understand how they differ to avoid pitf
 
      class A: ...
      Alias = A
+   ```
 
    You can also use ``TypeAlias`` (:pep:`613`) to define an *explicit type alias*:
 
@@ -665,6 +755,7 @@ subtly different, and it's important to understand how they differ to avoid pitf
 
      class A: ...
      Alias: TypeAlias = A
+   ```
 
    You should always use ``TypeAlias`` to define a type alias in a class body or
    inside a function.
@@ -694,10 +785,15 @@ can't be defined conditionally (unless using
 
      def fun1(x: Alias) -> None: ...  # OK
      def fun2(x: tp) -> None: ...  # Error: "tp" is not valid as a type
+   ```
 
-## Incompatible overrides
+## 不兼容的重写
 
 **Incompatible overrides**
+
+=== "中文"
+
+=== "英文"
 
 It's unsafe to override a method with a more specific argument type,
 as it violates the `Liskov substitution principle
@@ -742,6 +838,7 @@ This example demonstrates both safe and unsafe overrides:
         # A more general return type is an error
         def test(self, t: Sequence[int]) -> Iterable[str]:  # Error
             ...
+```
 
 You can use ``# type: ignore[override]`` to silence the error. Add it
 to the line that generates the error, if you decide that type safety is
@@ -752,12 +849,15 @@ not necessary:
     class NarrowerArgument(A):
         def test(self, t: List[int]) -> Sequence[str]:  # type: ignore[override]
             ...
+```
 
-.. _unreachable:
-
-## Unreachable code
+## 无法到达的代码
 
 **Unreachable code**
+
+=== "中文"
+
+=== "英文"
 
 Mypy may consider some code as *unreachable*, even if it might not be
 immediately obvious why.  It's important to note that mypy will *not*
@@ -772,6 +872,7 @@ type check such code. Consider this example:
         foo: Foo = Foo()
         return
         x: int = 'abc'  # Unreachable -- no error
+```
 
 It's easy to see that any statement after ``return`` is unreachable,
 and hence mypy will not complain about the mis-typed code below
@@ -786,6 +887,7 @@ it. For a more subtle example, consider this code:
         foo: Foo = Foo()
         assert foo.bar is None
         x: int = 'abc'  # Unreachable -- no error
+```
 
 Again, mypy will not report any errors. The type of ``foo.bar`` is
 ``str``, and mypy reasons that it can never be ``None``.  Hence the
@@ -807,13 +909,18 @@ False:
         if not foo.bar:
             return
         x: int = 'abc'  # Reachable -- error
+```
 
 If you use the :option:`--warn-unreachable <mypy --warn-unreachable>` flag, mypy will generate
 an error about each unreachable code block.
 
-## Narrowing and inner functions
+## 缩小范围和内部函数
 
 **Narrowing and inner functions**
+
+=== "中文"
+
+=== "英文"
 
 Because closures in Python are late-binding (https://docs.python-guide.org/writing/gotchas/#late-binding-closures),
 mypy will not narrow the type of a captured variable in an inner function.
@@ -833,6 +940,7 @@ This is best understood via an example:
 
     inner = foo(5)
     inner()  # this will raise an error when called
+```
 
 To get this code to type check, you could assign ``y = x`` after ``x`` has been
 narrowed, and use ``y`` in the inner function, or add an assert in the inner

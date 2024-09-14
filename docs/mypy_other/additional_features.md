@@ -1,13 +1,15 @@
-# Additional features
+# 附加功能
 
 **Additional features**
+
+=== "中文"
+
+=== "英文"
 
 This section discusses various features that did not fit in naturally in one
 of the previous sections.
 
-.. _dataclasses_support:
-
-## Dataclasses
+## 数据类
 
 **Dataclasses**
 
@@ -75,9 +77,13 @@ class can be used:
 For more information see :doc:`official docs <python:library/dataclasses>`
 and :pep:`557`.
 
-### Caveats/Known Issues
+### 注意事项/已知问题
 
 **Caveats/Known Issues**
+
+=== "中文"
+
+=== "英文"
 
 Some functions in the :py:mod:`dataclasses` module, such as :py:func:`~dataclasses.asdict`,
 have imprecise (too permissive) types. This will be fixed in future releases.
@@ -125,25 +131,31 @@ as a dataclass decorator, consider using the :py:func:`~typing.dataclass_transfo
 
 
 
-## Data Class Transforms
+## 数据类转换
 
 **Data Class Transforms**
+
+=== "中文"
+
+=== "英文"
 
 Mypy supports the :py:func:`~typing.dataclass_transform` decorator as described in
 `PEP 681 <https://www.python.org/dev/peps/pep-0681/#the-dataclass-transform-decorator>`_.
 
-.. note::
+!!! note 
 
-    Pragmatically, mypy will assume such classes have the internal attribute :code:`__dataclass_fields__`
+    Pragmatically, mypy will assume such classes have the internal attribute `__dataclass_fields__`
     (even though they might lack it in runtime) and will assume functions such as :py:func:`dataclasses.is_dataclass`
     and :py:func:`dataclasses.fields` treat them as if they were dataclasses
     (even though they may fail at runtime).
 
-.. _attrs_package:
-
-## The attrs package
+## attrs 包
 
 **The attrs package**
+
+=== "中文"
+
+=== "英文"
 
 :doc:`attrs <attrs:index>` is a package that lets you define
 classes without writing boilerplate code. Mypy can detect uses of the
@@ -194,9 +206,13 @@ That enables this to work:
 ```
 
 
-### Caveats/Known Issues
+### 注意事项/已知问题2
 
-**Caveats/Known Issues**
+**Caveats/Known Issues2**
+
+=== "中文"
+
+=== "英文"
 
 * The detection of attr classes and attributes works by function name only.
   This means that if you have your own helper functions that, for example,
@@ -212,6 +228,7 @@ That enables this to work:
       @attrs.define(init=YES)
       class A:
           ...
+  ```
 
 * Currently, ``converter`` only supports named functions.  If mypy finds something else it
   will complain about not understanding the argument and the type annotation in
@@ -224,11 +241,13 @@ That enables this to work:
 * Method definitions added by mypy currently overwrite any existing method
   definitions.
 
-.. _remote-cache:
-
-## Using a remote cache to speed up mypy runs
+## 使用远程缓存加速 mypy 运行
 
 **Using a remote cache to speed up mypy runs**
+
+=== "中文"
+
+=== "英文"
 
 Mypy performs type checking *incrementally*, reusing results from
 previous runs to speed up successive runs. If you are type checking a
@@ -263,9 +282,13 @@ Here are the main components needed:
 
 Below we discuss each of these components in some detail.
 
-### Shared repository for cache files
+### 缓存文件的共享仓库
 
 **Shared repository for cache files**
+
+=== "中文"
+
+=== "英文"
 
 You need a repository that allows you to upload mypy cache files from
 your CI build and make the cache files available for download based on
@@ -275,9 +298,13 @@ downloadable *build artifact* from your CI build (depending on the
 capabilities of your CI system).  Alternatively, you could upload the
 data to a web server or to S3, for example.
 
-### Continuous Integration build
+### 持续集成构建
 
 **Continuous Integration build**
+
+=== "中文"
+
+=== "英文"
 
 The CI build would run a regular mypy build and create an archive containing
 the ``.mypy_cache`` directory produced by the build. Finally, it will produce
@@ -297,9 +324,13 @@ Your CI script might work like this:
 * Upload the tarball to the shared repository with a name derived from the
   commit id.
 
-### Mypy wrapper script
+### Mypy 包装脚本
 
 **Mypy wrapper script**
+
+=== "中文"
+
+=== "英文"
 
 The wrapper script is used by developers to run mypy locally during
 development instead of invoking mypy directly.  The wrapper first
@@ -311,9 +342,7 @@ central repository commit (by convention, the ``origin/master`` branch
 for git) the local development branch is based on. In a typical git
 setup you can do it like this:
 
-.. code::
-
-    git merge-base HEAD origin/master
+`git merge-base HEAD origin/master`
 
 The next step is to download the cache data (contents of the
 ``.mypy_cache`` directory) from the shared repository based on the
@@ -321,9 +350,13 @@ commit id of the merge base produced by the git command above. The
 script will decompress the data so that mypy will start with a fresh
 ``.mypy_cache``. Finally, the script runs mypy normally. And that's all!
 
-### Caching with mypy daemon
+### 使用 mypy 守护进程进行缓存
 
 **Caching with mypy daemon**
+
+=== "中文"
+
+=== "英文"
 
 You can also use remote caching with the :ref:`mypy daemon <mypy_daemon>`.
 The remote cache will significantly speed up the first ``dmypy check``
@@ -346,9 +379,13 @@ order to use this extra information, you will also need to use the
 Now your first ``dmypy check`` run should be much faster, as it can use
 cache information to avoid processing the whole program.
 
-### Refinements
+### 改进
 
 **Refinements**
+
+=== "中文"
+
+=== "英文"
 
 There are several optional refinements that may improve things further,
 at least if your codebase is hundreds of thousands of lines or more:
@@ -384,13 +421,15 @@ at least if your codebase is hundreds of thousands of lines or more:
   data incrementally could result in drift over a long time period (due
   to a mypy caching issue, perhaps).
 
-.. _extended_callable:
-
-## Extended Callable types
+## 扩展的 Callable 类型
 
 **Extended Callable types**
 
-.. note::
+=== "中文"
+
+=== "英文"
+
+!!! note 
 
    This feature is deprecated.  You can use
    :ref:`callback protocols <callback_protocols>` as a replacement.
@@ -517,7 +556,7 @@ is (roughly) equivalent to
 ```
 
 
-.. note::
+!!! note 
 
    Each of the functions above currently just returns its ``type``
    argument at runtime, so the information contained in the argument
