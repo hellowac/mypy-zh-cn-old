@@ -13,9 +13,9 @@ of the previous sections.
 
 **Dataclasses**
 
-The :py:mod:`dataclasses` module allows defining and customizing simple
-boilerplate-free classes. They can be defined using the
-:py:func:`@dataclasses.dataclass <python:dataclasses.dataclass>` decorator:
+The [dataclasses] module allows defining and customizing simple boilerplate-free classes. They can be defined using the [@dataclasses.dataclass] decorator:
+
+
 
 ```python
 
@@ -85,10 +85,12 @@ and :pep:`557`.
 
 === "英文"
 
-Some functions in the :py:mod:`dataclasses` module, such as :py:func:`~dataclasses.asdict`,
+Some functions in the :py:mod:`dataclasses` module, such as [asdict()],
 have imprecise (too permissive) types. This will be fixed in future releases.
 
-Mypy does not yet recognize aliases of :py:func:`dataclasses.dataclass <dataclasses.dataclass>`, and will
+
+
+Mypy does not yet recognize aliases of [dataclasses.dataclass], and will
 probably never recognize dynamically computed decorators. The following example
 does **not** work:
 
@@ -113,8 +115,10 @@ does **not** work:
 
 
 
-To have Mypy recognize a wrapper of :py:func:`dataclasses.dataclass <dataclasses.dataclass>`
-as a dataclass decorator, consider using the :py:func:`~typing.dataclass_transform` decorator:
+To have Mypy recognize a wrapper of [dataclasses.dataclass]
+as a dataclass decorator, consider using the [dataclass_transform()] decorator:
+
+
 
 ```python
 
@@ -139,15 +143,17 @@ as a dataclass decorator, consider using the :py:func:`~typing.dataclass_transfo
 
 === "英文"
 
-Mypy supports the :py:func:`~typing.dataclass_transform` decorator as described in
+Mypy supports the [dataclass_transform()] decorator as described in
 `PEP 681 <https://www.python.org/dev/peps/pep-0681/#the-dataclass-transform-decorator>`_.
 
 !!! note 
 
     Pragmatically, mypy will assume such classes have the internal attribute `__dataclass_fields__`
-    (even though they might lack it in runtime) and will assume functions such as :py:func:`dataclasses.is_dataclass`
-    and :py:func:`dataclasses.fields` treat them as if they were dataclasses
+    (even though they might lack it in runtime) and will assume functions such as [dataclasses.is_dataclass()]
+    and [dataclasses.fields()] treat them as if they were dataclasses
     (even though they may fail at runtime).
+
+
 
 ## attrs 包
 
@@ -190,9 +196,10 @@ If you're using ``auto_attribs=False`` you must use ``attrs.field``:
 
 
 Typeshed has a couple of "white lie" annotations to make type checking
-easier. :py:func:`attrs.field` and :py:class:`attrs.Factory` actually return objects, but the
+easier. [attrs.field] and [attrs.Factory] actually return objects, but the
 annotation says these return the types that they expect to be assigned to.
 That enables this to work:
+
 
 ```python
 
@@ -365,16 +372,20 @@ run after starting or restarting the daemon.
 The mypy daemon requires extra fine-grained dependency data in
 the cache files which aren't included by default. To use caching with
 the mypy daemon, use the :option:`--cache-fine-grained <mypy --cache-fine-grained>` option in your CI
-build::
+build
 
-    $ mypy --cache-fine-grained <args...>
+```shell
+$ mypy --cache-fine-grained <args...>
+```
 
 This flag adds extra information for the daemon to the cache. In
 order to use this extra information, you will also need to use the
 ``--use-fine-grained-cache`` option with ``dmypy start`` or
-``dmypy restart``. Example::
+``dmypy restart``. Example
 
-    $ dmypy start -- --use-fine-grained-cache <options...>
+```shell
+$ dmypy start -- --use-fine-grained-cache <options...>
+```
 
 Now your first ``dmypy check`` run should be much faster, as it can use
 cache information to avoid processing the whole program.
@@ -564,3 +575,13 @@ is (roughly) equivalent to
    necessary for backwards compatibility with the existing
    ``typing.py`` module as present in the Python 3.5+ standard library
    and distributed via PyPI.
+
+[dataclasses]: https://docs.python.org/3/library/dataclasses.html#module-dataclasses
+[@dataclasses.dataclass]: https://docs.python.org/3/library/dataclasses.html#dataclasses.dataclass
+[dataclasses.dataclass]: https://docs.python.org/3/library/dataclasses.html#dataclasses.dataclass
+[asdict()]: https://docs.python.org/3/library/dataclasses.html#dataclasses.asdict
+[dataclass_transform()]: https://docs.python.org/3/library/typing.html#typing.dataclass_transform
+[dataclasses.is_dataclass()]: https://docs.python.org/3/library/dataclasses.html#dataclasses.is_dataclass
+[dataclasses.fields()]: https://docs.python.org/3/library/dataclasses.html#dataclasses.fields
+[attrs.field()]: https://www.attrs.org/en/stable/api.html#attrs.field
+[attrs.Factory]: https://www.attrs.org/en/stable/api.html#attrs.Factory

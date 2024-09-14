@@ -136,17 +136,11 @@ leaving structural subtyping mostly opt-in (except for built-in protocols
 such as :py:class:`~typing.Iterable` that always support structural subtyping). Here are some
 reasons why:
 
-1. It is easy to generate short and informative error messages when
-   using a nominal type system. This is especially important when
-   using type inference.
+1. It is easy to generate short and informative error messages when using a nominal type system. This is especially important when using type inference.
 
-2. Python provides built-in support for nominal :py:func:`isinstance` tests and
-   they are widely used in programs. Only limited support for structural
-   :py:func:`isinstance` is available, and it's less type safe than nominal type tests.
+2. Python provides built-in support for nominal [isinstance()] tests and they are widely used in programs. Only limited support for structural [isinstance()] is available, and it's less type safe than nominal type tests.
 
-3. Many programmers are already familiar with static, nominal subtyping and it
-   has been successfully used in languages such as Java, C++ and
-   C#. Fewer languages use structural subtyping.
+3. Many programmers are already familiar with static, nominal subtyping and it has been successfully used in languages such as Java, C++ and C#. Fewer languages use structural subtyping.
 
 However, structural subtyping can also be useful. For example, a "public API"
 may be more flexible if it is typed with protocols. Also, using protocol types
@@ -264,3 +258,5 @@ publicity, documentation, testing, web site maintenance, financing,
 etc. can be helpful. You can learn a lot by contributing, and anybody
 can help, even beginners! However, some knowledge of compilers and/or
 type systems is essential if you want to work on mypy internals.
+
+[isinstance()]: https://docs.python.org/3/library/functions.html#isinstance

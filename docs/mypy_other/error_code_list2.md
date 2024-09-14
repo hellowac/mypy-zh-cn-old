@@ -623,8 +623,9 @@ that only existed during type-checking.
 In runtime it fails with expected ``NameError``,
 which can cause real problem in production, hidden from mypy.
 
-But, in Python3.11 :py:func:`typing.reveal_type` was added.
-``typing_extensions`` ported this helper to all supported Python versions.
+But, in Python3.11 [typing.reveal_type()] was added. ``typing_extensions`` ported this helper to all supported Python versions.
+
+
 
 Now users can actually import ``reveal_type`` to make the runtime code safe.
 
@@ -668,7 +669,7 @@ because there's no way one can import it.
 === "英文"
 
 :pep:`742` requires that when ``TypeIs`` is used, the narrowed
-type must be a subtype of the original type::
+type must be a subtype of the original type
 
 ```python
     from typing_extensions import TypeIs
@@ -679,3 +680,5 @@ type must be a subtype of the original type::
     def g(x: object) -> TypeIs[str]:  # OK
         ...
 ```
+
+[typing.reveal_type()]: https://docs.python.org/3/library/typing.html#typing.reveal_type

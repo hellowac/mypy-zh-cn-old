@@ -104,7 +104,9 @@ definition in an active scope, such as an assignment, function
 definition or an import. This can catch missing definitions, missing
 imports, and typos.
 
-This example accidentally calls ``sort()`` instead of :py:func:`sorted`:
+This example accidentally calls ``sort()`` instead of [sorted()]:
+
+
 
 ```python
 
@@ -1419,3 +1421,5 @@ this can certainly happen once in a while.
 
     Future mypy versions will likely add new error codes for some errors
     that currently use the ``misc`` error code.
+
+[sorted()]: https://docs.python.org/3/library/functions.html#sorted
