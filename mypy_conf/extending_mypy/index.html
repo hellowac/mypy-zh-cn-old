@@ -22,7 +22,7 @@
     
     
       
-        <title>扩展和集成 mypy - mypy类型检查</title>
+        <title>扩展和集成 mypy - mypy静态类型检查器</title>
       
     
     
@@ -115,7 +115,7 @@
 
 <header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="页眉">
-    <a href="../.." title="mypy类型检查" class="md-header__button md-logo" aria-label="mypy类型检查" data-md-component="logo">
+    <a href="../.." title="mypy静态类型检查器" class="md-header__button md-logo" aria-label="mypy静态类型检查器" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -129,7 +129,7 @@
       <div class="md-header__ellipsis">
         <div class="md-header__topic">
           <span class="md-ellipsis">
-            mypy类型检查
+            mypy静态类型检查器
           </span>
         </div>
         <div class="md-header__topic" data-md-component="header-topic">
@@ -349,13 +349,13 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../.." title="mypy类型检查" class="md-nav__button md-logo" aria-label="mypy类型检查" data-md-component="logo">
+    <a href="../.." title="mypy静态类型检查器" class="md-nav__button md-logo" aria-label="mypy静态类型检查器" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
 
     </a>
-    mypy类型检查
+    mypy静态类型检查器
   </label>
   
     <div class="md-nav__source">
@@ -1075,10 +1075,27 @@
 <p><strong>Integrating mypy into another Python application</strong></p>
 <div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">中文</label><label for="__tabbed_1_2">英文</label></div>
 <div class="tabbed-content">
-<div class="tabbed-block"></div>
-<div class="tabbed-block"></div>
+<div class="tabbed-block">
+<p>可以通过导入 <code>mypy.api</code> 并调用 <code>run</code> 函数来将 mypy 集成到其他 Python 3 应用程序中。调用 <code>run</code> 函数时，参数类型为 <code>list[str]</code>，包含通常作为 mypy 命令行参数的内容。</p>
+<p><code>run</code> 函数返回一个 <code>tuple[str, str, int]</code>，即 <code>(&lt;normal_report&gt;, &lt;error_report&gt;, &lt;exit_status&gt;)</code>，其中 <code>&lt;normal_report&gt;</code> 是 mypy 通常写入 <a href="https://docs.python.org/3/library/sys.html#sys.stdout">sys.stdout</a> 的内容，<code>&lt;error_report&gt;</code> 是 mypy 通常写入 <a href="https://docs.python.org/3/library/sys.html#sys.stderr">sys.stderr</a> 的内容，<code>exit_status</code> 是 mypy 通常返回给操作系统的退出状态。</p>
+<p>使用该 API 的一个简单示例如下：</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">import</span> <span style="color: #0000FF; font-weight: bold">sys</span>
+<span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">mypy</span> <span style="color: #008000; font-weight: bold">import</span> api
+
+result <span style="color: #666666">=</span> api<span style="color: #666666">.</span>run(sys<span style="color: #666666">.</span>argv[<span style="color: #666666">1</span>:])
+
+<span style="color: #008000; font-weight: bold">if</span> result[<span style="color: #666666">0</span>]:
+    <span style="color: #008000">print</span>(<span style="color: #BA2121">&#39;</span><span style="color: #AA5D1F; font-weight: bold">\n</span><span style="color: #BA2121">类型检查报告:</span><span style="color: #AA5D1F; font-weight: bold">\n</span><span style="color: #BA2121">&#39;</span>)
+    <span style="color: #008000">print</span>(result[<span style="color: #666666">0</span>])  <span style="color: #3D7B7B; font-style: italic"># stdout</span>
+
+<span style="color: #008000; font-weight: bold">if</span> result[<span style="color: #666666">1</span>]:
+    <span style="color: #008000">print</span>(<span style="color: #BA2121">&#39;</span><span style="color: #AA5D1F; font-weight: bold">\n</span><span style="color: #BA2121">错误报告:</span><span style="color: #AA5D1F; font-weight: bold">\n</span><span style="color: #BA2121">&#39;</span>)
+    <span style="color: #008000">print</span>(result[<span style="color: #666666">1</span>])  <span style="color: #3D7B7B; font-style: italic"># stderr</span>
+
+<span style="color: #008000">print</span>(<span style="color: #BA2121">&#39;</span><span style="color: #AA5D1F; font-weight: bold">\n</span><span style="color: #BA2121">退出状态:&#39;</span>, result[<span style="color: #666666">2</span>])
+</code></pre></div>
 </div>
-</div>
+<div class="tabbed-block">
 <p>It is possible to integrate mypy into another Python 3 application by importing <code>mypy.api</code> and calling the <code>run</code> function with a parameter of type <code>list[str]</code>, containing what normally would have been the command line arguments to mypy.</p>
 <p>Function <code>run</code> returns a <code>tuple[str, str, int]</code>, namely <code>(&lt;normal_report&gt;, &lt;error_report&gt;, &lt;exit_status&gt;)</code>, in which <code>&lt;normal_report&gt;</code> is what mypy normally writes to <a href="https://docs.python.org/3/library/sys.html#sys.stdout">sys.stdout</a>, <code>&lt;error_report&gt;</code> is what mypy normally writes to <a href="https://docs.python.org/3/library/sys.html#sys.stderr">sys.stderr</a> and <code>exit_status</code> is the exit status mypy normally returns to the operating system.</p>
 <p>A trivial example of using the api is the following</p>
@@ -1097,30 +1114,51 @@ result <span style="color: #666666">=</span> api<span style="color: #666666">.</
 
 <span style="color: #008000">print</span>(<span style="color: #BA2121">&#39;</span><span style="color: #AA5D1F; font-weight: bold">\n</span><span style="color: #BA2121">Exit status:&#39;</span>, result[<span style="color: #666666">2</span>])
 </code></pre></div>
+</div>
+</div>
+</div>
 <h2 id="使用插件扩展-mypy">使用插件扩展 mypy<a class="headerlink" href="#使用插件扩展-mypy" title="Permanent link">&para;</a></h2>
 <p><strong>Extending mypy using plugins</strong></p>
 <div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">中文</label><label for="__tabbed_2_2">英文</label></div>
 <div class="tabbed-content">
-<div class="tabbed-block"></div>
-<div class="tabbed-block"></div>
+<div class="tabbed-block">
+<p>Python 是一种高度动态的语言，具有广泛的元编程能力。许多流行的库利用这些能力创建的 API 可能对人类更灵活和自然，但使用静态类型表达这些 API 却很困难。扩展 <a href="https://peps.python.org/pep-0484/">PEP 484</a> 类型系统以适应所有现有的动态模式是不切实际的，且往往是不可能的。</p>
+<p>Mypy 支持一个插件系统，允许你自定义 mypy 检查代码的方式。如果你想扩展 mypy 以便它可以检查使用了难以仅用 <a href="https://peps.python.org/pep-0484/">PEP 484</a> 类型表达的库的代码，这可能会很有用。</p>
+<p>插件系统的重点是改善 mypy 对第三方框架 <em>语义</em> 的理解。目前尚无定义新的第一类类型的方法。</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>插件系统仍处于实验阶段，可能会发生变化。如果你想编写 mypy 插件，我们建议你先通过 <a href="https://gitter.im/python/typing">gitter</a> 联系 mypy 核心开发人员。特别是，对于向后兼容性没有保证。</p>
+<p>可能会在没有弃用期的情况下进行不兼容的更改，但我们会在 <a href="https://github.com/python/mypy/issues/6617">插件 API 更改公告问题</a> 中宣布这些更改。</p>
 </div>
 </div>
+<div class="tabbed-block">
 <p>Python is a highly dynamic language and has extensive metaprogramming capabilities. Many popular libraries use these to create APIs that may be more flexible and/or natural for humans, but are hard to express using static types. Extending the <a href="https://peps.python.org/pep-0484/">PEP 484</a> type system to accommodate all existing dynamic patterns is impractical and often just impossible.</p>
 <p>Mypy supports a plugin system that lets you customize the way mypy type checks code. This can be useful if you want to extend mypy so it can type check code that uses a library that is difficult to express using just <a href="https://peps.python.org/pep-0484/">PEP 484</a> types.</p>
 <p>The plugin system is focused on improving mypy's understanding of <em>semantics</em> of third party frameworks. There is currently no way to define new first class kinds of types.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-</div>
 <p>The plugin system is experimental and prone to change. If you want to write a mypy plugin, we recommend you start by contacting the mypy core developers on <a href="https://gitter.im/python/typing">gitter</a>. In particular, there are no guarantees about backwards compatibility.</p>
 <p>Backwards incompatible changes may be made without a deprecation period, but we will announce them in <a href="https://github.com/python/mypy/issues/6617">the plugin API changes announcement issue</a>.</p>
+</div>
+</div>
+</div>
+</div>
 <h2 id="配置-mypy-使用插件">配置 mypy 使用插件<a class="headerlink" href="#配置-mypy-使用插件" title="Permanent link">&para;</a></h2>
 <p><strong>Configuring mypy to use plugins</strong></p>
 <div class="tabbed-set tabbed-alternate" data-tabs="3:2"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><input id="__tabbed_3_2" name="__tabbed_3" type="radio" /><div class="tabbed-labels"><label for="__tabbed_3_1">中文</label><label for="__tabbed_3_2">英文</label></div>
 <div class="tabbed-content">
-<div class="tabbed-block"></div>
-<div class="tabbed-block"></div>
+<div class="tabbed-block">
+<p>插件是 Python 文件，可以通过 mypy 的 <a href="../config_file/">配置文件</a> 使用 <a href="../config_file/#plugins">plugins</a> 选项来指定。插件的路径可以是相对路径或绝对路径，或者是模块名称（如果插件是在与 mypy 运行相同的虚拟环境中通过 <code>pip install</code> 安装的）。这两种格式可以混合使用，例如：</p>
+<div class="language-ini highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">[mypy]</span>
+<span style="color: #687822">plugins</span><span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span><span style="color: #BA2121">/one/plugin.py, other.plugin</span>
+</code></pre></div>
+<p>Mypy 会尝试导入插件，并查找一个名为 <code>plugin</code> 的入口点函数。如果插件的入口点函数名称不同，可以在冒号后指定：</p>
+<div class="language-ini highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">[mypy]</span>
+<span style="color: #687822">plugins</span><span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span><span style="color: #BA2121">custom_plugin:custom_entry_point</span>
+</code></pre></div>
+<p>在以下部分，我们将介绍插件系统的基础知识和一些示例。有关更多技术细节，请阅读 mypy 源代码中的 <a href="https://github.com/python/mypy/blob/master/mypy/plugin.py">mypy/plugin.py</a> 文件中的文档字符串。你还可以在 <a href="https://github.com/python/mypy/tree/master/mypy/plugins">mypy/plugins</a> 中找到捆绑插件的良好示例。</p>
 </div>
-</div>
+<div class="tabbed-block">
 <p>Plugins are Python files that can be specified in a mypy <a href="../config_file/">config file</a> using the <a href="../config_file/#plugins">plugins</a> option and one of the two formats: relative or absolute path to the plugin file, or a module name (if the plugin is installed using <code>pip install</code> in the same virtual environment where mypy is running). The two formats can be mixed, for example:</p>
 <div class="language-ini highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #bbbbbb">    </span><span style="color: #008000; font-weight: bold">[mypy]</span>
 <span style="color: #bbbbbb">    </span><span style="color: #687822">plugins</span><span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span><span style="color: #BA2121">/one/plugin.py, other.plugin</span>
@@ -1130,14 +1168,32 @@ result <span style="color: #666666">=</span> api<span style="color: #666666">.</
 <span style="color: #bbbbbb">    </span><span style="color: #687822">plugins</span><span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span><span style="color: #BA2121">custom_plugin:custom_entry_point</span>
 </code></pre></div>
 <p>In the following sections we describe the basics of the plugin system with some examples. For more technical details, please read the docstrings in <a href="https://github.com/python/mypy/blob/master/mypy/plugin.py">mypy/plugin.py</a> in mypy source code. Also you can find good examples in the bundled plugins located in <a href="https://github.com/python/mypy/tree/master/mypy/plugins">mypy/plugins</a>.</p>
+</div>
+</div>
+</div>
 <h2 id="高级概览">高级概览<a class="headerlink" href="#高级概览" title="Permanent link">&para;</a></h2>
 <p><strong>High-level overview</strong></p>
 <div class="tabbed-set tabbed-alternate" data-tabs="4:2"><input checked="checked" id="__tabbed_4_1" name="__tabbed_4" type="radio" /><input id="__tabbed_4_2" name="__tabbed_4" type="radio" /><div class="tabbed-labels"><label for="__tabbed_4_1">中文</label><label for="__tabbed_4_2">英文</label></div>
 <div class="tabbed-content">
-<div class="tabbed-block"></div>
-<div class="tabbed-block"></div>
+<div class="tabbed-block">
+<p>每个入口点函数应接受一个字符串参数，该参数是完整的 mypy 版本，并返回 <code>mypy.plugin.Plugin</code> 的子类：</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">mypy.plugin</span> <span style="color: #008000; font-weight: bold">import</span> Plugin
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">CustomPlugin</span>(Plugin):
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">get_type_analyze_hook</span>(<span style="color: #008000">self</span>, fullname: <span style="color: #008000">str</span>):
+        <span style="color: #3D7B7B; font-style: italic"># 参见下面的解释</span>
+        <span style="color: #666666">...</span>
+
+<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">plugin</span>(version: <span style="color: #008000">str</span>):
+    <span style="color: #3D7B7B; font-style: italic"># 如果插件适用于所有 mypy 版本，则忽略版本参数</span>
+    <span style="color: #008000; font-weight: bold">return</span> CustomPlugin
+</code></pre></div>
+<p>在分析代码的不同阶段（首先是语义分析，然后是类型检查）中，mypy 会调用插件的方法，例如 <code>get_type_analyze_hook()</code>。例如，这个特定的方法可以返回一个回调，mypy 将使用这个回调来分析具有给定全名的未绑定类型。有关插件钩子方法的完整列表，请参见 <a href="#当前插件钩子列表">下方</a>。</p>
+<p>Mypy 从配置文件中获取插件列表，并加上始终启用的默认（内置）插件。Mypy 会对列表中的每个插件调用一次方法，直到其中一个方法返回非 <code>None</code> 的值。然后，这个回调将用于定制当前抽象语法树节点的分析/检查方面。</p>
+<p><code>get_xxx</code> 方法返回的回调将获得详细的当前上下文和一个 API，用于创建新节点、新类型、发出错误消息等，并将结果用于进一步处理。</p>
+<p>插件开发者应确保他们的插件在增量模式和守护进程模式下都能正常工作。特别是，插件不应因缓存插件钩子结果而持有全局状态。</p>
 </div>
-</div>
+<div class="tabbed-block">
 <p>Every entry point function should accept a single string argument that is a full mypy version and return a subclass of <code>mypy.plugin.Plugin</code>:</p>
 <div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">mypy.plugin</span> <span style="color: #008000; font-weight: bold">import</span> Plugin
 
@@ -1154,19 +1210,60 @@ result <span style="color: #666666">=</span> api<span style="color: #666666">.</
 <p>Mypy maintains a list of plugins it gets from the config file plus the default (built-in) plugin that is always enabled. Mypy calls a method once for each plugin in the list until one of the methods returns a non-<code>None</code> value. This callback will be then used to customize the corresponding aspect of analyzing/checking the current abstract syntax tree node.</p>
 <p>The callback returned by the <code>get_xxx</code> method will be given a detailed current context and an API to create new nodes, new types, emit error messages, etc., and the result will be used for further processing.</p>
 <p>Plugin developers should ensure that their plugins work well in incremental and daemon modes. In particular, plugins should not hold global state due to caching of plugin hook results.</p>
+</div>
+</div>
+</div>
 <h2 id="当前插件钩子列表">当前插件钩子列表<a class="headerlink" href="#当前插件钩子列表" title="Permanent link">&para;</a></h2>
 <p><strong>Current list of plugin hooks</strong></p>
 <div class="tabbed-set tabbed-alternate" data-tabs="5:2"><input checked="checked" id="__tabbed_5_1" name="__tabbed_5" type="radio" /><input id="__tabbed_5_2" name="__tabbed_5" type="radio" /><div class="tabbed-labels"><label for="__tabbed_5_1">中文</label><label for="__tabbed_5_2">英文</label></div>
 <div class="tabbed-content">
-<div class="tabbed-block"></div>
-<div class="tabbed-block"></div>
-</div>
-</div>
-<p><strong>get_type_analyze_hook()</strong> customizes behaviour of the type analyzer. For example, <a href="https://peps.python.org/pep-0484/">PEP 484</a> doesn't support defining variadic generic types:</p>
-<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>   <span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">lib</span> <span style="color: #008000; font-weight: bold">import</span> Vector
+<div class="tabbed-block">
+<p><strong>get_type_analyze_hook()</strong> 自定义类型分析器的行为。例如，<a href="https://peps.python.org/pep-0484/">PEP 484</a> 不支持定义可变参数泛型类型：</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">lib</span> <span style="color: #008000; font-weight: bold">import</span> Vector
 
-   a: Vector[<span style="color: #008000">int</span>, <span style="color: #008000">int</span>]
-   b: Vector[<span style="color: #008000">int</span>, <span style="color: #008000">int</span>, <span style="color: #008000">int</span>]
+a: Vector[<span style="color: #008000">int</span>, <span style="color: #008000">int</span>]
+b: Vector[<span style="color: #008000">int</span>, <span style="color: #008000">int</span>, <span style="color: #008000">int</span>]
+</code></pre></div>
+<p>在分析这段代码时，mypy 会调用 <code>get_type_analyze_hook("lib.Vector")</code>，插件可以为每个变量返回一个有效的类型。</p>
+<p><strong>get_function_hook()</strong> 用于调整函数调用的返回类型。这个钩子也会在类实例化时被调用。如果返回类型过于复杂，无法通过常规的 Python 类型表达，这个钩子是一个不错的选择。</p>
+<p><strong>get_function_signature_hook()</strong> 用于调整函数的签名。</p>
+<p><strong>get_method_hook()</strong> 与 <code>get_function_hook()</code> 相同，但用于方法，而不是模块级函数。</p>
+<p><strong>get_method_signature_hook()</strong> 用于调整方法的签名。这包括特殊的 Python 方法，除了 <a href="https://docs.python.org/3/reference/datamodel.html#object.__init__"><strong>init</strong>()</a> 和 <a href="https://docs.python.org/3/reference/datamodel.html#object.__new__"><strong>new</strong>()</a>。例如，在下面的代码中：</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">ctypes</span> <span style="color: #008000; font-weight: bold">import</span> Array, c_int
+
+x: Array[c_int]
+x[<span style="color: #666666">0</span>] <span style="color: #666666">=</span> <span style="color: #666666">42</span>
+</code></pre></div>
+<p>mypy 会调用 <code>get_method_signature_hook("ctypes.Array.__setitem__")</code>，以便插件可以模仿 <a href="https://docs.python.org/3/library/ctypes.html#module-ctypes">ctypes</a> 的自动转换行为。</p>
+<p><strong>get_attribute_hook()</strong> 用于覆盖实例成员字段查找和属性访问（不是赋值，也不是方法调用）。这个钩子仅在类中已经存在字段时被调用。<em>例外：</em> 如果 <a href="https://docs.python.org/3/reference/datamodel.html#object.__getattr__"><strong>getattr</strong></a> 或 <a href="https://docs.python.org/3/reference/datamodel.html#object.__getattribute__"><strong>getattribute</strong></a> 是类中的方法，钩子将会被调用，以处理所有不引用方法的字段。</p>
+<p><strong>get_class_attribute_hook()</strong> 类似于上面的钩子，但用于类上的属性，而不是实例上的属性。与上面不同，这个钩子没有对 <a href="https://docs.python.org/3/reference/datamodel.html#object.__getattr__"><strong>getattr</strong></a> 或 <a href="https://docs.python.org/3/reference/datamodel.html#object.__getattribute__"><strong>getattribute</strong></a> 的特殊处理。</p>
+<p><strong>get_class_decorator_hook()</strong> 用于更新给定类装饰器的类定义。例如，你可以向类中添加一些属性，以匹配运行时行为：</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">dataclasses</span> <span style="color: #008000; font-weight: bold">import</span> dataclass
+
+<span style="color: #AA22FF">@dataclass</span>  <span style="color: #3D7B7B; font-style: italic"># 内置插件在这里添加了 `__init__` 方法</span>
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">User</span>:
+    name: <span style="color: #008000">str</span>
+
+user <span style="color: #666666">=</span> User(name<span style="color: #666666">=</span><span style="color: #BA2121">&#39;example&#39;</span>)  <span style="color: #3D7B7B; font-style: italic"># mypy 可以通过插件理解这一点</span>
+</code></pre></div>
+<p><strong>get_metaclass_hook()</strong> 类似于上述钩子，但用于 metaclass。</p>
+<p><strong>get_base_class_hook()</strong> 类似于上述钩子，但用于基类。</p>
+<p><strong>get_dynamic_class_hook()</strong> 用于允许 mypy 中的动态类定义。这个插件钩子会在每个简单名称的赋值，其中右侧是一个函数调用时被调用：</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">lib</span> <span style="color: #008000; font-weight: bold">import</span> dynamic_class
+
+X <span style="color: #666666">=</span> dynamic_class(<span style="color: #BA2121">&#39;X&#39;</span>, [])
+</code></pre></div>
+<p>对于这样的定义，mypy 将调用 <code>get_dynamic_class_hook("lib.dynamic_class")</code>。插件应创建相应的 <code>mypy.nodes.TypeInfo</code> 对象，并将其放入相关的符号表中。（这个类的实例表示 mypy 中的类，并持有如限定名称、方法解析顺序等基本信息。）</p>
+<p><strong>get_customize_class_mro_hook()</strong> 可以用来在类体分析之前修改类的 MRO（例如，插入一些条目）。</p>
+<p><strong>get_additional_deps()</strong> 用于为模块添加新依赖项。它在语义分析之前被调用。例如，如果库有基于配置动态加载的依赖项，可以使用这个钩子。</p>
+<p><strong>report_config_data()</strong> 用于插件具有某种每模块配置的情况，这些配置可能影响类型检查。在这种情况下，当模块的配置更改时，我们希望使 mypy 的缓存失效，以便重新检查模块。这个钩子应该用于报告任何相关的配置数据，以便 mypy 知道在配置更改时重新检查模块。钩子应返回可以编码为 JSON 的数据。</p>
+</div>
+<div class="tabbed-block">
+<p><strong>get_type_analyze_hook()</strong> customizes behaviour of the type analyzer. For example, <a href="https://peps.python.org/pep-0484/">PEP 484</a> doesn't support defining variadic generic types:</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">lib</span> <span style="color: #008000; font-weight: bold">import</span> Vector
+
+a: Vector[<span style="color: #008000">int</span>, <span style="color: #008000">int</span>]
+b: Vector[<span style="color: #008000">int</span>, <span style="color: #008000">int</span>, <span style="color: #008000">int</span>]
 </code></pre></div>
 <p>When analyzing this code, mypy will call <code>get_type_analyze_hook("lib.Vector")</code>, so the plugin can return some valid type for each variable.</p>
 <p><strong>get_function_hook()</strong> is used to adjust the return type of a function call. This hook will be also called for instantiation of classes. This is a good choice if the return type is too complex to be expressed by regular python typing.</p>
@@ -1201,16 +1298,23 @@ X <span style="color: #666666">=</span> dynamic_class(<span style="color: #BA212
 <p><strong>get_customize_class_mro_hook()</strong> can be used to modify class MRO (for example insert some entries there) before the class body is analyzed.</p>
 <p><strong>get_additional_deps()</strong> can be used to add new dependencies for a module. It is called before semantic analysis. For example, this can be used if a library has dependencies that are dynamically loaded based on configuration information.</p>
 <p><strong>report_config_data()</strong> can be used if the plugin has some sort of per-module configuration that can affect typechecking. In that case, when the configuration for a module changes, we want to invalidate mypy's cache for that module so that it can be rechecked. This hook should be used to report to mypy any relevant configuration data, so that mypy knows to recheck the module if the configuration changes. The hooks should return data encodable as JSON.</p>
+</div>
+</div>
+</div>
 <h2 id="实用工具">实用工具<a class="headerlink" href="#实用工具" title="Permanent link">&para;</a></h2>
 <p><strong>Useful tools</strong></p>
 <div class="tabbed-set tabbed-alternate" data-tabs="6:2"><input checked="checked" id="__tabbed_6_1" name="__tabbed_6" type="radio" /><input id="__tabbed_6_2" name="__tabbed_6" type="radio" /><div class="tabbed-labels"><label for="__tabbed_6_1">中文</label><label for="__tabbed_6_2">英文</label></div>
 <div class="tabbed-content">
-<div class="tabbed-block"></div>
-<div class="tabbed-block"></div>
+<div class="tabbed-block">
+<p>Mypy 提供了 <code>mypy.plugins.proper_plugin</code> 插件，这对于插件作者来说非常有用，因为它可以帮助发现遗漏的 <code>get_proper_type()</code> 调用，这是一个非常常见的错误。</p>
+<p>建议将其作为插件 CI 流程的一部分启用。</p>
 </div>
-</div>
+<div class="tabbed-block">
 <p>Mypy ships <code>mypy.plugins.proper_plugin</code> plugin which can be useful for plugin authors, since it finds missing <code>get_proper_type()</code> calls, which is a pretty common mistake.</p>
 <p>It is recommended to enable it is a part of your plugin's CI.</p>
+</div>
+</div>
+</div>
 
 
 
@@ -1233,7 +1337,7 @@ X <span style="color: #666666">=</span> dynamic_class(<span style="color: #BA212
     <span class="md-icon" title="最后更新">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2024年9月14日</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2024年9月16日</span>
   </span>
 
     

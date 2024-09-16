@@ -22,7 +22,7 @@
     
     
       
-        <title>mypy服务(守护进程) - mypy类型检查</title>
+        <title>mypy服务(守护进程) - mypy静态类型检查器</title>
       
     
     
@@ -115,7 +115,7 @@
 
 <header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="页眉">
-    <a href="../.." title="mypy类型检查" class="md-header__button md-logo" aria-label="mypy类型检查" data-md-component="logo">
+    <a href="../.." title="mypy静态类型检查器" class="md-header__button md-logo" aria-label="mypy静态类型检查器" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -129,7 +129,7 @@
       <div class="md-header__ellipsis">
         <div class="md-header__topic">
           <span class="md-ellipsis">
-            mypy类型检查
+            mypy静态类型检查器
           </span>
         </div>
         <div class="md-header__topic" data-md-component="header-topic">
@@ -349,13 +349,13 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../.." title="mypy类型检查" class="md-nav__button md-logo" aria-label="mypy类型检查" data-md-component="logo">
+    <a href="../.." title="mypy静态类型检查器" class="md-nav__button md-logo" aria-label="mypy静态类型检查器" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
 
     </a>
-    mypy类型检查
+    mypy静态类型检查器
   </label>
   
     <div class="md-nav__source">
@@ -1055,10 +1055,19 @@
 <p><strong>Mypy daemon (mypy server)</strong></p>
 <div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">中文</label><label for="__tabbed_1_2">英文</label></div>
 <div class="tabbed-content">
-<div class="tabbed-block"></div>
-<div class="tabbed-block"></div>
+<div class="tabbed-block">
+<p>除了将 mypy 作为命令行工具运行外，你还可以将其作为一个长期运行的守护进程（服务器）来运行，并使用命令行客户端将类型检查请求发送到服务器。这样，mypy 可以更快地执行类型检查，因为从以前运行中缓存的程序状态保存在内存中，无需在每次运行时从文件系统读取。服务器还使用更细粒度的依赖追踪来减少需要完成的工作量。</p>
+<p>如果你有一个大型代码库需要检查，使用 mypy 守护进程运行 mypy 可以比常规的命令行 <code>mypy</code> 工具快 <em>10 倍或更多</em>，特别是当你的工作流程涉及在小编辑后重复运行 mypy 时——这通常是一个好主意，因为这样你会更早发现错误。</p>
+<div class="admonition 注意">
+<p class="admonition-title">注意</p>
+<p>mypy 守护进程的命令行接口可能会在未来的 mypy 版本中发生变化。</p>
+</div>
+<div class="admonition 注意">
+<p class="admonition-title">注意</p>
+<p>每个 mypy 守护进程实例支持一个用户和一组源文件，并且一次只能处理一个类型检查请求。你可以运行多个 mypy 守护进程实例来检查多个代码库。</p>
 </div>
 </div>
+<div class="tabbed-block">
 <p>Instead of running mypy as a command-line tool, you can also run it as a long-running daemon (server) process and use a command-line client to send type-checking requests to the server.  This way mypy can perform type checking much faster, since program state cached from previous runs is kept in memory and doesn't have to be read from the file system on each run. The server also uses finer-grained dependency tracking to reduce the amount of work that needs to be done.</p>
 <p>If you have a large codebase to check, running mypy using the mypy daemon can be <em>10 or more times faster</em> than the regular command-line <code>mypy</code> tool, especially if your workflow involves running mypy repeatedly after small edits -- which is often a good idea, as this way you'll find errors sooner.</p>
 <div class="admonition note">
@@ -1069,14 +1078,29 @@
 <p class="admonition-title">Note</p>
 <p>Each mypy daemon process supports one user and one set of source files, and it can only process one type checking request at a time. You can run multiple mypy daemon processes to type check multiple repositories.</p>
 </div>
+</div>
+</div>
+</div>
 <h2 id="基本用法">基本用法<a class="headerlink" href="#基本用法" title="Permanent link">&para;</a></h2>
 <p><strong>Basic usage</strong></p>
 <div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">中文</label><label for="__tabbed_2_2">英文</label></div>
 <div class="tabbed-content">
-<div class="tabbed-block"></div>
-<div class="tabbed-block"></div>
+<div class="tabbed-block">
+<p>客户端工具 <code>dmypy</code> 用于控制 mypy 守护进程。使用 <code>dmypy run -- &lt;flags&gt; &lt;files&gt;</code> 来检查一组文件（或目录）的类型。如果守护进程未运行，这条命令将启动守护进程。你可以在 <code>--</code> 后面使用几乎任意的 mypy 标志。守护进程将始终在当前主机上运行。例如：</p>
+<div class="language-shell highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>dmypy<span style="color: #bbbbbb"> </span>run<span style="color: #bbbbbb"> </span>--<span style="color: #bbbbbb"> </span>prog.py<span style="color: #bbbbbb"> </span>pkg/*.py
+</code></pre></div>
+<p><code>dmypy run</code> 会在配置或 mypy 版本更改时自动重启守护进程。</p>
+<p>初次运行会处理所有代码，可能需要一些时间才能完成，但后续运行将会很快，特别是如果你只修改了几个文件的话。（你可以使用 <a href="../../mypy_other/additional_features/#使用远程缓存加速-mypy-运行">远程缓存</a> 来加速初次运行。如果你有一个大型代码库，这种加速可能会非常显著。）</p>
+<div class="admonition 注意">
+<p class="admonition-title">注意</p>
+<p>Mypy 0.780 版本增加了对 <code>dmypy</code> 中跟踪导入的支持（默认启用）。这个功能仍处于实验阶段。你可以使用 <code>--follow-imports=skip</code> 或 <code>--follow-imports=error</code> 来回退到稳定功能。有关这些功能的详细信息，请参见 :ref:<code>follow-imports</code>。</p>
+</div>
+<div class="admonition 注意">
+<p class="admonition-title">注意</p>
+<p>mypy 守护进程需要 <code>--local-partial-types</code> 选项，并会自动启用该选项。</p>
 </div>
 </div>
+<div class="tabbed-block">
 <p>The client utility <code>dmypy</code> is used to control the mypy daemon. Use <code>dmypy run -- &lt;flags&gt; &lt;files&gt;</code> to type check a set of files (or directories). This will launch the daemon if it is not running. You can use almost arbitrary mypy flags after <code>--</code>.  The daemon will always run on the current host. Example</p>
 <div class="language-shell highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>dmypy<span style="color: #bbbbbb"> </span>run<span style="color: #bbbbbb"> </span>--<span style="color: #bbbbbb"> </span>prog.py<span style="color: #bbbbbb"> </span>pkg/*.py
 </code></pre></div>
@@ -1084,20 +1108,47 @@
 <p>The initial run will process all the code and may take a while to finish, but subsequent runs will be quick, especially if you've only changed a few files. (You can use <a href="../../mypy_other/additional_features/#使用远程缓存加速-mypy-运行">remote caching</a> to speed up the initial run. The speedup can be significant if you have a large codebase.)</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-</div>
 <p>Mypy 0.780 added support for following imports in dmypy (enabled by default). This functionality is still experimental. You can use <code>--follow-imports=skip</code> or <code>--follow-imports=error</code> to fall back to the stable functionality.  See :ref:<code>follow-imports</code> for details on how these work.</p>
+</div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>The mypy daemon requires <code>--local-partial-types</code> and automatically enables it.</p>
+</div>
+</div>
+</div>
 </div>
 <h2 id="守护进程客户端命令">守护进程客户端命令<a class="headerlink" href="#守护进程客户端命令" title="Permanent link">&para;</a></h2>
 <p><strong>Daemon client commands</strong></p>
 <div class="tabbed-set tabbed-alternate" data-tabs="3:2"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><input id="__tabbed_3_2" name="__tabbed_3" type="radio" /><div class="tabbed-labels"><label for="__tabbed_3_1">中文</label><label for="__tabbed_3_2">英文</label></div>
 <div class="tabbed-content">
-<div class="tabbed-block"></div>
-<div class="tabbed-block"></div>
+<div class="tabbed-block">
+<p>虽然 <code>dmypy run</code> 对大多数用途来说已经足够，但有些工作流（例如使用 <a href="../../mypy_other/additional_features/#使用远程缓存加速-mypy-运行">远程缓存</a> 的工作流）可能需要对守护进程的生命周期有更精确的控制：</p>
+<ul>
+<li>
+<p><code>dmypy stop</code> 终止守护进程。</p>
+</li>
+<li>
+<p><code>dmypy start -- &lt;flags&gt;</code> 启动守护进程但不检查任何文件。你可以在 <code>--</code> 后面使用几乎任意的 mypy 标志。</p>
+</li>
+<li>
+<p><code>dmypy restart -- &lt;flags&gt;</code> 重启守护进程。标志与 <code>dmypy start</code> 相同。这等同于先执行停止命令，然后再启动命令。</p>
+</li>
+<li>
+<p>使用 <code>dmypy run --timeout SECONDS -- &lt;flags&gt;</code>（或 <code>start</code> 或 <code>restart</code>）来在不活动后自动关闭守护进程。默认情况下，守护进程会一直运行，直到被明确停止。</p>
+</li>
+<li>
+<p><code>dmypy check &lt;files&gt;</code> 使用已经运行的守护进程检查一组文件。</p>
+</li>
+<li>
+<p><code>dmypy recheck</code> 检查与最近的 <code>check</code> 或 <code>recheck</code> 命令相同的文件集。（你也可以使用 <a href="#update">--update</a> 和 <a href="#remove">--remove</a> 选项来修改文件集，并定义应处理哪些文件。）</p>
+</li>
+<li>
+<p><code>dmypy status</code> 检查守护进程是否正在运行。如果有运行中的守护进程，它会打印诊断信息并以 <code>0</code> 退出。</p>
+</li>
+</ul>
+<p>使用 <code>dmypy --help</code> 获取有关额外命令和命令行选项的帮助，使用 <code>dmypy &lt;command&gt; --help</code> 获取有关特定命令选项的帮助。</p>
 </div>
-</div>
+<div class="tabbed-block">
 <p>While <code>dmypy run</code> is sufficient for most uses, some workflows (ones using <a href="../../mypy_other/additional_features/#使用远程缓存加速-mypy-运行">remote caching</a>, perhaps), require more precise control over the lifetime of the daemon process:</p>
 <ul>
 <li>
@@ -1123,14 +1174,50 @@
 </li>
 </ul>
 <p>Use <code>dmypy --help</code> for help on additional commands and command-line options not discussed here, and <code>dmypy &lt;command&gt; --help</code> for help on command-specific options.</p>
+</div>
+</div>
+</div>
 <h2 id="额外的守护进程标志">额外的守护进程标志<a class="headerlink" href="#额外的守护进程标志" title="Permanent link">&para;</a></h2>
 <p><strong>Additional daemon flags</strong></p>
 <div class="tabbed-set tabbed-alternate" data-tabs="4:2"><input checked="checked" id="__tabbed_4_1" name="__tabbed_4" type="radio" /><input id="__tabbed_4_2" name="__tabbed_4" type="radio" /><div class="tabbed-labels"><label for="__tabbed_4_1">中文</label><label for="__tabbed_4_2">英文</label></div>
 <div class="tabbed-content">
-<div class="tabbed-block"></div>
-<div class="tabbed-block"></div>
+<div class="tabbed-block">
+<dl>
+<dt><span id="status-file"></span><code>--status-file FILE</code></dt>
+<dd>
+<p>使用 <code>FILE</code> 作为状态文件来存储守护进程的运行状态。这通常是一个 JSON 文件，包含关于守护进程和连接的信息。默认路径是当前工作目录下的 <code>.dmypy.json</code>。</p>
+</dd>
+<dt><span id="log-file"></span><code>--log-file FILE</code></dt>
+<dd>
+<p>将守护进程的标准输出/标准错误输出定向到 <code>FILE</code>。这对调试守护进程崩溃非常有用，因为服务器的回溯信息不总是由客户端打印。此选项适用于 <code>start</code>、<code>restart</code> 和 <code>run</code> 命令。</p>
+</dd>
+<dt><span id="timeout"></span><code>--timeout TIMEOUT</code></dt>
+<dd>
+<p>在 <code>TIMEOUT</code> 秒的非活动后自动关闭服务器。此选项适用于 <code>start</code>、<code>restart</code> 和 <code>run</code> 命令。</p>
+</dd>
+<dt><span id="update"></span><code>--update FILE</code></dt>
+<dd>
+<p>重新检查 <code>FILE</code>，或将其添加到正在检查的文件集（并进行检查）。此选项可以重复使用，仅适用于 <code>recheck</code> 命令。默认情况下，mypy 查找并检查自上次运行以来更改的所有文件及其依赖的文件。然而，如果使用此选项（和/或 <a href="#remove">--remove</a>），mypy 仅假设显式指定的文件已更改。这对加速检查大量文件很有用，前提是使用外部的快速文件系统监视器，如 <a href="https://facebook.github.io/watchman/">watchman</a> 或 <a href="https://pypi.org/project/watchdog/">watchdog</a>，来确定哪些文件被编辑或删除。<em>注意：</em>此选项并非必需，仅用于性能调优。</p>
+</dd>
+<dt><span id="remove"></span><code>--remove FILE</code></dt>
+<dd>
+<p>从正在检查的文件集中移除 <code>FILE</code>。此选项可以重复使用，仅适用于 <code>recheck</code> 命令。有关何时有用的信息，请参见上面的 <a href="#update">--update</a>。<em>注意：</em>此选项并非必需，仅用于性能调优。</p>
+</dd>
+<dt><span id="fswatcher-dump-file"></span><code>--fswatcher-dump-file FILE</code></dt>
+<dd>
+<p>收集当前内部文件状态的信息。仅适用于 <code>status</code> 命令。这将以 JSON 格式将信息转储到 <code>FILE</code> 中，格式为 <code>{path: [modification_time, size, content_hash]}</code>。这对调试内置的文件系统监视器非常有用。<em>注意：</em>这是一个内部标志，格式可能会有所变化。</p>
+</dd>
+<dt><span id="perf-stats-file"></span><code>--perf-stats-file FILE</code></dt>
+<dd>
+<p>将性能分析信息写入 <code>FILE</code>。仅适用于 <code>check</code>、<code>recheck</code> 和 <code>run</code> 命令。</p>
+</dd>
+<dt><span id="export-types"></span><code>--export-types</code></dt>
+<dd>
+<p>将所有表达式类型存储在内存中以供将来使用。这对加速未来对 <code>dmypy inspect</code> 的调用非常有用（但会使用更多内存）。仅适用于 <code>check</code>、<code>recheck</code> 和 <code>run</code> 命令。</p>
+</dd>
+</dl>
 </div>
-</div>
+<div class="tabbed-block">
 <dl>
 <dt><span id="status-file"></span><code>--status-file FILE</code></dt>
 <dd>
@@ -1165,21 +1252,81 @@
 <p>Store all expression types in memory for future use. This is useful to speed up future calls to <code>dmypy inspect</code> (but uses more memory). Only valid for <code>check</code>, <code>recheck</code>, and <code>run</code> command.</p>
 </dd>
 </dl>
+</div>
+</div>
+</div>
 <h2 id="注解的静态推断">注解的静态推断<a class="headerlink" href="#注解的静态推断" title="Permanent link">&para;</a></h2>
 <p><strong>Static inference of annotations</strong></p>
 <div class="tabbed-set tabbed-alternate" data-tabs="5:2"><input checked="checked" id="__tabbed_5_1" name="__tabbed_5" type="radio" /><input id="__tabbed_5_2" name="__tabbed_5" type="radio" /><div class="tabbed-labels"><label for="__tabbed_5_1">中文</label><label for="__tabbed_5_2">英文</label></div>
 <div class="tabbed-content">
-<div class="tabbed-block"></div>
-<div class="tabbed-block"></div>
+<div class="tabbed-block">
+<p>mypy 守护进程支持（作为实验性功能）静态推断函数和方法的草稿类型注解。使用 <code>dmypy suggest FUNCTION</code> 来生成草稿签名，格式为 <code>(param_type_1, param_type_2, ...) -&gt; ret_type</code>（类型包含所有参数，包括仅关键字参数、<code>*args</code> 和 <code>**kwargs</code>）。</p>
+<p>这是一个低级功能，旨在由编辑器集成、IDE 和其他工具（例如 <a href="https://github.com/dropbox/mypy-PyCharm-plugin">PyCharm 的 mypy 插件</a>）使用，用于自动向源文件添加注解或提议函数签名。</p>
+<p>在这个示例中，函数 <code>format_id()</code> 没有注解：</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">format_id</span>(user):
+    <span style="color: #008000; font-weight: bold">return</span> <span style="color: #BA2121">f&quot;User: </span><span style="color: #A45A77; font-weight: bold">{</span>user<span style="color: #A45A77; font-weight: bold">}</span><span style="color: #BA2121">&quot;</span>
+
+root <span style="color: #666666">=</span> format_id(<span style="color: #666666">0</span>)
+</code></pre></div>
+<p><code>dmypy suggest</code> 使用调用点、返回语句和其他启发式方法（例如查找基类中的签名）来推断 <code>format_id()</code> 接受一个 <code>int</code> 参数并返回一个 <code>str</code>。使用 <code>dmypy suggest module.format_id</code> 打印函数的建议签名。</p>
+<p>更一般地，目标函数可以通过两种方式指定：</p>
+<ul>
+<li>
+<p>通过其完全限定名，即 <code>[package.]module.[class.]function</code>。</p>
+</li>
+<li>
+<p>通过其在源文件中的位置，即 <code>/path/to/file.py:line</code>。路径可以是绝对的或相对的，而 <code>line</code> 可以是函数体内的任何行号。</p>
+</li>
+</ul>
+<p>此命令还可用于为现有的、不精确的注解提供更精确的替代方案，这些注解中包含一些 <code>Any</code> 类型。</p>
+<p>以下标志自定义 <code>dmypy suggest</code> 命令的各种方面：</p>
+<dl>
+<dt><span id="json"></span><code>--json</code></dt>
+<dd>
+<p>将签名输出为 JSON，以便 <a href="https://github.com/dropbox/pyannotate">PyAnnotate</a> 可以读取并将签名添加到源文件中。JSON 格式如下所示：</p>
+</dd>
+</dl>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>[{<span style="color: #BA2121">&quot;func_name&quot;</span>: <span style="color: #BA2121">&quot;example.format_id&quot;</span>,
+    <span style="color: #BA2121">&quot;line&quot;</span>: <span style="color: #666666">1</span>,
+    <span style="color: #BA2121">&quot;path&quot;</span>: <span style="color: #BA2121">&quot;/absolute/path/to/example.py&quot;</span>,
+    <span style="color: #BA2121">&quot;samples&quot;</span>: <span style="color: #666666">0</span>,
+    <span style="color: #BA2121">&quot;signature&quot;</span>: {<span style="color: #BA2121">&quot;arg_types&quot;</span>: [<span style="color: #BA2121">&quot;int&quot;</span>], <span style="color: #BA2121">&quot;return_type&quot;</span>: <span style="color: #BA2121">&quot;str&quot;</span>}}]
+</code></pre></div>
+<dl>
+<dt><span id="no-errors"></span><code>--no-errors</code></dt>
+<dd>
+<p>仅生成不会导致检查代码出错的建议。默认情况下，mypy 会尝试找到最精确的类型，即使这会导致一些类型错误。</p>
+</dd>
+<dt><span id="no-any"></span><code>--no-any</code></dt>
+<dd>
+<p>仅生成不包含 <code>Any</code> 类型的建议。默认情况下，mypy 会建议找到的最精确签名，即使它包含 <code>Any</code> 类型。</p>
+</dd>
+<dt><span id="flex-any"></span><code>--flex-any FRACTION</code></dt>
+<dd>
+<p>仅允许建议签名中的某些比例类型为 <code>Any</code> 类型。该比例范围从 <code>0</code>（相当于 <code>--no-any</code>）到 <code>1</code>。</p>
+</dd>
+<dt><span id="callsites"></span><code>--callsites</code></dt>
+<dd>
+<p>仅查找给定函数的调用点，而不是建议类型。这将生成一个列表，包含每个调用的行号和实际参数的类型：<code>/path/to/file.py:line: (arg_type_1, arg_type_2, ...)</code>。</p>
+</dd>
+<dt><span id="use-fixme"></span><code>--use-fixme NAME</code></dt>
+<dd>
+<p>对于无法推断的类型，使用一个虚拟名称而不是普通的 <code>Any</code>。这可能有助于向用户强调某个类型无法推断，并需要手动输入。</p>
+</dd>
+<dt><span id="max-guesses"></span><code>--max-guesses NUMBER</code></dt>
+<dd>
+<p>设置尝试的函数类型的最大数量（默认值：<code>64</code>）。</p>
+</dd>
+</dl>
 </div>
-</div>
+<div class="tabbed-block">
 <p>The mypy daemon supports (as an experimental feature) statically inferring draft function and method type annotations. Use <code>dmypy suggest FUNCTION</code> to generate a draft signature in the format <code>(param_type_1, param_type_2, ...) -&gt; ret_type</code> (types are included for all arguments, including keyword-only arguments, <code>*args</code> and <code>**kwargs</code>).</p>
 <p>This is a low-level feature intended to be used by editor integrations, IDEs, and other tools (for example, the <a href="https://github.com/dropbox/mypy-PyCharm-plugin">mypy plugin for PyCharm</a>), to automatically add annotations to source files, or to propose function signatures.</p>
 <p>In this example, the function <code>format_id()</code> has no annotation:</p>
-<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>   <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">format_id</span>(user):
-       <span style="color: #008000; font-weight: bold">return</span> <span style="color: #BA2121">f&quot;User: </span><span style="color: #A45A77; font-weight: bold">{</span>user<span style="color: #A45A77; font-weight: bold">}</span><span style="color: #BA2121">&quot;</span>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">format_id</span>(user):
+    <span style="color: #008000; font-weight: bold">return</span> <span style="color: #BA2121">f&quot;User: </span><span style="color: #A45A77; font-weight: bold">{</span>user<span style="color: #A45A77; font-weight: bold">}</span><span style="color: #BA2121">&quot;</span>
 
-   root <span style="color: #666666">=</span> format_id(<span style="color: #666666">0</span>)
+root <span style="color: #666666">=</span> format_id(<span style="color: #666666">0</span>)
 </code></pre></div>
 <p><code>dmypy suggest</code> uses call sites, return statements, and other heuristics (such as looking for signatures in base classes) to infer that <code>format_id()</code> accepts an <code>int</code> argument and returns a <code>str</code>. Use <code>dmypy suggest module.format_id</code> to print the suggested signature for the function.</p>
 <p>More generally, the target function may be specified in two ways:</p>
@@ -1200,10 +1347,10 @@
 </dd>
 </dl>
 <div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>[{<span style="color: #BA2121">&quot;func_name&quot;</span>: <span style="color: #BA2121">&quot;example.format_id&quot;</span>,
-   <span style="color: #BA2121">&quot;line&quot;</span>: <span style="color: #666666">1</span>,
-   <span style="color: #BA2121">&quot;path&quot;</span>: <span style="color: #BA2121">&quot;/absolute/path/to/example.py&quot;</span>,
-   <span style="color: #BA2121">&quot;samples&quot;</span>: <span style="color: #666666">0</span>,
-   <span style="color: #BA2121">&quot;signature&quot;</span>: {<span style="color: #BA2121">&quot;arg_types&quot;</span>: [<span style="color: #BA2121">&quot;int&quot;</span>], <span style="color: #BA2121">&quot;return_type&quot;</span>: <span style="color: #BA2121">&quot;str&quot;</span>}}]
+    <span style="color: #BA2121">&quot;line&quot;</span>: <span style="color: #666666">1</span>,
+    <span style="color: #BA2121">&quot;path&quot;</span>: <span style="color: #BA2121">&quot;/absolute/path/to/example.py&quot;</span>,
+    <span style="color: #BA2121">&quot;samples&quot;</span>: <span style="color: #666666">0</span>,
+    <span style="color: #BA2121">&quot;signature&quot;</span>: {<span style="color: #BA2121">&quot;arg_types&quot;</span>: [<span style="color: #BA2121">&quot;int&quot;</span>], <span style="color: #BA2121">&quot;return_type&quot;</span>: <span style="color: #BA2121">&quot;str&quot;</span>}}]
 </code></pre></div>
 <dl>
 <dt><span id="no-errors"></span><code>--no-errors</code></dt>
@@ -1231,20 +1378,90 @@
 <p>Set the maximum number of types to try for a function (default: <code>64</code>).</p>
 </dd>
 </dl>
+</div>
+</div>
+</div>
 <h2 id="静态检查表达式">静态检查表达式<a class="headerlink" href="#静态检查表达式" title="Permanent link">&para;</a></h2>
 <p><strong>Statically inspect expressions</strong></p>
 <div class="tabbed-set tabbed-alternate" data-tabs="6:2"><input checked="checked" id="__tabbed_6_1" name="__tabbed_6" type="radio" /><input id="__tabbed_6_2" name="__tabbed_6" type="radio" /><div class="tabbed-labels"><label for="__tabbed_6_1">中文</label><label for="__tabbed_6_2">英文</label></div>
 <div class="tabbed-content">
-<div class="tabbed-block"></div>
-<div class="tabbed-block"></div>
+<div class="tabbed-block">
+<p>守护进程支持通过 <code>dmypy inspect LOCATION</code> 命令获取表达式的声明或推断类型（或其他有关表达式的信息，例如已知属性或定义位置）。表达式的位置应以 <code>path/to/file.py:line:column[:end_line:end_column]</code> 格式指定。行和列都是从 1 开始的。开始和结束位置都是包含在内的。这些规则与 mypy 在错误消息中打印错误位置的方式相匹配。</p>
+<p>如果提供了一个跨度（即四个数字），则仅检查完全匹配的表达式。如果只提供了位置（即两个数字，行和列），mypy 将检查包括该位置的所有 <em>表达式</em>，从最内层的开始。</p>
+<p>考虑以下 Python 代码片段：</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">foo</span>(x: <span style="color: #008000">int</span>, longer_name: <span style="color: #008000">str</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:
+    x
+    longer_name
+</code></pre></div>
+<p>要查找 <code>x</code> 的类型，需要调用 <code>dmypy inspect src.py:2:5:2:5</code> 或 <code>dmypy inspect src.py:2:5</code>。而要查找 <code>longer_name</code> 的类型，则需要调用 <code>dmypy inspect src.py:3:5:3:15</code> 或 <code>dmypy inspect src.py:3:10</code>。请注意，此命令仅在守护进程成功进行类型检查（没有解析错误）后有效，以便类型被填充，例如使用 <code>dmypy check</code>。如果多个表达式匹配提供的位置，它们的类型会以换行符分隔返回。</p>
+<p>重要说明：建议使用 <a href="#export-types">--export-types</a> 检查文件，否则大多数检查将无法工作，除非使用 <a href="#force-reload">--force-reload</a>。</p>
+<dl>
+<dt><span id="show"></span><code>--show INSPECTION</code></dt>
+<dd>
+<p>指定要对找到的表达式运行的检查类型。目前支持的检查包括：</p>
+</dd>
+</dl>
+<ul>
+<li><code>type</code>（默认）：显示给定表达式的最佳已知类型。</li>
+<li><code>attrs</code>：显示表达式的有效属性（例如，用于自动补全）。格式为 <code>{"Base1": ["name_1", "name_2", ...]; "Base2": ...}</code>。名称按方法解析顺序排序。如果表达式引用的是模块，则模块属性将位于类似 <code>"&lt;full.module.name&gt;"</code> 的键下。</li>
+<li><code>definition</code>（实验性）：显示名称表达式或成员表达式的定义位置。格式为 <code>path/to/file.py:line:column:Symbol</code>。 如果找到多个定义（例如，对于 Union 属性），它们用逗号分隔。</li>
+</ul>
+<dl>
+<dt><span id="verbose"></span><code>--verbose</code></dt>
+<dd>
+<p>增加类型字符串表示的详细程度（可以重复）。例如，这将打印实例类型的完全限定名称（如 <code>"builtins.str"</code>），而不是简短名称（如 <code>"str"</code>）。</p>
+</dd>
+<dt><span id="limit"></span><code>--limit NUM</code></dt>
+<dd>
+<p>如果位置以 <code>line:column</code> 给出，则此选项将导致守护进程仅返回最多 <code>NUM</code> 个最内层表达式的检查结果。值为 0 表示无限制（这是默认值）。例如，如果调用 <code>dmypy inspect src.py:4:10 --limit=1</code>，代码如下：</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">foo</span>(x: <span style="color: #008000">int</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000">str</span>: <span style="color: #666666">..</span>
+<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">bar</span>(x: <span style="color: #008000">str</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>: <span style="color: #666666">...</span>
+baz: <span style="color: #008000">int</span>
+bar(foo(baz))
+</code></pre></div>
+<p>这将输出一个类型 <code>"int"</code>（针对 <code>baz</code> 名称表达式）。而没有限制选项的情况下，它将输出所有三个类型：<code>"int"</code>, <code>"str"</code>, 和 <code>"None"</code>。</p>
+</dd>
+<dt><span id="include-span"></span><code>--include-span</code></dt>
+<dd>
+<p>启用此选项后，守护进程将为每个检查结果附加对应表达式的完整跨度，格式为 <code>1:2:1:4 -&gt; "int"</code>。这在多个表达式匹配一个位置的情况下可能很有用。</p>
+</dd>
+<dt><span id="include-kind"></span><code>--include-kind</code></dt>
+<dd>
+<p>启用此选项后，守护进程将为每个检查结果附加对应表达式的类型，格式为 <code>NameExpr -&gt; "int"</code>。如果同时启用此选项和 <a href="#include-span">--include-span</a>，类型会首先出现，例如 <code>NameExpr:1:2:1:4 -&gt; "int"</code>。</p>
+</dd>
+<dt><span id="include-object-attrs"></span><code>--include-object-attrs</code></dt>
+<dd>
+<p>在 <code>attrs</code> 检查中，包括 <code>object</code> 的属性（默认情况下排除）。</p>
+</dd>
+<dt><span id="union-attrs"></span><code>--union-attrs</code></dt>
+<dd>
+<p>包括对某些可能的表达式类型有效的属性（默认情况下返回交集）。这对具有值的类型变量的联合类型很有用。例如，对于以下代码：</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">typing</span> <span style="color: #008000; font-weight: bold">import</span> Union
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">A</span>:
+    x: <span style="color: #008000">int</span>
+    z: <span style="color: #008000">int</span>
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">B</span>:
+    y: <span style="color: #008000">int</span>
+    z: <span style="color: #008000">int</span>
+var: Union[A, B]
+var
+</code></pre></div>
+<p>使用命令 <code>dmypy inspect --show attrs src.py:10:1</code> 将返回 <code>{"A": ["z"], "B": ["z"]}</code>，而使用 <code>--union-attrs</code> 将返回 <code>{"A": ["x", "z"], "B": ["y", "z"]}</code>。</p>
+</dd>
+<dt><span id="force-reload"></span><code>--force-reload</code></dt>
+<dd>
+<p>在检查之前强制重新解析和重新进行类型检查。默认情况下，仅在需要时执行此操作（例如，文件未从缓存中加载或守护进程最初运行时没有 <code>--export-types</code> mypy 选项），因为重新加载可能会很慢（对于非常大的文件，可能需要几秒钟）。</p>
+</dd>
+</dl>
 </div>
-</div>
+<div class="tabbed-block">
 <p>The daemon allows to get declared or inferred type of an expression (or other information about an expression, such as known attributes or definition location) using <code>dmypy inspect LOCATION</code> command. The location of the expression should be specified in the format <code>path/to/file.py:line:column[:end_line:end_column]</code>. Both line and column are 1-based. Both start and end position are inclusive. These rules match how mypy prints the error location in error messages.</p>
 <p>If a span is given (i.e. all 4 numbers), then only an exactly matching expression is inspected. If only a position is given (i.e. 2 numbers, line and column), mypy will inspect all <em>expressions</em>, that include this position, starting from the innermost one.</p>
 <p>Consider this Python code snippet:</p>
 <div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">foo</span>(x: <span style="color: #008000">int</span>, longer_name: <span style="color: #008000">str</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:
-      x
-      longer_name
+    x
+    longer_name
 </code></pre></div>
 <p>Here to find the type of <code>x</code> one needs to call <code>dmypy inspect src.py:2:5:2:5</code> or <code>dmypy inspect src.py:2:5</code>. While for <code>longer_name</code> one needs to call <code>dmypy inspect src.py:3:5:3:15</code> or, for example, <code>dmypy inspect src.py:3:10</code>. Please note that this command is only valid after daemon had a successful type check (without parse errors), so that types are populated, e.g. using <code>dmypy check</code>. In case where multiple expressions match the provided location, their types are returned separated by a newline.</p>
 <p>Important note: it is recommended to check files with <a href="#export-types">--export-types</a> since otherwise most inspections will not work without <a href="#force-reload">--force-reload</a>.</p>
@@ -1267,15 +1484,13 @@
 <dt><span id="limit"></span><code>--limit NUM</code></dt>
 <dd>
 <p>If the location is given as <code>line:column</code>, this will cause daemon to return only at most <code>NUM</code> inspections of innermost expressions. Value of 0 means no limit (this is the default). For example, if one calls <code>dmypy inspect src.py:4:10 --limit=1</code> with this code</p>
-</dd>
-</dl>
 <div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">foo</span>(x: <span style="color: #008000">int</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000">str</span>: <span style="color: #666666">..</span>
 <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">bar</span>(x: <span style="color: #008000">str</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>: <span style="color: #666666">...</span>
 baz: <span style="color: #008000">int</span>
 bar(foo(baz))
 </code></pre></div>
 <p>This will output just one type <code>"int"</code> (for <code>baz</code> name expression). While without the limit option, it would output all three types: <code>"int"</code>, <code>"str"</code>, and <code>"None"</code>.</p>
-<dl>
+</dd>
 <dt><span id="include-span"></span><code>--include-span</code></dt>
 <dd>
 <p>With this option on, the daemon will prepend each inspection result with the full span of corresponding expression, formatted as <code>1:2:1:4 -&gt; "int"</code>. This may be useful in case multiple expressions match a location.</p>
@@ -1291,28 +1506,27 @@ bar(foo(baz))
 <dt><span id="union-attrs"></span><code>--union-attrs</code></dt>
 <dd>
 <p>Include attributes valid for some of possible expression types (by default an intersection is returned). This is useful for union types of type variables with values. For example, with this code:</p>
-</dd>
-</dl>
 <div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">typing</span> <span style="color: #008000; font-weight: bold">import</span> Union
 
 <span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">A</span>:
-      x: <span style="color: #008000">int</span>
-      z: <span style="color: #008000">int</span>
+    x: <span style="color: #008000">int</span>
+    z: <span style="color: #008000">int</span>
 <span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">B</span>:
-      y: <span style="color: #008000">int</span>
-      z: <span style="color: #008000">int</span>
+    y: <span style="color: #008000">int</span>
+    z: <span style="color: #008000">int</span>
 var: Union[A, B]
 var
 </code></pre></div>
-<p>The command <code>dmypy inspect --show attrs src.py:10:1</code> will return
-   <code>{"A": ["z"], "B": ["z"]}</code>, while with <code>--union-attrs</code> it will return
-   <code>{"A": ["x", "z"], "B": ["y", "z"]}</code>.</p>
-<dl>
+<p>The command <code>dmypy inspect --show attrs src.py:10:1</code> will return <code>{"A": ["z"], "B": ["z"]}</code>, while with <code>--union-attrs</code> it will return <code>{"A": ["x", "z"], "B": ["y", "z"]}</code>.</p>
+</dd>
 <dt><span id="force-reload"></span><code>--force-reload</code></dt>
 <dd>
 <p>Force re-parsing and re-type-checking file before inspection. By default this is done only when needed (for example file was not loaded from cache or daemon was initially run without <code>--export-types</code> mypy option), since reloading may be slow (up to few seconds for very large files).</p>
 </dd>
 </dl>
+</div>
+</div>
+</div>
 <p>.. TODO: Add similar section about find usages when added, and then move this to a separate file.</p>
 
 
@@ -1336,7 +1550,7 @@ var
     <span class="md-icon" title="最后更新">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2024年9月14日</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2024年9月16日</span>
   </span>
 
     

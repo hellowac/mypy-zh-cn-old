@@ -22,7 +22,7 @@
     
     
       
-        <title>自动存根测试 - mypy类型检查</title>
+        <title>自动存根测试 - mypy静态类型检查器</title>
       
     
     
@@ -115,7 +115,7 @@
 
 <header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="页眉">
-    <a href="../.." title="mypy类型检查" class="md-header__button md-logo" aria-label="mypy类型检查" data-md-component="logo">
+    <a href="../.." title="mypy静态类型检查器" class="md-header__button md-logo" aria-label="mypy静态类型检查器" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -129,7 +129,7 @@
       <div class="md-header__ellipsis">
         <div class="md-header__topic">
           <span class="md-ellipsis">
-            mypy类型检查
+            mypy静态类型检查器
           </span>
         </div>
         <div class="md-header__topic" data-md-component="header-topic">
@@ -349,13 +349,13 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../.." title="mypy类型检查" class="md-nav__button md-logo" aria-label="mypy类型检查" data-md-component="logo">
+    <a href="../.." title="mypy静态类型检查器" class="md-nav__button md-logo" aria-label="mypy静态类型检查器" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
 
     </a>
-    mypy类型检查
+    mypy静态类型检查器
   </label>
   
     <div class="md-nav__source">
@@ -1019,20 +1019,37 @@
 <p><strong>Automatic stub testing (stubtest)</strong></p>
 <div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">中文</label><label for="__tabbed_1_2">英文</label></div>
 <div class="tabbed-content">
-<div class="tabbed-block"></div>
-<div class="tabbed-block"></div>
+<div class="tabbed-block">
+<p>存根文件是包含类型注释的文件。有关更多动机和细节，请参见 <a href="https://www.python.org/dev/peps/pep-0484/#stub-files">PEP 484</a>。</p>
+<p>存根文件的一个常见问题是，它们往往与实际实现有所偏离。Mypy 包含了 <code>stubtest</code> 工具，可以在运行时自动检查存根与实现之间的差异。</p>
 </div>
-</div>
+<div class="tabbed-block">
 <p>Stub files are files containing type annotations. See <a href="https://www.python.org/dev/peps/pep-0484/#stub-files">PEP 484</a> for more motivation and details.</p>
 <p>A common problem with stub files is that they tend to diverge from the actual implementation. Mypy includes the <code>stubtest</code> tool that can automatically check for discrepancies between the stubs and the implementation at runtime.</p>
+</div>
+</div>
+</div>
 <h2 id="stubtest-能做什么和不能做什么">stubtest 能做什么和不能做什么<a class="headerlink" href="#stubtest-能做什么和不能做什么" title="Permanent link">&para;</a></h2>
 <p><strong>What stubtest does and does not do</strong></p>
 <div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">中文</label><label for="__tabbed_2_2">英文</label></div>
 <div class="tabbed-content">
-<div class="tabbed-block"></div>
-<div class="tabbed-block"></div>
+<div class="tabbed-block">
+<p><code>stubtest</code> 将导入你的代码并在运行时通过使用 <a href="https://docs.python.org/3/library/inspect.html#module-inspect">inspect</a> 模块的功能来进行对象检查。然后，<code>stubtest</code> 将分析存根文件，并将两者进行比较，指出存根与实际实现之间的差异。</p>
+<p>需要注意的是，这种比较有其局限性。<code>stubtest</code> 不会尝试静态分析你的实际代码，而仅依赖动态运行时检查（特别是这种方法意味着 <code>stubtest</code> 对扩展模块的工作效果良好）。然而，这也意味着 <code>stubtest</code> 的可见性有限；例如，它无法判断函数的返回类型在存根中是否被准确地标注。</p>
+<p>为了明确，以下是一些 <code>stubtest</code> 无法做到的事情：</p>
+<ul>
+<li>对你的代码进行类型检查 — 使用 <code>mypy</code> 替代</li>
+<li>生成存根 — 使用 <code>stubgen</code> 或 <code>pyright --createstub</code> 替代</li>
+<li>基于运行你的应用程序或测试套件生成存根 — 使用 <code>monkeytype</code> 替代</li>
+<li>将存根应用到代码中生成内联类型 — 使用 <code>retype</code> 或 <code>libcst</code> 替代</li>
+</ul>
+<p>总的来说，<code>stubtest</code> 非常适合确保存根与实现之间的基本一致性或检查存根的完整性。它被用来测试 Python 官方的库存根集合 <a href="https://github.com/python/typeshed">typeshed</a>。</p>
+<div class="admonition 警告">
+<p class="admonition-title">警告</p>
+<p><code>stubtest</code> 会导入并执行它检查的包中的 Python 代码。</p>
 </div>
 </div>
+<div class="tabbed-block">
 <p>Stubtest will import your code and introspect your code objects at runtime, for example, by using the capabilities of the <a href="https://docs.python.org/3/library/inspect.html#module-inspect">inspect</a> module. Stubtest will then analyse the stub files, and compare the two, pointing out things that differ between stubs and the implementation at runtime.</p>
 <p>It's important to be aware of the limitations of this comparison. Stubtest will not make any attempt to statically analyse your actual code and relies only on dynamic runtime introspection (in particular, this approach means stubtest works well with extension modules). However, this means that stubtest has limited visibility; for instance, it cannot tell if a return type of a function is accurately typed in the stubs.</p>
 <p>For clarity, here are some additional things stubtest can't do:</p>
@@ -1047,14 +1064,43 @@
 <p class="admonition-title">Warning</p>
 <p>stubtest will import and execute Python code from the packages it checks.</p>
 </div>
+</div>
+</div>
+</div>
 <h2 id="示例">示例<a class="headerlink" href="#示例" title="Permanent link">&para;</a></h2>
 <p><strong>Example</strong></p>
 <div class="tabbed-set tabbed-alternate" data-tabs="3:2"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><input id="__tabbed_3_2" name="__tabbed_3" type="radio" /><div class="tabbed-labels"><label for="__tabbed_3_1">中文</label><label for="__tabbed_3_2">英文</label></div>
 <div class="tabbed-content">
-<div class="tabbed-block"></div>
-<div class="tabbed-block"></div>
+<div class="tabbed-block">
+<p>以下是 <code>stubtest</code> 可以做的一个快速示例：</p>
+<div class="language-shell highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>$<span style="color: #bbbbbb"> </span>python3<span style="color: #bbbbbb"> </span>-m<span style="color: #bbbbbb"> </span>pip<span style="color: #bbbbbb"> </span>install<span style="color: #bbbbbb"> </span>mypy
+
+$<span style="color: #bbbbbb"> </span>cat<span style="color: #bbbbbb"> </span>library.py
+<span style="color: #19177C">x</span><span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span><span style="color: #BA2121">&quot;hello, stubtest&quot;</span>
+
+def<span style="color: #bbbbbb"> </span>foo<span style="color: #666666">(</span><span style="color: #19177C">x</span><span style="color: #666666">=</span>None<span style="color: #666666">)</span>:
+<span style="color: #bbbbbb">    </span>print<span style="color: #666666">(</span>x<span style="color: #666666">)</span>
+
+$<span style="color: #bbbbbb"> </span>cat<span style="color: #bbbbbb"> </span>library.pyi
+x:<span style="color: #bbbbbb"> </span>int
+
+def<span style="color: #bbbbbb"> </span>foo<span style="color: #666666">(</span>x:<span style="color: #bbbbbb"> </span>int<span style="color: #666666">)</span><span style="color: #bbbbbb"> </span>-&gt;<span style="color: #bbbbbb"> </span>None:<span style="color: #bbbbbb"> </span>...
+
+$<span style="color: #bbbbbb"> </span>python3<span style="color: #bbbbbb"> </span>-m<span style="color: #bbbbbb"> </span>mypy.stubtest<span style="color: #bbbbbb"> </span>library
+error:<span style="color: #bbbbbb"> </span>library.foo<span style="color: #bbbbbb"> </span>与运行时不一致，运行时参数<span style="color: #bbbbbb"> </span><span style="color: #BA2121">&quot;x&quot;</span><span style="color: #bbbbbb"> </span>有默认值，但存根中的参数没有
+存根:<span style="color: #bbbbbb"> </span>第<span style="color: #bbbbbb"> </span><span style="color: #666666">3</span><span style="color: #bbbbbb"> </span>行
+def<span style="color: #bbbbbb"> </span><span style="color: #666666">(</span>x:<span style="color: #bbbbbb"> </span>builtins.int<span style="color: #666666">)</span>
+运行时:<span style="color: #bbbbbb"> </span>在文件<span style="color: #bbbbbb"> </span>~/library.py:3
+def<span style="color: #bbbbbb"> </span><span style="color: #666666">(</span><span style="color: #19177C">x</span><span style="color: #666666">=</span>None<span style="color: #666666">)</span>
+
+error:<span style="color: #bbbbbb"> </span>library.x<span style="color: #bbbbbb"> </span>变量与运行时类型<span style="color: #bbbbbb"> </span>Literal<span style="color: #666666">[</span><span style="color: #BA2121">&#39;hello, stubtest&#39;</span><span style="color: #666666">]</span><span style="color: #bbbbbb"> </span>不一致
+存根:<span style="color: #bbbbbb"> </span>第<span style="color: #bbbbbb"> </span><span style="color: #666666">1</span><span style="color: #bbbbbb"> </span>行
+builtins.int
+运行时:
+<span style="color: #BA2121">&#39;hello, stubtest&#39;</span>
+</code></pre></div>
 </div>
-</div>
+<div class="tabbed-block">
 <p>Here's a quick example of what stubtest can do:</p>
 <div class="language-shell highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>$<span style="color: #bbbbbb"> </span>python3<span style="color: #bbbbbb"> </span>-m<span style="color: #bbbbbb"> </span>pip<span style="color: #bbbbbb"> </span>install<span style="color: #bbbbbb"> </span>mypy
 
@@ -1082,14 +1128,68 @@ builtins.int
 Runtime:
 <span style="color: #BA2121">&#39;hello, stubtest&#39;</span>
 </code></pre></div>
+</div>
+</div>
+</div>
 <h2 id="使用方法">使用方法<a class="headerlink" href="#使用方法" title="Permanent link">&para;</a></h2>
 <p><strong>Usage</strong></p>
 <div class="tabbed-set tabbed-alternate" data-tabs="4:2"><input checked="checked" id="__tabbed_4_1" name="__tabbed_4" type="radio" /><input id="__tabbed_4_2" name="__tabbed_4" type="radio" /><div class="tabbed-labels"><label for="__tabbed_4_1">中文</label><label for="__tabbed_4_2">英文</label></div>
 <div class="tabbed-content">
-<div class="tabbed-block"></div>
-<div class="tabbed-block"></div>
+<div class="tabbed-block">
+<p>运行 <code>stubtest</code> 可以简单地通过 <code>stubtest module_to_check</code> 来完成。运行 <code>stubtest --help</code> 可以获取选项的简要说明。</p>
+<p><code>stubtest</code> 需要能够导入要检查的代码，因此请确保 <code>mypy</code> 已安装在与要测试的库相同的环境中。在某些情况下，设置 <code>PYTHONPATH</code> 可以帮助 <code>stubtest</code> 找到要导入的代码。</p>
+<p>类似地，<code>stubtest</code> 也需要能够找到要检查的存根文件。<code>stubtest</code> 会尊重 <code>MYPYPATH</code> 环境变量——如果遇到“未能找到存根”之类的错误，可以考虑使用这个变量。</p>
+<p>请注意，<code>stubtest</code> 需要 <code>mypy</code> 能够分析存根。如果 <code>mypy</code> 无法分析存根，可能会出现“由于 mypy 构建错误未检查存根”之类的错误。在这种情况下，需要解决这些错误才能运行 <code>stubtest</code>。尽管这里可能存在错误的重叠，但 <code>stubtest</code> 并不打算替代直接运行 <code>mypy</code>。</p>
+<p>如果希望忽略一些 <code>stubtest</code> 的警告，<code>stubtest</code> 支持一个相当有用的允许列表系统。</p>
+<p>本节其余部分描述了 <code>stubtest</code> 的命令行接口。</p>
+<dl>
+<dt><span id="concise"></span><code>--concise</code></dt>
+<dd>
+<p>使 <code>stubtest</code> 的输出更简洁，每个错误一行</p>
+</dd>
+<dt><span id="ignore-missing-stub"></span><code>--ignore-missing-stub</code></dt>
+<dd>
+<p>忽略存根缺少运行时存在的内容的错误</p>
+</dd>
+<dt><span id="ignore-positional-only"></span><code>--ignore-positional-only</code></dt>
+<dd>
+<p>忽略参数是否应为位置参数的错误</p>
+</dd>
+<dt><span id="allowlist"></span><code>--allowlist FILE</code></dt>
+<dd>
+<p>使用文件作为允许列表。可以多次传递以组合多个允许列表。允许列表可以使用 <code>--generate-allowlist</code> 创建。允许列表支持正则表达式。</p>
+<p>允许列表中的条目表示 <code>stubtest</code> 不会对对应的定义生成任何错误。</p>
+</dd>
+<dt><span id="generate-allowlist"></span><code>--generate-allowlist</code></dt>
+<dd>
+<p>打印允许列表（到标准输出），以便与 <code>--allowlist</code> 一起使用</p>
+<p>当将 <code>stubtest</code> 引入现有项目时，这是消除所有现有错误的简单方法。</p>
+</dd>
+<dt><span id="ignore-unused-allowlist"></span><code>--ignore-unused-allowlist</code></dt>
+<dd>
+<p>忽略未使用的允许列表条目</p>
+<p>启用此选项之前的默认行为是如果允许列表条目对 <code>stubtest</code> 成功通过没有必要，<code>stubtest</code> 会发出警告。</p>
+<p>请注意，如果允许列表条目是匹配空字符串的正则表达式，<code>stubtest</code> 将永远不会将其视为未使用。例如，要为单个允许列表条目如 <code>foo.bar</code> 获取 <code>--ignore-unused-allowlist</code> 行为，可以添加允许列表条目 <code>(foo\.bar)?</code>。这在错误仅在特定平台上出现时可能会很有用。</p>
+</dd>
+<dt><span id="mypy-config-file"></span><code>--mypy-config-file FILE</code></dt>
+<dd>
+<p>使用指定的 mypy 配置文件来确定 mypy 插件和 mypy 路径</p>
+</dd>
+<dt><span id="custom-typeshed-dir"></span><code>--custom-typeshed-dir DIR</code></dt>
+<dd>
+<p>使用 DIR 中的自定义 typeshed</p>
+</dd>
+<dt><span id="check-typeshed"></span><code>--check-typeshed</code></dt>
+<dd>
+<p>检查 typeshed 中的所有标准库模块</p>
+</dd>
+<dt><span id="help"></span><code>--help</code></dt>
+<dd>
+<p>显示帮助信息 :-)</p>
+</dd>
+</dl>
 </div>
-</div>
+<div class="tabbed-block">
 <p>Running stubtest can be as simple as <code>stubtest module_to_check</code>. Run <a href="#help">stubtest --help</a> for a quick summary of options.</p>
 <p>Stubtest must be able to import the code to be checked, so make sure that mypy is installed in the same environment as the library to be tested. In some cases, setting <code>PYTHONPATH</code> can help stubtest find the code to import.</p>
 <p>Similarly, stubtest must be able to find the stubs to be checked. Stubtest respects the <code>MYPYPATH</code> environment variable -- consider using this if you receive a complaint along the lines of "failed to find stubs".</p>
@@ -1142,6 +1242,9 @@ Runtime:
 <p>Show a help message :-)</p>
 </dd>
 </dl>
+</div>
+</div>
+</div>
 
 
 
@@ -1164,7 +1267,7 @@ Runtime:
     <span class="md-icon" title="最后更新">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2024年9月14日</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2024年9月16日</span>
   </span>
 
     

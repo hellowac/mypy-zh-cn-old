@@ -22,7 +22,7 @@
     
     
       
-        <title>常见问题解答 - mypy类型检查</title>
+        <title>常见问题解答 - mypy静态类型检查器</title>
       
     
     
@@ -115,7 +115,7 @@
 
 <header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="页眉">
-    <a href="../.." title="mypy类型检查" class="md-header__button md-logo" aria-label="mypy类型检查" data-md-component="logo">
+    <a href="../.." title="mypy静态类型检查器" class="md-header__button md-logo" aria-label="mypy静态类型检查器" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -129,7 +129,7 @@
       <div class="md-header__ellipsis">
         <div class="md-header__topic">
           <span class="md-ellipsis">
-            mypy类型检查
+            mypy静态类型检查器
           </span>
         </div>
         <div class="md-header__topic" data-md-component="header-topic">
@@ -349,13 +349,13 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../.." title="mypy类型检查" class="md-nav__button md-logo" aria-label="mypy类型检查" data-md-component="logo">
+    <a href="../.." title="mypy静态类型检查器" class="md-nav__button md-logo" aria-label="mypy静态类型检查器" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
 
     </a>
-    mypy类型检查
+    mypy静态类型检查器
   </label>
   
     <div class="md-nav__source">
@@ -1123,10 +1123,7 @@
 <p><strong>Why have both dynamic and static typing?</strong></p>
 <div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">中文</label><label for="__tabbed_1_2">英文</label></div>
 <div class="tabbed-content">
-<div class="tabbed-block"></div>
-<div class="tabbed-block"></div>
-</div>
-</div>
+<div class="tabbed-block">
 <p>Dynamic typing can be flexible, powerful, convenient and easy. But it's not always the best approach; there are good reasons why many developers choose to use statically typed languages or static typing for Python.</p>
 <p>Here are some potential benefits of mypy-style static typing:</p>
 <ul>
@@ -1147,14 +1144,36 @@
 </li>
 </ul>
 <p>See also the <a href="https://www.mypy-lang.org">front page</a> of the mypy web site.</p>
+</div>
+<div class="tabbed-block">
+<p>Dynamic typing can be flexible, powerful, convenient and easy. But it's not always the best approach; there are good reasons why many developers choose to use statically typed languages or static typing for Python.</p>
+<p>Here are some potential benefits of mypy-style static typing:</p>
+<ul>
+<li>
+<p>Static typing can make programs easier to understand and maintain. Type declarations can serve as machine-checked documentation. This is important as code is typically read much more often than modified, and this is especially important for large and complex programs.</p>
+</li>
+<li>
+<p>Static typing can help you find bugs earlier and with less testing and debugging. Especially in large and complex projects this can be a major time-saver.</p>
+</li>
+<li>
+<p>Static typing can help you find difficult-to-find bugs before your code goes into production. This can improve reliability and reduce the number of security issues.</p>
+</li>
+<li>
+<p>Static typing makes it practical to build very useful development tools that can improve programming productivity or software quality, including IDEs with precise and reliable code completion, static analysis tools, etc.</p>
+</li>
+<li>
+<p>You can get the benefits of both dynamic and static typing in a single language. Dynamic typing can be perfect for a small project or for writing the UI of your program, for example. As your program grows, you can adapt tricky application logic to static typing to help maintenance.</p>
+</li>
+</ul>
+<p>See also the <a href="https://www.mypy-lang.org">front page</a> of the mypy web site.</p>
+</div>
+</div>
+</div>
 <h2 id="我的项目会从静态类型中受益吗">我的项目会从静态类型中受益吗？<a class="headerlink" href="#我的项目会从静态类型中受益吗" title="Permanent link">&para;</a></h2>
 <p><strong>Would my project benefit from static typing?</strong></p>
 <div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">中文</label><label for="__tabbed_2_2">英文</label></div>
 <div class="tabbed-content">
-<div class="tabbed-block"></div>
-<div class="tabbed-block"></div>
-</div>
-</div>
+<div class="tabbed-block">
 <p>For many projects dynamic typing is perfectly fine (we think that Python is a great language). But sometimes your projects demand bigger guns, and that's when mypy may come in handy.</p>
 <p>If some of these ring true for your projects, mypy (and static typing) may be useful:</p>
 <ul>
@@ -1177,41 +1196,74 @@
 <p>You want to future-proof your project even if currently none of the above really apply. The earlier you start, the easier it will be to adopt static typing.</p>
 </li>
 </ul>
+</div>
+<div class="tabbed-block">
+<p>For many projects dynamic typing is perfectly fine (we think that Python is a great language). But sometimes your projects demand bigger guns, and that's when mypy may come in handy.</p>
+<p>If some of these ring true for your projects, mypy (and static typing) may be useful:</p>
+<ul>
+<li>
+<p>Your project is large or complex.</p>
+</li>
+<li>
+<p>Your codebase must be maintained for a long time.</p>
+</li>
+<li>
+<p>Multiple developers are working on the same code.</p>
+</li>
+<li>
+<p>Running tests takes a lot of time or work (type checking helps you find errors quickly early in development, reducing the number of testing iterations).</p>
+</li>
+<li>
+<p>Some project members (devs or management) don't like dynamic typing, but others prefer dynamic typing and Python syntax. Mypy could be a solution that everybody finds easy to accept.</p>
+</li>
+<li>
+<p>You want to future-proof your project even if currently none of the above really apply. The earlier you start, the easier it will be to adopt static typing.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
 <h2 id="我可以使用-mypy-对现有的-python-代码进行类型检查吗">我可以使用 mypy 对现有的 Python 代码进行类型检查吗？<a class="headerlink" href="#我可以使用-mypy-对现有的-python-代码进行类型检查吗" title="Permanent link">&para;</a></h2>
 <p><strong>Can I use mypy to type check my existing Python code?</strong></p>
 <div class="tabbed-set tabbed-alternate" data-tabs="3:2"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><input id="__tabbed_3_2" name="__tabbed_3" type="radio" /><div class="tabbed-labels"><label for="__tabbed_3_1">中文</label><label for="__tabbed_3_2">英文</label></div>
 <div class="tabbed-content">
-<div class="tabbed-block"></div>
-<div class="tabbed-block"></div>
-</div>
-</div>
+<div class="tabbed-block">
 <p>Mypy supports most Python features and idioms, and many large Python projects are using mypy successfully. Code that uses complex introspection or metaprogramming may be impractical to type check, but it should still be possible to use static typing in other parts of a codebase that are less dynamic.</p>
+</div>
+<div class="tabbed-block">
+<p>Mypy supports most Python features and idioms, and many large Python projects are using mypy successfully. Code that uses complex introspection or metaprogramming may be impractical to type check, but it should still be possible to use static typing in other parts of a codebase that are less dynamic.</p>
+</div>
+</div>
+</div>
 <h2 id="静态类型会让我的程序运行得更快吗">静态类型会让我的程序运行得更快吗？<a class="headerlink" href="#静态类型会让我的程序运行得更快吗" title="Permanent link">&para;</a></h2>
 <p><strong>Will static typing make my programs run faster?</strong></p>
 <div class="tabbed-set tabbed-alternate" data-tabs="4:2"><input checked="checked" id="__tabbed_4_1" name="__tabbed_4" type="radio" /><input id="__tabbed_4_2" name="__tabbed_4" type="radio" /><div class="tabbed-labels"><label for="__tabbed_4_1">中文</label><label for="__tabbed_4_2">英文</label></div>
 <div class="tabbed-content">
-<div class="tabbed-block"></div>
-<div class="tabbed-block"></div>
-</div>
-</div>
+<div class="tabbed-block">
 <p>Mypy only does static type checking and it does not improve performance. It has a minimal performance impact. In the future, there could be other tools that can compile statically typed mypy code to C modules or to efficient JVM bytecode, for example, but this is outside the scope of the mypy project.</p>
+</div>
+<div class="tabbed-block">
+<p>Mypy only does static type checking and it does not improve performance. It has a minimal performance impact. In the future, there could be other tools that can compile statically typed mypy code to C modules or to efficient JVM bytecode, for example, but this is outside the scope of the mypy project.</p>
+</div>
+</div>
+</div>
 <h2 id="mypy-是免费的么">mypy 是免费的么？<a class="headerlink" href="#mypy-是免费的么" title="Permanent link">&para;</a></h2>
 <p><strong>Is mypy free?</strong></p>
 <div class="tabbed-set tabbed-alternate" data-tabs="5:2"><input checked="checked" id="__tabbed_5_1" name="__tabbed_5" type="radio" /><input id="__tabbed_5_2" name="__tabbed_5" type="radio" /><div class="tabbed-labels"><label for="__tabbed_5_1">中文</label><label for="__tabbed_5_2">英文</label></div>
 <div class="tabbed-content">
-<div class="tabbed-block"></div>
-<div class="tabbed-block"></div>
-</div>
-</div>
+<div class="tabbed-block">
 <p>Yes. Mypy is free software, and it can also be used for commercial and proprietary projects. Mypy is available under the MIT license.</p>
+</div>
+<div class="tabbed-block">
+<p>Yes. Mypy is free software, and it can also be used for commercial and proprietary projects. Mypy is available under the MIT license.</p>
+</div>
+</div>
+</div>
 <h2 id="我可以在-mypy-中使用鸭子类型吗">我可以在 mypy 中使用鸭子类型吗？<a class="headerlink" href="#我可以在-mypy-中使用鸭子类型吗" title="Permanent link">&para;</a></h2>
 <p><strong>Can I use duck typing with mypy?</strong></p>
 <div class="tabbed-set tabbed-alternate" data-tabs="6:2"><input checked="checked" id="__tabbed_6_1" name="__tabbed_6" type="radio" /><input id="__tabbed_6_2" name="__tabbed_6" type="radio" /><div class="tabbed-labels"><label for="__tabbed_6_1">中文</label><label for="__tabbed_6_2">英文</label></div>
 <div class="tabbed-content">
-<div class="tabbed-block"></div>
-<div class="tabbed-block"></div>
-</div>
-</div>
+<div class="tabbed-block">
 <p>Mypy provides support for both <a href="https://en.wikipedia.org/wiki/Nominative_type_system">nominal subtyping</a> and <a href="https://en.wikipedia.org/wiki/Structural_type_system">structural subtyping</a>. Structural subtyping can be thought of as "static duck typing". Some argue that structural subtyping is better suited for languages with duck typing such as Python. Mypy however primarily uses nominal subtyping, leaving structural subtyping mostly opt-in (except for built-in protocols such as <a href="https://docs.python.org/3/library/typing.html#typing.Iterable">Iterable</a> that always support structural subtyping). Here are some reasons why:</p>
 <ol>
 <li>
@@ -1225,34 +1277,57 @@
 </li>
 </ol>
 <p>However, structural subtyping can also be useful. For example, a "public API" may be more flexible if it is typed with protocols. Also, using protocol types removes the necessity to explicitly declare implementations of ABCs. As a rule of thumb, we recommend using nominal classes where possible, and protocols where necessary. For more details about protocol types and structural subtyping see <a href="../../mypy/protocol_and_struct_subtyping/">Protocols and structural subtyping</a> and <a href="https://peps.python.org/pep-0544/">PEP 544</a>.</p>
+</div>
+<div class="tabbed-block">
+<p>Mypy provides support for both <a href="https://en.wikipedia.org/wiki/Nominative_type_system">nominal subtyping</a> and <a href="https://en.wikipedia.org/wiki/Structural_type_system">structural subtyping</a>. Structural subtyping can be thought of as "static duck typing". Some argue that structural subtyping is better suited for languages with duck typing such as Python. Mypy however primarily uses nominal subtyping, leaving structural subtyping mostly opt-in (except for built-in protocols such as <a href="https://docs.python.org/3/library/typing.html#typing.Iterable">Iterable</a> that always support structural subtyping). Here are some reasons why:</p>
+<ol>
+<li>
+<p>It is easy to generate short and informative error messages when using a nominal type system. This is especially important when using type inference.</p>
+</li>
+<li>
+<p>Python provides built-in support for nominal <a href="https://docs.python.org/3/library/functions.html#isinstance">isinstance()</a> tests and they are widely used in programs. Only limited support for structural <a href="https://docs.python.org/3/library/functions.html#isinstance">isinstance()</a> is available, and it's less type safe than nominal type tests.</p>
+</li>
+<li>
+<p>Many programmers are already familiar with static, nominal subtyping and it has been successfully used in languages such as Java, C++ and C#. Fewer languages use structural subtyping.</p>
+</li>
+</ol>
+<p>However, structural subtyping can also be useful. For example, a "public API" may be more flexible if it is typed with protocols. Also, using protocol types removes the necessity to explicitly declare implementations of ABCs. As a rule of thumb, we recommend using nominal classes where possible, and protocols where necessary. For more details about protocol types and structural subtyping see <a href="../../mypy/protocol_and_struct_subtyping/">Protocols and structural subtyping</a> and <a href="https://peps.python.org/pep-0544/">PEP 544</a>.</p>
+</div>
+</div>
+</div>
 <h2 id="我喜欢-python并且不需要静态类型">我喜欢 Python，并且不需要静态类型<a class="headerlink" href="#我喜欢-python并且不需要静态类型" title="Permanent link">&para;</a></h2>
 <p><strong>I like Python and I have no need for static typing</strong></p>
 <div class="tabbed-set tabbed-alternate" data-tabs="7:2"><input checked="checked" id="__tabbed_7_1" name="__tabbed_7" type="radio" /><input id="__tabbed_7_2" name="__tabbed_7" type="radio" /><div class="tabbed-labels"><label for="__tabbed_7_1">中文</label><label for="__tabbed_7_2">英文</label></div>
 <div class="tabbed-content">
-<div class="tabbed-block"></div>
-<div class="tabbed-block"></div>
-</div>
-</div>
+<div class="tabbed-block">
 <p>The aim of mypy is not to convince everybody to write statically typed Python -- static typing is entirely optional, now and in the future. The goal is to give more options for Python programmers, to make Python a more competitive alternative to other statically typed languages in large projects, to improve programmer productivity, and to improve software quality.</p>
+</div>
+<div class="tabbed-block">
+<p>The aim of mypy is not to convince everybody to write statically typed Python -- static typing is entirely optional, now and in the future. The goal is to give more options for Python programmers, to make Python a more competitive alternative to other statically typed languages in large projects, to improve programmer productivity, and to improve software quality.</p>
+</div>
+</div>
+</div>
 <h2 id="mypy-程序与普通-python-有什么不同">mypy 程序与普通 Python 有什么不同？<a class="headerlink" href="#mypy-程序与普通-python-有什么不同" title="Permanent link">&para;</a></h2>
 <p><strong>How are mypy programs different from normal Python?</strong></p>
 <div class="tabbed-set tabbed-alternate" data-tabs="8:2"><input checked="checked" id="__tabbed_8_1" name="__tabbed_8" type="radio" /><input id="__tabbed_8_2" name="__tabbed_8" type="radio" /><div class="tabbed-labels"><label for="__tabbed_8_1">中文</label><label for="__tabbed_8_2">英文</label></div>
 <div class="tabbed-content">
-<div class="tabbed-block"></div>
-<div class="tabbed-block"></div>
-</div>
-</div>
+<div class="tabbed-block">
 <p>Since you use a vanilla Python implementation to run mypy programs, mypy programs are also Python programs. The type checker may give warnings for some valid Python code, but the code is still always runnable. Also, some Python features and syntax are still not supported by mypy, but this is gradually improving.</p>
 <p>The obvious difference is the availability of static type checking. The section <a href="../common_issues/">Common issues and solutions</a> mentions some modifications to Python code that may be required to make code type check without errors. Also, your code must make attributes explicit.</p>
 <p>Mypy supports modular, efficient type checking, and this seems to rule out type checking some language features, such as arbitrary monkey patching of methods.</p>
+</div>
+<div class="tabbed-block">
+<p>Since you use a vanilla Python implementation to run mypy programs, mypy programs are also Python programs. The type checker may give warnings for some valid Python code, but the code is still always runnable. Also, some Python features and syntax are still not supported by mypy, but this is gradually improving.</p>
+<p>The obvious difference is the availability of static type checking. The section <a href="../common_issues/">Common issues and solutions</a> mentions some modifications to Python code that may be required to make code type check without errors. Also, your code must make attributes explicit.</p>
+<p>Mypy supports modular, efficient type checking, and this seems to rule out type checking some language features, such as arbitrary monkey patching of methods.</p>
+</div>
+</div>
+</div>
 <h2 id="mypy-与-cython-有何不同">mypy 与 Cython 有何不同？<a class="headerlink" href="#mypy-与-cython-有何不同" title="Permanent link">&para;</a></h2>
 <p><strong>How is mypy different from Cython?</strong></p>
 <div class="tabbed-set tabbed-alternate" data-tabs="9:2"><input checked="checked" id="__tabbed_9_1" name="__tabbed_9" type="radio" /><input id="__tabbed_9_2" name="__tabbed_9" type="radio" /><div class="tabbed-labels"><label for="__tabbed_9_1">中文</label><label for="__tabbed_9_2">英文</label></div>
 <div class="tabbed-content">
-<div class="tabbed-block"></div>
-<div class="tabbed-block"></div>
-</div>
-</div>
+<div class="tabbed-block">
 <p><a href="https://docs.cython.org/en/latest/index.html">Cython</a> is a variant of Python that supports compilation to CPython C modules. It can give major speedups to certain classes of programs compared to CPython, and it provides static typing (though this is different from mypy). Mypy differs in the following aspects, among others:</p>
 <ul>
 <li>
@@ -1274,24 +1349,56 @@
 <p>Cython supports accessing C functions directly and many features are defined in terms of translating them to C or C++. Mypy just uses Python semantics, and mypy does not deal with accessing C library functionality.</p>
 </li>
 </ul>
+</div>
+<div class="tabbed-block">
+<p><a href="https://docs.cython.org/en/latest/index.html">Cython</a> is a variant of Python that supports compilation to CPython C modules. It can give major speedups to certain classes of programs compared to CPython, and it provides static typing (though this is different from mypy). Mypy differs in the following aspects, among others:</p>
+<ul>
+<li>
+<p>Cython is much more focused on performance than mypy. Mypy is only about static type checking, and increasing performance is not a direct goal.</p>
+</li>
+<li>
+<p>The mypy syntax is arguably simpler and more "Pythonic" (no cdef/cpdef, etc.) for statically typed code.</p>
+</li>
+<li>
+<p>The mypy syntax is compatible with Python. Mypy programs are normal Python programs that can be run using any Python implementation. Cython has many incompatible extensions to Python syntax, and Cython programs generally cannot be run without first compiling them to CPython extension modules via C. Cython also has a pure Python mode, but it seems to support only a subset of Cython functionality, and the syntax is quite verbose.</p>
+</li>
+<li>
+<p>Mypy has a different set of type system features. For example, mypy has genericity (parametric polymorphism), function types and bidirectional type inference, which are not supported by Cython. (Cython has fused types that are different but related to mypy generics. Mypy also has a similar feature as an extension of generics.)</p>
+</li>
+<li>
+<p>The mypy type checker knows about the static types of many Python stdlib modules and can effectively type check code that uses them.</p>
+</li>
+<li>
+<p>Cython supports accessing C functions directly and many features are defined in terms of translating them to C or C++. Mypy just uses Python semantics, and mypy does not deal with accessing C library functionality.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
 <h2 id="它可以在-pypy-上运行吗">它可以在 PyPy 上运行吗？<a class="headerlink" href="#它可以在-pypy-上运行吗" title="Permanent link">&para;</a></h2>
 <p><strong>Does it run on PyPy?</strong></p>
 <div class="tabbed-set tabbed-alternate" data-tabs="10:2"><input checked="checked" id="__tabbed_10_1" name="__tabbed_10" type="radio" /><input id="__tabbed_10_2" name="__tabbed_10" type="radio" /><div class="tabbed-labels"><label for="__tabbed_10_1">中文</label><label for="__tabbed_10_2">英文</label></div>
 <div class="tabbed-content">
-<div class="tabbed-block"></div>
-<div class="tabbed-block"></div>
-</div>
-</div>
+<div class="tabbed-block">
 <p>Somewhat. With PyPy 3.8, mypy is at least able to type check itself. With older versions of PyPy, mypy relies on <a href="https://github.com/python/typed_ast">typed-ast</a>, which uses several APIs that PyPy does not support (including some internal CPython APIs).</p>
+</div>
+<div class="tabbed-block">
+<p>Somewhat. With PyPy 3.8, mypy is at least able to type check itself. With older versions of PyPy, mypy relies on <a href="https://github.com/python/typed_ast">typed-ast</a>, which uses several APIs that PyPy does not support (including some internal CPython APIs).</p>
+</div>
+</div>
+</div>
 <h2 id="mypy-是一个很棒的项目我可以帮助吗">mypy 是一个很棒的项目。我可以帮助吗？<a class="headerlink" href="#mypy-是一个很棒的项目我可以帮助吗" title="Permanent link">&para;</a></h2>
 <p><strong>Mypy is a cool project. Can I help?</strong></p>
 <div class="tabbed-set tabbed-alternate" data-tabs="11:2"><input checked="checked" id="__tabbed_11_1" name="__tabbed_11" type="radio" /><input id="__tabbed_11_2" name="__tabbed_11" type="radio" /><div class="tabbed-labels"><label for="__tabbed_11_1">中文</label><label for="__tabbed_11_2">英文</label></div>
 <div class="tabbed-content">
-<div class="tabbed-block"></div>
-<div class="tabbed-block"></div>
-</div>
-</div>
+<div class="tabbed-block">
 <p>Any help is much appreciated! <a href="https://www.mypy-lang.org/contact.html">Contact</a> the developers if you would like to contribute. Any help related to development, design, publicity, documentation, testing, web site maintenance, financing, etc. can be helpful. You can learn a lot by contributing, and anybody can help, even beginners! However, some knowledge of compilers and/or type systems is essential if you want to work on mypy internals.</p>
+</div>
+<div class="tabbed-block">
+<p>Any help is much appreciated! <a href="https://www.mypy-lang.org/contact.html">Contact</a> the developers if you would like to contribute. Any help related to development, design, publicity, documentation, testing, web site maintenance, financing, etc. can be helpful. You can learn a lot by contributing, and anybody can help, even beginners! However, some knowledge of compilers and/or type systems is essential if you want to work on mypy internals.</p>
+</div>
+</div>
+</div>
 
 
 
@@ -1314,7 +1421,7 @@
     <span class="md-icon" title="最后更新">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2024年9月14日</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2024年9月16日</span>
   </span>
 
     

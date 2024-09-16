@@ -22,7 +22,7 @@
     
     
       
-        <title>内联配置 - mypy类型检查</title>
+        <title>内联配置 - mypy静态类型检查器</title>
       
     
     
@@ -115,7 +115,7 @@
 
 <header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="页眉">
-    <a href="../.." title="mypy类型检查" class="md-header__button md-logo" aria-label="mypy类型检查" data-md-component="logo">
+    <a href="../.." title="mypy静态类型检查器" class="md-header__button md-logo" aria-label="mypy静态类型检查器" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -129,7 +129,7 @@
       <div class="md-header__ellipsis">
         <div class="md-header__topic">
           <span class="md-ellipsis">
-            mypy类型检查
+            mypy静态类型检查器
           </span>
         </div>
         <div class="md-header__topic" data-md-component="header-topic">
@@ -349,13 +349,13 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../.." title="mypy类型检查" class="md-nav__button md-logo" aria-label="mypy类型检查" data-md-component="logo">
+    <a href="../.." title="mypy静态类型检查器" class="md-nav__button md-logo" aria-label="mypy静态类型检查器" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
 
     </a>
-    mypy类型检查
+    mypy静态类型检查器
   </label>
   
     <div class="md-nav__source">
@@ -983,22 +983,38 @@
 <p><strong>Inline configuration</strong></p>
 <div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">中文</label><label for="__tabbed_1_2">英文</label></div>
 <div class="tabbed-content">
-<div class="tabbed-block"></div>
-<div class="tabbed-block"></div>
+<div class="tabbed-block">
+<p>Mypy 支持在文件内部使用 <code># mypy:</code> 注释来设置每个文件的配置选项。例如：</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #3D7B7B; font-style: italic"># mypy: disallow-any-generics</span>
+</code></pre></div>
+<p>内联配置注释优先于所有其他配置机制。</p>
 </div>
-</div>
+<div class="tabbed-block">
 <p>Mypy supports setting per-file configuration options inside files themselves using <code># mypy:</code> comments. For example:</p>
 <div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #3D7B7B; font-style: italic"># mypy: disallow-any-generics</span>
 </code></pre></div>
 <p>Inline configuration comments take precedence over all other configuration mechanisms.</p>
+</div>
+</div>
+</div>
 <h2 id="配置注释格式">配置注释格式<a class="headerlink" href="#配置注释格式" title="Permanent link">&para;</a></h2>
 <p><strong>Configuration comment format</strong></p>
 <div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">中文</label><label for="__tabbed_2_2">英文</label></div>
 <div class="tabbed-content">
-<div class="tabbed-block"></div>
-<div class="tabbed-block"></div>
+<div class="tabbed-block">
+<p>标志对应于 <a href="../config_file/">配置文件标志</a>，但允许使用连字符代替下划线。</p>
+<p>值通过 <code>=</code> 指定，但 <code>= True</code> 可以省略：</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #3D7B7B; font-style: italic"># mypy: disallow-any-generics</span>
+<span style="color: #3D7B7B; font-style: italic"># mypy: always-true=FOO</span>
+</code></pre></div>
+<p>多个标志可以用逗号分隔，也可以放在不同的行上。要将逗号包含在选项值的一部分中，可以将值放在引号内：</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #3D7B7B; font-style: italic"># mypy: disallow-untyped-defs, always-false=&quot;FOO,BAR&quot;</span>
+</code></pre></div>
+<p>如同在配置文件中一样，接受布尔值的选项可以通过在名称前添加 <code>no-</code> 来取反，或（在适用时）将其前缀从 <code>disallow</code> 更改为 <code>allow</code>（反之亦然）：</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #3D7B7B; font-style: italic"># mypy: allow-untyped-defs, no-strict-optional</span>
+</code></pre></div>
 </div>
-</div>
+<div class="tabbed-block">
 <p>Flags correspond to <a href="../config_file/">config file flags</a> but allow hyphens to be substituted for underscores.</p>
 <p>Values are specified using <code>=</code>, but <code>= True</code> may be omitted:</p>
 <div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #3D7B7B; font-style: italic"># mypy: disallow-any-generics</span>
@@ -1010,6 +1026,9 @@
 <p>Like in the configuration file, options that take a boolean value may be inverted by adding <code>no-</code> to their name or by (when applicable) swapping their prefix from <code>disallow</code> to <code>allow</code> (and vice versa):</p>
 <div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #3D7B7B; font-style: italic"># mypy: allow-untyped-defs, no-strict-optional</span>
 </code></pre></div>
+</div>
+</div>
+</div>
 
 
 
@@ -1032,7 +1051,7 @@
     <span class="md-icon" title="最后更新">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2024年9月14日</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2024年9月16日</span>
   </span>
 
     

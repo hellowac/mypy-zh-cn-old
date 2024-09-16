@@ -22,7 +22,7 @@
     
     
       
-        <title>运行mypy和管理导入 - mypy类型检查</title>
+        <title>运行mypy和管理导入 - mypy静态类型检查器</title>
       
     
     
@@ -115,7 +115,7 @@
 
 <header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="页眉">
-    <a href="../.." title="mypy类型检查" class="md-header__button md-logo" aria-label="mypy类型检查" data-md-component="logo">
+    <a href="../.." title="mypy静态类型检查器" class="md-header__button md-logo" aria-label="mypy静态类型检查器" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -129,7 +129,7 @@
       <div class="md-header__ellipsis">
         <div class="md-header__topic">
           <span class="md-ellipsis">
-            mypy类型检查
+            mypy静态类型检查器
           </span>
         </div>
         <div class="md-header__topic" data-md-component="header-topic">
@@ -349,13 +349,13 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../.." title="mypy类型检查" class="md-nav__button md-logo" aria-label="mypy类型检查" data-md-component="logo">
+    <a href="../.." title="mypy静态类型检查器" class="md-nav__button md-logo" aria-label="mypy静态类型检查器" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
 
     </a>
-    mypy类型检查
+    mypy静态类型检查器
   </label>
   
     <div class="md-nav__source">
@@ -1157,23 +1157,62 @@
 <p><strong>Running mypy and managing imports</strong></p>
 <div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">中文</label><label for="__tabbed_1_2">英文</label></div>
 <div class="tabbed-content">
-<div class="tabbed-block"></div>
-<div class="tabbed-block"></div>
+<div class="tabbed-block">
+<p>[入门]页面应该已经向你介绍了如何运行 mypy 的基本方法——通过命令行传递你想进行类型检查的文件和目录。</p>
+<div class="language-shell highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>$<span style="color: #bbbbbb"> </span>mypy<span style="color: #bbbbbb"> </span>foo.py<span style="color: #bbbbbb"> </span>bar.py<span style="color: #bbbbbb"> </span>some_directory
+</code></pre></div>
+<p>本页面将更详细地讨论如何具体指定你希望 mypy 进行类型检查的文件，mypy 如何发现导入的模块，以及处理你可能遇到的任何问题的建议。</p>
+<p>如果你有兴趣了解如何配置 mypy 实际上是如何对你的代码进行类型检查的，请参阅我们的 [命令行] 指南。</p>
 </div>
-</div>
-<p>The <a href="../../mypy/">getting-started</a> page should have already introduced you to the basics of how to run mypy -- pass in the files and directories you want to type check via the command line</p>
+<div class="tabbed-block">
+<p>The [getting-started] page should have already introduced you to the basics of how to run mypy -- pass in the files and directories you want to type check via the command line</p>
 <div class="language-shell highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>$<span style="color: #bbbbbb"> </span>mypy<span style="color: #bbbbbb"> </span>foo.py<span style="color: #bbbbbb"> </span>bar.py<span style="color: #bbbbbb"> </span>some_directory
 </code></pre></div>
 <p>This page discusses in more detail how exactly to specify what files you want mypy to type check, how mypy discovers imported modules, and recommendations on how to handle any issues you may encounter along the way.</p>
-<p>If you are interested in learning about how to configure the actual way mypy type checks your code, see our <a href="../command_line/">command-line</a> guide.</p>
+<p>If you are interested in learning about how to configure the actual way mypy type checks your code, see our [command-line] guide.</p>
+</div>
+</div>
+</div>
 <h2 id="指定要检查的代码">指定要检查的代码<a class="headerlink" href="#指定要检查的代码" title="Permanent link">&para;</a></h2>
 <p><strong>Specifying code to be checked</strong></p>
 <div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">中文</label><label for="__tabbed_2_2">英文</label></div>
 <div class="tabbed-content">
-<div class="tabbed-block"></div>
-<div class="tabbed-block"></div>
+<div class="tabbed-block">
+<p>Mypy 允许你通过几种不同的方式指定要进行类型检查的文件。</p>
+<ol>
+<li>
+<p>首先，你可以传递 Python 文件和目录的路径，以便进行类型检查。例如：</p>
+<div class="language-shell highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>$<span style="color: #bbbbbb"> </span>mypy<span style="color: #bbbbbb"> </span>file_1.py<span style="color: #bbbbbb"> </span>foo/file_2.py<span style="color: #bbbbbb"> </span>file_3.pyi<span style="color: #bbbbbb"> </span>some/directory
+</code></pre></div>
+<p>上述命令告诉 mypy 对所有提供的文件进行类型检查。此外，mypy 会递归地对任何提供的目录中的全部内容进行类型检查。</p>
+<p>有关具体执行方式的更多细节，请参见 [将文件路径映射到模块 <mapping-paths-to-modules>]。</p>
+</li>
+<li>
+<p>其次，你可以使用 [-m] 标志（长格式为 [--module]）来指定要进行类型检查的模块名称。模块的名称与在 Python 程序中导入该模块时使用的名称相同。例如，运行：</p>
+<div class="language-shell highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>$<span style="color: #bbbbbb"> </span>mypy<span style="color: #bbbbbb"> </span>-m<span style="color: #bbbbbb"> </span>html.parser
+</code></pre></div>
+<p>...将对模块 <code>html.parser</code> 进行类型检查（这恰好是一个库存根）。</p>
+<p>Mypy 将使用类似于 Python 用来查找模块和导入的位置的算法。有关更多细节，请参见 [查找导入的模块]。</p>
+</li>
+<li>
+<p>第三，你可以使用 [-p] 标志（长格式为 [--package]）来指定要（递归）进行类型检查的包。这个标志与 [-m] 标志几乎相同，只是如果你提供一个包名，mypy 将递归地对该包的所有子模块和子包进行类型检查。例如，运行：</p>
+<div class="language-shell highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>$<span style="color: #bbbbbb"> </span>mypy<span style="color: #bbbbbb"> </span>-p<span style="color: #bbbbbb"> </span>html
+</code></pre></div>
+<p>...将对整个 <code>html</code> 包（库存根）进行类型检查。相比之下，如果使用 [-m] 标志，mypy 只会对 <code>html</code> 的 <code>__init__.py</code> 文件及其导入的内容进行类型检查。</p>
+<p>请注意，我们可以在命令行上指定多个包和模块。例如：</p>
+<div class="language-shell highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>$<span style="color: #bbbbbb"> </span>mypy<span style="color: #bbbbbb"> </span>--package<span style="color: #bbbbbb"> </span>p.a<span style="color: #bbbbbb"> </span>--package<span style="color: #bbbbbb"> </span>p.b<span style="color: #bbbbbb"> </span>--module<span style="color: #bbbbbb"> </span>c
+</code></pre></div>
+</li>
+<li>
+<p>第四，你还可以通过使用 [-c] 标志（长格式为 [--command]）直接对小的字符串进行类型检查。例如：</p>
+<div class="language-shell highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>$<span style="color: #bbbbbb"> </span>mypy<span style="color: #bbbbbb"> </span>-c<span style="color: #bbbbbb"> </span><span style="color: #BA2121">&#39;x = [1, 2]; print(x())&#39;</span>
+</code></pre></div>
+<p>...将把上述字符串作为迷你程序进行类型检查（在这种情况下，会报告 <code>list[int]</code> 不能被调用）。</p>
+</li>
+</ol>
+<p>你还可以在 <code>mypy.ini</code> 文件中的 <a href="../config_file/#files">files</a> 选项里指定要检查的文件，这样你可以简单地运行 <code>mypy</code> 而无需任何参数。</p>
 </div>
-</div>
+<div class="tabbed-block">
 <p>Mypy lets you specify what files it should type check in several different ways.</p>
 <ol>
 <li>
@@ -1184,60 +1223,98 @@
 <p>For more details about how exactly this is done, see [Mapping file paths to modules <mapping-paths-to-modules>].</p>
 </li>
 <li>
-<p>Second, you can use the <a href="../command_line/#m">-m</a> flag (long form: <a href="../command_line/#m">--module</a>) to specify a module name to be type checked. The name of a module is identical to the name you would use to import that module within a Python program. For example, running</p>
+<p>Second, you can use the [-m] flag (long form: [--module]) to specify a module name to be type checked. The name of a module is identical to the name you would use to import that module within a Python program. For example, running</p>
 <div class="language-shell highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>$<span style="color: #bbbbbb"> </span>mypy<span style="color: #bbbbbb"> </span>-m<span style="color: #bbbbbb"> </span>html.parser
 </code></pre></div>
 <p>...will type check the module <code>html.parser</code> (this happens to be a library stub).</p>
 <p>Mypy will use an algorithm very similar to the one Python uses to find where modules and imports are located on the file system. For more details, see [finding-imports].</p>
 </li>
 <li>
-<p>Third, you can use the <a href="../command_line/#p">-p</a> (long form: <a href="../command_line/#p">--package</a>) flag to specify a package to be (recursively) type checked. This flag is almost identical to the <a href="../command_line/#m">-m</a> flag except that if you give it a package name, mypy will recursively type check all submodules and subpackages of that package. For example, running</p>
+<p>Third, you can use the [-p] (long form: [--package]) flag to specify a package to be (recursively) type checked. This flag is almost identical to the [-m] flag except that if you give it a package name, mypy will recursively type check all submodules and subpackages of that package. For example, running</p>
 <div class="language-shell highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>$<span style="color: #bbbbbb"> </span>mypy<span style="color: #bbbbbb"> </span>-p<span style="color: #bbbbbb"> </span>html
 </code></pre></div>
-<p>...will type check the entire <code>html</code> package (of library stubs). In contrast, if we had used the <a href="../command_line/#m">-m</a> flag, mypy would have type checked just <code>html</code>'s <code>__init__.py</code> file and anything imported from there.</p>
+<p>...will type check the entire <code>html</code> package (of library stubs). In contrast, if we had used the [-m] flag, mypy would have type checked just <code>html</code>'s <code>__init__.py</code> file and anything imported from there.</p>
 <p>Note that we can specify multiple packages and modules on the command line. For example</p>
 <div class="language-shell highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>$<span style="color: #bbbbbb"> </span>mypy<span style="color: #bbbbbb"> </span>--package<span style="color: #bbbbbb"> </span>p.a<span style="color: #bbbbbb"> </span>--package<span style="color: #bbbbbb"> </span>p.b<span style="color: #bbbbbb"> </span>--module<span style="color: #bbbbbb"> </span>c
 </code></pre></div>
 </li>
 <li>
-<p>Fourth, you can also instruct mypy to directly type check small strings as programs by using the <a href="../command_line/#c">-c</a> (long form: <a href="../command_line/#c">--command</a>) flag. For example</p>
+<p>Fourth, you can also instruct mypy to directly type check small strings as programs by using the [-c] (long form: [--command]) flag. For example</p>
 <div class="language-shell highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>$<span style="color: #bbbbbb"> </span>mypy<span style="color: #bbbbbb"> </span>-c<span style="color: #bbbbbb"> </span><span style="color: #BA2121">&#39;x = [1, 2]; print(x())&#39;</span>
 </code></pre></div>
-<p>...will type check the above string as a mini-program (and in this case,
-will report that <code>list[int]</code> is not callable).</p>
+<p>...will type check the above string as a mini-program (and in this case, will report that <code>list[int]</code> is not callable).</p>
 </li>
 </ol>
-<p>You can also use the <a href="../config_file/#files">files</a> option in your <code>mypy.ini</code> file to specify which
-files to check, in which case you can simply run <code>mypy</code> with no arguments.</p>
+<p>You can also use the <a href="../config_file/#files">files</a> option in your <code>mypy.ini</code> file to specify which files to check, in which case you can simply run <code>mypy</code> with no arguments.</p>
+</div>
+</div>
+</div>
 <h2 id="从文件中读取文件列表">从文件中读取文件列表<a class="headerlink" href="#从文件中读取文件列表" title="Permanent link">&para;</a></h2>
 <p><strong>Reading a list of files from a file</strong></p>
 <div class="tabbed-set tabbed-alternate" data-tabs="3:2"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><input id="__tabbed_3_2" name="__tabbed_3" type="radio" /><div class="tabbed-labels"><label for="__tabbed_3_1">中文</label><label for="__tabbed_3_2">英文</label></div>
 <div class="tabbed-content">
-<div class="tabbed-block"></div>
-<div class="tabbed-block"></div>
+<div class="tabbed-block">
+<p>最后，任何以 <code>@</code> 开头的命令行参数会从紧随其后的文件中读取额外的命令行参数。这在你有一个包含要进行类型检查的文件列表的文件时特别有用：你可以避免使用类似于以下的 shell 语法：</p>
+<div class="language-shell highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>$<span style="color: #bbbbbb"> </span>mypy<span style="color: #bbbbbb"> </span><span style="color: #008000; font-weight: bold">$(</span>cat<span style="color: #bbbbbb"> </span>file_of_files.txt<span style="color: #008000; font-weight: bold">)</span>
+</code></pre></div>
+<p>而改为使用以下命令：</p>
+<div class="language-shell highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>$<span style="color: #bbbbbb"> </span>mypy<span style="color: #bbbbbb"> </span>@file_of_files.txt
+</code></pre></div>
+<p>该文件技术上也可以包含任何命令行标志，而不仅仅是文件路径。然而，如果你想配置很多不同的标志，推荐的做法是使用 <a href="../config_file/">配置文件</a>。</p>
 </div>
-</div>
-<p>Finally, any command-line argument starting with <code>@</code> reads additional
-command-line arguments from the file following the <code>@</code> character.
-This is primarily useful if you have a file containing a list of files
-that you want to be type-checked: instead of using shell syntax like</p>
+<div class="tabbed-block">
+<p>Finally, any command-line argument starting with <code>@</code> reads additional command-line arguments from the file following the <code>@</code> character. This is primarily useful if you have a file containing a list of files that you want to be type-checked: instead of using shell syntax like</p>
 <div class="language-shell highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>$<span style="color: #bbbbbb"> </span>mypy<span style="color: #bbbbbb"> </span><span style="color: #008000; font-weight: bold">$(</span>cat<span style="color: #bbbbbb"> </span>file_of_files.txt<span style="color: #008000; font-weight: bold">)</span>
 </code></pre></div>
 <p>you can use this instead</p>
 <div class="language-shell highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>$<span style="color: #bbbbbb"> </span>mypy<span style="color: #bbbbbb"> </span>@file_of_files.txt
 </code></pre></div>
-<p>This file can technically also contain any command line flag, not
-just file paths. However, if you want to configure many different
-flags, the recommended approach is to use a
-[configuration file <config-file>] instead.</p>
+<p>This file can technically also contain any command line flag, not just file paths. However, if you want to configure many different flags, the recommended approach is to use a <a href="../config_file/">configuration file</a> instead.</p>
+</div>
+</div>
+</div>
 <h2 id="映射文件路径到模块">映射文件路径到模块<a class="headerlink" href="#映射文件路径到模块" title="Permanent link">&para;</a></h2>
 <p><strong>Mapping file paths to modules</strong></p>
 <div class="tabbed-set tabbed-alternate" data-tabs="4:2"><input checked="checked" id="__tabbed_4_1" name="__tabbed_4" type="radio" /><input id="__tabbed_4_2" name="__tabbed_4" type="radio" /><div class="tabbed-labels"><label for="__tabbed_4_1">中文</label><label for="__tabbed_4_2">英文</label></div>
 <div class="tabbed-content">
-<div class="tabbed-block"></div>
-<div class="tabbed-block"></div>
+<div class="tabbed-block">
+<p>你可以通过提供路径列表来告诉 mypy 进行类型检查。这是主要的方式之一。例如：</p>
+<div class="language-shell highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>$<span style="color: #bbbbbb"> </span>mypy<span style="color: #bbbbbb"> </span>file_1.py<span style="color: #bbbbbb"> </span>foo/file_2.py<span style="color: #bbbbbb"> </span>file_3.pyi<span style="color: #bbbbbb"> </span>some/directory
+</code></pre></div>
+<p>本节描述了 mypy 如何将提供的路径映射到要进行类型检查的模块。</p>
+<ul>
+<li>
+<p>mypy 会检查所有对应于文件的提供路径。</p>
+</li>
+<li>
+<p>mypy 会递归地发现并检查所有以 <code>.py</code> 或 <code>.pyi</code> 结尾的文件，位于提供的目录路径中，同时考虑到 <a href="../command_line/#exclude">--exclude</a> 选项。</p>
+</li>
+<li>
+<p>对于每个需要检查的文件，mypy 会尝试将该文件（例如 <code>project/foo/bar/baz.py</code>）与一个完全限定的模块名称（例如 <code>foo.bar.baz</code>）相关联。包所在的目录（<code>project</code>）会被添加到 mypy 的模块搜索路径中。</p>
+</li>
+</ul>
+<p>mypy 如何确定完全限定的模块名称取决于选项 <a href="../command_line/#no-namespace-packages">--no-namespace-packages</a> 和 <a href="../command_line/#explicit-package-bases">--explicit-package-bases</a> 是否被设置。</p>
+<ol>
+<li>
+<p>如果设置了 <a href="../command_line/#no-namespace-packages">--no-namespace-packages</a>，mypy 将仅依赖于 <code>__init__.py[i]</code> 文件的存在来确定完全限定的模块名称。即，mypy 会向上遍历目录树，只要继续找到 <code>__init__.py</code>（或 <code>__init__.pyi</code>）文件，就继续向上查找。</p>
+<p>例如，如果你的目录树包括 <code>pkg/subpkg/mod.py</code>，mypy 将要求 <code>pkg/__init__.py</code> 和 <code>pkg/subpkg/__init__.py</code> 存在，以便正确地将 <code>mod.py</code> 关联为 <code>pkg.subpkg.mod</code>。</p>
+</li>
+<li>
+<p>默认情况。如果 <a href="../command_line/#namespace-packages">--namespace-packages</a> 选项开启，但 <a href="../command_line/#explicit-package-bases">--explicit-package-bases</a> 选项关闭，mypy 会允许没有 <code>__init__.py[i]</code> 的目录被视为包。具体来说，mypy 会查看文件的所有父目录，并使用目录树中最高的 <code>__init__.py[i]</code> 的位置来确定顶级包。</p>
+<p>例如，假设你的目录树仅包含 <code>pkg/__init__.py</code> 和 <code>pkg/a/b/c/d/mod.py</code>。在确定 <code>mod.py</code> 的完全限定模块名称时，mypy 会查看 <code>pkg/__init__.py</code> 并得出关联的模块名称是 <code>pkg.a.b.c.d.mod</code>。</p>
+</li>
+<li>
+<p>你会注意到，上述情况仍然依赖于 <code>__init__.py</code>。如果你不能在顶级包中放置 <code>__init__.py</code>，但仍希望传递路径（而不是使用 <code>-p</code> 或 <code>-m</code> 标志的包或模块），<a href="../command_line/#explicit-package-bases">--explicit-package-bases</a> 提供了一个解决方案。</p>
+<p>使用 <a href="../command_line/#explicit-package-bases">--explicit-package-bases</a> 时，mypy 会找到 <code>MYPYPATH</code> 环境变量、<a href="../config_file/#mypy_path">mypy_path</a> 配置或当前工作目录中的最近的父目录。然后，mypy 将使用相对路径来确定完全限定的模块名称。</p>
+<p>例如，假设你的目录树仅包含 <code>src/namespace_pkg/mod.py</code>。如果你运行以下命令，mypy 将正确地将 <code>mod.py</code> 关联为 <code>namespace_pkg.mod</code>：</p>
+<div class="language-shell highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>$<span style="color: #bbbbbb"> </span><span style="color: #19177C">MYPYPATH</span><span style="color: #666666">=</span>src<span style="color: #bbbbbb"> </span>mypy<span style="color: #bbbbbb"> </span>--namespace-packages<span style="color: #bbbbbb"> </span>--explicit-package-bases<span style="color: #bbbbbb"> </span>.
+</code></pre></div>
+</li>
+</ol>
+<p>如果你传递的文件不以 <code>.py[i]</code> 结尾，假定的模块名称是 <code>__main__</code>（与 Python 解释器的行为一致），除非传递了 <a href="../command_line/#scripts-are-modules">--scripts-are-modules</a> 选项。</p>
+<p>传递 <a href="../command_line/#v">-v</a> 选项将显示 mypy 将要检查的文件及其关联的模块名称。</p>
 </div>
-</div>
+<div class="tabbed-block">
 <p>One of the main ways you can tell mypy what to type check is by providing mypy a list of paths. For example</p>
 <div class="language-shell highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>$<span style="color: #bbbbbb"> </span>mypy<span style="color: #bbbbbb"> </span>file_1.py<span style="color: #bbbbbb"> </span>foo/file_2.py<span style="color: #bbbbbb"> </span>file_3.pyi<span style="color: #bbbbbb"> </span>some/directory
 </code></pre></div>
@@ -1282,14 +1359,29 @@ associated module name is <code>pkg.a.b.c.d.mod</code>.</p>
 </ol>
 <p>If you pass a file not ending in <code>.py[i]</code>, the module name assumed is <code>__main__</code> (matching the behavior of the Python interpreter), unless <a href="../command_line/#scripts-are-modules">--scripts-are-modules</a> is passed.</p>
 <p>Passing <a href="../command_line/#v">-v</a> will show you the files and associated module names that mypy will check.</p>
+</div>
+</div>
+</div>
 <h2 id="mypy-如何处理导入">mypy 如何处理导入<a class="headerlink" href="#mypy-如何处理导入" title="Permanent link">&para;</a></h2>
 <p><strong>How mypy handles imports</strong></p>
 <div class="tabbed-set tabbed-alternate" data-tabs="5:2"><input checked="checked" id="__tabbed_5_1" name="__tabbed_5" type="radio" /><input id="__tabbed_5_2" name="__tabbed_5" type="radio" /><div class="tabbed-labels"><label for="__tabbed_5_1">中文</label><label for="__tabbed_5_2">英文</label></div>
 <div class="tabbed-content">
-<div class="tabbed-block"></div>
-<div class="tabbed-block"></div>
+<div class="tabbed-block">
+<p>当 mypy 遇到 <code>import</code> 语句时，它会首先 <a href="#如何找到导入">尝试定位</a> 文件系统中的模块或该模块的类型存根。然后，mypy 将对导入的模块进行类型检查。这个过程有三种不同的结果：</p>
+<ol>
+<li>
+<p><strong>mypy 无法跟随导入</strong>：模块要么不存在，要么是一个不使用类型提示的第三方库。</p>
+</li>
+<li>
+<p><strong>mypy 能够跟随并进行类型检查，但你不希望 mypy 对该模块进行类型检查</strong>。</p>
+</li>
+<li>
+<p><strong>mypy 能够成功地跟随并进行类型检查，并且你希望 mypy 对该模块进行类型检查</strong>。</p>
+</li>
+</ol>
+<p>第三种结果是理想情况下 mypy 会执行的操作。接下来的章节将讨论如何处理其他两种情况。</p>
 </div>
-</div>
+<div class="tabbed-block">
 <p>When mypy encounters an <code>import</code> statement, it will first <a href="#如何找到导入">attempt to locate</a> that module or type stubs for that module in the file system. Mypy will then type check the imported module. There are three different outcomes of this process:</p>
 <ol>
 <li>
@@ -1303,14 +1395,30 @@ associated module name is <code>pkg.a.b.c.d.mod</code>.</p>
 </li>
 </ol>
 <p>The third outcome is what mypy will do in the ideal case. The following sections will discuss what to do in the other two cases.</p>
+</div>
+</div>
+</div>
 <h2 id="缺失的导入">缺失的导入<a class="headerlink" href="#缺失的导入" title="Permanent link">&para;</a></h2>
 <p><strong>Missing imports</strong></p>
 <div class="tabbed-set tabbed-alternate" data-tabs="6:2"><input checked="checked" id="__tabbed_6_1" name="__tabbed_6" type="radio" /><input id="__tabbed_6_2" name="__tabbed_6" type="radio" /><div class="tabbed-labels"><label for="__tabbed_6_1">中文</label><label for="__tabbed_6_2">英文</label></div>
 <div class="tabbed-content">
-<div class="tabbed-block"></div>
-<div class="tabbed-block"></div>
+<div class="tabbed-block">
+<p>当你导入一个模块时，mypy 可能会报告它无法跟随该导入。这可能会导致如下所示的错误：</p>
+<div class="language-text highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>main.py:1: error: Skipping analyzing &#39;django&#39;: module is installed, but missing library stubs or py.typed marker
+main.py:2: error: Library stubs not installed for &quot;requests&quot;
+main.py:3: error: Cannot find implementation or library stub for module named &quot;this_module_does_not_exist&quot;
+</code></pre></div>
+<p>如果你在导入时遇到这些错误，mypy 将假定该模块的类型为 <code>Any</code>，即动态类型。这意味着访问该模块的任何属性都会自动成功：</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #3D7B7B; font-style: italic"># 错误: 找不到名为 &#39;does_not_exist&#39; 的实现或库存根</span>
+<span style="color: #008000; font-weight: bold">import</span> <span style="color: #0000FF; font-weight: bold">does_not_exist</span>
+
+<span style="color: #3D7B7B; font-style: italic"># 但这段代码会通过类型检查，x 的类型为 &#39;Any&#39;</span>
+x <span style="color: #666666">=</span> does_not_exist<span style="color: #666666">.</span>foobar()
+</code></pre></div>
+<p>这可能导致 mypy 无法警告你代码中的错误。由于对 <code>Any</code> 的操作结果仍然是 <code>Any</code>，这些动态类型可以在代码中传播，使类型检查效果降低。有关更多信息，请参见 <a href="../../mypy/dynamic_typing/">动态类型</a>。</p>
+<p>接下来的章节描述了这些错误的含义以及推荐的解决步骤；请滚动到与您的错误相匹配的部分。</p>
 </div>
-</div>
+<div class="tabbed-block">
 <p>When you import a module, mypy may report that it is unable to follow the import. This can cause errors that look like the following:</p>
 <div class="language-text highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>main.py:1: error: Skipping analyzing &#39;django&#39;: module is installed, but missing library stubs or py.typed marker
 main.py:2: error: Library stubs not installed for &quot;requests&quot;
@@ -1325,14 +1433,55 @@ x <span style="color: #666666">=</span> does_not_exist<span style="color: #66666
 </code></pre></div>
 <p>This can result in mypy failing to warn you about errors in your code. Since operations on <code>Any</code> result in <code>Any</code>, these dynamic types can propagate through your code, making type checking less effective. See <a href="../../mypy/dynamic_typing/">dynamic-typing</a> for more information.</p>
 <p>The next sections describe what each of these errors means and recommended next steps; scroll to the section that matches your error.</p>
+</div>
+</div>
+</div>
 <h3 id="缺失的库存根或-pytyped-标记">缺失的库存根或 py.typed 标记<a class="headerlink" href="#缺失的库存根或-pytyped-标记" title="Permanent link">&para;</a></h3>
 <p><strong>Missing library stubs or py.typed marker</strong></p>
 <div class="tabbed-set tabbed-alternate" data-tabs="7:2"><input checked="checked" id="__tabbed_7_1" name="__tabbed_7" type="radio" /><input id="__tabbed_7_2" name="__tabbed_7" type="radio" /><div class="tabbed-labels"><label for="__tabbed_7_1">中文</label><label for="__tabbed_7_2">英文</label></div>
 <div class="tabbed-content">
-<div class="tabbed-block"></div>
-<div class="tabbed-block"></div>
+<div class="tabbed-block">
+<p>如果你遇到错误信息 <code>Skipping analyzing X: module is installed, but missing library stubs or py.typed marker</code>，这意味着 mypy 能够找到你导入的模块，但没有找到相应的类型提示。</p>
+<p>除非第三方库已声明为<a href="../installed_packages/">PEP 561 合规的存根包</a>（例如，包含 <code>py.typed</code> 文件），或者已在 <a href="https://github.com/python/typeshed">typeshed</a> 注册，mypy 不会尝试推断你安装的任何第三方库的类型提示。typeshed 是一个标准库及一些第三方库的类型存储库。</p>
+<p>如果你遇到这个错误，请尝试获取你正在使用的库的类型提示：</p>
+<ol>
+<li>
+<p><strong>升级库的版本</strong>，以查看较新版本是否开始包含类型提示。</p>
+</li>
+<li>
+<p><strong>搜索是否有与第三方库对应的 <a href="../installed_packages/">PEP 561 合规存根包</a></strong>。存根包允许你独立于库本身安装类型提示。</p>
+<p>例如，如果你需要 <code>django</code> 库的类型提示，可以安装 <a href="https://pypi.org/project/django-stubs/">django-stubs</a> 包。</p>
+</li>
+<li>
+<p><strong><a href="../../mypy/stub_files/">编写自己的存根文件</a></strong>，包含库的类型提示。你可以通过命令行传递、使用 <a href="../config_file/#files">files</a> 或 <a href="../config_file/#mypy_path">mypy_path</a> 配置文件选项，或将位置添加到 <code>MYPYPATH</code> 环境变量来指向你的类型提示。</p>
+<p>这些存根文件不需要完整！一个好的策略是使用 <a href="../mypy/stubgen.md">stubgen <stubgen></a> 生成存根的初步草稿。然后你可以仅对需要的库部分进行迭代。</p>
+<p>如果你想分享你的工作，可以尝试将存根贡献回库——请参阅我们关于创建 <a href="../installed_packages/">PEP 561 合规包</a> 的文档。</p>
+</li>
+</ol>
+<p>如果你无法找到现有的类型提示或没有时间编写自己的提示，你可以选择 <em>抑制</em> 错误。</p>
+<p>这将使 mypy 停止报告包含导入的行上的错误：导入的模块将继续为 <code>Any</code> 类型，mypy 可能无法捕捉其使用中的错误。</p>
+<ol>
+<li>
+<p><strong>要抑制单个</strong> 缺失导入错误，请在包含导入的行末尾添加 <code># type: ignore</code>。</p>
+</li>
+<li>
+<p><strong>要抑制单个库的所有</strong> 缺失导入错误，请在 <a href="../config_file/">mypy 配置文件</a> 中添加每个模块的部分，将 <a href="../config_file/#ignore_missing_imports">ignore_missing_imports</a> 设置为 True。例如，假设你的代码库大量使用了一个（未类型化的）库名为 <code>foobar</code>。你可以通过在配置文件中添加以下部分来消除与该库相关的所有导入错误：</p>
+<div class="language-ini highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">[mypy-foobar.*]</span>
+<span style="color: #687822">ignore_missing_imports</span><span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span><span style="color: #BA2121">True</span>
+</code></pre></div>
+<p>注意：这个选项等同于在你的代码库中的每个 <code>foobar</code> 导入上添加 <code># type: ignore</code>。有关更多信息，请参见关于配置 <a href="../config_file/#导入发现">导入发现</a> 的文档。<code>.*</code> 后缀将忽略 <code>foobar</code> 模块和子包的导入，除了 <code>foobar</code> 顶级包命名空间。</p>
+</li>
+<li>
+<p><strong>要抑制代码库中所有未类型化库的所有</strong> 缺失导入错误，请使用 <a href="../command_line/#ignore-missing-imports">disable-error-code=import-untyped</a>。有关此错误代码的更多详细信息，请参见 <a href="../../mypy_other/error_code_list/#检查导入目标是否可以找到-import-untyped">code-import-untyped</a>。</p>
+<p>你也可以设置 <a href="../config_file/#disable_error_code">disable_error_code</a>，如下所示：</p>
+<div class="language-ini highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">[mypy]</span>
+<span style="color: #687822">disable_error_code</span><span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span><span style="color: #BA2121">import-untyped</span>
+</code></pre></div>
+<p>你还可以使用 <a href="../command_line/#ignore-missing-imports">--ignore-missing-imports</a> 命令行标志，或将 <a href="../config_file/#ignore_missing_imports">ignore_missing_imports</a> 配置文件选项设置为 True 在 mypy 配置文件的 <em>global</em> 部分。我们建议尽可能避免使用 <code>--ignore-missing-imports</code>：它等同于在代码库中所有未解析的导入上添加 <code># type: ignore</code>。</p>
+</li>
+</ol>
 </div>
-</div>
+<div class="tabbed-block">
 <p>If you are getting a <code>Skipping analyzing X: module is installed, but missing library stubs or py.typed marker</code>, error, this means mypy was able to find the module you were importing, but no corresponding type hints.</p>
 <p>Mypy will not try inferring the types of any 3<sup>rd</sup> party libraries you have installed unless they either have declared themselves to be <a href="../installed_packages/">PEP 561 compliant stub package</a> (e.g. with a <code>py.typed</code> file) or have registered themselves on <a href="https://github.com/python/typeshed">typeshed</a>, the repository of types for the standard library and some 3<sup>rd</sup> party libraries.</p>
 <p>If you are getting this error, try to obtain type hints for the library you're using:</p>
@@ -1372,14 +1521,29 @@ x <span style="color: #666666">=</span> does_not_exist<span style="color: #66666
 <p>You can also set the <a href="../command_line/#ignore-missing-imports">--ignore-missing-imports</a> command line flag or set the <a href="../config_file/#ignore_missing_imports">ignore_missing_imports</a> config file option to True in the <em>global</em> section of your mypy config file. We recommend avoiding <code>--ignore-missing-imports</code> if possible: it's equivalent to adding a <code># type: ignore</code> to all unresolved imports in your codebase.</p>
 </li>
 </ol>
+</div>
+</div>
+</div>
 <h3 id="库存根未安装">库存根未安装<a class="headerlink" href="#库存根未安装" title="Permanent link">&para;</a></h3>
 <p><strong>Library stubs not installed</strong></p>
 <div class="tabbed-set tabbed-alternate" data-tabs="8:2"><input checked="checked" id="__tabbed_8_1" name="__tabbed_8" type="radio" /><input id="__tabbed_8_2" name="__tabbed_8" type="radio" /><div class="tabbed-labels"><label for="__tabbed_8_1">中文</label><label for="__tabbed_8_2">英文</label></div>
 <div class="tabbed-content">
-<div class="tabbed-block"></div>
-<div class="tabbed-block"></div>
+<div class="tabbed-block">
+<p>如果 mypy 无法找到某个第三方库的存根文件，并且它知道该库有存根文件，你会看到类似以下的消息：</p>
+<div class="language-text highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>main.py:1: error: Library stubs not installed for &quot;yaml&quot;
+main.py:1: note: Hint: &quot;python3 -m pip install types-PyYAML&quot;
+main.py:1: note: (or run &quot;mypy --install-types&quot; to install all missing stub packages)
+</code></pre></div>
+<p>你可以通过运行建议的 pip 命令来解决这个问题。如果你在 CI 环境中运行 mypy，你可以像处理其他测试依赖一样确保所需的存根包的存在，例如，通过将它们添加到适当的 <code>requirements.txt</code> 文件中。</p>
+<p>另一种方法是向你的 mypy 命令添加 <a href="../command_line/#install-types">--install-types</a> 选项，以安装所有已知的缺失存根：</p>
+<div class="language-shell highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>mypy<span style="color: #bbbbbb"> </span>--install-types
+</code></pre></div>
+<p>这比显式安装存根要慢，因为它实际上会运行两次 mypy——第一次是查找缺失的存根，第二次是在 mypy 安装存根后正确地类型检查你的代码。这也可能使控制存根版本变得更加困难，从而导致类型检查的可重现性降低。</p>
+<p>默认情况下，<a href="../command_line/#install-types">--install-types</a> 会显示一个确认提示。使用 <a href="../command_line/#non-interactive">--non-interactive</a> 可以在不需要确认的情况下安装所有建议的存根包 <em>并且</em> 类型检查你的代码：</p>
+<p>如果你已经在 mypy 运行所在环境之外的环境中安装了相关的第三方库，你可以使用 <a href="../command_line/#python-executable">--python-executable</a> 标志来指定该环境的 Python 可执行文件，mypy 将找到为该 Python 可执行文件安装的包。</p>
+<p>如果你已经安装了相关的存根包，但仍然遇到此错误，请参阅 <a href="#无法找到实现或库存根">下面的部分</a>。</p>
 </div>
-</div>
+<div class="tabbed-block">
 <p>If mypy can't find stubs for a third-party library, and it knows that stubs exist for the library, you will get a message like this:</p>
 <div class="language-text highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>main.py:1: error: Library stubs not installed for &quot;yaml&quot;
 main.py:1: note: Hint: &quot;python3 -m pip install types-PyYAML&quot;
@@ -1393,14 +1557,34 @@ main.py:1: note: (or run &quot;mypy --install-types&quot; to install all missing
 <p>By default, <a href="../command_line/#install-types">--install-types</a> shows a confirmation prompt. Use <a href="../command_line/#non-interactive">--non-interactive</a> to install all suggested stub packages without asking for confirmation <em>and</em> type check your code:</p>
 <p>If you've already installed the relevant third-party libraries in an environment other than the one mypy is running in, you can use <a href="../command_line/#python-executable">--python-executable</a> flag to point to the Python executable for that environment, and mypy will find packages installed for that Python executable.</p>
 <p>If you've installed the relevant stub packages and are still getting this error, see the <a href="#无法找到实现或库存根">section below</a>.</p>
+</div>
+</div>
+</div>
 <h3 id="无法找到实现或库存根">无法找到实现或库存根<a class="headerlink" href="#无法找到实现或库存根" title="Permanent link">&para;</a></h3>
 <p><strong>Cannot find implementation or library stub</strong></p>
 <div class="tabbed-set tabbed-alternate" data-tabs="9:2"><input checked="checked" id="__tabbed_9_1" name="__tabbed_9" type="radio" /><input id="__tabbed_9_2" name="__tabbed_9" type="radio" /><div class="tabbed-labels"><label for="__tabbed_9_1">中文</label><label for="__tabbed_9_2">英文</label></div>
 <div class="tabbed-content">
-<div class="tabbed-block"></div>
-<div class="tabbed-block"></div>
+<div class="tabbed-block">
+<p>如果你遇到 <code>Cannot find implementation or library stub for module</code> 错误，这意味着 mypy 无法找到你试图导入的模块，无论该模块是否包含类型提示。如果你遇到这个错误，请尝试以下方法：</p>
+<ol>
+<li>
+<p><strong>确保你的导入语句没有拼写错误。</strong></p>
+</li>
+<li>
+<p><strong>如果模块是第三方库，确保 mypy 能够找到包含已安装库的解释器。</strong></p>
+<p>例如，如果你在 virtualenv 中运行代码，请确保在 virtualenv 中安装和使用 mypy。或者，如果你希望使用全局安装的 mypy，请设置 <a href="../command_line/#python-executable">--python-executable</a> 命令行标志，指向包含已安装第三方包的 Python 解释器。</p>
+<p>你可以通过像 <code>python -m mypy ...</code> 这样运行 mypy 来确认你是否在预期的环境中运行它。你可以通过像 <code>python -m pip ...</code> 这样运行 pip 来确认你是否在预期的环境中安装包。</p>
+</li>
+<li>
+<p><strong>阅读下面的 <a href="#如何找到导入">finding-imports</a> 部分，以确保你理解 mypy 是如何搜索和找到模块的，并根据需要调整你调用 mypy 的方式。</strong></p>
+</li>
+<li>
+<p><strong>通过命令行直接指定包含你想要类型检查的模块的目录，使用 <a href="../config_file/#mypy_path">mypy_path</a> 或 <a href="../config_file/#files">files</a> 配置文件选项，或通过设置 <code>MYPYPATH</code> 环境变量。</strong></p>
+<p>注意：如果你试图导入的模块实际上是某个包的 <em>子模块</em>，你应该指定包含 <em>整个</em> 包的目录。例如，假设你要添加模块 <code>foo.bar.baz</code>，它位于 <code>~/foo-project/src/foo/bar/baz.py</code>。在这种情况下，你必须运行 <code>mypy ~/foo-project/src</code>（或将 <code>MYPYPATH</code> 设置为 <code>~/foo-project/src</code>）。</p>
+</li>
+</ol>
 </div>
-</div>
+<div class="tabbed-block">
 <p>If you are getting a <code>Cannot find implementation or library stub for module</code> error, this means mypy was not able to find the module you are trying to import, whether it comes bundled with type hints or not. If you are getting this error, try:</p>
 <ol>
 <li>
@@ -1421,14 +1605,40 @@ main.py:1: note: (or run &quot;mypy --install-types&quot; to install all missing
 <p>Note: if the module you are trying to import is actually a <em>submodule</em> of some package, you should specify the directory containing the <em>entire</em> package. For example, suppose you are trying to add the module <code>foo.bar.baz</code> which is located at <code>~/foo-project/src/foo/bar/baz.py</code>. In this case, you must run <code>mypy ~/foo-project/src</code> (or set the <code>MYPYPATH</code> to <code>~/foo-project/src</code>).</p>
 </li>
 </ol>
+</div>
+</div>
+</div>
 <h2 id="如何找到导入">如何找到导入<a class="headerlink" href="#如何找到导入" title="Permanent link">&para;</a></h2>
 <p><strong>How imports are found</strong></p>
 <div class="tabbed-set tabbed-alternate" data-tabs="10:2"><input checked="checked" id="__tabbed_10_1" name="__tabbed_10" type="radio" /><input id="__tabbed_10_2" name="__tabbed_10" type="radio" /><div class="tabbed-labels"><label for="__tabbed_10_1">中文</label><label for="__tabbed_10_2">英文</label></div>
 <div class="tabbed-content">
-<div class="tabbed-block"></div>
-<div class="tabbed-block"></div>
+<div class="tabbed-block">
+<p>当 mypy 遇到 <code>import</code> 语句或通过 <a href="../command_line/#m">--module</a> 或 <a href="../command_line/#p">--package</a> 标志从命令行接收模块名称时，mypy 尝试在文件系统上找到该模块，这与 Python 查找模块的方式类似。然而，存在一些差异。</p>
+<p>首先，mypy 有自己的搜索路径。这些路径由以下项目计算得出：</p>
+<ul>
+<li><code>MYPYPATH</code> 环境变量（在 UNIX 系统上用冒号分隔的目录列表，在 Windows 上用分号分隔）。</li>
+<li><a href="../config_file/#mypy_path">mypy_path</a> 配置文件选项。</li>
+<li>命令行上提供的源文件所在的目录（参见 <a href="#映射文件路径到模块">将文件路径映射到模块</a>）。</li>
+<li>被标记为类型检查安全的已安装包（参见 <a href="../installed_packages/">PEP 561 支持</a>）。</li>
+<li><a href="https://github.com/python/typeshed">typeshed</a> 仓库中的相关目录。</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>你不能通过 <code>MYPYPATH</code> 指向一个仅包含存根的包 (<a href="https://peps.python.org/pep-0561/">561</a>)，它必须已安装（参见 <a href="../installed_packages/">PEP 561 支持</a>）。</p>
 </div>
+<p>其次，mypy 除了常规的 Python 文件和包，还会搜索存根文件。搜索模块 <code>foo</code> 的规则如下：</p>
+<ul>
+<li>搜索会在搜索路径中的每个目录中进行，直到找到匹配项。</li>
+<li>如果找到名为 <code>foo</code> 的包（即包含 <code>__init__.py</code> 或 <code>__init__.pyi</code> 文件的目录 <code>foo</code>），这就是匹配项。</li>
+<li>如果找到名为 <code>foo.pyi</code> 的存根文件，这也是匹配项。</li>
+<li>如果找到名为 <code>foo.py</code> 的 Python 模块，这也是匹配项。</li>
+</ul>
+<p>这些匹配项会按顺序尝试，因此如果在搜索路径中的同一目录中找到多个匹配项（例如一个包和一个 Python 文件，或一个存根文件和一个 Python 文件），则上述列表中的第一个匹配项优先。</p>
+<p>特别地，如果同一目录中既有 Python 文件又有存根文件，则只使用存根文件。（不过，如果这些文件在不同的目录中，则使用在较早目录中找到的文件。）</p>
+<p>设置 <a href="../config_file/#mypy_path">mypy_path</a>/<code>MYPYPATH</code> 在你希望尝试运行 mypy 对多个不同的文件集进行检查，而这些文件集恰好共享一些公共依赖项的情况下特别有用。</p>
+<p>例如，如果你有多个项目恰好使用相同的一组正在开发中的存根，方便的做法可能是让你的 <code>MYPYPATH</code> 指向包含这些存根的单一目录。</p>
 </div>
+<div class="tabbed-block">
 <p>When mypy encounters an <code>import</code> statement or receives module names from the command line via the <a href="../command_line/#m">--module</a> or <a href="../command_line/#p">--package</a> flags, mypy tries to find the module on the file system similar to the way Python finds it. However, there are some differences.</p>
 <p>First, mypy has its own search path. This is computed from the following items:</p>
 <ul>
@@ -1453,14 +1663,41 @@ main.py:1: note: (or run &quot;mypy --install-types&quot; to install all missing
 <p>In particular, if a Python file and a stub file are both present in the same directory on the search path, only the stub file is used. (However, if the files are in different directories, the one found in the earlier directory is used.)</p>
 <p>Setting <a href="../config_file/#mypy_path">mypy_path</a>/<code>MYPYPATH</code> is mostly useful in the case where you want to try running mypy against multiple distinct sets of files that happen to share some common dependencies.</p>
 <p>For example, if you have multiple projects that happen to be using the same set of work-in-progress stubs, it could be convenient to just have your <code>MYPYPATH</code> point to a single directory containing the stubs.</p>
+</div>
+</div>
+</div>
 <h2 id="跟随导入">跟随导入<a class="headerlink" href="#跟随导入" title="Permanent link">&para;</a></h2>
 <p><strong>Following imports</strong></p>
 <div class="tabbed-set tabbed-alternate" data-tabs="11:2"><input checked="checked" id="__tabbed_11_1" name="__tabbed_11" type="radio" /><input id="__tabbed_11_2" name="__tabbed_11" type="radio" /><div class="tabbed-labels"><label for="__tabbed_11_1">中文</label><label for="__tabbed_11_2">英文</label></div>
 <div class="tabbed-content">
-<div class="tabbed-block"></div>
-<div class="tabbed-block"></div>
+<div class="tabbed-block">
+<p>Mypy 设计为<a href="#如何找到导入">坚定地跟随所有导入</a>，即使导入的模块不是你明确希望 mypy 检查的文件。</p>
+<p>例如，假设我们有两个模块 <code>mycode.foo</code> 和 <code>mycode.bar</code>：前者有类型提示，而后者没有。我们运行 <a href="../command_line/#m">mypy -m mycode.foo</a>，mypy 发现 <code>mycode.foo</code> 导入了 <code>mycode.bar</code>。</p>
+<p>我们希望 mypy 如何检查 <code>mycode.bar</code> 呢？mypy 在这里的行为是可配置的——尽管我们 <strong>强烈推荐</strong> 使用默认设置——通过 <a href="../command_line/#follow-imports">--follow-imports</a> 标志。这个标志接受以下四种字符串值之一：</p>
+<ul>
+<li>
+<p><code>normal</code>（默认推荐）会正常跟随所有导入并类型检查所有顶级代码（以及所有函数和方法中具有至少一个类型注解的代码体）。</p>
+</li>
+<li>
+<p><code>silent</code> 的行为与 <code>normal</code> 相同，但会额外 <em>抑制</em> 任何错误消息。</p>
+</li>
+<li>
+<p><code>skip</code> 将 <em>不</em> 跟随导入，而是静默地用类型 <code>Any</code> 替换模块（以及 <em>从中导入的任何东西</em>）。</p>
+</li>
+<li>
+<p><code>error</code> 的行为与 <code>skip</code> 相同，但不完全是静默的——它会将导入标记为错误，如下所示：</p>
+<div class="language-text highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>main.py:1: note: Import of &quot;mycode.bar&quot; ignored
+main.py:1: note: (Using --follow-imports=error, module not passed on command line)
+</code></pre></div>
+</li>
+</ul>
+<p>如果你正在开始一个新的代码库并计划从一开始就使用类型提示，我们建议你使用 <a href="../command_line/#follow-imports">--follow-imports</a>（默认）或 <a href="../command_line/#follow-imports">--follow-imports=error</a>。这两种选项都可以帮助确保你不会意外地跳过代码库的任何部分。</p>
+<p>如果你计划将类型提示添加到一个大型的现有代码库，我们建议你首先尝试使整个代码库（包括不使用类型提示的文件）在 <a href="../command_line/#follow-imports">follow-imports=normal</a> 下通过检查。这通常不难做到：mypy 设计为在查看未注解代码时报告尽可能少的错误消息。</p>
+<p>只有在这样做不可行时，我们建议你仅传递你希望类型检查的文件，并使用 <a href="../command_line/#follow-imports">follow-imports=silent</a>。即使 mypy 无法完美地检查一个文件，它仍然可以通过解析文件获得一些有用的信息（例如，了解一个给定对象具有哪些方法）。有关更多建议，请参见 <a href="../../mypy/existing_code/">现有代码</a>。</p>
+<p>除非你知道自己在做什么，否则我们不推荐使用 <code>skip</code>：虽然这个选项可能非常强大，但也可能导致许多难以调试的错误。</p>
+<p>调整导入跟随行为通常在限制于特定模块时最有用。这可以通过设置每个模块的 <a href="../config_file/#follow_imports">follow_imports</a> 配置选项来实现。</p>
 </div>
-</div>
+<div class="tabbed-block">
 <p>Mypy is designed to <a href="#如何找到导入">doggedly follow all imports</a>, even if the imported module is not a file you explicitly wanted mypy to check.</p>
 <p>For example, suppose we have two modules <code>mycode.foo</code> and <code>mycode.bar</code>: the former has type hints and the latter does not. We run <a href="../command_line/#m">mypy -m mycode.foo</a> and mypy discovers that <code>mycode.foo</code> imports <code>mycode.bar</code>.</p>
 <p>How do we want mypy to type check <code>mycode.bar</code>? Mypy's behaviour here is configurable -- although we <strong>strongly recommend</strong> using the default -- by using the <a href="../command_line/#follow-imports">--follow-imports</a> flag. This flag accepts one of four string values:</p>
@@ -1486,6 +1723,9 @@ main.py:1: note: (Using --follow-imports=error, module not passed on command lin
 <p>Only if doing this is intractable, we recommend passing mypy just the files you want to type check and use <a href="../command_line/#follow-imports">follow-imports=silent</a>. Even if mypy is unable to perfectly type check a file, it can still glean some useful information by parsing it (for example, understanding what methods a given object has). See <a href="../../mypy/existing_code/">existing-code</a> for more recommendations.</p>
 <p>We do not recommend using <code>skip</code> unless you know what you are doing: while this option can be quite powerful, it can also cause many hard-to-debug errors.</p>
 <p>Adjusting import following behaviour is often most useful when restricted to specific modules. This can be accomplished by setting a per-module <a href="../config_file/#follow_imports">follow_imports</a> config option.</p>
+</div>
+</div>
+</div>
 
 
 
@@ -1508,7 +1748,7 @@ main.py:1: note: (Using --follow-imports=error, module not passed on command lin
     <span class="md-icon" title="最后更新">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2024年9月14日</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2024年9月16日</span>
   </span>
 
     
