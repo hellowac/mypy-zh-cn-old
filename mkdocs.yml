@@ -1,5 +1,5 @@
 # 文档属性配置
-site_name: mypy类型检查 # 文档标题
+site_name: mypy静态类型检查器 # 文档标题
 repo_name: hellowac/myppy-zh-cn
 repo_url: https://github.com/hellowac/mypy-zh-cn
 site_description: hellowac-类型检查
