@@ -188,7 +188,7 @@
 
         例如，如果你的目录树包括 ``pkg/subpkg/mod.py``，mypy 将要求 ``pkg/__init__.py`` 和 ``pkg/subpkg/__init__.py`` 存在，以便正确地将 ``mod.py`` 关联为 ``pkg.subpkg.mod``。
 
-    2. 默认情况。如果 [--namespace-packages](./command_line.md#namespace-packages) 选项开启，但 [--explicit-package-bases](./command_line.md#explicit-package-bases) 选项关闭，mypy 会允许没有 ``__init__.py[i]`` 的目录被视为包。具体来说，mypy 会查看文件的所有父目录，并使用目录树中最高的 ``__init__.py[i]`` 的位置来确定顶级包。
+    2. 默认情况。如果 [--namespace-packages](./command_line.md#no-namespace-packages) 选项开启，但 [--explicit-package-bases](./command_line.md#explicit-package-bases) 选项关闭，mypy 会允许没有 ``__init__.py[i]`` 的目录被视为包。具体来说，mypy 会查看文件的所有父目录，并使用目录树中最高的 ``__init__.py[i]`` 的位置来确定顶级包。
 
         例如，假设你的目录树仅包含 ``pkg/__init__.py`` 和 ``pkg/a/b/c/d/mod.py``。在确定 ``mod.py`` 的完全限定模块名称时，mypy 会查看 ``pkg/__init__.py`` 并得出关联的模块名称是 ``pkg.a.b.c.d.mod``。
 
@@ -230,7 +230,7 @@
 
         For example, if your directory tree consists of ``pkg/subpkg/mod.py``, mypy would require ``pkg/__init__.py`` and ``pkg/subpkg/__init__.py`` to exist in order correctly associate ``mod.py`` with ``pkg.subpkg.mod``
 
-    2. The default case. If [--namespace-packages](./command_line.md#namespace-packages) is on, but [--explicit-package-bases](./command_line.md#explicit-package-bases) is off, mypy will allow for the possibility that
+    2. The default case. If [--namespace-packages](./command_line.md#no-namespace-packages) is on, but [--explicit-package-bases](./command_line.md#explicit-package-bases) is off, mypy will allow for the possibility that
         directories without ``__init__.py[i]`` are packages. Specifically, mypy will
         look at all parent directories of the file and use the location of the
         highest ``__init__.py[i]`` in the directory tree to determine the top-level
@@ -355,7 +355,7 @@
 
     3. **[编写自己的存根文件](../mypy/stub_files.md)**，包含库的类型提示。你可以通过命令行传递、使用 [files](./config_file.md#files) 或 [mypy_path](./config_file.md#mypy_path) 配置文件选项，或将位置添加到 ``MYPYPATH`` 环境变量来指向你的类型提示。
 
-        这些存根文件不需要完整！一个好的策略是使用 [stubgen <stubgen>](../mypy/stubgen.md) 生成存根的初步草稿。然后你可以仅对需要的库部分进行迭代。
+        这些存根文件不需要完整！一个好的策略是使用 [stubgen](./stubgen.md) 生成存根的初步草稿。然后你可以仅对需要的库部分进行迭代。
 
         如果你想分享你的工作，可以尝试将存根贡献回库——请参阅我们关于创建 [PEP 561 合规包](./installed_packages.md) 的文档。
 
@@ -395,7 +395,7 @@
 
     1.  Upgrading the version of the library you're using, in case a newer version has started to include type hints.
 
-    2.  Searching to see if there is a [PEP 561 compliant stub package][PEP 561 compliant stub package](./installed_packages.md) corresponding to your third party library. Stub packages let you install type hints independently from the library itself.
+    2.  Searching to see if there is a [PEP 561 compliant stub package](./installed_packages.md) corresponding to your third party library. Stub packages let you install type hints independently from the library itself.
 
         For example, if you want type hints for the ``django`` library, you can install the [django-stubs](https://pypi.org/project/django-stubs/) package.
 
@@ -409,9 +409,9 @@
 
     All this will do is make mypy stop reporting an error on the line containing the import: the imported module will continue to be of type ``Any``, and mypy may not catch errors in its use.
 
-    1.  To suppress a *single* missing import error, add a ``# type: ignore`` at the end of the line containing the import.
+    4.  To suppress a *single* missing import error, add a ``# type: ignore`` at the end of the line containing the import.
 
-    2.  To suppress *all* missing import errors from a single library, add a per-module section to your [mypy config file](./config_file.md) setting [ignore_missing_imports](./config_file.md#ignore_missing_imports) to True for that library. For example, suppose your codebase makes heavy use of an (untyped) library named ``foobar``. You can silence all import errors associated with that library and that library alone by adding the following section to your config file
+    5.  To suppress *all* missing import errors from a single library, add a per-module section to your [mypy config file](./config_file.md) setting [ignore_missing_imports](./config_file.md#ignore_missing_imports) to True for that library. For example, suppose your codebase makes heavy use of an (untyped) library named ``foobar``. You can silence all import errors associated with that library and that library alone by adding the following section to your config file
         
         ```ini  
             [mypy-foobar.*]
@@ -420,7 +420,7 @@
 
         Note: this option is equivalent to adding a ``# type: ignore`` to every import of ``foobar`` in your codebase. For more information, see the documentation about configuring [import discovery](./config_file.md#导入发现) in config files. The ``.*`` after ``foobar`` will ignore imports of ``foobar`` modules and subpackages in addition to the ``foobar`` top-level package namespace.
 
-    3.  To suppress *all* missing import errors for *all* untyped libraries in your codebase, use [disable-error-code=import-untyped](./command_line.md#ignore-missing-imports). See [code-import-untyped](../mypy_other/error_code_list.md#检查导入目标是否可以找到-import-untyped) for more details on this error code.
+    6.  To suppress *all* missing import errors for *all* untyped libraries in your codebase, use [disable-error-code=import-untyped](./command_line.md#ignore-missing-imports). See [code-import-untyped](../mypy_other/error_code_list.md#检查导入目标是否可以找到-import-untyped) for more details on this error code.
 
         You can also set [disable_error_code](./config_file.md#disable_error_code), like so
         

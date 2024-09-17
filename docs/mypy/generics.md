@@ -1283,7 +1283,7 @@ Generic protocols
 
 === "中文"
 
-    Mypy 支持通用协议（另请参阅 [`protocol-types`](./protocol_and_struct_subtyping.md#协议和结构子类型)）。 一些[`预定义协议`](https://mypy.readthedocs.io/en/stable/protocols.html#predefined-protocols)是通用的，例如[`Iterable[T]`](https://docs. python.org/3/library/typing.html#typing.Iterable)，并且您可以定义其他通用协议。 泛型协议大多遵循泛型类的正常规则。 例子：
+    Mypy 支持通用协议（另请参阅 [`protocol-types`](./protocol_and_struct_subtyping.md#协议及其子类型)）。 一些[`预定义协议`](https://mypy.readthedocs.io/en/stable/protocols.html#predefined-protocols)是通用的，例如[`Iterable[T]`](https://docs. python.org/3/library/typing.html#typing.Iterable)，并且您可以定义其他通用协议。 泛型协议大多遵循泛型类的正常规则。 例子：
 
     ```python
     from typing import TypeVar
@@ -1363,7 +1363,7 @@ Generic protocols
 
 === "英文"
 
-    Mypy supports generic protocols (see also [`protocol-types`](./protocol_and_struct_subtyping.md#协议和结构子类型)). Several [`predefined protocols`](https://mypy.readthedocs.io/en/stable/protocols.html#predefined-protocols) are generic, such as [`Iterable[T]`](https://docs.python.org/3/library/typing.html#typing.Iterable), and you can define additional generi protocols. Generic protocols mostly follow the normal rules for generic classes. Example:
+    Mypy supports generic protocols (see also [`protocol-types`](./protocol_and_struct_subtyping.md#协议及其子类型)). Several [`predefined protocols`](https://mypy.readthedocs.io/en/stable/protocols.html#predefined-protocols) are generic, such as [`Iterable[T]`](https://docs.python.org/3/library/typing.html#typing.Iterable), and you can define additional generi protocols. Generic protocols mostly follow the normal rules for generic classes. Example:
 
     ```python
     from typing import TypeVar
