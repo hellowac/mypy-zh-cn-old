@@ -1788,7 +1788,7 @@
 <div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">中文</label><label for="__tabbed_1_2">英文</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<p>This section documents various errors codes that mypy can generate with default options. See <a href="../error_codes/">Error codes</a> for general documentation about error codes.  <a href="../error_code_list2/">Error codes for optional checks</a> documents additional error codes that you can enable.</p>
+<p>本节记录了 mypy 在默认选项下可能生成的各种错误代码。有关错误代码的一般文档，请参阅 <a href="../error_codes/">错误代码</a>。有关可选检查的错误代码，请参阅 <a href="../error_code_list2/">可选检查的错误代码</a>。</p>
 </div>
 <div class="tabbed-block">
 <p>This section documents various errors codes that mypy can generate with default options. See <a href="../error_codes/">Error codes</a> for general documentation about error codes.  <a href="../error_code_list2/">Error codes for optional checks</a> documents additional error codes that you can enable.</p>
@@ -1800,22 +1800,22 @@
 <div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">中文</label><label for="__tabbed_2_2">英文</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<p>Mypy checks that an attribute is defined in the target class or module when using the dot operator. This applies to both getting and setting an attribute. New attributes are defined by assignments in the class body, or assignments to <code>self.x</code> in methods. These assignments don't generate <code>attr-defined</code> errors.</p>
-<p>Example:</p>
+<p>Mypy 会检查使用点操作符时目标类或模块中是否定义了某个属性。这适用于获取和设置属性。新的属性通过在类体内的赋值或在方法中对 <code>self.x</code> 的赋值来定义。这些赋值不会生成 <code>attr-defined</code> 错误。</p>
+<p>示例：</p>
 <div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Resource</span>:
     <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__init__</span>(<span style="color: #008000">self</span>, name: <span style="color: #008000">str</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:
         <span style="color: #008000">self</span><span style="color: #666666">.</span>name <span style="color: #666666">=</span> name
 
 r <span style="color: #666666">=</span> Resource(<span style="color: #BA2121">&#39;x&#39;</span>)
 <span style="color: #008000">print</span>(r<span style="color: #666666">.</span>name)  <span style="color: #3D7B7B; font-style: italic"># OK</span>
-<span style="color: #008000">print</span>(r<span style="color: #666666">.</span>id)  <span style="color: #3D7B7B; font-style: italic"># Error: &quot;Resource&quot; has no attribute &quot;id&quot;  [attr-defined]</span>
-r<span style="color: #666666">.</span>id <span style="color: #666666">=</span> <span style="color: #666666">5</span>  <span style="color: #3D7B7B; font-style: italic"># Error: &quot;Resource&quot; has no attribute &quot;id&quot;  [attr-defined]</span>
+<span style="color: #008000">print</span>(r<span style="color: #666666">.</span>id)  <span style="color: #3D7B7B; font-style: italic"># 错误: &quot;Resource&quot; 没有属性 &quot;id&quot;  [attr-defined]</span>
+r<span style="color: #666666">.</span>id <span style="color: #666666">=</span> <span style="color: #666666">5</span>  <span style="color: #3D7B7B; font-style: italic"># 错误: &quot;Resource&quot; 没有属性 &quot;id&quot;  [attr-defined]</span>
 </code></pre></div>
-<p>This error code is also generated if an imported name is not defined in the module in a <code>from ... import</code> statement (as long as the target module can be found):</p>
-<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #3D7B7B; font-style: italic"># Error: Module &quot;os&quot; has no attribute &quot;non_existent&quot;  [attr-defined]</span>
+<p>如果在 <code>from ... import</code> 语句中导入的名称在模块中没有定义，也会生成此错误代码（只要目标模块可以找到）：</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #3D7B7B; font-style: italic"># 错误: 模块 &quot;os&quot; 没有属性 &quot;non_existent&quot;  [attr-defined]</span>
 <span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">os</span> <span style="color: #008000; font-weight: bold">import</span> non_existent
 </code></pre></div>
-<p>A reference to a missing attribute is given the <code>Any</code> type. In the above example, the type of <code>non_existent</code> will be <code>Any</code>, which can be important if you silence the error.</p>
+<p>对缺失属性的引用会被赋予 <code>Any</code> 类型。在上述示例中，<code>non_existent</code> 的类型将是 <code>Any</code>，如果你忽略了这个错误，这可能是重要的。</p>
 </div>
 <div class="tabbed-block">
 <p>Mypy checks that an attribute is defined in the target class or module when using the dot operator. This applies to both getting and setting an attribute. New attributes are defined by assignments in the class body, or assignments to <code>self.x</code> in methods. These assignments don't generate <code>attr-defined</code> errors.</p>
@@ -1842,8 +1842,8 @@ r<span style="color: #666666">.</span>id <span style="color: #666666">=</span> <
 <div class="tabbed-set tabbed-alternate" data-tabs="3:2"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><input id="__tabbed_3_2" name="__tabbed_3" type="radio" /><div class="tabbed-labels"><label for="__tabbed_3_1">中文</label><label for="__tabbed_3_2">英文</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<p>If you access the attribute of a value with a union type, mypy checks that the attribute is defined for <em>every</em> type in that union. Otherwise the operation can fail at runtime. This also applies to optional types.</p>
-<p>Example:</p>
+<p>如果你访问一个具有联合类型（<code>Union</code>）的值的属性，mypy 会检查该属性是否在联合中的<em>每个</em>类型中都定义了。否则，该操作可能会在运行时失败。这同样适用于可选类型（<code>Optional</code>）。</p>
+<p>示例：</p>
 <div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">typing</span> <span style="color: #008000; font-weight: bold">import</span> Union
 
 <span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Cat</span>:
@@ -1855,12 +1855,12 @@ r<span style="color: #666666">.</span>id <span style="color: #666666">=</span> <
     <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">follow_me</span>(<span style="color: #008000">self</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>: <span style="color: #666666">...</span>
 
 <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">func</span>(animal: Union[Cat, Dog]) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:
-    <span style="color: #3D7B7B; font-style: italic"># OK: &#39;sleep&#39; is defined for both Cat and Dog</span>
+    <span style="color: #3D7B7B; font-style: italic"># OK: &#39;sleep&#39; 在 Cat 和 Dog 中都定义了</span>
     animal<span style="color: #666666">.</span>sleep()
-    <span style="color: #3D7B7B; font-style: italic"># Error: Item &quot;Cat&quot; of &quot;Union[Cat, Dog]&quot; has no attribute &quot;follow_me&quot;  [union-attr]</span>
+    <span style="color: #3D7B7B; font-style: italic"># 错误: 联合类型 &quot;Union[Cat, Dog]&quot; 的项 &quot;Cat&quot; 没有属性 &quot;follow_me&quot;  [union-attr]</span>
     animal<span style="color: #666666">.</span>follow_me()
 </code></pre></div>
-<p>You can often work around these errors by using <code>assert isinstance(obj, ClassName)</code> or <code>assert obj is not None</code> to tell mypy that you know that the type is more specific than what mypy thinks.</p>
+<p>你可以通过使用 <code>assert isinstance(obj, ClassName)</code> 或 <code>assert obj is not None</code> 来绕过这些错误，以告诉 mypy 你知道类型比 mypy 认为的更具体。</p>
 </div>
 <div class="tabbed-block">
 <p>If you access the attribute of a value with a union type, mypy checks that the attribute is defined for <em>every</em> type in that union. Otherwise the operation can fail at runtime. This also applies to optional types.</p>
@@ -1890,9 +1890,9 @@ r<span style="color: #666666">.</span>id <span style="color: #666666">=</span> <
 <div class="tabbed-set tabbed-alternate" data-tabs="4:2"><input checked="checked" id="__tabbed_4_1" name="__tabbed_4" type="radio" /><input id="__tabbed_4_2" name="__tabbed_4" type="radio" /><div class="tabbed-labels"><label for="__tabbed_4_1">中文</label><label for="__tabbed_4_2">英文</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<p>Mypy expects that all references to names have a corresponding definition in an active scope, such as an assignment, function definition or an import. This can catch missing definitions, missing imports, and typos.</p>
-<p>This example accidentally calls <code>sort()</code> instead of <a href="https://docs.python.org/3/library/functions.html#sorted">sorted()</a>:</p>
-<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>x <span style="color: #666666">=</span> sort([<span style="color: #666666">3</span>, <span style="color: #666666">2</span>, <span style="color: #666666">4</span>])  <span style="color: #3D7B7B; font-style: italic"># Error: Name &quot;sort&quot; is not defined  [name-defined]</span>
+<p>Mypy 期望所有对名称的引用在当前作用域中都有对应的定义，例如赋值、函数定义或导入。这可以帮助发现缺失的定义、缺少的导入以及拼写错误。</p>
+<p>例如，下面的代码错误地调用了 <code>sort()</code> 而不是 <code>sorted()</code>：</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>x <span style="color: #666666">=</span> sort([<span style="color: #666666">3</span>, <span style="color: #666666">2</span>, <span style="color: #666666">4</span>])  <span style="color: #3D7B7B; font-style: italic"># 错误: 名称 &quot;sort&quot; 未定义  [name-defined]</span>
 </code></pre></div>
 </div>
 <div class="tabbed-block">
@@ -1908,9 +1908,9 @@ r<span style="color: #666666">.</span>id <span style="color: #666666">=</span> <
 <div class="tabbed-set tabbed-alternate" data-tabs="5:2"><input checked="checked" id="__tabbed_5_1" name="__tabbed_5" type="radio" /><input id="__tabbed_5_2" name="__tabbed_5" type="radio" /><div class="tabbed-labels"><label for="__tabbed_5_1">中文</label><label for="__tabbed_5_2">英文</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<p>Mypy will generate an error if a name is used before it's defined. While the name-defined check will catch issues with names that are undefined, it will not flag if a variable is used and then defined later in the scope. used-before-def check will catch such cases.</p>
-<p>Example:</p>
-<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000">print</span>(x)  <span style="color: #3D7B7B; font-style: italic"># Error: Name &quot;x&quot; is used before definition [used-before-def]</span>
+<p>如果在定义之前使用了某个名称，Mypy 将生成错误。虽然 <code>name-defined</code> 检查会捕捉未定义名称的问题，但它不会标记在作用域中先使用变量然后再定义的情况。<code>used-before-def</code> 检查会捕捉这些情况。</p>
+<p>例如：</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000">print</span>(x)  <span style="color: #3D7B7B; font-style: italic"># 错误: 名称 &quot;x&quot; 在定义之前被使用 [used-before-def]</span>
 x <span style="color: #666666">=</span> <span style="color: #666666">123</span>
 </code></pre></div>
 </div>
@@ -1928,15 +1928,15 @@ x <span style="color: #666666">=</span> <span style="color: #666666">123</span>
 <div class="tabbed-set tabbed-alternate" data-tabs="6:2"><input checked="checked" id="__tabbed_6_1" name="__tabbed_6" type="radio" /><input id="__tabbed_6_2" name="__tabbed_6" type="radio" /><div class="tabbed-labels"><label for="__tabbed_6_1">中文</label><label for="__tabbed_6_2">英文</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<p>Mypy expects that the number and names of arguments match the called function. Note that argument type checks have a separate error code <code>arg-type</code>.</p>
-<p>Example:</p>
+<p>Mypy 期望调用的函数参数的数量和名称与定义的函数匹配。请注意，参数类型检查有一个单独的错误代码 <code>arg-type</code>。</p>
+<p>例如：</p>
 <div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">typing</span> <span style="color: #008000; font-weight: bold">import</span> Sequence
 
 <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">greet</span>(name: <span style="color: #008000">str</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:
-        <span style="color: #008000">print</span>(<span style="color: #BA2121">&#39;hello&#39;</span>, name)
+    <span style="color: #008000">print</span>(<span style="color: #BA2121">&#39;hello&#39;</span>, name)
 
-greet(<span style="color: #BA2121">&#39;jack&#39;</span>)  <span style="color: #3D7B7B; font-style: italic"># OK</span>
-greet(<span style="color: #BA2121">&#39;jill&#39;</span>, <span style="color: #BA2121">&#39;jack&#39;</span>)  <span style="color: #3D7B7B; font-style: italic"># Error: Too many arguments for &quot;greet&quot;  [call-arg]</span>
+greet(<span style="color: #BA2121">&#39;jack&#39;</span>)  <span style="color: #3D7B7B; font-style: italic"># 正确</span>
+greet(<span style="color: #BA2121">&#39;jill&#39;</span>, <span style="color: #BA2121">&#39;jack&#39;</span>)  <span style="color: #3D7B7B; font-style: italic"># 错误: &quot;greet&quot; 的参数过多 [call-arg]</span>
 </code></pre></div>
 </div>
 <div class="tabbed-block">
@@ -1958,16 +1958,16 @@ greet(<span style="color: #BA2121">&#39;jill&#39;</span>, <span style="color: #B
 <div class="tabbed-set tabbed-alternate" data-tabs="7:2"><input checked="checked" id="__tabbed_7_1" name="__tabbed_7" type="radio" /><input id="__tabbed_7_2" name="__tabbed_7" type="radio" /><div class="tabbed-labels"><label for="__tabbed_7_1">中文</label><label for="__tabbed_7_2">英文</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<p>Mypy checks that argument types in a call match the declared argument types in the signature of the called function (if one exists).</p>
-<p>Example:</p>
+<p>Mypy 会检查函数调用中的参数类型是否与被调用函数的参数签名中声明的类型匹配（如果存在签名的话）。</p>
+<p>例如：</p>
 <div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">typing</span> <span style="color: #008000; font-weight: bold">import</span> Optional
 
 <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">first</span>(x: <span style="color: #008000">list</span>[<span style="color: #008000">int</span>]) <span style="color: #666666">-&gt;</span> Optional[<span style="color: #008000">int</span>]:
     <span style="color: #008000; font-weight: bold">return</span> x[<span style="color: #666666">0</span>] <span style="color: #008000; font-weight: bold">if</span> x <span style="color: #008000; font-weight: bold">else</span> <span style="color: #666666">0</span>
 
 t <span style="color: #666666">=</span> (<span style="color: #666666">5</span>, <span style="color: #666666">4</span>)
-<span style="color: #3D7B7B; font-style: italic"># Error: Argument 1 to &quot;first&quot; has incompatible type &quot;tuple[int, int]&quot;;</span>
-<span style="color: #3D7B7B; font-style: italic">#        expected &quot;list[int]&quot;  [arg-type]</span>
+<span style="color: #3D7B7B; font-style: italic"># 错误: &quot;first&quot; 的参数 1 类型不兼容 &quot;tuple[int, int]&quot;;</span>
+<span style="color: #3D7B7B; font-style: italic">#        预期为 &quot;list[int]&quot;  [arg-type]</span>
 <span style="color: #008000">print</span>(first(t))
 </code></pre></div>
 </div>
@@ -1992,8 +1992,8 @@ t <span style="color: #666666">=</span> (<span style="color: #666666">5</span>, 
 <div class="tabbed-set tabbed-alternate" data-tabs="8:2"><input checked="checked" id="__tabbed_8_1" name="__tabbed_8" type="radio" /><input id="__tabbed_8_2" name="__tabbed_8" type="radio" /><div class="tabbed-labels"><label for="__tabbed_8_1">中文</label><label for="__tabbed_8_2">英文</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<p>When you call an overloaded function, mypy checks that at least one of the signatures of the overload items match the argument types in the call.</p>
-<p>Example:</p>
+<p>当调用一个重载函数时，mypy 会检查是否至少有一个重载项的签名与调用中的参数类型匹配。</p>
+<p>例如：</p>
 <div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">typing</span> <span style="color: #008000; font-weight: bold">import</span> overload, Optional
 
 <span style="color: #AA22FF">@overload</span>
@@ -2011,7 +2011,7 @@ t <span style="color: #666666">=</span> (<span style="color: #666666">5</span>, 
 inc_maybe(<span style="color: #008000; font-weight: bold">None</span>)  <span style="color: #3D7B7B; font-style: italic"># OK</span>
 inc_maybe(<span style="color: #666666">5</span>)  <span style="color: #3D7B7B; font-style: italic"># OK</span>
 
-<span style="color: #3D7B7B; font-style: italic"># Error: No overload variant of &quot;inc_maybe&quot; matches argument type &quot;float&quot;  [call-overload]</span>
+<span style="color: #3D7B7B; font-style: italic"># 错误: &quot;inc_maybe&quot; 没有重载变体匹配参数类型 &quot;float&quot;  [call-overload]</span>
 inc_maybe(<span style="color: #666666">1.2</span>)
 </code></pre></div>
 </div>
@@ -2046,20 +2046,20 @@ inc_maybe(<span style="color: #666666">1.2</span>)
 <div class="tabbed-set tabbed-alternate" data-tabs="9:2"><input checked="checked" id="__tabbed_9_1" name="__tabbed_9" type="radio" /><input id="__tabbed_9_2" name="__tabbed_9" type="radio" /><div class="tabbed-labels"><label for="__tabbed_9_1">中文</label><label for="__tabbed_9_2">英文</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<p>Mypy checks that each type annotation and any expression that represents a type is a valid type. Examples of valid types include classes, union types, callable types, type aliases, and literal types. Examples of invalid types include bare integer literals, functions, variables, and modules.</p>
-<p>This example incorrectly uses the function <code>log</code> as a type:</p>
+<p>Mypy 会检查每个类型注解以及任何表示类型的表达式是否为有效的类型。有效的类型包括类、联合类型、可调用类型、类型别名和字面量类型。无效的类型包括裸整数字面量、函数、变量和模块。</p>
+<p>例如，以下代码错误地将函数 <code>log</code> 用作类型：</p>
 <div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">log</span>(x: <span style="color: #008000">object</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:
     <span style="color: #008000">print</span>(<span style="color: #BA2121">&#39;log:&#39;</span>, <span style="color: #008000">repr</span>(x))
 
-<span style="color: #3D7B7B; font-style: italic"># Error: Function &quot;t.log&quot; is not valid as a type  [valid-type]</span>
+<span style="color: #3D7B7B; font-style: italic"># 错误: 函数 &quot;t.log&quot; 作为类型无效  [valid-type]</span>
 <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">log_all</span>(objs: <span style="color: #008000">list</span>[<span style="color: #008000">object</span>], f: log) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:
     <span style="color: #008000; font-weight: bold">for</span> x <span style="color: #AA22FF; font-weight: bold">in</span> objs:
         f(x)
 </code></pre></div>
-<p>You can use <img alt="🇵🇾" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.0.3/assets/svg/1f1f5-1f1fe.svg" title=":py:" />data:<code>~typing.Callable</code> as the type for callable objects:</p>
+<p>你可以使用 <code>typing.Callable</code> 作为可调用对象的类型：</p>
 <div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">typing</span> <span style="color: #008000; font-weight: bold">import</span> Callable
 
-<span style="color: #3D7B7B; font-style: italic"># OK</span>
+<span style="color: #3D7B7B; font-style: italic"># 正确</span>
 <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">log_all</span>(objs: <span style="color: #008000">list</span>[<span style="color: #008000">object</span>], f: Callable[[<span style="color: #008000">object</span>], <span style="color: #008000; font-weight: bold">None</span>]) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:
     <span style="color: #008000; font-weight: bold">for</span> x <span style="color: #AA22FF; font-weight: bold">in</span> objs:
         f(x)
@@ -2092,20 +2092,20 @@ inc_maybe(<span style="color: #666666">1.2</span>)
 <div class="tabbed-set tabbed-alternate" data-tabs="10:2"><input checked="checked" id="__tabbed_10_1" name="__tabbed_10" type="radio" /><input id="__tabbed_10_2" name="__tabbed_10" type="radio" /><div class="tabbed-labels"><label for="__tabbed_10_1">中文</label><label for="__tabbed_10_2">英文</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<p>In some cases mypy can't infer the type of a variable without an explicit annotation. Mypy treats this as an error. This typically happens when you initialize a variable with an empty collection or <code>None</code>.  If mypy can't infer the collection item type, mypy replaces any parts of the type it couldn't infer with <code>Any</code> and generates an error.</p>
-<p>Example with an error:</p>
+<p>在某些情况下，如果没有显式的注解，mypy 无法推断变量的类型。mypy 会将这种情况视为错误。这通常发生在你用空集合或 <code>None</code> 初始化变量时。如果 mypy 无法推断集合项的类型，它会将无法推断的部分替换为 <code>Any</code> 并生成错误。</p>
+<p>以下是一个出错的示例：</p>
 <div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Bundle</span>:
     <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__init__</span>(<span style="color: #008000">self</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:
-        <span style="color: #3D7B7B; font-style: italic"># Error: Need type annotation for &quot;items&quot;</span>
-        <span style="color: #3D7B7B; font-style: italic">#        (hint: &quot;items: list[&lt;type&gt;] = ...&quot;)  [var-annotated]</span>
+        <span style="color: #3D7B7B; font-style: italic"># 错误: 需要对 &quot;items&quot; 进行类型注解</span>
+        <span style="color: #3D7B7B; font-style: italic">#        (提示: &quot;items: list[&lt;type&gt;] = ...&quot;)  [var-annotated]</span>
         <span style="color: #008000">self</span><span style="color: #666666">.</span>items <span style="color: #666666">=</span> []
 
 reveal_type(Bundle()<span style="color: #666666">.</span>items)  <span style="color: #3D7B7B; font-style: italic"># list[Any]</span>
 </code></pre></div>
-<p>To address this, we add an explicit annotation:</p>
+<p>为了解决这个问题，我们添加一个显式的注解：</p>
 <div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Bundle</span>:
     <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__init__</span>(<span style="color: #008000">self</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:
-        <span style="color: #008000">self</span><span style="color: #666666">.</span>items: <span style="color: #008000">list</span>[<span style="color: #008000">str</span>] <span style="color: #666666">=</span> []  <span style="color: #3D7B7B; font-style: italic"># OK</span>
+        <span style="color: #008000">self</span><span style="color: #666666">.</span>items: <span style="color: #008000">list</span>[<span style="color: #008000">str</span>] <span style="color: #666666">=</span> []  <span style="color: #3D7B7B; font-style: italic"># 正确</span>
 
 reveal_type(Bundle()<span style="color: #666666">.</span>items)  <span style="color: #3D7B7B; font-style: italic"># list[str]</span>
 </code></pre></div>
@@ -2136,25 +2136,22 @@ reveal_type(Bundle()<span style="color: #666666">.</span>items)  <span style="co
 <div class="tabbed-set tabbed-alternate" data-tabs="11:2"><input checked="checked" id="__tabbed_11_1" name="__tabbed_11" type="radio" /><input id="__tabbed_11_2" name="__tabbed_11" type="radio" /><div class="tabbed-labels"><label for="__tabbed_11_1">中文</label><label for="__tabbed_11_2">英文</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<p>Mypy checks that an overridden method or attribute is compatible with the base class.  A method in a subclass must accept all arguments that the base class method accepts, and the return type must conform to the return type in the base class (Liskov substitution principle).</p>
-<p>Argument types can be more general is a subclass (i.e., they can vary contravariantly).  The return type can be narrowed in a subclass (i.e., it can vary covariantly).  It's okay to define additional arguments in a subclass method, as long all extra arguments have default values or can be left out (<code>*args</code>, for example).</p>
-<p>Example:</p>
+<p>mypy 检查重写的方法或属性是否与基类兼容。子类中的方法必须接受基类方法接受的所有参数，并且返回类型必须符合基类中的返回类型（Liskov 替换原则）。</p>
+<p>在子类中，参数类型可以更通用（即，它们可以逆变）。返回类型可以在子类中变窄（即，它们可以协变）。在子类方法中定义额外的参数是可以的，只要所有额外的参数都有默认值或可以被省略（例如 <code>*args</code>）。</p>
+<p>示例：</p>
 <div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">typing</span> <span style="color: #008000; font-weight: bold">import</span> Optional, Union
 
 <span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Base</span>:
-    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">method</span>(<span style="color: #008000">self</span>,
-                arg: <span style="color: #008000">int</span>) <span style="color: #666666">-&gt;</span> Optional[<span style="color: #008000">int</span>]:
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">method</span>(<span style="color: #008000">self</span>, arg: <span style="color: #008000">int</span>) <span style="color: #666666">-&gt;</span> Optional[<span style="color: #008000">int</span>]:
         <span style="color: #666666">...</span>
 
 <span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Derived</span>(Base):
-    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">method</span>(<span style="color: #008000">self</span>,
-                arg: Union[<span style="color: #008000">int</span>, <span style="color: #008000">str</span>]) <span style="color: #666666">-&gt;</span> <span style="color: #008000">int</span>:  <span style="color: #3D7B7B; font-style: italic"># OK</span>
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">method</span>(<span style="color: #008000">self</span>, arg: Union[<span style="color: #008000">int</span>, <span style="color: #008000">str</span>]) <span style="color: #666666">-&gt;</span> <span style="color: #008000">int</span>:  <span style="color: #3D7B7B; font-style: italic"># 正确</span>
         <span style="color: #666666">...</span>
 
 <span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">DerivedBad</span>(Base):
-    <span style="color: #3D7B7B; font-style: italic"># Error: Argument 1 of &quot;method&quot; is incompatible with &quot;Base&quot;  [override]</span>
-    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">method</span>(<span style="color: #008000">self</span>,
-                arg: <span style="color: #008000">bool</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000">int</span>:
+    <span style="color: #3D7B7B; font-style: italic"># 错误: &quot;method&quot; 的参数 1 与 &quot;Base&quot; 不兼容  [override]</span>
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">method</span>(<span style="color: #008000">self</span>, arg: <span style="color: #008000">bool</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000">int</span>:
         <span style="color: #666666">...</span>
 </code></pre></div>
 </div>
@@ -2188,18 +2185,18 @@ reveal_type(Bundle()<span style="color: #666666">.</span>items)  <span style="co
 <div class="tabbed-set tabbed-alternate" data-tabs="12:2"><input checked="checked" id="__tabbed_12_1" name="__tabbed_12" type="radio" /><input id="__tabbed_12_2" name="__tabbed_12" type="radio" /><div class="tabbed-labels"><label for="__tabbed_12_1">中文</label><label for="__tabbed_12_2">英文</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<p>If a function has a non-<code>None</code> return type, mypy expects that the function always explicitly returns a value (or raises an exception). The function should not fall off the end of the function, since this is often a bug.</p>
-<p>Example:</p>
-<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #3D7B7B; font-style: italic"># Error: Missing return statement  [return]</span>
+<p>如果一个函数的返回类型不是 <code>None</code>，mypy 期望该函数总是明确地返回一个值（或引发异常）。函数不应在末尾“掉落”，因为这通常是一个错误。</p>
+<p>示例：</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #3D7B7B; font-style: italic"># 错误: 缺少返回语句  [return]</span>
 <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">show</span>(x: <span style="color: #008000">int</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000">int</span>:
     <span style="color: #008000">print</span>(x)
 
-<span style="color: #3D7B7B; font-style: italic"># Error: Missing return statement  [return]</span>
+<span style="color: #3D7B7B; font-style: italic"># 错误: 缺少返回语句  [return]</span>
 <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">pred1</span>(x: <span style="color: #008000">int</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000">int</span>:
     <span style="color: #008000; font-weight: bold">if</span> x <span style="color: #666666">&gt;</span> <span style="color: #666666">0</span>:
         <span style="color: #008000; font-weight: bold">return</span> x <span style="color: #666666">-</span> <span style="color: #666666">1</span>
 
-<span style="color: #3D7B7B; font-style: italic"># OK</span>
+<span style="color: #3D7B7B; font-style: italic"># 正确</span>
 <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">pred2</span>(x: <span style="color: #008000">int</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000">int</span>:
     <span style="color: #008000; font-weight: bold">if</span> x <span style="color: #666666">&gt;</span> <span style="color: #666666">0</span>:
         <span style="color: #008000; font-weight: bold">return</span> x <span style="color: #666666">-</span> <span style="color: #666666">1</span>
@@ -2234,8 +2231,8 @@ reveal_type(Bundle()<span style="color: #666666">.</span>items)  <span style="co
 <div class="tabbed-set tabbed-alternate" data-tabs="13:2"><input checked="checked" id="__tabbed_13_1" name="__tabbed_13" type="radio" /><input id="__tabbed_13_2" name="__tabbed_13" type="radio" /><div class="tabbed-labels"><label for="__tabbed_13_1">中文</label><label for="__tabbed_13_2">英文</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<p>This error code is similar to the <code>[return]</code> code but is emitted specifically for functions and methods with empty bodies (if they are annotated with non-trivial return type). Such a distinction exists because in some contexts an empty body can be valid, for example for an abstract method or in a stub file. Also old versions of mypy used to unconditionally allow functions with empty bodies, so having a dedicated error code simplifies cross-version compatibility.</p>
-<p>Note that empty bodies are allowed for methods in <em>protocols</em>, and such methods are considered implicitly abstract:</p>
+<p>此错误代码类似于 <code>[return]</code> 代码，但专门用于处理具有空主体的函数和方法（如果它们被注解了非平凡的返回类型）。之所以进行这种区分，是因为在某些上下文中，空主体是有效的，例如对于抽象方法或在存根文件中。此外，旧版本的 mypy 不加条件地允许具有空主体的函数，因此拥有一个专门的错误代码简化了跨版本兼容性。</p>
+<p>请注意，对于 <em>协议</em> 中的方法，允许使用空主体，这些方法被视为隐式抽象：</p>
 <div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">abc</span> <span style="color: #008000; font-weight: bold">import</span> abstractmethod
 <span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">typing</span> <span style="color: #008000; font-weight: bold">import</span> Protocol
 
@@ -2244,7 +2241,7 @@ reveal_type(Bundle()<span style="color: #666666">.</span>items)  <span style="co
     <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">foo</span>(<span style="color: #008000">self</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000">int</span>:
         <span style="color: #008000; font-weight: bold">pass</span>  <span style="color: #3D7B7B; font-style: italic"># OK</span>
     <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">bar</span>(<span style="color: #008000">self</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000">int</span>:
-        <span style="color: #008000; font-weight: bold">pass</span>  <span style="color: #3D7B7B; font-style: italic"># Error: Missing return statement  [empty-body]</span>
+        <span style="color: #008000; font-weight: bold">pass</span>  <span style="color: #3D7B7B; font-style: italic"># 错误: 缺少返回语句  [empty-body]</span>
 
 <span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Proto</span>(Protocol):
     <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">bar</span>(<span style="color: #008000">self</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000">int</span>:
@@ -2276,10 +2273,10 @@ reveal_type(Bundle()<span style="color: #666666">.</span>items)  <span style="co
 <div class="tabbed-set tabbed-alternate" data-tabs="14:2"><input checked="checked" id="__tabbed_14_1" name="__tabbed_14" type="radio" /><input id="__tabbed_14_2" name="__tabbed_14" type="radio" /><div class="tabbed-labels"><label for="__tabbed_14_1">中文</label><label for="__tabbed_14_2">英文</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<p>Mypy checks that the returned value is compatible with the type signature of the function.</p>
-<p>Example:</p>
+<p>Mypy 会检查返回值是否与函数的类型签名兼容。</p>
+<p>示例：</p>
 <div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">func</span>(x: <span style="color: #008000">int</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000">str</span>:
-    <span style="color: #3D7B7B; font-style: italic"># Error: Incompatible return value type (got &quot;int&quot;, expected &quot;str&quot;)  [return-value]</span>
+    <span style="color: #3D7B7B; font-style: italic"># 错误: 返回值类型不兼容（获得了 &quot;int&quot;，期望是 &quot;str&quot;）  [return-value]</span>
     <span style="color: #008000; font-weight: bold">return</span> x <span style="color: #666666">+</span> <span style="color: #666666">1</span>
 </code></pre></div>
 </div>
@@ -2298,18 +2295,17 @@ reveal_type(Bundle()<span style="color: #666666">.</span>items)  <span style="co
 <div class="tabbed-set tabbed-alternate" data-tabs="15:2"><input checked="checked" id="__tabbed_15_1" name="__tabbed_15" type="radio" /><input id="__tabbed_15_2" name="__tabbed_15" type="radio" /><div class="tabbed-labels"><label for="__tabbed_15_1">中文</label><label for="__tabbed_15_2">英文</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<p>Mypy checks that the assigned expression is compatible with the assignment target (or targets).</p>
-<p>Example:</p>
+<p>Mypy 会检查赋值表达式是否与赋值目标（或目标们）兼容。</p>
+<p>示例：</p>
 <div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Resource</span>:
     <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__init__</span>(<span style="color: #008000">self</span>, name: <span style="color: #008000">str</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:
         <span style="color: #008000">self</span><span style="color: #666666">.</span>name <span style="color: #666666">=</span> name
 
 r <span style="color: #666666">=</span> Resource(<span style="color: #BA2121">&#39;A&#39;</span>)
 
-r<span style="color: #666666">.</span>name <span style="color: #666666">=</span> <span style="color: #BA2121">&#39;B&#39;</span>  <span style="color: #3D7B7B; font-style: italic"># OK</span>
+r<span style="color: #666666">.</span>name <span style="color: #666666">=</span> <span style="color: #BA2121">&#39;B&#39;</span>  <span style="color: #3D7B7B; font-style: italic"># 正确</span>
 
-<span style="color: #3D7B7B; font-style: italic"># Error: Incompatible types in assignment (expression has type &quot;int&quot;,</span>
-<span style="color: #3D7B7B; font-style: italic">#        variable has type &quot;str&quot;)  [assignment]</span>
+<span style="color: #3D7B7B; font-style: italic"># 错误: 赋值中的类型不兼容（表达式的类型是 &quot;int&quot;，变量的类型是 &quot;str&quot;）  [assignment]</span>
 r<span style="color: #666666">.</span>name <span style="color: #666666">=</span> <span style="color: #666666">5</span>
 </code></pre></div>
 </div>
@@ -2336,22 +2332,22 @@ r<span style="color: #666666">.</span>name <span style="color: #666666">=</span>
 <div class="tabbed-set tabbed-alternate" data-tabs="16:2"><input checked="checked" id="__tabbed_16_1" name="__tabbed_16" type="radio" /><input id="__tabbed_16_2" name="__tabbed_16" type="radio" /><div class="tabbed-labels"><label for="__tabbed_16_1">中文</label><label for="__tabbed_16_2">英文</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<p>In general, assigning to a method on class object or instance (a.k.a. monkey-patching) is ambiguous in terms of types, since Python's static type system cannot express the difference between bound and unbound callable types. Consider this example:</p>
+<p>一般来说，给类对象或实例上的方法赋值（即猴子补丁）在类型上是不明确的，因为 Python 的静态类型系统无法表达绑定和未绑定可调用类型之间的区别。考虑以下示例：</p>
 <div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">A</span>:
     <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">f</span>(<span style="color: #008000">self</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>: <span style="color: #008000; font-weight: bold">pass</span>
     <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">g</span>(<span style="color: #008000">self</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>: <span style="color: #008000; font-weight: bold">pass</span>
 
 <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">h</span>(<span style="color: #008000">self</span>: A) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>: <span style="color: #008000; font-weight: bold">pass</span>
 
-A<span style="color: #666666">.</span>f <span style="color: #666666">=</span> h  <span style="color: #3D7B7B; font-style: italic"># Type of h is Callable[[A], None]</span>
-A()<span style="color: #666666">.</span>f()  <span style="color: #3D7B7B; font-style: italic"># This works</span>
-A<span style="color: #666666">.</span>f <span style="color: #666666">=</span> A()<span style="color: #666666">.</span>g  <span style="color: #3D7B7B; font-style: italic"># Type of A().g is Callable[[], None]</span>
-A()<span style="color: #666666">.</span>f()  <span style="color: #3D7B7B; font-style: italic"># ...but this also works at runtime</span>
+A<span style="color: #666666">.</span>f <span style="color: #666666">=</span> h  <span style="color: #3D7B7B; font-style: italic"># h 的类型是 Callable[[A], None]</span>
+A()<span style="color: #666666">.</span>f()  <span style="color: #3D7B7B; font-style: italic"># 这会正常工作</span>
+A<span style="color: #666666">.</span>f <span style="color: #666666">=</span> A()<span style="color: #666666">.</span>g  <span style="color: #3D7B7B; font-style: italic"># A().g 的类型是 Callable[[], None]</span>
+A()<span style="color: #666666">.</span>f()  <span style="color: #3D7B7B; font-style: italic"># ...但在运行时这也会正常工作</span>
 </code></pre></div>
-<p>To prevent the ambiguity, mypy will flag both assignments by default. If this error code is disabled, mypy will treat the assigned value in all method assignments as unbound, so only the second assignment will still generate an error.</p>
+<p>为了避免这种模糊性，mypy 默认会标记这两种赋值。如果禁用了这个错误代码，mypy 会将所有方法赋值中的赋值值视为未绑定的，因此只有第二种赋值仍会生成错误。</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This error code is a subcode of the more general <code>[assignment]</code> code.</p>
+<p>这个错误代码是更一般的 <code>[assignment]</code> 代码的子代码。</p>
 </div>
 </div>
 <div class="tabbed-block">
@@ -2380,8 +2376,8 @@ A()<span style="color: #666666">.</span>f()  <span style="color: #3D7B7B; font-s
 <div class="tabbed-set tabbed-alternate" data-tabs="17:2"><input checked="checked" id="__tabbed_17_1" name="__tabbed_17" type="radio" /><input id="__tabbed_17_2" name="__tabbed_17" type="radio" /><div class="tabbed-labels"><label for="__tabbed_17_1">中文</label><label for="__tabbed_17_2">英文</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<p>Mypy checks that value of a type variable is compatible with a value restriction or the upper bound type.</p>
-<p>Example:</p>
+<p>Mypy 检查类型变量的值是否与值限制或上界类型兼容。</p>
+<p>示例：</p>
 <div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">typing</span> <span style="color: #008000; font-weight: bold">import</span> TypeVar
 
 T1 <span style="color: #666666">=</span> TypeVar(<span style="color: #BA2121">&#39;T1&#39;</span>, <span style="color: #008000">int</span>, <span style="color: #008000">float</span>)
@@ -2391,7 +2387,7 @@ T1 <span style="color: #666666">=</span> TypeVar(<span style="color: #BA2121">&#
 
 add(<span style="color: #666666">4</span>, <span style="color: #666666">5.5</span>)  <span style="color: #3D7B7B; font-style: italic"># OK</span>
 
-<span style="color: #3D7B7B; font-style: italic"># Error: Value of type variable &quot;T1&quot; of &quot;add&quot; cannot be &quot;str&quot;  [type-var]</span>
+<span style="color: #3D7B7B; font-style: italic"># 错误：类型变量 &quot;T1&quot; 的值不能是 &quot;str&quot;  [type-var]</span>
 add(<span style="color: #BA2121">&#39;x&#39;</span>, <span style="color: #BA2121">&#39;y&#39;</span>)
 </code></pre></div>
 </div>
@@ -2418,9 +2414,9 @@ add(<span style="color: #BA2121">&#39;x&#39;</span>, <span style="color: #BA2121
 <div class="tabbed-set tabbed-alternate" data-tabs="18:2"><input checked="checked" id="__tabbed_18_1" name="__tabbed_18" type="radio" /><input id="__tabbed_18_2" name="__tabbed_18" type="radio" /><div class="tabbed-labels"><label for="__tabbed_18_1">中文</label><label for="__tabbed_18_2">英文</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<p>Mypy checks that operands support a binary or unary operation, such as <code>+</code> or <code>~</code>. Indexing operations are so common that they have their own error code <code>index</code> (see below).</p>
-<p>Example:</p>
-<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #3D7B7B; font-style: italic"># Error: Unsupported operand types for + (&quot;int&quot; and &quot;str&quot;)  [operator]</span>
+<p>Mypy 检查操作数是否支持二元或一元操作，例如 <code>+</code> 或 <code>~</code>。索引操作非常常见，因此它们有自己的错误代码 <code>index</code>（见下文）。</p>
+<p>示例：</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #3D7B7B; font-style: italic"># 错误：不支持的操作数类型用于 + (&quot;int&quot; 和 &quot;str&quot;)  [operator]</span>
 <span style="color: #666666">1</span> <span style="color: #666666">+</span> <span style="color: #BA2121">&#39;x&#39;</span>
 </code></pre></div>
 </div>
@@ -2438,16 +2434,16 @@ add(<span style="color: #BA2121">&#39;x&#39;</span>, <span style="color: #BA2121
 <div class="tabbed-set tabbed-alternate" data-tabs="19:2"><input checked="checked" id="__tabbed_19_1" name="__tabbed_19" type="radio" /><input id="__tabbed_19_2" name="__tabbed_19" type="radio" /><div class="tabbed-labels"><label for="__tabbed_19_1">中文</label><label for="__tabbed_19_2">英文</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<p>Mypy checks that the indexed value in indexing operation such as <code>x[y]</code> supports indexing, and that the index expression has a valid type.</p>
-<p>Example:</p>
+<p>Mypy 检查在索引操作（例如 <code>x[y]</code>）中，被索引的值是否支持索引，并且索引表达式是否具有有效的类型。</p>
+<p>示例：</p>
 <div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>a <span style="color: #666666">=</span> {<span style="color: #BA2121">&#39;x&#39;</span>: <span style="color: #666666">1</span>, <span style="color: #BA2121">&#39;y&#39;</span>: <span style="color: #666666">2</span>}
 
-a[<span style="color: #BA2121">&#39;x&#39;</span>]  <span style="color: #3D7B7B; font-style: italic"># OK</span>
+a[<span style="color: #BA2121">&#39;x&#39;</span>]  <span style="color: #3D7B7B; font-style: italic"># 正确</span>
 
-<span style="color: #3D7B7B; font-style: italic"># Error: Invalid index type &quot;int&quot; for &quot;dict[str, int]&quot;; expected type &quot;str&quot;  [index]</span>
+<span style="color: #3D7B7B; font-style: italic"># 错误：索引类型 &quot;int&quot; 对于 &quot;dict[str, int]&quot; 无效；预期类型为 &quot;str&quot;  [index]</span>
 <span style="color: #008000">print</span>(a[<span style="color: #666666">1</span>])
 
-<span style="color: #3D7B7B; font-style: italic"># Error: Invalid index type &quot;bytes&quot; for &quot;dict[str, int]&quot;; expected type &quot;str&quot;  [index]</span>
+<span style="color: #3D7B7B; font-style: italic"># 错误：索引类型 &quot;bytes&quot; 对于 &quot;dict[str, int]&quot; 无效；预期类型为 &quot;str&quot;  [index]</span>
 a[<span style="color: #BA2121">b&#39;x&#39;</span>] <span style="color: #666666">=</span> <span style="color: #666666">4</span>
 </code></pre></div>
 </div>
@@ -2472,11 +2468,12 @@ a[<span style="color: #BA2121">b&#39;x&#39;</span>] <span style="color: #666666"
 <div class="tabbed-set tabbed-alternate" data-tabs="20:2"><input checked="checked" id="__tabbed_20_1" name="__tabbed_20" type="radio" /><input id="__tabbed_20_2" name="__tabbed_20" type="radio" /><div class="tabbed-labels"><label for="__tabbed_20_1">中文</label><label for="__tabbed_20_2">英文</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<p>When constructing a list using <code>[item, ...]</code>, mypy checks that each item is compatible with the list type that is inferred from the surrounding context.</p>
-<p>Example:</p>
-<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #3D7B7B; font-style: italic"># Error: List item 0 has incompatible type &quot;int&quot;; expected &quot;str&quot;  [list-item]</span>
+<p>在使用 <code>[item, ...]</code> 构造列表时，mypy 会检查每个项目是否与从周围上下文推断出的列表类型兼容。</p>
+<p>示例：</p>
+<p><div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #3D7B7B; font-style: italic"># 错误：列表项 0 的类型 &quot;int&quot; 不兼容；预期类型为 &quot;str&quot;  [list-item]</span>
 a: <span style="color: #008000">list</span>[<span style="color: #008000">str</span>] <span style="color: #666666">=</span> [<span style="color: #666666">0</span>]
 </code></pre></div>
+```</p>
 </div>
 <div class="tabbed-block">
 <p>When constructing a list using <code>[item, ...]</code>, mypy checks that each item is compatible with the list type that is inferred from the surrounding context.</p>
@@ -2492,9 +2489,9 @@ a: <span style="color: #008000">list</span>[<span style="color: #008000">str</sp
 <div class="tabbed-set tabbed-alternate" data-tabs="21:2"><input checked="checked" id="__tabbed_21_1" name="__tabbed_21" type="radio" /><input id="__tabbed_21_2" name="__tabbed_21" type="radio" /><div class="tabbed-labels"><label for="__tabbed_21_1">中文</label><label for="__tabbed_21_2">英文</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<p>When constructing a dictionary using <code>{key: value, ...}</code> or <code>dict(key=value, ...)</code>, mypy checks that each key and value is compatible with the dictionary type that is inferred from the surrounding context.</p>
-<p>Example:</p>
-<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #3D7B7B; font-style: italic"># Error: Dict entry 0 has incompatible type &quot;str&quot;: &quot;str&quot;; expected &quot;str&quot;: &quot;int&quot;  [dict-item]</span>
+<p>在使用 <code>{key: value, ...}</code> 或 <code>dict(key=value, ...)</code> 构造字典时，mypy 会检查每个键和值是否与从周围上下文推断出的字典类型兼容。</p>
+<p>示例：</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #3D7B7B; font-style: italic"># 错误：字典项 0 的类型 &quot;str&quot;: &quot;str&quot; 不兼容；预期类型为 &quot;str&quot;: &quot;int&quot;  [dict-item]</span>
 d: <span style="color: #008000">dict</span>[<span style="color: #008000">str</span>, <span style="color: #008000">int</span>] <span style="color: #666666">=</span> {<span style="color: #BA2121">&#39;key&#39;</span>: <span style="color: #BA2121">&#39;value&#39;</span>}
 </code></pre></div>
 </div>
@@ -2512,17 +2509,17 @@ d: <span style="color: #008000">dict</span>[<span style="color: #008000">str</sp
 <div class="tabbed-set tabbed-alternate" data-tabs="22:2"><input checked="checked" id="__tabbed_22_1" name="__tabbed_22" type="radio" /><input id="__tabbed_22_2" name="__tabbed_22" type="radio" /><div class="tabbed-labels"><label for="__tabbed_22_1">中文</label><label for="__tabbed_22_2">英文</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<p>When constructing a TypedDict object, mypy checks that each key and value is compatible with the TypedDict type that is inferred from the surrounding context.</p>
-<p>When getting a TypedDict item, mypy checks that the key exists. When assigning to a TypedDict, mypy checks that both the key and the value are valid.</p>
-<p>Example:</p>
+<p>在构造 <code>TypedDict</code> 对象时，mypy 会检查每个键和值是否与从周围上下文推断出的 <code>TypedDict</code> 类型兼容。</p>
+<p>在获取 <code>TypedDict</code> 项目时，mypy 会检查该键是否存在。在给 <code>TypedDict</code> 赋值时，mypy 会检查键和值是否有效。</p>
+<p>示例：</p>
 <div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">typing</span> <span style="color: #008000; font-weight: bold">import</span> TypedDict
 
 <span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Point</span>(TypedDict):
     x: <span style="color: #008000">int</span>
     y: <span style="color: #008000">int</span>
 
-<span style="color: #3D7B7B; font-style: italic"># Error: Incompatible types (expression has type &quot;float&quot;,</span>
-<span style="color: #3D7B7B; font-style: italic">#        TypedDict item &quot;x&quot; has type &quot;int&quot;)  [typeddict-item]</span>
+<span style="color: #3D7B7B; font-style: italic"># 错误：类型不兼容（表达式的类型为 &quot;float&quot;，</span>
+<span style="color: #3D7B7B; font-style: italic">#        TypedDict 项目 &quot;x&quot; 的类型为 &quot;int&quot;）  [typeddict-item]</span>
 p: Point <span style="color: #666666">=</span> {<span style="color: #BA2121">&#39;x&#39;</span>: <span style="color: #666666">1.2</span>, <span style="color: #BA2121">&#39;y&#39;</span>: <span style="color: #666666">4</span>}
 </code></pre></div>
 </div>
@@ -2548,7 +2545,8 @@ p: Point <span style="color: #666666">=</span> {<span style="color: #BA2121">&#3
 <div class="tabbed-set tabbed-alternate" data-tabs="23:2"><input checked="checked" id="__tabbed_23_1" name="__tabbed_23" type="radio" /><input id="__tabbed_23_2" name="__tabbed_23" type="radio" /><div class="tabbed-labels"><label for="__tabbed_23_1">中文</label><label for="__tabbed_23_2">英文</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<p>When constructing a TypedDict object, mypy checks whether the definition contains unknown keys, to catch invalid keys and misspellings. On the other hand, mypy will not generate an error when a previously constructed TypedDict value with extra keys is passed to a function as an argument, since TypedDict values support structural subtyping ("static duck typing") and the keys are assumed to have been validated at the point of construction. Example:</p>
+<p>在构造 <code>TypedDict</code> 对象时，mypy 会检查定义中是否包含未知键，以捕捉无效键和拼写错误。另一方面，当一个包含额外键的已构造的 <code>TypedDict</code> 值作为参数传递给函数时，mypy 不会生成错误，因为 <code>TypedDict</code> 值支持结构子类型（即“静态鸭子类型”），键在构造时被认为已经过验证。</p>
+<p>示例：</p>
 <div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">typing</span> <span style="color: #008000; font-weight: bold">import</span> TypedDict
 
 <span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Point</span>(TypedDict):
@@ -2566,22 +2564,22 @@ b: Point3D <span style="color: #666666">=</span> {<span style="color: #BA2121">&
 
 add_x_coordinates(a, b)  <span style="color: #3D7B7B; font-style: italic"># OK</span>
 
-<span style="color: #3D7B7B; font-style: italic"># Error: Extra key &quot;z&quot; for TypedDict &quot;Point&quot;  [typeddict-unknown-key]</span>
+<span style="color: #3D7B7B; font-style: italic"># 错误：TypedDict &quot;Point&quot; 的额外键 &quot;z&quot;  [typeddict-unknown-key]</span>
 add_x_coordinates(a, {<span style="color: #BA2121">&quot;x&quot;</span>: <span style="color: #666666">1</span>, <span style="color: #BA2121">&quot;y&quot;</span>: <span style="color: #666666">4</span>, <span style="color: #BA2121">&quot;z&quot;</span>: <span style="color: #666666">5</span>})
 </code></pre></div>
-<p>Setting a TypedDict item using an unknown key will also generate this error, since it could be a misspelling:</p>
+<p>使用未知键设置 <code>TypedDict</code> 项目也会生成此错误，因为它可能是拼写错误：</p>
 <div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>a: Point <span style="color: #666666">=</span> {<span style="color: #BA2121">&quot;x&quot;</span>: <span style="color: #666666">1</span>, <span style="color: #BA2121">&quot;y&quot;</span>: <span style="color: #666666">2</span>}
-<span style="color: #3D7B7B; font-style: italic"># Error: Extra key &quot;z&quot; for TypedDict &quot;Point&quot;  [typeddict-unknown-key]</span>
+<span style="color: #3D7B7B; font-style: italic"># 错误：TypedDict &quot;Point&quot; 的额外键 &quot;z&quot;  [typeddict-unknown-key]</span>
 a[<span style="color: #BA2121">&quot;z&quot;</span>] <span style="color: #666666">=</span> <span style="color: #666666">3</span>
 </code></pre></div>
-<p>Reading an unknown key will generate the more general (and serious) <code>typeddict-item</code> error, which is likely to result in an exception at runtime:</p>
+<p>读取未知键将生成更一般（且更严重）的 <code>typeddict-item</code> 错误，这可能会在运行时引发异常：</p>
 <div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>a: Point <span style="color: #666666">=</span> {<span style="color: #BA2121">&quot;x&quot;</span>: <span style="color: #666666">1</span>, <span style="color: #BA2121">&quot;y&quot;</span>: <span style="color: #666666">2</span>}
-<span style="color: #3D7B7B; font-style: italic"># Error: TypedDict &quot;Point&quot; has no key &quot;z&quot;  [typeddict-item]</span>
+<span style="color: #3D7B7B; font-style: italic"># 错误：TypedDict &quot;Point&quot; 没有键 &quot;z&quot;  [typeddict-item]</span>
 _ <span style="color: #666666">=</span> a[<span style="color: #BA2121">&quot;z&quot;</span>]
 </code></pre></div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>This error code is a subcode of the wider <code>[typeddict-item]</code> code.</p>
+<div class="admonition 注意">
+<p class="admonition-title">注意</p>
+<p>此错误代码是更广泛的 <code>[typeddict-item]</code> 代码的子代码。</p>
 </div>
 </div>
 <div class="tabbed-block">
@@ -2628,24 +2626,24 @@ _ <span style="color: #666666">=</span> a[<span style="color: #BA2121">&quot;z&q
 <div class="tabbed-set tabbed-alternate" data-tabs="24:2"><input checked="checked" id="__tabbed_24_1" name="__tabbed_24" type="radio" /><input id="__tabbed_24_2" name="__tabbed_24" type="radio" /><div class="tabbed-labels"><label for="__tabbed_24_1">中文</label><label for="__tabbed_24_2">英文</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<p>Mypy sometimes generates an error when it hasn't inferred any type for a variable being referenced. This can happen for references to variables that are initialized later in the source file, and for references across modules that form an import cycle. When this happens, the reference gets an implicit <code>Any</code> type.</p>
-<p>In this example the definitions of <code>x</code> and <code>y</code> are circular:</p>
+<p>在某些情况下，当 mypy 无法推断出被引用变量的类型时，它会生成错误。这可能发生在引用的变量在源文件中稍后初始化，或者在形成导入循环的跨模块引用中。当这种情况发生时，引用会得到一个隐式的 <code>Any</code> 类型。</p>
+<p>在以下示例中，<code>x</code> 和 <code>y</code> 的定义是循环的：</p>
 <div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Problem</span>:
     <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">set_x</span>(<span style="color: #008000">self</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:
-        <span style="color: #3D7B7B; font-style: italic"># Error: Cannot determine type of &quot;y&quot;  [has-type]</span>
+        <span style="color: #3D7B7B; font-style: italic"># 错误：无法确定 &quot;y&quot; 的类型  [has-type]</span>
         <span style="color: #008000">self</span><span style="color: #666666">.</span>x <span style="color: #666666">=</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>y
 
     <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">set_y</span>(<span style="color: #008000">self</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:
         <span style="color: #008000">self</span><span style="color: #666666">.</span>y <span style="color: #666666">=</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>x
 </code></pre></div>
-<p>To work around this error, you can add an explicit type annotation to the target variable or attribute. Sometimes you can also reorganize the code so that the definition of the variable is placed earlier than the reference to the variable in a source file. Untangling cyclic imports may also help.</p>
-<p>We add an explicit annotation to the <code>y</code> attribute to work around the issue:</p>
+<p>为了解决这个问题，你可以为目标变量或属性添加显式的类型注释。有时你也可以重新组织代码，将变量的定义放在源文件中引用变量之前的位置。解开循环导入也可能有助于解决问题。</p>
+<p>我们通过给 <code>y</code> 属性添加显式注释来解决这个问题：</p>
 <div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Problem</span>:
     <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">set_x</span>(<span style="color: #008000">self</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:
         <span style="color: #008000">self</span><span style="color: #666666">.</span>x <span style="color: #666666">=</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>y  <span style="color: #3D7B7B; font-style: italic"># OK</span>
 
     <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">set_y</span>(<span style="color: #008000">self</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:
-        <span style="color: #008000">self</span><span style="color: #666666">.</span>y: <span style="color: #008000">int</span> <span style="color: #666666">=</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>x  <span style="color: #3D7B7B; font-style: italic"># Added annotation here</span>
+        <span style="color: #008000">self</span><span style="color: #666666">.</span>y: <span style="color: #008000">int</span> <span style="color: #666666">=</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>x  <span style="color: #3D7B7B; font-style: italic"># 这里添加了注释</span>
 </code></pre></div>
 </div>
 <div class="tabbed-block">
@@ -2676,8 +2674,8 @@ _ <span style="color: #666666">=</span> a[<span style="color: #BA2121">&quot;z&q
 <div class="tabbed-set tabbed-alternate" data-tabs="25:2"><input checked="checked" id="__tabbed_25_1" name="__tabbed_25" type="radio" /><input id="__tabbed_25_2" name="__tabbed_25" type="radio" /><div class="tabbed-labels"><label for="__tabbed_25_1">中文</label><label for="__tabbed_25_2">英文</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<p>Mypy generates an error if it can't resolve an <code>import</code> statement. This is a parent error code of <code>import-not-found</code> and <code>import-untyped</code></p>
-<p>See <a href="../../mypy_conf/running_mypy/#缺失的导入">Missing imports</a> for how to work around these errors.</p>
+<p>如果 mypy 无法解析 <code>import</code> 语句，它会生成错误。这是 <code>import-not-found</code> 和 <code>import-untyped</code> 的父错误代码。</p>
+<p>有关如何解决这些错误的信息，请参见 <a href="../../mypy_conf/running_mypy/#缺失的导入">缺失的导入</a>。</p>
 </div>
 <div class="tabbed-block">
 <p>Mypy generates an error if it can't resolve an <code>import</code> statement. This is a parent error code of <code>import-not-found</code> and <code>import-untyped</code></p>
@@ -2690,12 +2688,12 @@ _ <span style="color: #666666">=</span> a[<span style="color: #BA2121">&quot;z&q
 <div class="tabbed-set tabbed-alternate" data-tabs="26:2"><input checked="checked" id="__tabbed_26_1" name="__tabbed_26" type="radio" /><input id="__tabbed_26_2" name="__tabbed_26" type="radio" /><div class="tabbed-labels"><label for="__tabbed_26_1">中文</label><label for="__tabbed_26_2">英文</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<p>Mypy generates an error if it can't find the source code or a stub file for an imported module.</p>
-<p>Example:</p>
-<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #3D7B7B; font-style: italic"># Error: Cannot find implementation or library stub for module named &quot;m0dule_with_typo&quot;  [import-not-found]</span>
+<p>如果 mypy 无法找到导入模块的源代码或存根文件，它会生成错误。</p>
+<p>例如：</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #3D7B7B; font-style: italic"># 错误: 无法找到名为 &quot;m0dule_with_typo&quot; 的模块的实现或库存根  [import-not-found]</span>
 <span style="color: #008000; font-weight: bold">import</span> <span style="color: #0000FF; font-weight: bold">m0dule_with_typo</span>
 </code></pre></div>
-<p>See <a href="../../mypy_conf/running_mypy/#缺失的导入">Missing imports</a> for how to work around these errors.</p>
+<p>有关如何解决这些错误的信息，请参见 <a href="../../mypy_conf/running_mypy/#缺失的导入">缺失的导入</a>。</p>
 </div>
 <div class="tabbed-block">
 <p>Mypy generates an error if it can't find the source code or a stub file for an imported module.</p>
@@ -2712,14 +2710,14 @@ _ <span style="color: #666666">=</span> a[<span style="color: #BA2121">&quot;z&q
 <div class="tabbed-set tabbed-alternate" data-tabs="27:2"><input checked="checked" id="__tabbed_27_1" name="__tabbed_27" type="radio" /><input id="__tabbed_27_2" name="__tabbed_27" type="radio" /><div class="tabbed-labels"><label for="__tabbed_27_1">中文</label><label for="__tabbed_27_2">英文</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<p>Mypy generates an error if it can find the source code for an imported module, but that module does not provide type annotations (via <a href="../../mypy_conf/installed_packages/">PEP 561</a>).</p>
-<p>Example:</p>
-<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #3D7B7B; font-style: italic"># Error: Library stubs not installed for &quot;bs4&quot;  [import-untyped]</span>
+<p>如果 mypy 能找到导入模块的源代码，但该模块没有提供类型注解（通过 <a href="../../mypy_conf/installed_packages/">PEP 561</a>），mypy 会生成错误。</p>
+<p>例如：</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #3D7B7B; font-style: italic"># 错误: &quot;bs4&quot; 的库存根未安装  [import-untyped]</span>
 <span style="color: #008000; font-weight: bold">import</span> <span style="color: #0000FF; font-weight: bold">bs4</span>
-<span style="color: #3D7B7B; font-style: italic"># Error: Skipping analyzing &quot;no_py_typed&quot;: module is installed, but missing library stubs or py.typed marker  [import-untyped]</span>
+<span style="color: #3D7B7B; font-style: italic"># 错误: 跳过分析 &quot;no_py_typed&quot;: 模块已安装，但缺少库存根或 py.typed 标记  [import-untyped]</span>
 <span style="color: #008000; font-weight: bold">import</span> <span style="color: #0000FF; font-weight: bold">no_py_typed</span>
 </code></pre></div>
-<p>In some cases, these errors can be fixed by installing an appropriate stub package. See <a href="../../mypy_conf/running_mypy/#缺失的导入">Missing imports</a> for more details.</p>
+<p>在某些情况下，可以通过安装适当的存根包来解决这些错误。有关更多详细信息，请参见 <a href="../../mypy_conf/running_mypy/#缺失的导入">缺失的导入</a>。</p>
 </div>
 <div class="tabbed-block">
 <p>Mypy generates an error if it can find the source code for an imported module, but that module does not provide type annotations (via <a href="../../mypy_conf/installed_packages/">PEP 561</a>).</p>
@@ -2738,17 +2736,17 @@ _ <span style="color: #666666">=</span> a[<span style="color: #BA2121">&quot;z&q
 <div class="tabbed-set tabbed-alternate" data-tabs="28:2"><input checked="checked" id="__tabbed_28_1" name="__tabbed_28" type="radio" /><input id="__tabbed_28_2" name="__tabbed_28" type="radio" /><div class="tabbed-labels"><label for="__tabbed_28_1">中文</label><label for="__tabbed_28_2">英文</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<p>Mypy may generate an error if you have multiple definitions for a name in the same namespace.  The reason is that this is often an error, as the second definition may overwrite the first one. Also, mypy often can't be able to determine whether references point to the first or the second definition, which would compromise type checking.</p>
-<p>If you silence this error, all references to the defined name refer to the <em>first</em> definition.</p>
-<p>Example:</p>
+<p>如果在同一个命名空间中有多个名称定义，mypy 可能会生成错误。原因是这通常是一个错误，因为第二个定义可能会覆盖第一个定义。此外，mypy 往往无法确定引用指向第一个还是第二个定义，这会影响类型检查的准确性。</p>
+<p>如果你忽略此错误，所有对定义名称的引用将指向<em>第一个</em>定义。</p>
+<p>例如：</p>
 <div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">A</span>:
     <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__init__</span>(<span style="color: #008000">self</span>, x: <span style="color: #008000">int</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>: <span style="color: #666666">...</span>
 
-<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">A</span>:  <span style="color: #3D7B7B; font-style: italic"># Error: Name &quot;A&quot; already defined on line 1  [no-redef]</span>
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">A</span>:  <span style="color: #3D7B7B; font-style: italic"># 错误: 名称 &quot;A&quot; 已在第 1 行定义  [no-redef]</span>
     <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__init__</span>(<span style="color: #008000">self</span>, x: <span style="color: #008000">str</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>: <span style="color: #666666">...</span>
 
-<span style="color: #3D7B7B; font-style: italic"># Error: Argument 1 to &quot;A&quot; has incompatible type &quot;str&quot;; expected &quot;int&quot;</span>
-<span style="color: #3D7B7B; font-style: italic">#        (the first definition wins!)</span>
+<span style="color: #3D7B7B; font-style: italic"># 错误: 对 &quot;A&quot; 的参数 1 具有不兼容的类型 &quot;str&quot;；预期 &quot;int&quot;</span>
+<span style="color: #3D7B7B; font-style: italic">#       （第一个定义优先！）</span>
 A(<span style="color: #BA2121">&#39;x&#39;</span>)
 </code></pre></div>
 </div>
@@ -2774,15 +2772,15 @@ A(<span style="color: #BA2121">&#39;x&#39;</span>)
 <div class="tabbed-set tabbed-alternate" data-tabs="29:2"><input checked="checked" id="__tabbed_29_1" name="__tabbed_29" type="radio" /><input id="__tabbed_29_2" name="__tabbed_29" type="radio" /><div class="tabbed-labels"><label for="__tabbed_29_1">中文</label><label for="__tabbed_29_2">英文</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<p>Mypy reports an error if you call a function with a <code>None</code> return type and don't ignore the return value, as this is usually (but not always) a programming error.</p>
-<p>In this example, the <code>if f()</code> check is always false since <code>f</code> returns <code>None</code>:</p>
+<p>如果你调用一个返回类型为 <code>None</code> 的函数而不忽略其返回值，mypy 会报告一个错误，因为这通常（但并非总是）是一个编程错误。</p>
+<p>在这个例子中，<code>if f()</code> 检查总是为假，因为 <code>f</code> 返回的是 <code>None</code>：</p>
 <div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">f</span>() <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:
     <span style="color: #666666">...</span>
 
-<span style="color: #3D7B7B; font-style: italic"># OK: we don&#39;t do anything with the return value</span>
+<span style="color: #3D7B7B; font-style: italic"># OK: 我们不对返回值进行任何操作</span>
 f()
 
-<span style="color: #3D7B7B; font-style: italic"># Error: &quot;f&quot; does not return a value (it only ever returns None)  [func-returns-value]</span>
+<span style="color: #3D7B7B; font-style: italic"># 错误: &quot;f&quot; 不返回值（它只返回 None）  [func-returns-value]</span>
 <span style="color: #008000; font-weight: bold">if</span> f():
     <span style="color: #008000">print</span>(<span style="color: #BA2121">&quot;not false&quot;</span>)
 </code></pre></div>
@@ -2808,9 +2806,9 @@ f()
 <div class="tabbed-set tabbed-alternate" data-tabs="30:2"><input checked="checked" id="__tabbed_30_1" name="__tabbed_30" type="radio" /><input id="__tabbed_30_2" name="__tabbed_30" type="radio" /><div class="tabbed-labels"><label for="__tabbed_30_1">中文</label><label for="__tabbed_30_2">英文</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<p>Mypy generates an error if you try to instantiate an abstract base class (ABC). An abstract base class is a class with at least one abstract method or attribute. (See also <a href="https://docs.python.org/3/library/abc.html#module-abc">abc</a> module documentation)</p>
-<p>Sometimes a class is made accidentally abstract, often due to an unimplemented abstract method. In a case like this you need to provide an implementation for the method to make the class concrete (non-abstract).</p>
-<p>Example:</p>
+<p>如果你尝试实例化一个抽象基类（ABC），mypy 会生成一个错误。抽象基类是指具有至少一个抽象方法或属性的类。（有关更多信息，请参见 <a href="https://docs.python.org/3/library/abc.html#module-abc">abc</a> 模块文档）</p>
+<p>有时一个类被意外地标记为抽象类，通常是因为某个抽象方法未实现。在这种情况下，你需要提供方法的实现，以使类变为具体类（非抽象类）。</p>
+<p>示例：</p>
 <div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">abc</span> <span style="color: #008000; font-weight: bold">import</span> ABCMeta, abstractmethod
 
 <span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Persistent</span>(metaclass<span style="color: #666666">=</span>ABCMeta):
@@ -2821,9 +2819,9 @@ f()
     <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__init__</span>(<span style="color: #008000">self</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:
         <span style="color: #666666">...</span>
 
-    <span style="color: #666666">...</span>  <span style="color: #3D7B7B; font-style: italic"># No &quot;save&quot; method</span>
+    <span style="color: #666666">...</span>  <span style="color: #3D7B7B; font-style: italic"># 没有 &quot;save&quot; 方法</span>
 
-<span style="color: #3D7B7B; font-style: italic"># Error: Cannot instantiate abstract class &quot;Thing&quot; with abstract attribute &quot;save&quot;  [abstract]</span>
+<span style="color: #3D7B7B; font-style: italic"># 错误: 无法实例化抽象类 &quot;Thing&quot;，因为它缺少抽象属性 &quot;save&quot;  [abstract]</span>
 t <span style="color: #666666">=</span> Thing()
 </code></pre></div>
 </div>
@@ -2854,7 +2852,7 @@ t <span style="color: #666666">=</span> Thing()
 <div class="tabbed-set tabbed-alternate" data-tabs="31:2"><input checked="checked" id="__tabbed_31_1" name="__tabbed_31" type="radio" /><input id="__tabbed_31_2" name="__tabbed_31" type="radio" /><div class="tabbed-labels"><label for="__tabbed_31_1">中文</label><label for="__tabbed_31_2">英文</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<p>Mypy always allows instantiating (calling) type objects typed as <code>Type[t]</code>, even if it is not known that <code>t</code> is non-abstract, since it is a common pattern to create functions that act as object factories (custom constructors). Therefore, to prevent issues described in the above section, when an abstract type object is passed where <code>Type[t]</code> is expected, mypy will give an error. Example:</p>
+<p>Mypy 总是允许实例化（调用）类型为 <code>Type[t]</code> 的类型对象，即使不确定 <code>t</code> 是否是非抽象的，因为创建作为对象工厂（自定义构造函数）的函数是一种常见模式。因此，为了防止上述部分中描述的问题，当一个抽象类型对象被传递到期望 <code>Type[t]</code> 的地方时，mypy 将会报错。示例如下：</p>
 <div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">abc</span> <span style="color: #008000; font-weight: bold">import</span> ABCMeta, abstractmethod
 <span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">typing</span> <span style="color: #008000; font-weight: bold">import</span> List, Type, TypeVar
 
@@ -2864,9 +2862,9 @@ t <span style="color: #666666">=</span> Thing()
 
 T <span style="color: #666666">=</span> TypeVar(<span style="color: #BA2121">&quot;T&quot;</span>)
 <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">make_many</span>(typ: Type[T], n: <span style="color: #008000">int</span>) <span style="color: #666666">-&gt;</span> List[T]:
-    <span style="color: #008000; font-weight: bold">return</span> [typ() <span style="color: #008000; font-weight: bold">for</span> _ <span style="color: #AA22FF; font-weight: bold">in</span> <span style="color: #008000">range</span>(n)]  <span style="color: #3D7B7B; font-style: italic"># This will raise if typ is abstract</span>
+    <span style="color: #008000; font-weight: bold">return</span> [typ() <span style="color: #008000; font-weight: bold">for</span> _ <span style="color: #AA22FF; font-weight: bold">in</span> <span style="color: #008000">range</span>(n)]  <span style="color: #3D7B7B; font-style: italic"># 如果 typ 是抽象类，将会抛出错误</span>
 
-<span style="color: #3D7B7B; font-style: italic"># Error: Only concrete class can be given where &quot;Type[Config]&quot; is expected [type-abstract]</span>
+<span style="color: #3D7B7B; font-style: italic"># 错误: 期望 &quot;Type[Config]&quot; 处只能给出具体类 [type-abstract]</span>
 make_many(Config, <span style="color: #666666">5</span>)
 </code></pre></div>
 </div>
@@ -2894,18 +2892,21 @@ make_many(Config, <span style="color: #666666">5</span>)
 <div class="tabbed-set tabbed-alternate" data-tabs="32:2"><input checked="checked" id="__tabbed_32_1" name="__tabbed_32" type="radio" /><input id="__tabbed_32_2" name="__tabbed_32" type="radio" /><div class="tabbed-labels"><label for="__tabbed_32_1">中文</label><label for="__tabbed_32_2">英文</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<p>Abstract methods often don't have any default implementation, i.e. their bodies are just empty. Calling such methods in subclasses via <code>super()</code> will cause runtime errors, so mypy prevents you from doing so:</p>
+<p>抽象方法通常没有默认实现，即它们的主体是空的。通过 <code>super()</code> 在子类中调用这样的抽象方法将导致运行时错误，因此 mypy 会阻止你这样做：</p>
 <div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">abc</span> <span style="color: #008000; font-weight: bold">import</span> abstractmethod
+
 <span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Base</span>:
     <span style="color: #AA22FF">@abstractmethod</span>
     <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">foo</span>(<span style="color: #008000">self</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000">int</span>: <span style="color: #666666">...</span>
+
 <span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Sub</span>(Base):
     <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">foo</span>(<span style="color: #008000">self</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000">int</span>:
-        <span style="color: #008000; font-weight: bold">return</span> <span style="color: #008000">super</span>()<span style="color: #666666">.</span>foo() <span style="color: #666666">+</span> <span style="color: #666666">1</span>  <span style="color: #3D7B7B; font-style: italic"># error: Call to abstract method &quot;foo&quot; of &quot;Base&quot; with</span>
-                                    <span style="color: #3D7B7B; font-style: italic"># trivial body via super() is unsafe  [safe-super]</span>
-Sub()<span style="color: #666666">.</span>foo()  <span style="color: #3D7B7B; font-style: italic"># This will crash at runtime.</span>
+        <span style="color: #008000; font-weight: bold">return</span> <span style="color: #008000">super</span>()<span style="color: #666666">.</span>foo() <span style="color: #666666">+</span> <span style="color: #666666">1</span>  <span style="color: #3D7B7B; font-style: italic"># 错误: 通过 super() 调用 &quot;Base&quot; 的抽象方法 &quot;foo&quot;，</span>
+                                <span style="color: #3D7B7B; font-style: italic"># 具有简单主体是不安全的 [safe-super]</span>
+
+Sub()<span style="color: #666666">.</span>foo()  <span style="color: #3D7B7B; font-style: italic"># 这将在运行时崩溃。</span>
 </code></pre></div>
-<p>Mypy considers the following as trivial bodies: a <code>pass</code> statement, a literal ellipsis <code>...</code>, a docstring, and a <code>raise NotImplementedError</code> statement.</p>
+<p>Mypy 将以下情况视为简单主体：一个 <code>pass</code> 语句、一个字面量省略号 <code>...</code>、一个文档字符串，以及一个 <code>raise NotImplementedError</code> 语句。</p>
 </div>
 <div class="tabbed-block">
 <p>Abstract methods often don't have any default implementation, i.e. their bodies are just empty. Calling such methods in subclasses via <code>super()</code> will cause runtime errors, so mypy prevents you from doing so:</p>
@@ -2928,17 +2929,17 @@ Sub()<span style="color: #666666">.</span>foo()  <span style="color: #3D7B7B; fo
 <div class="tabbed-set tabbed-alternate" data-tabs="33:2"><input checked="checked" id="__tabbed_33_1" name="__tabbed_33" type="radio" /><input id="__tabbed_33_2" name="__tabbed_33" type="radio" /><div class="tabbed-labels"><label for="__tabbed_33_1">中文</label><label for="__tabbed_33_2">英文</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<p>The target of a <a href="https://docs.python.org/3/library/typing.html#typing.NewType">NewType</a> definition must be a class type. It can't be a union type, <code>Any</code>, or various other special types.</p>
-<p>You can also get this error if the target has been imported from a module whose source mypy cannot find, since any such definitions are treated by mypy as values with <code>Any</code> types. Example:</p>
+<p><code>NewType</code> 的目标必须是一个类类型。它不能是一个联合类型、<code>Any</code> 或各种其他特殊类型。</p>
+<p>如果目标来自一个 mypy 无法找到源代码的模块，也会出现此错误，因为 mypy 会将这些定义视为具有 <code>Any</code> 类型的值。例如：</p>
 <div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">typing</span> <span style="color: #008000; font-weight: bold">import</span> NewType
 
-<span style="color: #3D7B7B; font-style: italic"># The source for &quot;acme&quot; is not available for mypy</span>
+<span style="color: #3D7B7B; font-style: italic"># &quot;acme&quot; 的源代码对于 mypy 不可用</span>
 <span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">acme</span> <span style="color: #008000; font-weight: bold">import</span> Entity  <span style="color: #3D7B7B; font-style: italic"># type: ignore</span>
 
-<span style="color: #3D7B7B; font-style: italic"># Error: Argument 2 to NewType(...) must be subclassable (got &quot;Any&quot;)  [valid-newtype]</span>
+<span style="color: #3D7B7B; font-style: italic"># 错误: NewType(...) 的第 2 个参数必须是可子类化的 (得到 &quot;Any&quot;)  [valid-newtype]</span>
 UserEntity <span style="color: #666666">=</span> NewType(<span style="color: #BA2121">&#39;UserEntity&#39;</span>, Entity)
 </code></pre></div>
-<p>To work around the issue, you can either give mypy access to the sources for <code>acme</code> or create a stub file for the module.  See :ref:<code>ignore-missing-imports</code> for more information.</p>
+<p>要解决这个问题，你可以让 mypy 访问 <code>acme</code> 的源代码，或者为该模块创建一个存根文件。有关更多信息，请参见 <a href="../../mypy_conf/running_mypy/#缺失的导入">缺失的导入</a>。</p>
 </div>
 <div class="tabbed-block">
 <p>The target of a <a href="https://docs.python.org/3/library/typing.html#typing.NewType">NewType</a> definition must be a class type. It can't be a union type, <code>Any</code>, or various other special types.</p>
@@ -2951,7 +2952,7 @@ UserEntity <span style="color: #666666">=</span> NewType(<span style="color: #BA
 <span style="color: #3D7B7B; font-style: italic"># Error: Argument 2 to NewType(...) must be subclassable (got &quot;Any&quot;)  [valid-newtype]</span>
 UserEntity <span style="color: #666666">=</span> NewType(<span style="color: #BA2121">&#39;UserEntity&#39;</span>, Entity)
 </code></pre></div>
-<p>To work around the issue, you can either give mypy access to the sources for <code>acme</code> or create a stub file for the module.  See :ref:<code>ignore-missing-imports</code> for more information.</p>
+<p>To work around the issue, you can either give mypy access to the sources for <code>acme</code> or create a stub file for the module.  See <a href="../../mypy_conf/running_mypy/#缺失的导入">Missing imports</a> for more information.</p>
 </div>
 </div>
 </div>
@@ -2960,35 +2961,35 @@ UserEntity <span style="color: #666666">=</span> NewType(<span style="color: #BA
 <div class="tabbed-set tabbed-alternate" data-tabs="34:2"><input checked="checked" id="__tabbed_34_1" name="__tabbed_34" type="radio" /><input id="__tabbed_34_2" name="__tabbed_34" type="radio" /><div class="tabbed-labels"><label for="__tabbed_34_1">中文</label><label for="__tabbed_34_2">英文</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<p>If mypy can determine that <a href="https://docs.python.org/3/reference/datamodel.html#object.__exit__">__exit__</a> always returns <code>False</code>, mypy checks that the return type is <em>not</em> <code>bool</code>.  The boolean value of the return type affects which lines mypy thinks are reachable after a <code>with</code> statement, since any <a href="https://docs.python.org/3/reference/datamodel.html#object.__exit__">__exit__</a> method that can return <code>True</code> may swallow exceptions. An imprecise return type can result in mysterious errors reported near <code>with</code> statements.</p>
-<p>To fix this, use either <code>typing.Literal[False]</code> or <code>None</code> as the return type. Returning <code>None</code> is equivalent to returning <code>False</code> in this context, since both are treated as false values.</p>
-<p>Example:</p>
+<p>如果 mypy 能确定 <code>__exit__</code> 方法始终返回 <code>False</code>，则 mypy 会检查返回类型是否<em>不是</em> <code>bool</code>。这是因为 <code>__exit__</code> 方法返回的布尔值会影响 mypy 判断 <code>with</code> 语句之后哪些行是可达的。任何可能返回 <code>True</code> 的 <code>__exit__</code> 方法可能会吞噬异常。返回类型不准确可能导致在 <code>with</code> 语句附近报告神秘的错误。</p>
+<p>要解决此问题，可以使用 <code>typing.Literal[False]</code> 或 <code>None</code> 作为返回类型。在这个上下文中，返回 <code>None</code> 等同于返回 <code>False</code>，因为它们都被视为假值。</p>
+<p>示例：</p>
 <div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">MyContext</span>:
     <span style="color: #666666">...</span>
-    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__exit__</span>(<span style="color: #008000">self</span>, exc, value, tb) <span style="color: #666666">-&gt;</span> <span style="color: #008000">bool</span>:  <span style="color: #3D7B7B; font-style: italic"># Error</span>
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__exit__</span>(<span style="color: #008000">self</span>, exc, value, tb) <span style="color: #666666">-&gt;</span> <span style="color: #008000">bool</span>:  <span style="color: #3D7B7B; font-style: italic"># 错误</span>
         <span style="color: #008000">print</span>(<span style="color: #BA2121">&#39;exit&#39;</span>)
         <span style="color: #008000; font-weight: bold">return</span> <span style="color: #008000; font-weight: bold">False</span>
 </code></pre></div>
-<p>This produces the following output from mypy:</p>
+<p>这会产生以下 mypy 输出：</p>
 <div class="language-text highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>example.py:3: error: &quot;bool&quot; is invalid as return type for &quot;__exit__&quot; that always returns False
 example.py:3: note: Use &quot;typing_extensions.Literal[False]&quot; as the return type or change it to
     &quot;None&quot;
 example.py:3: note: If return type of &quot;__exit__&quot; implies that it may return True, the context
     manager may swallow exceptions
 </code></pre></div>
-<p>You can use <code>Literal[False]</code> to fix the error:</p>
+<p>你可以使用 <code>Literal[False]</code> 来修复错误：</p>
 <div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">typing</span> <span style="color: #008000; font-weight: bold">import</span> Literal
 
 <span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">MyContext</span>:
     <span style="color: #666666">...</span>
-    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__exit__</span>(<span style="color: #008000">self</span>, exc, value, tb) <span style="color: #666666">-&gt;</span> Literal[<span style="color: #008000; font-weight: bold">False</span>]:  <span style="color: #3D7B7B; font-style: italic"># OK</span>
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__exit__</span>(<span style="color: #008000">self</span>, exc, value, tb) <span style="color: #666666">-&gt;</span> Literal[<span style="color: #008000; font-weight: bold">False</span>]:  <span style="color: #3D7B7B; font-style: italic"># 正确</span>
         <span style="color: #008000">print</span>(<span style="color: #BA2121">&#39;exit&#39;</span>)
         <span style="color: #008000; font-weight: bold">return</span> <span style="color: #008000; font-weight: bold">False</span>
 </code></pre></div>
-<p>You can also use <code>None</code>:</p>
+<p>你也可以使用 <code>None</code>：</p>
 <div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">MyContext</span>:
     <span style="color: #666666">...</span>
-    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__exit__</span>(<span style="color: #008000">self</span>, exc, value, tb) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:  <span style="color: #3D7B7B; font-style: italic"># Also OK</span>
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__exit__</span>(<span style="color: #008000">self</span>, exc, value, tb) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:  <span style="color: #3D7B7B; font-style: italic"># 也正确</span>
         <span style="color: #008000">print</span>(<span style="color: #BA2121">&#39;exit&#39;</span>)
 </code></pre></div>
 </div>
@@ -3032,10 +3033,10 @@ example.py:3: note: If return type of &quot;__exit__&quot; implies that it may r
 <div class="tabbed-set tabbed-alternate" data-tabs="35:2"><input checked="checked" id="__tabbed_35_1" name="__tabbed_35" type="radio" /><input id="__tabbed_35_2" name="__tabbed_35" type="radio" /><div class="tabbed-labels"><label for="__tabbed_35_1">中文</label><label for="__tabbed_35_2">英文</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<p>The definition of a named tuple or a TypedDict must be named consistently when using the call-based syntax. Example:</p>
+<p>使用基于调用的语法定义命名元组或 <code>TypedDict</code> 时，名称必须一致。例如：</p>
 <div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">typing</span> <span style="color: #008000; font-weight: bold">import</span> NamedTuple
 
-<span style="color: #3D7B7B; font-style: italic"># Error: First argument to namedtuple() should be &quot;Point2D&quot;, not &quot;Point&quot;</span>
+<span style="color: #3D7B7B; font-style: italic"># 错误: namedtuple() 的第一个参数应为 &quot;Point2D&quot;，而不是 &quot;Point&quot;</span>
 Point2D <span style="color: #666666">=</span> NamedTuple(<span style="color: #BA2121">&quot;Point&quot;</span>, [(<span style="color: #BA2121">&quot;x&quot;</span>, <span style="color: #008000">int</span>), (<span style="color: #BA2121">&quot;y&quot;</span>, <span style="color: #008000">int</span>)])
 </code></pre></div>
 </div>
@@ -3054,7 +3055,7 @@ Point2D <span style="color: #666666">=</span> NamedTuple(<span style="color: #BA
 <div class="tabbed-set tabbed-alternate" data-tabs="36:2"><input checked="checked" id="__tabbed_36_1" name="__tabbed_36" type="radio" /><input id="__tabbed_36_2" name="__tabbed_36" type="radio" /><div class="tabbed-labels"><label for="__tabbed_36_1">中文</label><label for="__tabbed_36_2">英文</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<p>There are some places where only a (string) literal value is expected for the purposes of static type checking, for example a <code>TypedDict</code> key, or a <code>__match_args__</code> item. Providing a <code>str</code>-valued variable in such contexts will result in an error. Note that in many cases you can also use <code>Final</code> or <code>Literal</code> variables. Example:</p>
+<p>在某些情况下，仅期望使用（字符串）字面量值进行静态类型检查，例如 <code>TypedDict</code> 键或 <code>__match_args__</code> 项。在这些上下文中提供 <code>str</code> 类型的变量会导致错误。请注意，在许多情况下，你也可以使用 <code>Final</code> 或 <code>Literal</code> 变量。示例如下：</p>
 <div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">typing</span> <span style="color: #008000; font-weight: bold">import</span> Final, Literal, TypedDict
 
 <span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Point</span>(TypedDict):
@@ -3068,9 +3069,9 @@ Point2D <span style="color: #666666">=</span> NamedTuple(<span style="color: #BA
     Y: Literal[<span style="color: #BA2121">&quot;y&quot;</span>] <span style="color: #666666">=</span> <span style="color: #BA2121">&quot;y&quot;</span>
     p[Y]  <span style="color: #3D7B7B; font-style: italic"># OK</span>
 
-    key <span style="color: #666666">=</span> <span style="color: #BA2121">&quot;x&quot;</span>  <span style="color: #3D7B7B; font-style: italic"># Inferred type of key is `str`</span>
-    <span style="color: #3D7B7B; font-style: italic"># Error: TypedDict key must be a string literal;</span>
-    <span style="color: #3D7B7B; font-style: italic">#   expected one of (&quot;x&quot;, &quot;y&quot;)  [literal-required]</span>
+    key <span style="color: #666666">=</span> <span style="color: #BA2121">&quot;x&quot;</span>  <span style="color: #3D7B7B; font-style: italic"># 推断的 key 类型是 `str`</span>
+    <span style="color: #3D7B7B; font-style: italic"># 错误: TypedDict 键必须是字符串字面量；</span>
+    <span style="color: #3D7B7B; font-style: italic">#   期望是 (&quot;x&quot;, &quot;y&quot;)  [literal-required]</span>
     p[key]
 </code></pre></div>
 </div>
@@ -3102,7 +3103,7 @@ Point2D <span style="color: #666666">=</span> NamedTuple(<span style="color: #BA
 <div class="tabbed-set tabbed-alternate" data-tabs="37:2"><input checked="checked" id="__tabbed_37_1" name="__tabbed_37" type="radio" /><input id="__tabbed_37_2" name="__tabbed_37" type="radio" /><div class="tabbed-labels"><label for="__tabbed_37_1">中文</label><label for="__tabbed_37_2">英文</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<p>Overloaded functions outside of stub files must be followed by a non overloaded implementation.</p>
+<p>在存根文件外部，重载函数必须跟随一个非重载的实现。</p>
 <div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">typing</span> <span style="color: #008000; font-weight: bold">import</span> overload
 
 <span style="color: #AA22FF">@overload</span>
@@ -3113,9 +3114,9 @@ Point2D <span style="color: #666666">=</span> NamedTuple(<span style="color: #BA
 <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">func</span>(value: <span style="color: #008000">str</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000">str</span>:
     <span style="color: #666666">...</span>
 
-<span style="color: #3D7B7B; font-style: italic"># presence of required function below is checked</span>
+<span style="color: #3D7B7B; font-style: italic"># 检查下面的实际实现是否存在</span>
 <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">func</span>(value):
-    <span style="color: #008000; font-weight: bold">pass</span>  <span style="color: #3D7B7B; font-style: italic"># actual implementation</span>
+    <span style="color: #008000; font-weight: bold">pass</span>  <span style="color: #3D7B7B; font-style: italic"># 实际实现</span>
 </code></pre></div>
 </div>
 <div class="tabbed-block">
@@ -3142,16 +3143,16 @@ Point2D <span style="color: #666666">=</span> NamedTuple(<span style="color: #BA
 <div class="tabbed-set tabbed-alternate" data-tabs="38:2"><input checked="checked" id="__tabbed_38_1" name="__tabbed_38" type="radio" /><input id="__tabbed_38_2" name="__tabbed_38" type="radio" /><div class="tabbed-labels"><label for="__tabbed_38_1">中文</label><label for="__tabbed_38_2">英文</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<p>Mypy ensures that return values of async def functions are not ignored, as this is usually a programming error, as the coroutine won't be executed at the call site.</p>
+<p>Mypy 确保 <code>async def</code> 函数的返回值不会被忽略，因为这通常是一个编程错误，因为协程在调用点不会被执行。</p>
 <div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">async</span> <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">f</span>() <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:
     <span style="color: #666666">...</span>
 
 <span style="color: #008000; font-weight: bold">async</span> <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">g</span>() <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:
-    f()  <span style="color: #3D7B7B; font-style: italic"># Error: missing await</span>
-    <span style="color: #008000; font-weight: bold">await</span> f()  <span style="color: #3D7B7B; font-style: italic"># OK</span>
+    f()  <span style="color: #3D7B7B; font-style: italic"># 错误: 缺少 await</span>
+    <span style="color: #008000; font-weight: bold">await</span> f()  <span style="color: #3D7B7B; font-style: italic"># 正确</span>
 </code></pre></div>
-<p>You can work around this error by assigning the result to a temporary, otherwise unused variable:</p>
-<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>    _ <span style="color: #666666">=</span> f()  <span style="color: #3D7B7B; font-style: italic"># No error</span>
+<p>你可以通过将结果分配给一个临时的、未使用的变量来解决此错误：</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>    _ <span style="color: #666666">=</span> f()  <span style="color: #3D7B7B; font-style: italic"># 没有错误</span>
 </code></pre></div>
 </div>
 <div class="tabbed-block">
@@ -3174,11 +3175,11 @@ Point2D <span style="color: #666666">=</span> NamedTuple(<span style="color: #BA
 <div class="tabbed-set tabbed-alternate" data-tabs="39:2"><input checked="checked" id="__tabbed_39_1" name="__tabbed_39" type="radio" /><input id="__tabbed_39_2" name="__tabbed_39" type="radio" /><div class="tabbed-labels"><label for="__tabbed_39_1">中文</label><label for="__tabbed_39_2">英文</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<p>This error code is separate from the general <code>[syntax]</code> errors, because in some environments (e.g. IPython) a top level <code>await</code> is allowed. In such environments a user may want to use <code>--disable-error-code=top-level-await</code>, that allows to still have errors for other improper uses of <code>await</code>, for example:</p>
+<p>这个错误代码与一般的 <code>[syntax]</code> 错误分开处理，因为在某些环境中（例如 IPython），顶层的 <code>await</code> 是被允许的。在这些环境中，用户可能希望使用 <code>--disable-error-code=top-level-await</code>，这样可以在其他不当使用 <code>await</code> 的情况下仍然报告错误，例如：</p>
 <div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">async</span> <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">f</span>() <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:
     <span style="color: #666666">...</span>
 
-top <span style="color: #666666">=</span> <span style="color: #008000; font-weight: bold">await</span> f()  <span style="color: #3D7B7B; font-style: italic"># Error: &quot;await&quot; outside function  [top-level-await]</span>
+top <span style="color: #666666">=</span> <span style="color: #008000; font-weight: bold">await</span> f()  <span style="color: #3D7B7B; font-style: italic"># 错误: &quot;await&quot; 在函数外部  [top-level-await]</span>
 </code></pre></div>
 </div>
 <div class="tabbed-block">
@@ -3196,12 +3197,12 @@ top <span style="color: #666666">=</span> <span style="color: #008000; font-weig
 <div class="tabbed-set tabbed-alternate" data-tabs="40:2"><input checked="checked" id="__tabbed_40_1" name="__tabbed_40" type="radio" /><input id="__tabbed_40_2" name="__tabbed_40" type="radio" /><div class="tabbed-labels"><label for="__tabbed_40_1">中文</label><label for="__tabbed_40_2">英文</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<p><code>await</code> must be used inside a coroutine.</p>
+<p><code>await</code> 必须在协程中使用。</p>
 <div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">async</span> <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">f</span>() <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:
     <span style="color: #666666">...</span>
 
 <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">g</span>() <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:
-    <span style="color: #008000; font-weight: bold">await</span> f()  <span style="color: #3D7B7B; font-style: italic"># Error: &quot;await&quot; outside coroutine (&quot;async def&quot;)  [await-not-async]</span>
+    <span style="color: #008000; font-weight: bold">await</span> f()  <span style="color: #3D7B7B; font-style: italic"># 错误: &quot;await&quot; 不在协程 (&quot;async def&quot;) 内  [await-not-async]</span>
 </code></pre></div>
 </div>
 <div class="tabbed-block">
@@ -3220,13 +3221,14 @@ top <span style="color: #666666">=</span> <span style="color: #008000; font-weig
 <div class="tabbed-set tabbed-alternate" data-tabs="41:2"><input checked="checked" id="__tabbed_41_1" name="__tabbed_41" type="radio" /><input id="__tabbed_41_2" name="__tabbed_41" type="radio" /><div class="tabbed-labels"><label for="__tabbed_41_1">中文</label><label for="__tabbed_41_2">英文</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<p>The inferred type for an expression passed to <code>assert_type</code> must match the provided type.</p>
-<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">typing_extensions</span> <span style="color: #008000; font-weight: bold">import</span> assert_type
+<p>传递给 <code>assert_type</code> 的表达式的推断类型必须与提供的类型匹配。</p>
+<p><div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">typing_extensions</span> <span style="color: #008000; font-weight: bold">import</span> assert_type
 
-assert_type([<span style="color: #666666">1</span>], <span style="color: #008000">list</span>[<span style="color: #008000">int</span>])  <span style="color: #3D7B7B; font-style: italic"># OK</span>
+assert_type([<span style="color: #666666">1</span>], <span style="color: #008000">list</span>[<span style="color: #008000">int</span>])  <span style="color: #3D7B7B; font-style: italic"># 正确</span>
 
-assert_type([<span style="color: #666666">1</span>], <span style="color: #008000">list</span>[<span style="color: #008000">str</span>])  <span style="color: #3D7B7B; font-style: italic"># Error</span>
+assert_type([<span style="color: #666666">1</span>], <span style="color: #008000">list</span>[<span style="color: #008000">str</span>])  <span style="color: #3D7B7B; font-style: italic"># 错误</span>
 </code></pre></div>
+```</p>
 </div>
 <div class="tabbed-block">
 <p>The inferred type for an expression passed to <code>assert_type</code> must match the provided type.</p>
@@ -3244,11 +3246,11 @@ assert_type([<span style="color: #666666">1</span>], <span style="color: #008000
 <div class="tabbed-set tabbed-alternate" data-tabs="42:2"><input checked="checked" id="__tabbed_42_1" name="__tabbed_42" type="radio" /><input id="__tabbed_42_2" name="__tabbed_42" type="radio" /><div class="tabbed-labels"><label for="__tabbed_42_1">中文</label><label for="__tabbed_42_2">英文</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<p>Functions will always evaluate to true in boolean contexts.</p>
+<p>函数在布尔上下文中总是会被评估为真。</p>
 <div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">f</span>():
     <span style="color: #666666">...</span>
 
-<span style="color: #008000; font-weight: bold">if</span> f:  <span style="color: #3D7B7B; font-style: italic"># Error: Function &quot;Callable[[], Any]&quot; could always be true in boolean context  [truthy-function]</span>
+<span style="color: #008000; font-weight: bold">if</span> f:  <span style="color: #3D7B7B; font-style: italic"># 错误: 函数 &quot;Callable[[], Any]&quot; 在布尔上下文中总是可能为真  [truthy-function]</span>
     <span style="color: #008000; font-weight: bold">pass</span>
 </code></pre></div>
 </div>
@@ -3268,15 +3270,15 @@ assert_type([<span style="color: #666666">1</span>], <span style="color: #008000
 <div class="tabbed-set tabbed-alternate" data-tabs="43:2"><input checked="checked" id="__tabbed_43_1" name="__tabbed_43" type="radio" /><input id="__tabbed_43_2" name="__tabbed_43" type="radio" /><div class="tabbed-labels"><label for="__tabbed_43_1">中文</label><label for="__tabbed_43_2">英文</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<p>Mypy will check that f-strings, <code>str.format()</code> calls, and <code>%</code> interpolations are valid (when corresponding template is a literal string). This includes checking number and types of replacements, for example:</p>
-<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #3D7B7B; font-style: italic"># Error: Cannot find replacement for positional format specifier 1 [str-format]</span>
+<p>Mypy 会检查 f-strings、<code>str.format()</code> 调用和 <code>%</code> 插值的有效性（当相应的模板是字面字符串时）。这包括检查替换的数量和类型，例如：</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #3D7B7B; font-style: italic"># 错误: 找不到位置格式说明符 1 的替换 [str-format]</span>
 <span style="color: #BA2121">&quot;</span><span style="color: #A45A77; font-weight: bold">{}</span><span style="color: #BA2121"> and </span><span style="color: #A45A77; font-weight: bold">{}</span><span style="color: #BA2121">&quot;</span><span style="color: #666666">.</span>format(<span style="color: #BA2121">&quot;spam&quot;</span>)
-<span style="color: #BA2121">&quot;</span><span style="color: #A45A77; font-weight: bold">{}</span><span style="color: #BA2121"> and </span><span style="color: #A45A77; font-weight: bold">{}</span><span style="color: #BA2121">&quot;</span><span style="color: #666666">.</span>format(<span style="color: #BA2121">&quot;spam&quot;</span>, <span style="color: #BA2121">&quot;eggs&quot;</span>)  <span style="color: #3D7B7B; font-style: italic"># OK</span>
-<span style="color: #3D7B7B; font-style: italic"># Error: Not all arguments converted during string formatting [str-format]</span>
+<span style="color: #BA2121">&quot;</span><span style="color: #A45A77; font-weight: bold">{}</span><span style="color: #BA2121"> and </span><span style="color: #A45A77; font-weight: bold">{}</span><span style="color: #BA2121">&quot;</span><span style="color: #666666">.</span>format(<span style="color: #BA2121">&quot;spam&quot;</span>, <span style="color: #BA2121">&quot;eggs&quot;</span>)  <span style="color: #3D7B7B; font-style: italic"># 正确</span>
+<span style="color: #3D7B7B; font-style: italic"># 错误: 字符串格式化时没有转换所有参数 [str-format]</span>
 <span style="color: #BA2121">&quot;</span><span style="color: #A45A77; font-weight: bold">{}</span><span style="color: #BA2121"> and </span><span style="color: #A45A77; font-weight: bold">{}</span><span style="color: #BA2121">&quot;</span><span style="color: #666666">.</span>format(<span style="color: #BA2121">&quot;spam&quot;</span>, <span style="color: #BA2121">&quot;eggs&quot;</span>, <span style="color: #BA2121">&quot;cheese&quot;</span>)
 
-<span style="color: #3D7B7B; font-style: italic"># Error: Incompatible types in string interpolation</span>
-<span style="color: #3D7B7B; font-style: italic"># (expression has type &quot;float&quot;, placeholder has type &quot;int&quot;) [str-format]</span>
+<span style="color: #3D7B7B; font-style: italic"># 错误: 字符串插值中的类型不兼容</span>
+<span style="color: #3D7B7B; font-style: italic"># （表达式类型为 &quot;float&quot;，占位符类型为 &quot;int&quot;）[str-format]</span>
 <span style="color: #BA2121">&quot;</span><span style="color: #A45A77; font-weight: bold">{:d}</span><span style="color: #BA2121">&quot;</span><span style="color: #666666">.</span>format(<span style="color: #666666">3.14</span>)
 </code></pre></div>
 </div>
@@ -3300,15 +3302,15 @@ assert_type([<span style="color: #666666">1</span>], <span style="color: #008000
 <div class="tabbed-set tabbed-alternate" data-tabs="44:2"><input checked="checked" id="__tabbed_44_1" name="__tabbed_44" type="radio" /><input id="__tabbed_44_2" name="__tabbed_44" type="radio" /><div class="tabbed-labels"><label for="__tabbed_44_1">中文</label><label for="__tabbed_44_2">英文</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<p>Warn about cases where a bytes object may be converted to a string in an unexpected manner.</p>
+<p>警告可能在意外的情况下将 <code>bytes</code> 对象转换为字符串的情况。</p>
 <div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>b <span style="color: #666666">=</span> <span style="color: #BA2121">b&quot;abc&quot;</span>
 
-<span style="color: #3D7B7B; font-style: italic"># Error: If x = b&#39;abc&#39; then f&quot;{x}&quot; or &quot;{}&quot;.format(x) produces &quot;b&#39;abc&#39;&quot;, not &quot;abc&quot;.</span>
-<span style="color: #3D7B7B; font-style: italic"># If this is desired behavior, use f&quot;{x!r}&quot; or &quot;{!r}&quot;.format(x).</span>
-<span style="color: #3D7B7B; font-style: italic"># Otherwise, decode the bytes [str-bytes-safe]</span>
+<span style="color: #3D7B7B; font-style: italic"># 错误: 如果 x = b&#39;abc&#39;，那么 f&quot;{x}&quot; 或 &quot;{}&quot;.format(x) 会产生 &quot;b&#39;abc&#39;&quot;，而不是 &quot;abc&quot;。</span>
+<span style="color: #3D7B7B; font-style: italic"># 如果这是期望的行为，使用 f&quot;{x!r}&quot; 或 &quot;{!r}&quot;.format(x)。</span>
+<span style="color: #3D7B7B; font-style: italic"># 否则，请解码字节 [str-bytes-safe]</span>
 <span style="color: #008000">print</span>(<span style="color: #BA2121">f&quot;The alphabet starts with </span><span style="color: #A45A77; font-weight: bold">{</span>b<span style="color: #A45A77; font-weight: bold">}</span><span style="color: #BA2121">&quot;</span>)
 
-<span style="color: #3D7B7B; font-style: italic"># Okay</span>
+<span style="color: #3D7B7B; font-style: italic"># 正确</span>
 <span style="color: #008000">print</span>(<span style="color: #BA2121">f&quot;The alphabet starts with </span><span style="color: #A45A77; font-weight: bold">{</span>b<span style="color: #A45A77; font-weight: bold">!r}</span><span style="color: #BA2121">&quot;</span>)  <span style="color: #3D7B7B; font-style: italic"># The alphabet starts with b&#39;abc&#39;</span>
 <span style="color: #008000">print</span>(<span style="color: #BA2121">f&quot;The alphabet starts with </span><span style="color: #A45A77; font-weight: bold">{</span>b<span style="color: #666666">.</span>decode(<span style="color: #BA2121">&#39;utf-8&#39;</span>)<span style="color: #A45A77; font-weight: bold">}</span><span style="color: #BA2121">&quot;</span>)  <span style="color: #3D7B7B; font-style: italic"># The alphabet starts with abc</span>
 </code></pre></div>
@@ -3334,14 +3336,14 @@ assert_type([<span style="color: #666666">1</span>], <span style="color: #008000
 <div class="tabbed-set tabbed-alternate" data-tabs="45:2"><input checked="checked" id="__tabbed_45_1" name="__tabbed_45" type="radio" /><input id="__tabbed_45_2" name="__tabbed_45" type="radio" /><div class="tabbed-labels"><label for="__tabbed_45_1">中文</label><label for="__tabbed_45_2">英文</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<p>Warn if multiple <code>@overload</code> variants overlap in potentially unsafe ways. This guards against the following situation:</p>
+<p>警告多个 <code>@overload</code> 变体可能以潜在不安全的方式重叠。这是为了防止以下情况：</p>
 <div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">typing</span> <span style="color: #008000; font-weight: bold">import</span> overload
 
 <span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">A</span>: <span style="color: #666666">...</span>
 <span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">B</span>(A): <span style="color: #666666">...</span>
 
 <span style="color: #AA22FF">@overload</span>
-<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">foo</span>(x: B) <span style="color: #666666">-&gt;</span> <span style="color: #008000">int</span>: <span style="color: #666666">...</span>  <span style="color: #3D7B7B; font-style: italic"># Error: Overloaded function signatures 1 and 2 overlap with incompatible return types  [overload-overlap]</span>
+<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">foo</span>(x: B) <span style="color: #666666">-&gt;</span> <span style="color: #008000">int</span>: <span style="color: #666666">...</span>  <span style="color: #3D7B7B; font-style: italic"># 错误: 重载函数签名 1 和 2 具有不兼容的返回类型 [overload-overlap]</span>
 <span style="color: #AA22FF">@overload</span>
 <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">foo</span>(x: A) <span style="color: #666666">-&gt;</span> <span style="color: #008000">str</span>: <span style="color: #666666">...</span>
 <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">foo</span>(x): <span style="color: #666666">...</span>
@@ -3351,11 +3353,11 @@ assert_type([<span style="color: #666666">1</span>], <span style="color: #008000
 
 a: A <span style="color: #666666">=</span> B()
 value <span style="color: #666666">=</span> takes_a(a)
-<span style="color: #3D7B7B; font-style: italic"># mypy will think that value is a str, but it could actually be an int</span>
-reveal_type(value) <span style="color: #3D7B7B; font-style: italic"># Revealed type is &quot;builtins.str&quot;</span>
+<span style="color: #3D7B7B; font-style: italic"># mypy 会认为 value 是 str 类型，但实际上可能是 int 类型</span>
+reveal_type(value) <span style="color: #3D7B7B; font-style: italic"># 显示类型是 &quot;builtins.str&quot;</span>
 </code></pre></div>
-<p>Note that in cases where you ignore this error, mypy will usually still infer the types you expect.</p>
-<p>See <a href="https://mypy.readthedocs.io/en/stable/more_types.html#function-overloading">overloading</a> for more explanation.</p>
+<p>请注意，在忽略此错误的情况下，mypy 通常仍然会推断出您期望的类型。</p>
+<p>有关更多解释，请参见 <a href="https://mypy.readthedocs.io/en/stable/more_types.html#function-overloading">overloading</a>。</p>
 </div>
 <div class="tabbed-block">
 <p>Warn if multiple <code>@overload</code> variants overlap in potentially unsafe ways. This guards against the following situation:</p>
@@ -3388,13 +3390,13 @@ reveal_type(value) <span style="color: #3D7B7B; font-style: italic"># Revealed t
 <div class="tabbed-set tabbed-alternate" data-tabs="46:2"><input checked="checked" id="__tabbed_46_1" name="__tabbed_46" type="radio" /><input id="__tabbed_46_2" name="__tabbed_46" type="radio" /><div class="tabbed-labels"><label for="__tabbed_46_1">中文</label><label for="__tabbed_46_2">英文</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<p>Sometimes a user may accidentally omit an annotation for a function, and mypy will not check the body of this function (unless one uses <a href="../../mypy_conf/command_line/#check-untyped-defs">--check-untyped-defs</a> or <a href="../../mypy_conf/command_line/#disallow-untyped-defs">--disallow-untyped-defs</a> ). To avoid such situations go unnoticed, mypy will show a note, if there are any type annotations in an unchecked function:</p>
-<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">test_assignment</span>():  <span style="color: #3D7B7B; font-style: italic"># &quot;-&gt; None&quot; return annotation is missing</span>
-    <span style="color: #3D7B7B; font-style: italic"># Note: By default the bodies of untyped functions are not checked,</span>
-    <span style="color: #3D7B7B; font-style: italic"># consider using --check-untyped-defs [annotation-unchecked]</span>
+<p>有时用户可能会不小心遗漏函数的类型注解，mypy 将不会检查该函数的主体（除非使用 <a href="../../mypy_conf/command_line/#check-untyped-defs">--check-untyped-defs</a> 或 <a href="../../mypy_conf/command_line/#disallow-untyped-defs">--disallow-untyped-defs</a>）。为了避免这种情况被忽视，mypy 会在未检查的函数中存在类型注解时显示一个提示：</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">test_assignment</span>():  <span style="color: #3D7B7B; font-style: italic"># &quot;-&gt; None&quot; 返回注解缺失</span>
+    <span style="color: #3D7B7B; font-style: italic"># 注意: 默认情况下，未注解函数的主体不会被检查，</span>
+    <span style="color: #3D7B7B; font-style: italic"># 可以考虑使用 --check-untyped-defs [annotation-unchecked]</span>
     x: <span style="color: #008000">int</span> <span style="color: #666666">=</span> <span style="color: #BA2121">&quot;no way&quot;</span>
 </code></pre></div>
-<p>Note that mypy will still exit with return code <code>0</code>, since such behaviour is specified by <a href="https://peps.python.org/pep-0484/">PEP 484</a>.</p>
+<p>请注意，mypy 仍会以返回码 <code>0</code> 退出，因为这种行为是由 <a href="https://peps.python.org/pep-0484/">PEP 484</a> 规定的。</p>
 </div>
 <div class="tabbed-block">
 <p>Sometimes a user may accidentally omit an annotation for a function, and mypy will not check the body of this function (unless one uses <a href="../../mypy_conf/command_line/#check-untyped-defs">--check-untyped-defs</a> or <a href="../../mypy_conf/command_line/#disallow-untyped-defs">--disallow-untyped-defs</a> ). To avoid such situations go unnoticed, mypy will show a note, if there are any type annotations in an unchecked function:</p>
@@ -3412,7 +3414,7 @@ reveal_type(value) <span style="color: #3D7B7B; font-style: italic"># Revealed t
 <div class="tabbed-set tabbed-alternate" data-tabs="47:2"><input checked="checked" id="__tabbed_47_1" name="__tabbed_47" type="radio" /><input id="__tabbed_47_2" name="__tabbed_47" type="radio" /><div class="tabbed-labels"><label for="__tabbed_47_1">中文</label><label for="__tabbed_47_2">英文</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<p>Mypy does not yet support analysis of decorators that precede the property decorator. If the decorator does not preserve the declared type of the property, mypy will not infer the correct type for the declaration. If the decorator cannot be moved after the <code>@property</code> decorator, then you must use a type ignore comment:</p>
+<p>mypy 目前尚不支持分析在 <code>@property</code> 装饰器之前的其他装饰器。如果装饰器不保留属性声明的类型，mypy 将无法推断出正确的类型。如果装饰器无法移动到 <code>@property</code> 装饰器之后，则必须使用类型忽略注释：</p>
 <div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">MyClass</span>:
     <span style="color: #AA22FF">@special</span>  <span style="color: #3D7B7B; font-style: italic"># type: ignore[prop-decorator]</span>
     <span style="color: #AA22FF">@property</span>
@@ -3421,7 +3423,7 @@ reveal_type(value) <span style="color: #3D7B7B; font-style: italic"># Revealed t
 </code></pre></div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>For backward compatibility, this error code is a subcode of the generic <code>[misc]</code> code.</p>
+<p>为了向后兼容，这个错误代码是通用 <code>[misc]</code> 代码的子代码。</p>
 </div>
 </div>
 <div class="tabbed-block">
@@ -3444,7 +3446,7 @@ reveal_type(value) <span style="color: #3D7B7B; font-style: italic"># Revealed t
 <div class="tabbed-set tabbed-alternate" data-tabs="48:2"><input checked="checked" id="__tabbed_48_1" name="__tabbed_48" type="radio" /><input id="__tabbed_48_2" name="__tabbed_48" type="radio" /><div class="tabbed-labels"><label for="__tabbed_48_1">中文</label><label for="__tabbed_48_2">英文</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<p>If the code being checked is not syntactically valid, mypy issues a syntax error. Most, but not all, syntax errors are <em>blocking errors</em>: they can't be ignored with a <code># type: ignore</code> comment.</p>
+<p>如果被检查的代码在语法上无效，mypy 会报告语法错误。大多数，但不是所有，语法错误都是 <em>阻塞错误</em>：它们不能通过 <code># type: ignore</code> 注释被忽略。</p>
 </div>
 <div class="tabbed-block">
 <p>If the code being checked is not syntactically valid, mypy issues a syntax error. Most, but not all, syntax errors are <em>blocking errors</em>: they can't be ignored with a <code># type: ignore</code> comment.</p>
@@ -3456,10 +3458,10 @@ reveal_type(value) <span style="color: #3D7B7B; font-style: italic"># Revealed t
 <div class="tabbed-set tabbed-alternate" data-tabs="49:2"><input checked="checked" id="__tabbed_49_1" name="__tabbed_49" type="radio" /><input id="__tabbed_49_2" name="__tabbed_49" type="radio" /><div class="tabbed-labels"><label for="__tabbed_49_1">中文</label><label for="__tabbed_49_2">英文</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<p>Mypy performs numerous other, less commonly failing checks that don't have specific error codes. These use the <code>misc</code> error code. Other than being used for multiple unrelated errors, the <code>misc</code> error code is not special. For example, you can ignore all errors in this category by using <code># type: ignore[misc]</code> comment. Since these errors are not expected to be common, it's unlikely that you'll see two <em>different</em> errors with the <code>misc</code> code on a single line -- though this can certainly happen once in a while.</p>
+<p>Mypy 还执行许多其他检查，这些检查不常失败，并且没有特定的错误代码。这些检查使用 <code>misc</code> 错误代码。除了用于多种无关的错误外，<code>misc</code> 错误代码没有特殊含义。例如，您可以通过使用 <code># type: ignore[misc]</code> 注释来忽略所有此类别的错误。由于这些错误不常见，因此在一行中看到两个 <em>不同的</em> <code>misc</code> 错误代码的错误是不太可能的——尽管这确实偶尔会发生。</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Future mypy versions will likely add new error codes for some errors that currently use the <code>misc</code> error code.</p>
+<p>未来的 mypy 版本可能会为一些当前使用 <code>misc</code> 错误代码的错误添加新的错误代码。</p>
 </div>
 </div>
 <div class="tabbed-block">
@@ -3493,7 +3495,7 @@ reveal_type(value) <span style="color: #3D7B7B; font-style: italic"># Revealed t
     <span class="md-icon" title="最后更新">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2024年9月16日</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2024年9月17日</span>
   </span>
 
     

@@ -1176,7 +1176,7 @@
 <div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">中文</label><label for="__tabbed_1_2">英文</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<p>This section discusses various features that did not fit in naturally in one of the previous sections.</p>
+<p>这一部分讨论了在之前的部分中没有自然融入的各种特性。</p>
 </div>
 <div class="tabbed-block">
 <p>This section discusses various features that did not fit in naturally in one of the previous sections.</p>
@@ -1188,7 +1188,7 @@
 <div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">中文</label><label for="__tabbed_2_2">英文</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<p>The <a href="https://docs.python.org/3/library/dataclasses.html#module-dataclasses">dataclasses</a> module allows defining and customizing simple boilerplate-free classes. They can be defined using the <a href="https://docs.python.org/3/library/dataclasses.html#dataclasses.dataclass">@dataclasses.dataclass</a> decorator:</p>
+<p><a href="https://docs.python.org/3/library/dataclasses.html#module-dataclasses">dataclasses</a> 模块允许定义和自定义简单的无样板类。可以使用 <a href="https://docs.python.org/3/library/dataclasses.html#dataclasses.dataclass">@dataclasses.dataclass</a> 装饰器来定义这些类：</p>
 <div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">dataclasses</span> <span style="color: #008000; font-weight: bold">import</span> dataclass, field
 
 <span style="color: #AA22FF">@dataclass</span>
@@ -1196,10 +1196,10 @@
     name: <span style="color: #008000">str</span>
     plugins: <span style="color: #008000">list</span>[<span style="color: #008000">str</span>] <span style="color: #666666">=</span> field(default_factory<span style="color: #666666">=</span><span style="color: #008000">list</span>)
 
-test <span style="color: #666666">=</span> Application(<span style="color: #BA2121">&quot;Testing...&quot;</span>)  <span style="color: #3D7B7B; font-style: italic"># OK</span>
-bad <span style="color: #666666">=</span> Application(<span style="color: #BA2121">&quot;Testing...&quot;</span>, <span style="color: #BA2121">&quot;with plugin&quot;</span>)  <span style="color: #3D7B7B; font-style: italic"># Error: list[str] expected</span>
+test <span style="color: #666666">=</span> Application(<span style="color: #BA2121">&quot;Testing...&quot;</span>)  <span style="color: #3D7B7B; font-style: italic"># 正常</span>
+bad <span style="color: #666666">=</span> Application(<span style="color: #BA2121">&quot;Testing...&quot;</span>, <span style="color: #BA2121">&quot;with plugin&quot;</span>)  <span style="color: #3D7B7B; font-style: italic"># 错误：期望 list[str]</span>
 </code></pre></div>
-<p>Mypy will detect special methods (such as <a href="https://docs.python.org/3/reference/datamodel.html#object.__lt__">__lt__</a>) depending on the flags used to define dataclasses. For example:</p>
+<p>Mypy 将根据定义 dataclasses 时使用的标志来检测特殊方法（如 <a href="https://docs.python.org/3/reference/datamodel.html#object.__lt__">__lt__</a>）。例如：</p>
 <div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">dataclasses</span> <span style="color: #008000; font-weight: bold">import</span> dataclass
 
 <span style="color: #AA22FF">@dataclass</span>(order<span style="color: #666666">=</span><span style="color: #008000; font-weight: bold">True</span>)
@@ -1212,10 +1212,10 @@ bad <span style="color: #666666">=</span> Application(<span style="color: #BA212
     x: <span style="color: #008000">int</span>
     y: <span style="color: #008000">int</span>
 
-OrderedPoint(<span style="color: #666666">1</span>, <span style="color: #666666">2</span>) <span style="color: #666666">&lt;</span> OrderedPoint(<span style="color: #666666">3</span>, <span style="color: #666666">4</span>)  <span style="color: #3D7B7B; font-style: italic"># OK</span>
-UnorderedPoint(<span style="color: #666666">1</span>, <span style="color: #666666">2</span>) <span style="color: #666666">&lt;</span> UnorderedPoint(<span style="color: #666666">3</span>, <span style="color: #666666">4</span>)  <span style="color: #3D7B7B; font-style: italic"># Error: Unsupported operand types</span>
+OrderedPoint(<span style="color: #666666">1</span>, <span style="color: #666666">2</span>) <span style="color: #666666">&lt;</span> OrderedPoint(<span style="color: #666666">3</span>, <span style="color: #666666">4</span>)  <span style="color: #3D7B7B; font-style: italic"># 正常</span>
+UnorderedPoint(<span style="color: #666666">1</span>, <span style="color: #666666">2</span>) <span style="color: #666666">&lt;</span> UnorderedPoint(<span style="color: #666666">3</span>, <span style="color: #666666">4</span>)  <span style="color: #3D7B7B; font-style: italic"># 错误：不支持的操作数类型</span>
 </code></pre></div>
-<p>Dataclasses can be generic and can be used in any other way a normal class can be used:</p>
+<p>数据类可以是泛型的，并且可以像普通类一样使用：</p>
 <div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">dataclasses</span> <span style="color: #008000; font-weight: bold">import</span> dataclass
 <span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">typing</span> <span style="color: #008000; font-weight: bold">import</span> Generic, TypeVar
 
@@ -1229,9 +1229,9 @@ T <span style="color: #666666">=</span> TypeVar(<span style="color: #BA2121">&#3
 <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">unbox</span>(bd: BoxedData[T]) <span style="color: #666666">-&gt;</span> T:
     <span style="color: #666666">...</span>
 
-val <span style="color: #666666">=</span> unbox(BoxedData(<span style="color: #666666">42</span>, <span style="color: #BA2121">&quot;&lt;important&gt;&quot;</span>))  <span style="color: #3D7B7B; font-style: italic"># OK, inferred type is int</span>
+val <span style="color: #666666">=</span> unbox(BoxedData(<span style="color: #666666">42</span>, <span style="color: #BA2121">&quot;&lt;important&gt;&quot;</span>))  <span style="color: #3D7B7B; font-style: italic"># 正常，推断类型为 int</span>
 </code></pre></div>
-<p>For more information see <a href="https://docs.python.org/3/library/dataclasses.html">official docs</a> and <a href="https://peps.python.org/pep-0557/">PEP 557</a>.</p>
+<p>有关更多信息，请参见 <a href="https://docs.python.org/3/library/dataclasses.html">官方文档</a> 和 <a href="https://peps.python.org/pep-0557/">PEP 557</a>。</p>
 </div>
 <div class="tabbed-block">
 <p>The <a href="https://docs.python.org/3/library/dataclasses.html#module-dataclasses">dataclasses</a> module allows defining and customizing simple boilerplate-free classes. They can be defined using the <a href="https://docs.python.org/3/library/dataclasses.html#dataclasses.dataclass">@dataclasses.dataclass</a> decorator:</p>
@@ -1286,25 +1286,24 @@ val <span style="color: #666666">=</span> unbox(BoxedData(<span style="color: #6
 <div class="tabbed-set tabbed-alternate" data-tabs="3:2"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><input id="__tabbed_3_2" name="__tabbed_3" type="radio" /><div class="tabbed-labels"><label for="__tabbed_3_1">中文</label><label for="__tabbed_3_2">英文</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<p>Some functions in the <a href="https://docs.python.org/3/library/dataclasses.html#module-dataclasses">dataclasses</a> module, such as <a href="https://docs.python.org/3/library/dataclasses.html#dataclasses.asdict">asdict()</a>, have imprecise (too permissive) types. This will be fixed in future releases.</p>
-<p>Mypy does not yet recognize aliases of <a href="https://docs.python.org/3/library/dataclasses.html#dataclasses.dataclass">dataclasses.dataclass</a>, and will probably never recognize dynamically computed decorators. The following example does <strong>not</strong> work:</p>
+<p>在 <a href="https://docs.python.org/3/library/dataclasses.html#module-dataclasses">dataclasses</a> 模块中，一些函数，如 <a href="https://docs.python.org/3/library/dataclasses.html#dataclasses.asdict">asdict()</a>，具有不精确（过于宽松）的类型。这将在未来的版本中修复。</p>
+<p>Mypy 目前尚不识别 <a href="https://docs.python.org/3/library/dataclasses.html#dataclasses.dataclass">dataclasses.dataclass</a> 的别名，并且可能永远不会识别动态计算的装饰器。以下示例 <strong>不</strong> 能正常工作：</p>
 <div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">dataclasses</span> <span style="color: #008000; font-weight: bold">import</span> dataclass
 
 dataclass_alias <span style="color: #666666">=</span> dataclass
 <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">dataclass_wrapper</span>(<span style="color: #008000">cls</span>):
-<span style="color: #008000; font-weight: bold">return</span> dataclass(<span style="color: #008000">cls</span>)
+    <span style="color: #008000; font-weight: bold">return</span> dataclass(<span style="color: #008000">cls</span>)
 
 <span style="color: #AA22FF">@dataclass_alias</span>
 <span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">AliasDecorated</span>:
-<span style="color: #BA2121; font-style: italic">&quot;&quot;&quot;</span>
-<span style="color: #BA2121; font-style: italic">Mypy doesn&#39;t recognize this as a dataclass because it is decorated by an</span>
-<span style="color: #BA2121; font-style: italic">alias of `dataclass` rather than by `dataclass` itself.</span>
-<span style="color: #BA2121; font-style: italic">&quot;&quot;&quot;</span>
-attribute: <span style="color: #008000">int</span>
+<span style="color: #bbbbbb">    </span><span style="color: #BA2121; font-style: italic">&quot;&quot;&quot;</span>
+<span style="color: #BA2121; font-style: italic">    Mypy 不识别此类为数据类，因为它是由 `dataclass` 的别名装饰的，而不是由 `dataclass` 本身装饰的。</span>
+<span style="color: #BA2121; font-style: italic">    &quot;&quot;&quot;</span>
+    attribute: <span style="color: #008000">int</span>
 
-AliasDecorated(attribute<span style="color: #666666">=1</span>) <span style="color: #3D7B7B; font-style: italic"># error: Unexpected keyword argument</span>
+AliasDecorated(attribute<span style="color: #666666">=1</span>) <span style="color: #3D7B7B; font-style: italic"># 错误：意外的关键字参数</span>
 </code></pre></div>
-<p>To have Mypy recognize a wrapper of <a href="https://docs.python.org/3/library/dataclasses.html#dataclasses.dataclass">dataclasses.dataclass</a> as a dataclass decorator, consider using the <a href="https://docs.python.org/3/library/typing.html#typing.dataclass_transform">dataclass_transform()</a> decorator:</p>
+<p>要使 Mypy 识别 <a href="https://docs.python.org/3/library/dataclasses.html#dataclasses.dataclass">dataclasses.dataclass</a> 的包装器作为数据类装饰器，可以考虑使用 <a href="https://docs.python.org/3/library/typing.html#typing.dataclass_transform">dataclass_transform()</a> 装饰器：</p>
 <div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">dataclasses</span> <span style="color: #008000; font-weight: bold">import</span> dataclass, Field
 <span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">typing</span> <span style="color: #008000; font-weight: bold">import</span> TypeVar, dataclass_transform
 
@@ -1354,10 +1353,10 @@ T <span style="color: #666666">=</span> TypeVar(<span style="color: #BA2121">&#3
 <div class="tabbed-set tabbed-alternate" data-tabs="4:2"><input checked="checked" id="__tabbed_4_1" name="__tabbed_4" type="radio" /><input id="__tabbed_4_2" name="__tabbed_4" type="radio" /><div class="tabbed-labels"><label for="__tabbed_4_1">中文</label><label for="__tabbed_4_2">英文</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<p>Mypy supports the <a href="https://docs.python.org/3/library/typing.html#typing.dataclass_transform">dataclass_transform()</a> decorator as described in <a href="https://www.python.org/dev/peps/pep-0681/#the-dataclass-transform-decorator">PEP 681</a>.</p>
+<p>Mypy 支持 <a href="https://docs.python.org/3/library/typing.html#typing.dataclass_transform">dataclass_transform()</a> 装饰器，如 <a href="https://www.python.org/dev/peps/pep-0681/#the-dataclass-transform-decorator">PEP 681</a> 中所述。</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Pragmatically, mypy will assume such classes have the internal attribute <code>__dataclass_fields__</code> (even though they might lack it in runtime) and will assume functions such as <a href="https://docs.python.org/3/library/dataclasses.html#dataclasses.is_dataclass">dataclasses.is_dataclass()</a> and <a href="https://docs.python.org/3/library/dataclasses.html#dataclasses.fields">dataclasses.fields()</a> treat them as if they were dataclasses (even though they may fail at runtime).</p>
+<p>实际上，Mypy 将假定这样的类具有内部属性 <code>__dataclass_fields__</code>（即使它们在运行时可能没有该属性），并将假定函数如 <a href="https://docs.python.org/3/library/dataclasses.html#dataclasses.is_dataclass">dataclasses.is_dataclass()</a> 和 <a href="https://docs.python.org/3/library/dataclasses.html#dataclasses.fields">dataclasses.fields()</a> 会将它们视为数据类（尽管它们在运行时可能会失败）。</p>
 </div>
 </div>
 <div class="tabbed-block">
@@ -1374,32 +1373,32 @@ T <span style="color: #666666">=</span> TypeVar(<span style="color: #BA2121">&#3
 <div class="tabbed-set tabbed-alternate" data-tabs="5:2"><input checked="checked" id="__tabbed_5_1" name="__tabbed_5" type="radio" /><input id="__tabbed_5_2" name="__tabbed_5" type="radio" /><div class="tabbed-labels"><label for="__tabbed_5_1">中文</label><label for="__tabbed_5_2">英文</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<p><a href="https://www.attrs.org/en/stable/index.html">attrs</a> is a package that lets you define classes without writing boilerplate code. Mypy can detect uses of the package and will generate the necessary method definitions for decorated classes using the type annotations it finds. Type annotations can be added as follows:</p>
+<p><a href="https://www.attrs.org/en/stable/index.html">attrs</a> 是一个可以让你定义类而无需编写样板代码的包。Mypy 可以检测到该包的使用，并将根据它找到的类型注解生成装饰类所需的方法定义。类型注解可以如下添加：</p>
 <div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">import</span> <span style="color: #0000FF; font-weight: bold">attr</span>
 
-<span style="color: #AA22FF">@attrs</span><span style="color: #666666">.</span>define
+<span style="color: #AA22FF">@attr</span><span style="color: #666666">.</span>define
 <span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">A</span>:
     one: <span style="color: #008000">int</span>
     two: <span style="color: #008000">int</span> <span style="color: #666666">=</span> <span style="color: #666666">7</span>
-    three: <span style="color: #008000">int</span> <span style="color: #666666">=</span> attrs<span style="color: #666666">.</span>field(<span style="color: #666666">8</span>)
+    three: <span style="color: #008000">int</span> <span style="color: #666666">=</span> attr<span style="color: #666666">.</span>field(<span style="color: #666666">8</span>)
 </code></pre></div>
-<p>If you're using <code>auto_attribs=False</code> you must use <code>attrs.field</code>:</p>
-<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">import</span> <span style="color: #0000FF; font-weight: bold">attrs</span>
+<p>如果你使用 <code>auto_attribs=False</code>，则必须使用 <code>attr.field</code>：</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">import</span> <span style="color: #0000FF; font-weight: bold">attr</span>
 
-<span style="color: #AA22FF">@attrs</span><span style="color: #666666">.</span>define
+<span style="color: #AA22FF">@attr</span><span style="color: #666666">.</span>define
 <span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">A</span>:
-    one: <span style="color: #008000">int</span> <span style="color: #666666">=</span> attrs<span style="color: #666666">.</span>field()          <span style="color: #3D7B7B; font-style: italic"># Variable annotation (Python 3.6+)</span>
-    two <span style="color: #666666">=</span> attrs<span style="color: #666666">.</span>field()  <span style="color: #3D7B7B; font-style: italic"># type: int  # Type comment</span>
-    three <span style="color: #666666">=</span> attrs<span style="color: #666666">.</span>field(<span style="color: #008000">type</span><span style="color: #666666">=</span><span style="color: #008000">int</span>)     <span style="color: #3D7B7B; font-style: italic"># type= argument</span>
+    one: <span style="color: #008000">int</span> <span style="color: #666666">=</span> attr<span style="color: #666666">.</span>field()          <span style="color: #3D7B7B; font-style: italic"># 变量注解（Python 3.6+）</span>
+    two <span style="color: #666666">=</span> attr<span style="color: #666666">.</span>field()  <span style="color: #3D7B7B; font-style: italic"># type: int  # 类型注释</span>
+    three <span style="color: #666666">=</span> attr<span style="color: #666666">.</span>field(<span style="color: #008000">type</span><span style="color: #666666">=</span><span style="color: #008000">int</span>)     <span style="color: #3D7B7B; font-style: italic"># type= 参数</span>
 </code></pre></div>
-<p>Typeshed has a couple of "white lie" annotations to make type checking easier. [attrs.field] and <a href="https://www.attrs.org/en/stable/api.html#attrs.Factory">attrs.Factory</a> actually return objects, but the annotation says these return the types that they expect to be assigned to. That enables this to work:</p>
-<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">import</span> <span style="color: #0000FF; font-weight: bold">attrs</span>
+<p>Typeshed 有几个“善意谎言”注解，以便更容易进行类型检查。[attrs.field] 和 <a href="https://www.attrs.org/en/stable/api.html#attrs.Factory">attrs.Factory</a> 实际上返回对象，但注解说明这些返回期望被赋值的类型。这使得如下代码可以正常工作：</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">import</span> <span style="color: #0000FF; font-weight: bold">attr</span>
 
-<span style="color: #AA22FF">@attrs</span><span style="color: #666666">.</span>define
+<span style="color: #AA22FF">@attr</span><span style="color: #666666">.</span>define
 <span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">A</span>:
-    one: <span style="color: #008000">int</span> <span style="color: #666666">=</span> attrs<span style="color: #666666">.</span>field(<span style="color: #666666">8</span>)
-    two: <span style="color: #008000">dict</span>[<span style="color: #008000">str</span>, <span style="color: #008000">str</span>] <span style="color: #666666">=</span> attrs<span style="color: #666666">.</span>Factory(<span style="color: #008000">dict</span>)
-    bad: <span style="color: #008000">str</span> <span style="color: #666666">=</span> attrs<span style="color: #666666">.</span>field(<span style="color: #666666">16</span>)   <span style="color: #3D7B7B; font-style: italic"># Error: can&#39;t assign int to str</span>
+    one: <span style="color: #008000">int</span> <span style="color: #666666">=</span> attr<span style="color: #666666">.</span>field(<span style="color: #666666">8</span>)
+    two: <span style="color: #008000">dict</span>[<span style="color: #008000">str</span>, <span style="color: #008000">str</span>] <span style="color: #666666">=</span> attr<span style="color: #666666">.</span>Factory(<span style="color: #008000">dict</span>)
+    bad: <span style="color: #008000">str</span> <span style="color: #666666">=</span> attr<span style="color: #666666">.</span>field(<span style="color: #666666">16</span>)   <span style="color: #3D7B7B; font-style: italic"># 错误：无法将 int 赋值给 str</span>
 </code></pre></div>
 </div>
 <div class="tabbed-block">
@@ -1440,27 +1439,27 @@ T <span style="color: #666666">=</span> TypeVar(<span style="color: #BA2121">&#3
 <div class="tabbed-block">
 <ul>
 <li>
-<p>The detection of attr classes and attributes works by function name only. This means that if you have your own helper functions that, for example, <code>return attrs.field()</code> mypy will not see them.</p>
+<p>对 <code>attr</code> 类和属性的检测仅通过函数名进行。这意味着如果你有自己的辅助函数，例如 <code>return attrs.field()</code>，mypy 将无法识别它们。</p>
 </li>
 <li>
-<p>All boolean arguments that mypy cares about must be literal <code>True</code> or <code>False</code>. e.g the following will not work:</p>
+<p>所有 mypy 关注的布尔参数必须是字面量 <code>True</code> 或 <code>False</code>。例如，下面的代码将不起作用：</p>
 </li>
 </ul>
-<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">import</span> <span style="color: #0000FF; font-weight: bold">attrs</span>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">import</span> <span style="color: #0000FF; font-weight: bold">attr</span>
 YES <span style="color: #666666">=</span> <span style="color: #008000; font-weight: bold">True</span>
-<span style="color: #AA22FF">@attrs</span><span style="color: #666666">.</span>define(init<span style="color: #666666">=</span>YES)
+<span style="color: #AA22FF">@attr</span><span style="color: #666666">.</span>define(init<span style="color: #666666">=</span>YES)
 <span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">A</span>:
     <span style="color: #666666">...</span>
 </code></pre></div>
 <ul>
 <li>
-<p>Currently, <code>converter</code> only supports named functions.  If mypy finds something else it will complain about not understanding the argument and the type annotation in <a href="https://docs.python.org/3/reference/datamodel.html#object.__init__">__init__</a> will be replaced by <code>Any</code>.</p>
+<p>目前，<code>converter</code> 只支持命名函数。如果 mypy 发现其他内容，它会抱怨无法理解该参数，并且 <a href="https://docs.python.org/3/reference/datamodel.html#object.__init__">__init__</a> 中的类型注解将被替换为 <code>Any</code>。</p>
 </li>
 <li>
-<p><a href="https://www.attrs.org/en/stable/examples.html#examples-validators">Validator decorators</a> and <a href="https://www.attrs.org/en/stable/examples.html#defaults">default decorators</a> are not type-checked against the attribute they are setting/validating.</p>
+<p><a href="https://www.attrs.org/en/stable/examples.html#examples-validators">验证器装饰器</a> 和 <a href="https://www.attrs.org/en/stable/examples.html#defaults">默认值装饰器</a> 在设置/验证属性时不会进行类型检查。</p>
 </li>
 <li>
-<p>Method definitions added by mypy currently overwrite any existing method definitions.</p>
+<p>mypy 添加的方法定义目前会覆盖任何现有的方法定义。</p>
 </li>
 </ul>
 </div>
@@ -1498,22 +1497,22 @@ YES <span style="color: #666666">=</span> <span style="color: #008000; font-weig
 <div class="tabbed-set tabbed-alternate" data-tabs="7:2"><input checked="checked" id="__tabbed_7_1" name="__tabbed_7" type="radio" /><input id="__tabbed_7_2" name="__tabbed_7" type="radio" /><div class="tabbed-labels"><label for="__tabbed_7_1">中文</label><label for="__tabbed_7_2">英文</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<p>Mypy performs type checking <em>incrementally</em>, reusing results from previous runs to speed up successive runs. If you are type checking a large codebase, mypy can still be sometimes slower than desirable. For example, if you create a new branch based on a much more recent commit than the target of the previous mypy run, mypy may have to process almost every file, as a large fraction of source files may have changed. This can also happen after you've rebased a local branch.</p>
-<p>Mypy supports using a <em>remote cache</em> to improve performance in cases such as the above.  In a large codebase, remote caching can sometimes speed up mypy runs by a factor of 10, or more.</p>
-<p>Mypy doesn't include all components needed to set this up -- generally you will have to perform some simple integration with your Continuous Integration (CI) or build system to configure mypy to use a remote cache. This discussion assumes you have a CI system set up for the mypy build you want to speed up, and that you are using a central git repository. Generalizing to different environments should not be difficult.</p>
-<p>Here are the main components needed:</p>
+<p>Mypy 进行类型检查是 <em>递增式</em> 的，它重用之前运行的结果来加快后续运行的速度。如果你正在对一个大型代码库进行类型检查，mypy 有时仍可能比预期的慢。例如，如果你基于比上一次 mypy 运行目标提交更新得多的最新提交创建了一个新分支，mypy 可能需要处理几乎每个文件，因为很大一部分源文件可能已经更改。这种情况也可能在你对本地分支进行 rebase 后发生。</p>
+<p>Mypy 支持使用 <em>远程缓存</em> 来提高性能，尤其是在上述情况中。在大型代码库中，远程缓存有时可以将 mypy 的运行速度提高 10 倍或更多。</p>
+<p>Mypy 不包括设置所需的所有组件——通常你需要与 Continuous Integration (CI) 或构建系统进行一些简单的集成，以配置 mypy 使用远程缓存。以下讨论假设你已经为需要加速的 mypy 构建设置了 CI 系统，并且你正在使用中央 Git 仓库。将这些设置推广到不同的环境应该不难。</p>
+<p>这里是所需的主要组件：</p>
 <ul>
 <li>
-<p>A shared repository for storing mypy cache files for all landed commits.</p>
+<p>一个用于存储所有已提交的 mypy 缓存文件的共享仓库。</p>
 </li>
 <li>
-<p>CI build that uploads mypy incremental cache files to the shared repository for each commit for which the CI build runs.</p>
+<p>一个 CI 构建，它在每次 CI 构建运行的提交中将 mypy 递增缓存文件上传到共享仓库。</p>
 </li>
 <li>
-<p>A wrapper script around mypy that developers use to run mypy with remote caching enabled.</p>
+<p>一个包装脚本，开发者用它来运行启用了远程缓存的 mypy。</p>
 </li>
 </ul>
-<p>Below we discuss each of these components in some detail.</p>
+<p>下面我们将详细讨论每个组件。</p>
 </div>
 <div class="tabbed-block">
 <p>Mypy performs type checking <em>incrementally</em>, reusing results from previous runs to speed up successive runs. If you are type checking a large codebase, mypy can still be sometimes slower than desirable. For example, if you create a new branch based on a much more recent commit than the target of the previous mypy run, mypy may have to process almost every file, as a large fraction of source files may have changed. This can also happen after you've rebased a local branch.</p>
@@ -1540,7 +1539,7 @@ YES <span style="color: #666666">=</span> <span style="color: #008000; font-weig
 <div class="tabbed-set tabbed-alternate" data-tabs="8:2"><input checked="checked" id="__tabbed_8_1" name="__tabbed_8" type="radio" /><input id="__tabbed_8_2" name="__tabbed_8" type="radio" /><div class="tabbed-labels"><label for="__tabbed_8_1">中文</label><label for="__tabbed_8_2">英文</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<p>You need a repository that allows you to upload mypy cache files from your CI build and make the cache files available for download based on a commit id.  A simple approach would be to produce an archive of the <code>.mypy_cache</code> directory (which contains the mypy cache data) as a downloadable <em>build artifact</em> from your CI build (depending on the capabilities of your CI system).  Alternatively, you could upload the data to a web server or to S3, for example.</p>
+<p>你需要一个仓库，允许你从 CI 构建上传 mypy 缓存文件，并根据提交 ID 使缓存文件可供下载。一个简单的方法是将 <code>.mypy_cache</code> 目录（包含 mypy 缓存数据）制作成一个可下载的 <em>构建工件</em>，从你的 CI 构建中生成（这取决于你的 CI 系统的能力）。另外，你也可以将数据上传到一个 web 服务器或 S3 等存储服务。</p>
 </div>
 <div class="tabbed-block">
 <p>You need a repository that allows you to upload mypy cache files from your CI build and make the cache files available for download based on a commit id.  A simple approach would be to produce an archive of the <code>.mypy_cache</code> directory (which contains the mypy cache data) as a downloadable <em>build artifact</em> from your CI build (depending on the capabilities of your CI system).  Alternatively, you could upload the data to a web server or to S3, for example.</p>
@@ -1552,20 +1551,20 @@ YES <span style="color: #666666">=</span> <span style="color: #008000; font-weig
 <div class="tabbed-set tabbed-alternate" data-tabs="9:2"><input checked="checked" id="__tabbed_9_1" name="__tabbed_9" type="radio" /><input id="__tabbed_9_2" name="__tabbed_9" type="radio" /><div class="tabbed-labels"><label for="__tabbed_9_1">中文</label><label for="__tabbed_9_2">英文</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<p>The CI build would run a regular mypy build and create an archive containing the <code>.mypy_cache</code> directory produced by the build. Finally, it will produce the cache as a build artifact or upload it to a repository where it is accessible by the mypy wrapper script.</p>
-<p>Your CI script might work like this:</p>
+<p>CI 构建会运行常规的 mypy 构建，并创建一个包含构建产生的 <code>.mypy_cache</code> 目录的归档文件。最后，它会将缓存作为构建工件生成，或上传到一个仓库，使其可以被 mypy 包装脚本访问。</p>
+<p>你的 CI 脚本可能如下工作：</p>
 <ul>
 <li>
-<p>Run mypy normally. This will generate cache data under the <code>.mypy_cache</code> directory.</p>
+<p>正常运行 mypy。这将生成位于 <code>.mypy_cache</code> 目录下的缓存数据。</p>
 </li>
 <li>
-<p>Create a tarball from the <code>.mypy_cache</code> directory.</p>
+<p>从 <code>.mypy_cache</code> 目录创建一个 tarball 归档文件。</p>
 </li>
 <li>
-<p>Determine the current git master branch commit id (say, using <code>git rev-parse HEAD</code>).</p>
+<p>确定当前 Git 主分支的提交 ID（例如，使用 <code>git rev-parse HEAD</code>）。</p>
 </li>
 <li>
-<p>Upload the tarball to the shared repository with a name derived from the commit id.</p>
+<p>将 tarball 上传到共享仓库，名称由提交 ID 派生。</p>
 </li>
 </ul>
 </div>
@@ -1594,11 +1593,11 @@ YES <span style="color: #666666">=</span> <span style="color: #008000; font-weig
 <div class="tabbed-set tabbed-alternate" data-tabs="10:2"><input checked="checked" id="__tabbed_10_1" name="__tabbed_10" type="radio" /><input id="__tabbed_10_2" name="__tabbed_10" type="radio" /><div class="tabbed-labels"><label for="__tabbed_10_1">中文</label><label for="__tabbed_10_2">英文</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<p>The wrapper script is used by developers to run mypy locally during development instead of invoking mypy directly.  The wrapper first populates the local <code>.mypy_cache</code> directory from the shared repository and then runs a normal incremental build.</p>
-<p>The wrapper script needs some logic to determine the most recent central repository commit (by convention, the <code>origin/master</code> branch for git) the local development branch is based on. In a typical git setup you can do it like this:</p>
+<p>包装脚本由开发人员在本地开发过程中使用，以替代直接调用 mypy。该包装脚本首先从共享仓库中填充本地的 <code>.mypy_cache</code> 目录，然后运行常规的增量构建。</p>
+<p>包装脚本需要一些逻辑来确定本地开发分支所基于的最新中央仓库提交（按惯例为 git 的 <code>origin/master</code> 分支）。在典型的 git 设置中，你可以这样做：</p>
 <div class="language-shell highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>git<span style="color: #bbbbbb"> </span>merge-base<span style="color: #bbbbbb"> </span>HEAD<span style="color: #bbbbbb"> </span>origin/master
 </code></pre></div>
-<p>The next step is to download the cache data (contents of the <code>.mypy_cache</code> directory) from the shared repository based on the commit id of the merge base produced by the git command above. The script will decompress the data so that mypy will start with a fresh <code>.mypy_cache</code>. Finally, the script runs mypy normally. And that's all!</p>
+<p>下一步是根据上面 git 命令生成的合并基点的提交 ID，从共享仓库下载缓存数据（<code>.mypy_cache</code> 目录的内容）。脚本将解压缩数据，以便 mypy 从一个新的 <code>.mypy_cache</code> 开始。最后，脚本正常运行 mypy。就这样！</p>
 </div>
 <div class="tabbed-block">
 <p>The wrapper script is used by developers to run mypy locally during development instead of invoking mypy directly.  The wrapper first populates the local <code>.mypy_cache</code> directory from the shared repository and then runs a normal incremental build.</p>
@@ -1614,14 +1613,14 @@ YES <span style="color: #666666">=</span> <span style="color: #008000; font-weig
 <div class="tabbed-set tabbed-alternate" data-tabs="11:2"><input checked="checked" id="__tabbed_11_1" name="__tabbed_11" type="radio" /><input id="__tabbed_11_2" name="__tabbed_11" type="radio" /><div class="tabbed-labels"><label for="__tabbed_11_1">中文</label><label for="__tabbed_11_2">英文</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<p>You can also use remote caching with the <a href="../../mypy_conf/mypy_daemon/">mypy daemon</a>. The remote cache will significantly speed up the first <code>dmypy check</code> run after starting or restarting the daemon.</p>
-<p>The mypy daemon requires extra fine-grained dependency data in the cache files which aren't included by default. To use caching with the mypy daemon, use the <a href="../../mypy_conf/command_line/#cache-fine-grained">--cache-fine-grained</a> option in your CI build</p>
+<p>你还可以使用 <a href="../../mypy_conf/mypy_daemon/">mypy 守护进程</a> 进行远程缓存。远程缓存将显著加快启动或重启守护进程后的第一次 <code>dmypy check</code> 运行速度。</p>
+<p>mypy 守护进程需要缓存文件中额外的细粒度依赖数据，这些数据默认情况下不包括在内。要在 CI 构建中使用缓存与 mypy 守护进程，请使用 <a href="../../mypy_conf/command_line/#cache-fine-grained">--cache-fine-grained</a> 选项：</p>
 <div class="language-shell highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>$<span style="color: #bbbbbb"> </span>mypy<span style="color: #bbbbbb"> </span>--cache-fine-grained<span style="color: #bbbbbb"> </span>&lt;args...&gt;
 </code></pre></div>
-<p>This flag adds extra information for the daemon to the cache. In order to use this extra information, you will also need to use the <code>--use-fine-grained-cache</code> option with <code>dmypy start</code> or <code>dmypy restart</code>. Example</p>
+<p>此标志会向缓存中添加额外的信息，以供守护进程使用。为了利用这些额外的信息，你还需要在 <code>dmypy start</code> 或 <code>dmypy restart</code> 时使用 <code>--use-fine-grained-cache</code> 选项。例如：</p>
 <div class="language-shell highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>$<span style="color: #bbbbbb"> </span>dmypy<span style="color: #bbbbbb"> </span>start<span style="color: #bbbbbb"> </span>--<span style="color: #bbbbbb"> </span>--use-fine-grained-cache<span style="color: #bbbbbb"> </span>&lt;options...&gt;
 </code></pre></div>
-<p>Now your first <code>dmypy check</code> run should be much faster, as it can use cache information to avoid processing the whole program.</p>
+<p>现在，你的第一次 <code>dmypy check</code> 运行应该会快得多，因为它可以使用缓存信息来避免处理整个程序。</p>
 </div>
 <div class="tabbed-block">
 <p>You can also use remote caching with the <a href="../../mypy_conf/mypy_daemon/">mypy daemon</a>. The remote cache will significantly speed up the first <code>dmypy check</code> run after starting or restarting the daemon.</p>
@@ -1640,25 +1639,25 @@ YES <span style="color: #666666">=</span> <span style="color: #008000; font-weig
 <div class="tabbed-set tabbed-alternate" data-tabs="12:2"><input checked="checked" id="__tabbed_12_1" name="__tabbed_12" type="radio" /><input id="__tabbed_12_2" name="__tabbed_12" type="radio" /><div class="tabbed-labels"><label for="__tabbed_12_1">中文</label><label for="__tabbed_12_2">英文</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<p>There are several optional refinements that may improve things further at least if your codebase is hundreds of thousands of lines or more:</p>
+<p>有几个可选的改进措施可以进一步提升性能，尤其是当你的代码库达到几十万行或更多时：</p>
 <ul>
 <li>
-<p>If the wrapper script determines that the merge base hasn't changed from a previous run, there's no need to download the cache data and it's better to instead reuse the existing local cache data.</p>
+<p>如果包装脚本确定合并基点与之前的运行没有变化，那么就不需要下载缓存数据，而是最好重用现有的本地缓存数据。</p>
 </li>
 <li>
-<p>If you use the mypy daemon, you may want to restart the daemon each time after the merge base or local branch has changed to avoid processing a potentially large number of changes in an incremental build, as this can be much slower than downloading cache data and restarting the daemon.</p>
+<p>如果你使用 mypy 守护进程，可能需要在每次合并基点或本地分支更改后重新启动守护进程，以避免在增量构建中处理大量更改，因为这比下载缓存数据和重启守护进程要慢得多。</p>
 </li>
 <li>
-<p>If the current local branch is based on a very recent master commit, the remote cache data may not yet be available for that commit, as there will necessarily be some latency to build the cache files. It may be a good idea to look for cache data for, say, the 5 latest master commits and use the most recent data that is available.</p>
+<p>如果当前本地分支基于非常新的 master 提交，远程缓存数据可能尚不可用，因为构建缓存文件会有一定的延迟。可以考虑查找例如最近 5 个 master 提交的缓存数据，并使用其中最可用的最新数据。</p>
 </li>
 <li>
-<p>If the remote cache is not accessible for some reason (say, from a public network), the script can still fall back to a normal incremental build.</p>
+<p>如果由于某些原因（例如，从公共网络访问）远程缓存无法访问，脚本仍然可以回退到常规的增量构建。</p>
 </li>
 <li>
-<p>You can have multiple local cache directories for different local branches using the <a href="../../mypy_conf/command_line/#cache-dir">--cache-dir</a> option. If the user switches to an existing branch where downloaded cache data is already available, you can continue to use the existing cache data instead of redownloading the data.</p>
+<p>你可以为不同的本地分支设置多个本地缓存目录，使用 <a href="../../mypy_conf/command_line/#cache-dir">--cache-dir</a> 选项。如果用户切换到一个已有缓存数据的分支，可以继续使用现有的缓存数据，而不是重新下载数据。</p>
 </li>
 <li>
-<p>You can set up your CI build to use a remote cache to speed up the CI build. This would be particularly useful if each CI build starts from a fresh state without access to cache files from previous builds. It's still recommended to run a full, non-incremental mypy build to create the cache data, as repeatedly updating cache data incrementally could result in drift over a long time period (due to a mypy caching issue, perhaps).</p>
+<p>你可以设置你的 CI 构建使用远程缓存来加速 CI 构建。这在每次 CI 构建从新状态开始且无法访问之前构建的缓存文件时尤其有用。仍然建议运行一次完整的非增量 mypy 构建以创建缓存数据，因为重复增量更新缓存数据可能会导致长期内的偏差（可能由于 mypy 缓存问题）。</p>
 </li>
 </ul>
 </div>
@@ -1694,16 +1693,15 @@ YES <span style="color: #666666">=</span> <span style="color: #008000; font-weig
 <div class="tabbed-block">
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This feature is deprecated.  You can use</p>
+<p>此功能已弃用。你可以使用 <a href="../../mypy/protocol_and_struct_subtyping/">回调协议</a> 作为替代。</p>
 </div>
-<p><a href="../../mypy/protocol_and_struct_subtyping/">callback protocols</a> as a replacement.</p>
-<p>As an experimental mypy extension, you can specify <a href="https://docs.python.org/3/library/typing.html#typing.Callable">Callable</a> types that support keyword arguments, optional arguments, and more.  When you specify the arguments of a <a href="https://docs.python.org/3/library/typing.html#typing.Callable">Callable</a>, you can choose to supply just the type of a nameless positional argument, or an "argument specifier" representing a more complicated form of argument.  This allows one to more closely emulate the full range of possibilities given by the <code>def</code> statement in Python.</p>
-<p>As an example, here's a complicated function definition and the corresponding <a href="https://docs.python.org/3/library/typing.html#typing.Callable">Callable</a>:</p>
+<p>作为一个实验性的 mypy 扩展，你可以指定支持关键字参数、可选参数等的 <a href="https://docs.python.org/3/library/typing.html#typing.Callable">Callable</a> 类型。当你指定 <a href="https://docs.python.org/3/library/typing.html#typing.Callable">Callable</a> 的参数时，你可以选择仅提供一个无名位置参数的类型，或提供一个表示更复杂参数形式的“参数说明符”。这使得你可以更接近 Python 中 <code>def</code> 语句所提供的全部可能性。</p>
+<p>例如，这里有一个复杂的函数定义及其对应的 <a href="https://docs.python.org/3/library/typing.html#typing.Callable">Callable</a>：</p>
 <div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">typing</span> <span style="color: #008000; font-weight: bold">import</span> Callable
 <span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">mypy_extensions</span> <span style="color: #008000; font-weight: bold">import</span> (Arg, DefaultArg, NamedArg,
                             DefaultNamedArg, VarArg, KwArg)
 
-<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">func</span>(__a: <span style="color: #008000">int</span>,  <span style="color: #3D7B7B; font-style: italic"># This convention is for nameless arguments</span>
+<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">func</span>(__a: <span style="color: #008000">int</span>,  <span style="color: #3D7B7B; font-style: italic"># 这种约定用于无名参数</span>
         b: <span style="color: #008000">int</span>,
         c: <span style="color: #008000">int</span> <span style="color: #666666">=</span> <span style="color: #666666">0</span>,
         <span style="color: #666666">*</span>args: <span style="color: #008000">int</span>,
@@ -1712,7 +1710,7 @@ YES <span style="color: #666666">=</span> <span style="color: #008000; font-weig
         <span style="color: #666666">**</span>kwargs: <span style="color: #008000">int</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000">int</span>:
     <span style="color: #666666">...</span>
 
-F <span style="color: #666666">=</span> Callable[[<span style="color: #008000">int</span>,  <span style="color: #3D7B7B; font-style: italic"># Or Arg(int)</span>
+F <span style="color: #666666">=</span> Callable[[<span style="color: #008000">int</span>,  <span style="color: #3D7B7B; font-style: italic"># 或 Arg(int)</span>
             Arg(<span style="color: #008000">int</span>, <span style="color: #BA2121">&#39;b&#39;</span>),
             DefaultArg(<span style="color: #008000">int</span>, <span style="color: #BA2121">&#39;c&#39;</span>),
             VarArg(<span style="color: #008000">int</span>),
@@ -1723,67 +1721,65 @@ F <span style="color: #666666">=</span> Callable[[<span style="color: #008000">i
 
 f: F <span style="color: #666666">=</span> func
 </code></pre></div>
-<p>Argument specifiers are special function calls that can specify the following aspects of an argument:</p>
+<p>参数说明符是特殊的函数调用，用于指定参数的以下方面：</p>
 <ul>
 <li>
-<p>its type (the only thing that the basic format supports)</p>
+<p>其类型（基本格式仅支持此项）</p>
 </li>
 <li>
-<p>its name (if it has one)</p>
+<p>其名称（如果有）</p>
 </li>
 <li>
-<p>whether it may be omitted</p>
+<p>是否可以省略</p>
 </li>
 <li>
-<p>whether it may or must be passed using a keyword</p>
+<p>是否可以或必须使用关键字传递</p>
 </li>
 <li>
-<p>whether it is a <code>*args</code> argument (representing the remaining positional arguments)</p>
+<p>是否为 <code>*args</code> 参数（表示剩余的位置参数）</p>
 </li>
 <li>
-<p>whether it is a <code>**kwargs</code> argument (representing the remaining keyword arguments)</p>
+<p>是否为 <code>**kwargs</code> 参数（表示剩余的关键字参数）</p>
 </li>
 </ul>
-<p>The following functions are available in <code>mypy_extensions</code> for this purpose:</p>
+<p>以下是 <code>mypy_extensions</code> 中可用的函数：</p>
 <div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">Arg</span>(<span style="color: #008000">type</span><span style="color: #666666">=</span>Any, name<span style="color: #666666">=</span><span style="color: #008000; font-weight: bold">None</span>):
-    <span style="color: #3D7B7B; font-style: italic"># A normal, mandatory, positional argument.</span>
-    <span style="color: #3D7B7B; font-style: italic"># If the name is specified it may be passed as a keyword.</span>
+    <span style="color: #3D7B7B; font-style: italic"># 一个普通的、强制的、位置参数。</span>
+    <span style="color: #3D7B7B; font-style: italic"># 如果指定了名称，可以作为关键字传递。</span>
 
 <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">DefaultArg</span>(<span style="color: #008000">type</span><span style="color: #666666">=</span>Any, name<span style="color: #666666">=</span><span style="color: #008000; font-weight: bold">None</span>):
-    <span style="color: #3D7B7B; font-style: italic"># An optional positional argument (i.e. with a default value).</span>
-    <span style="color: #3D7B7B; font-style: italic"># If the name is specified it may be passed as a keyword.</span>
+    <span style="color: #3D7B7B; font-style: italic"># 一个可选的的位置参数（即有默认值）。</span>
+    <span style="color: #3D7B7B; font-style: italic"># 如果指定了名称，可以作为关键字传递。</span>
 
 <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">NamedArg</span>(<span style="color: #008000">type</span><span style="color: #666666">=</span>Any, name<span style="color: #666666">=</span><span style="color: #008000; font-weight: bold">None</span>):
-    <span style="color: #3D7B7B; font-style: italic"># A mandatory keyword-only argument.</span>
+    <span style="color: #3D7B7B; font-style: italic"># 一个强制的仅限关键字的参数。</span>
 
 <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">DefaultNamedArg</span>(<span style="color: #008000">type</span><span style="color: #666666">=</span>Any, name<span style="color: #666666">=</span><span style="color: #008000; font-weight: bold">None</span>):
-    <span style="color: #3D7B7B; font-style: italic"># An optional keyword-only argument (i.e. with a default value).</span>
+    <span style="color: #3D7B7B; font-style: italic"># 一个可选的仅限关键字的参数（即有默认值）。</span>
 
 <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">VarArg</span>(<span style="color: #008000">type</span><span style="color: #666666">=</span>Any):
-    <span style="color: #3D7B7B; font-style: italic"># A *args-style variadic positional argument.</span>
-    <span style="color: #3D7B7B; font-style: italic"># A single VarArg() specifier represents all remaining</span>
-    <span style="color: #3D7B7B; font-style: italic"># positional arguments.</span>
+    <span style="color: #3D7B7B; font-style: italic"># 一个 *args 风格的可变位置参数。</span>
+    <span style="color: #3D7B7B; font-style: italic"># 一个 VarArg() 说明符表示所有剩余的位置参数。</span>
 
 <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">KwArg</span>(<span style="color: #008000">type</span><span style="color: #666666">=</span>Any):
-    <span style="color: #3D7B7B; font-style: italic"># A **kwargs-style variadic keyword argument.</span>
-    <span style="color: #3D7B7B; font-style: italic"># A single KwArg() specifier represents all remaining</span>
-    <span style="color: #3D7B7B; font-style: italic"># keyword arguments.</span>
+    <span style="color: #3D7B7B; font-style: italic"># 一个 **kwargs 风格的可变关键字参数。</span>
+    <span style="color: #3D7B7B; font-style: italic"># 一个 KwArg() 说明符表示所有剩余的关键字参数。</span>
 </code></pre></div>
-<p>In all cases, the <code>type</code> argument defaults to <code>Any</code>, and if the <code>name</code> argument is omitted the argument has no name (the name is required for <code>NamedArg</code> and <code>DefaultNamedArg</code>).  A basic <a href="https://docs.python.org/3/library/typing.html#typing.Callable">Callable</a> such as</p>
+<p>在所有情况下，<code>type</code> 参数默认为 <code>Any</code>，如果省略 <code>name</code> 参数，则该参数没有名称（<code>NamedArg</code> 和 <code>DefaultNamedArg</code> 需要名称）。一个基本的 <a href="https://docs.python.org/3/library/typing.html#typing.Callable">Callable</a> 如下：</p>
 <div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>MyFunc <span style="color: #666666">=</span> Callable[[<span style="color: #008000">int</span>, <span style="color: #008000">str</span>, <span style="color: #008000">int</span>], <span style="color: #008000">float</span>]
 </code></pre></div>
-<p>is equivalent to the following:</p>
+<p>等同于：</p>
 <div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>MyFunc <span style="color: #666666">=</span> Callable[[Arg(<span style="color: #008000">int</span>), Arg(<span style="color: #008000">str</span>), Arg(<span style="color: #008000">int</span>)], <span style="color: #008000">float</span>]
 </code></pre></div>
-<p>A <a href="https://docs.python.org/3/library/typing.html#typing.Callable">Callable</a> with unspecified argument types, such as</p>
+<p>一个具有未指定参数类型的 <a href="https://docs.python.org/3/library/typing.html#typing.Callable">Callable</a>，如：</p>
 <div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>MyOtherFunc <span style="color: #666666">=</span> Callable[<span style="color: #666666">...</span>, <span style="color: #008000">int</span>]
 </code></pre></div>
-<p>is (roughly) equivalent to</p>
+<p>（大致）等同于：</p>
 <div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>MyOtherFunc <span style="color: #666666">=</span> Callable[[VarArg(), KwArg()], <span style="color: #008000">int</span>]
 </code></pre></div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Each of the functions above currently just returns its <code>type</code> argument at runtime, so the information contained in the argument specifiers is not available at runtime.  This limitation is necessary for backwards compatibility with the existing <code>typing.py</code> module as present in the Python 3.5+ standard library and distributed via PyPI.</p>
+<p>上述每个函数目前在运行时仅返回其 <code>type</code> 参数，因此参数说明符中包含的信息在运行时不可用。这一限制是为了与 Python 3.5+ 标准库中的现有 <code>typing.py</code> 模块及通过 PyPI 分发的模块保持向后兼容。</p>
 </div>
 </div>
 <div class="tabbed-block">
@@ -1905,7 +1901,7 @@ f: F <span style="color: #666666">=</span> func
     <span class="md-icon" title="最后更新">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2024年9月16日</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2024年9月17日</span>
   </span>
 
     

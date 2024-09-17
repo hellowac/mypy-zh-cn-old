@@ -1284,7 +1284,7 @@
 <div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">中文</label><label for="__tabbed_1_2">英文</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<p>This section has examples of cases when you need to update your code to use static typing, and ideas for working around issues if mypy doesn't work as expected. Statically typed code is often identical to normal Python code (except for type annotations), but sometimes you need to do things slightly differently.</p>
+<p>本节提供了在需要更新代码以使用静态类型时的示例，以及当 mypy 无法按预期工作时的解决方案建议。静态类型代码通常与普通 Python 代码几乎相同（除了类型注解），但有时你需要稍微调整方法。</p>
 </div>
 <div class="tabbed-block">
 <p>This section has examples of cases when you need to update your code to use static typing, and ideas for working around issues if mypy doesn't work as expected. Statically typed code is often identical to normal Python code (except for type annotations), but sometimes you need to do things slightly differently.</p>
@@ -1296,55 +1296,55 @@
 <div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">中文</label><label for="__tabbed_2_2">英文</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<p>There are several common reasons why obviously wrong code is not flagged as an error.</p>
-<p><strong>The function containing the error is not annotated.</strong></p>
-<p>Functions that do not have any annotations (neither for any argument nor for the return type) are not type-checked, and even the most blatant type errors (e.g. <code>2 + 'a'</code>) pass silently.  The solution is to add annotations. Where that isn't possible, functions without annotations can be checked using <a href="../../mypy_conf/command_line/#check-untyped-defs">--check-untyped-defs</a>.</p>
-<p>Example:</p>
+<p>有几个常见的原因导致明显错误的代码没有被标记为错误。</p>
+<p><strong>函数没有注解。</strong></p>
+<p>没有任何注解（既没有参数注解，也没有返回类型注解）的函数不会进行类型检查，即使是最明显的类型错误（例如 <code>2 + 'a'</code>）也会被默默忽略。解决方法是添加注解。如果无法添加注解，可以使用 <a href="../../mypy_conf/command_line/#check-untyped-defs">--check-untyped-defs</a> 进行检查。</p>
+<p>示例：</p>
 <div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">foo</span>(a):
-    <span style="color: #008000; font-weight: bold">return</span> <span style="color: #BA2121">&#39;(&#39;</span> <span style="color: #666666">+</span> a<span style="color: #666666">.</span>split() <span style="color: #666666">+</span> <span style="color: #BA2121">&#39;)&#39;</span>  <span style="color: #3D7B7B; font-style: italic"># No error!</span>
+    <span style="color: #008000; font-weight: bold">return</span> <span style="color: #BA2121">&#39;(&#39;</span> <span style="color: #666666">+</span> a<span style="color: #666666">.</span>split() <span style="color: #666666">+</span> <span style="color: #BA2121">&#39;)&#39;</span>  <span style="color: #3D7B7B; font-style: italic"># 没有错误！</span>
 </code></pre></div>
-<p>This gives no error even though <code>a.split()</code> is "obviously" a list (the author probably meant <code>a.strip()</code>).  The error is reported once you add annotations:</p>
+<p>即使 <code>a.split()</code> 显然是一个列表（作者可能想用 <code>a.strip()</code>），也不会报告错误。添加注解后错误将会被报告：</p>
 <div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">foo</span>(a: <span style="color: #008000">str</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000">str</span>:
     <span style="color: #008000; font-weight: bold">return</span> <span style="color: #BA2121">&#39;(&#39;</span> <span style="color: #666666">+</span> a<span style="color: #666666">.</span>split() <span style="color: #666666">+</span> <span style="color: #BA2121">&#39;)&#39;</span>
-<span style="color: #3D7B7B; font-style: italic"># error: Unsupported operand types for + (&quot;str&quot; and &quot;list[str]&quot;)</span>
+<span style="color: #3D7B7B; font-style: italic"># 错误: 不支持的操作数类型用于 + (&quot;str&quot; 和 &quot;list[str]&quot;)</span>
 </code></pre></div>
-<p>If you don't know what types to add, you can use <code>Any</code>, but beware:</p>
-<p><strong>One of the values involved has type 'Any'.</strong></p>
-<p>Extending the above example, if we were to leave out the annotation for <code>a</code>, we'd get no error:</p>
+<p>如果不知道要添加什么类型，可以使用 <code>Any</code>，但要注意：</p>
+<p><strong>涉及的某些值具有类型 'Any'。</strong></p>
+<p>扩展上述示例，如果我们省略了 <code>a</code> 的注解，则不会出现错误：</p>
 <div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">foo</span>(a) <span style="color: #666666">-&gt;</span> <span style="color: #008000">str</span>:
-    <span style="color: #008000; font-weight: bold">return</span> <span style="color: #BA2121">&#39;(&#39;</span> <span style="color: #666666">+</span> a<span style="color: #666666">.</span>split() <span style="color: #666666">+</span> <span style="color: #BA2121">&#39;)&#39;</span>  <span style="color: #3D7B7B; font-style: italic"># No error!</span>
+    <span style="color: #008000; font-weight: bold">return</span> <span style="color: #BA2121">&#39;(&#39;</span> <span style="color: #666666">+</span> a<span style="color: #666666">.</span>split() <span style="color: #666666">+</span> <span style="color: #BA2121">&#39;)&#39;</span>  <span style="color: #3D7B7B; font-style: italic"># 没有错误！</span>
 </code></pre></div>
-<p>The reason is that if the type of <code>a</code> is unknown, the type of <code>a.split()</code> is also unknown, so it is inferred as having type <code>Any</code>, and it is no error to add a string to an <code>Any</code>.</p>
-<p>If you're having trouble debugging such situations, <code>reveal_type()</code> might come in handy.</p>
-<p>Note that sometimes library stubs with imprecise type information can be a source of <code>Any</code> values.</p>
-<p><a href="https://docs.python.org/3/reference/datamodel.html#object.__init__">__init__</a> <strong>method has no annotated arguments and no return type annotation.</strong></p>
-<p>This is basically a combination of the two cases above, in that <code>__init__</code> without annotations can cause <code>Any</code> types leak into instance variables:</p>
+<p>原因是，如果 <code>a</code> 的类型未知，则 <code>a.split()</code> 的类型也未知，因此被推断为 <code>Any</code>，将一个字符串添加到 <code>Any</code> 上不会引发错误。</p>
+<p>如果在调试这些情况时遇到困难，<code>reveal_type()</code> 可能会有所帮助。</p>
+<p>请注意，有时库的存根由于类型信息不准确，也可能是 <code>Any</code> 值的来源。</p>
+<p><strong><a href="https://docs.python.org/3/reference/datamodel.html#object.__init__">__init__</a> 方法没有注解的参数和返回类型注解。</strong></p>
+<p>这基本上是以上两种情况的结合，因为没有注解的 <code>__init__</code> 可能会导致 <code>Any</code> 类型渗透到实例变量中：</p>
 <div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Bad</span>:
     <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__init__</span>(<span style="color: #008000">self</span>):
         <span style="color: #008000">self</span><span style="color: #666666">.</span>value <span style="color: #666666">=</span> <span style="color: #BA2121">&quot;asdf&quot;</span>
-        <span style="color: #666666">1</span> <span style="color: #666666">+</span> <span style="color: #BA2121">&quot;asdf&quot;</span>  <span style="color: #3D7B7B; font-style: italic"># No error!</span>
+        <span style="color: #666666">1</span> <span style="color: #666666">+</span> <span style="color: #BA2121">&quot;asdf&quot;</span>  <span style="color: #3D7B7B; font-style: italic"># 没有错误！</span>
 
 bad <span style="color: #666666">=</span> Bad()
-bad<span style="color: #666666">.</span>value <span style="color: #666666">+</span> <span style="color: #666666">1</span>           <span style="color: #3D7B7B; font-style: italic"># No error!</span>
-reveal_type(bad)        <span style="color: #3D7B7B; font-style: italic"># Revealed type is &quot;__main__.Bad&quot;</span>
-reveal_type(bad<span style="color: #666666">.</span>value)  <span style="color: #3D7B7B; font-style: italic"># Revealed type is &quot;Any&quot;</span>
+bad<span style="color: #666666">.</span>value <span style="color: #666666">+</span> <span style="color: #666666">1</span>           <span style="color: #3D7B7B; font-style: italic"># 没有错误！</span>
+reveal_type(bad)        <span style="color: #3D7B7B; font-style: italic"># 显示的类型是 &quot;__main__.Bad&quot;</span>
+reveal_type(bad<span style="color: #666666">.</span>value)  <span style="color: #3D7B7B; font-style: italic"># 显示的类型是 &quot;Any&quot;</span>
 
 <span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Good</span>:
-    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__init__</span>(<span style="color: #008000">self</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:  <span style="color: #3D7B7B; font-style: italic"># Explicitly return None</span>
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__init__</span>(<span style="color: #008000">self</span>) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:  <span style="color: #3D7B7B; font-style: italic"># 显式返回 None</span>
         <span style="color: #008000">self</span><span style="color: #666666">.</span>value <span style="color: #666666">=</span> value
 </code></pre></div>
-<p><strong>Some imports may be silently ignored</strong>.</p>
-<p>A common source of unexpected <code>Any</code> values is the <a href="../../mypy_conf/command_line/#ignore-missing-imports">--ignore-missing-imports</a> flag.</p>
-<p>When you use <a href="../../mypy_conf/command_line/#ignore-missing-imports">--ignore-missing-imports</a>, any imported module that cannot be found is silently replaced with <code>Any</code>.</p>
-<p>To help debug this, simply leave out <a href="../../mypy_conf/command_line/#ignore-missing-imports">--ignore-missing-imports</a>. As mentioned in <a href="../../mypy_conf/running_mypy/#缺失的导入">Missing imports</a>, setting <code>ignore_missing_imports=True</code> on a per-module basis will make bad surprises less likely and is highly encouraged.</p>
-<p>Use of the <a href="../../mypy_conf/command_line/#follow-imports">--follow-imports=skip</a> flags can also cause problems. Use of these flags is strongly discouraged and only required in relatively niche situations. See <a href="../../mypy_conf/running_mypy/#跟随导入">Following imports</a> for more information.</p>
-<p><strong>mypy considers some of your code unreachable</strong>.</p>
-<p>See <a href="#无法到达的代码">unreachable</a> for more information.</p>
-<p><strong>A function annotated as returning a non-optional type returns 'None' and mypy doesn't complain</strong>.</p>
+<p><strong>一些导入可能会被默默忽略。</strong></p>
+<p>一个常见的 <code>Any</code> 值来源是 <a href="../../mypy_conf/command_line/#ignore-missing-imports">--ignore-missing-imports</a> 标志。</p>
+<p>当使用 <a href="../../mypy_conf/command_line/#ignore-missing-imports">--ignore-missing-imports</a> 时，任何无法找到的导入模块会被默默替换为 <code>Any</code>。</p>
+<p>为了解决这个问题，可以简单地省略 <a href="../../mypy_conf/command_line/#ignore-missing-imports">--ignore-missing-imports</a>。如 <a href="../../mypy_conf/running_mypy/#缺失的导入">缺失的导入</a> 中所提到的，在每个模块上设置 <code>ignore_missing_imports=True</code> 会减少意外情况的发生，强烈建议这样做。</p>
+<p>使用 <a href="../../mypy_conf/command_line/#follow-imports">--follow-imports=skip</a> 标志也可能导致问题。强烈不推荐使用这些标志，除非在相对小众的情况下需要。有关更多信息，请参阅 <a href="../../mypy_conf/running_mypy/#跟随导入">跟随导入</a>。</p>
+<p><strong>mypy 认为你的代码无法到达。</strong></p>
+<p>有关更多信息，请参见 <a href="#无法到达的代码">无法到达的代码</a>。</p>
+<p><strong>一个注解为非可选类型的函数返回 'None' 而 mypy 不报错。</strong></p>
 <div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">foo</span>() <span style="color: #666666">-&gt;</span> <span style="color: #008000">str</span>:
-    <span style="color: #008000; font-weight: bold">return</span> <span style="color: #008000; font-weight: bold">None</span>  <span style="color: #3D7B7B; font-style: italic"># No error!</span>
+    <span style="color: #008000; font-weight: bold">return</span> <span style="color: #008000; font-weight: bold">None</span>  <span style="color: #3D7B7B; font-style: italic"># 没有错误！</span>
 </code></pre></div>
-<p>You may have disabled strict optional checking (see <a href="../../mypy_conf/command_line/#no-strict-optional">--no-strict-optional</a> for more).</p>
+<p>你可能已禁用严格的可选检查（有关更多信息，请参见 <a href="../../mypy_conf/command_line/#no-strict-optional">--no-strict-optional</a>）。</p>
 </div>
 <div class="tabbed-block">
 <p>There are several common reasons why obviously wrong code is not flagged as an error.</p>
@@ -1404,30 +1404,30 @@ reveal_type(bad<span style="color: #666666">.</span>value)  <span style="color: 
 <div class="tabbed-set tabbed-alternate" data-tabs="3:2"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><input id="__tabbed_3_2" name="__tabbed_3" type="radio" /><div class="tabbed-labels"><label for="__tabbed_3_1">中文</label><label for="__tabbed_3_2">英文</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<p>You can use a <code># type: ignore</code> comment to silence the type checker on a particular line. For example, let's say our code is using the C extension module <code>frobnicate</code>, and there's no stub available. Mypy will complain about this, as it has no information about the module:</p>
-<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">import</span> <span style="color: #0000FF; font-weight: bold">frobnicate</span>  <span style="color: #3D7B7B; font-style: italic"># Error: No module &quot;frobnicate&quot;</span>
+<p>你可以使用 <code># type: ignore</code> 注释来在特定行上抑制类型检查器的错误。例如，假设我们的代码使用了 C 扩展模块 <code>frobnicate</code>，但没有可用的存根。Mypy 会对此发出警告，因为它没有该模块的信息：</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">import</span> <span style="color: #0000FF; font-weight: bold">frobnicate</span>  <span style="color: #3D7B7B; font-style: italic"># 错误：没有模块 &quot;frobnicate&quot;</span>
 frobnicate<span style="color: #666666">.</span>start()
 </code></pre></div>
-<p>You can add a <code># type: ignore</code> comment to tell mypy to ignore this error:</p>
+<p>你可以添加 <code># type: ignore</code> 注释来告诉 mypy 忽略此错误：</p>
 <div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">import</span> <span style="color: #0000FF; font-weight: bold">frobnicate</span>  <span style="color: #3D7B7B; font-style: italic"># type: ignore</span>
-frobnicate<span style="color: #666666">.</span>start()  <span style="color: #3D7B7B; font-style: italic"># Okay!</span>
+frobnicate<span style="color: #666666">.</span>start()  <span style="color: #3D7B7B; font-style: italic"># 没问题！</span>
 </code></pre></div>
-<p>The second line is now fine, since the ignore comment causes the name <code>frobnicate</code> to get an implicit <code>Any</code> type.</p>
+<p>第二行现在是正常的，因为忽略注释使得名称 <code>frobnicate</code> 得到了隐式的 <code>Any</code> 类型。</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>You can use the form <code># type: ignore[&lt;code&gt;]</code> to only ignore specific errors on the line. This way you are less likely to silence unexpected errors that are not safe to ignore, and this will also document what the purpose of the comment is.  See <a href="../error_codes/">Error codes</a> for more information.</p>
+<p>你可以使用 <code># type: ignore[&lt;code&gt;]</code> 的形式只忽略特定的错误。这样你不太可能忽略那些不安全的意外错误，同时这也会记录注释的目的。有关更多信息，请参见 <a href="../error_codes/">错误代码</a>。</p>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>The <code># type: ignore</code> comment will only assign the implicit <code>Any</code> type if mypy cannot find information about that particular module. So, if we did have a stub available for <code>frobnicate</code> then mypy would ignore the <code># type: ignore</code> comment and typecheck the stub as usual.</p>
+<p><code># type: ignore</code> 注释只会在 mypy 无法找到特定模块的信息时才会分配隐式的 <code>Any</code> 类型。因此，如果我们确实有 <code>frobnicate</code> 的存根，那么 mypy 会忽略 <code># type: ignore</code> 注释，像平常一样检查存根。</p>
 </div>
-<p>Another option is to explicitly annotate values with type <code>Any</code> -- mypy will let you perform arbitrary operations on <code>Any</code> values. Sometimes there is no more precise type you can use for a particular value, especially if you use dynamic Python features such as <a href="https://docs.python.org/3/reference/datamodel.html#object.__getattr__">__getattr__</a>:</p>
+<p>另一种选择是显式地将值注解为 <code>Any</code> 类型 -- mypy 允许你对 <code>Any</code> 类型的值执行任意操作。有时，对于某个特定值没有更精确的类型，尤其是当你使用动态 Python 特性如 <a href="https://docs.python.org/3/reference/datamodel.html#object.__getattr__">__getattr__</a> 时：</p>
 <div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Wrapper</span>:
     <span style="color: #666666">...</span>
     <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__getattr__</span>(<span style="color: #008000">self</span>, a: <span style="color: #008000">str</span>) <span style="color: #666666">-&gt;</span> Any:
         <span style="color: #008000; font-weight: bold">return</span> <span style="color: #008000">getattr</span>(<span style="color: #008000">self</span><span style="color: #666666">.</span>_wrapped, a)
 </code></pre></div>
-<p>Finally, you can create a stub file (<code>.pyi</code>) for a file that generates spurious errors. Mypy will only look at the stub file and ignore the implementation, since stub files take precedence over <code>.py</code> files.</p>
+<p>最后，你可以为生成虚假错误的文件创建一个存根文件（<code>.pyi</code>）。Mypy 将只查看存根文件并忽略实现，因为存根文件的优先级高于 <code>.py</code> 文件。</p>
 </div>
 <div class="tabbed-block">
 <p>You can use a <code># type: ignore</code> comment to silence the type checker on a particular line. For example, let's say our code is using the C extension module <code>frobnicate</code>, and there's no stub available. Mypy will complain about this, as it has no information about the module:</p>
@@ -1463,11 +1463,11 @@ frobnicate<span style="color: #666666">.</span>start()  <span style="color: #3D7
 <div class="tabbed-content">
 <div class="tabbed-block">
 <ul>
-<li>To only ignore errors, use a top-level <code># mypy: ignore-errors</code> comment instead.</li>
-<li>To only ignore errors with a specific error code, use a top-level <code># mypy: disable-error-code="..."</code> comment. Example: <code># mypy: disable-error-code="truthy-bool, ignore-without-code"</code></li>
-<li>To replace the contents of a module with <code>Any</code>, use a per-module <code>follow_imports = skip</code>. See <a href="../../mypy_conf/running_mypy/#跟随导入">Following imports</a> for details.</li>
+<li>若只想忽略错误，可以使用顶层的 <code># mypy: ignore-errors</code> 注释。</li>
+<li>若只想忽略特定错误代码的错误，可以使用顶层的 <code># mypy: disable-error-code="..."</code> 注释。例如：<code># mypy: disable-error-code="truthy-bool, ignore-without-code"</code>。</li>
+<li>若要将模块的内容替换为 <code>Any</code> 类型，可以使用每个模块的 <code>follow_imports = skip</code> 设置。有关详细信息，请参见 <a href="../../mypy_conf/running_mypy/#跟随导入">跟随导入</a>。</li>
 </ul>
-<p>Note that a <code># type: ignore</code> comment at the top of a module (before any statements, including imports or docstrings) has the effect of ignoring the entire contents of the module. This behaviour can be surprising and result in "Module ... has no attribute ... [attr-defined]" errors.</p>
+<p>请注意，模块顶部的 <code># type: ignore</code> 注释（在任何语句之前，包括导入或文档字符串）会导致忽略整个模块的内容。这种行为可能会令人惊讶，并导致出现“模块 ... 没有属性 ... [attr-defined]”的错误。</p>
 </div>
 <div class="tabbed-block">
 <ul>
@@ -1484,15 +1484,15 @@ frobnicate<span style="color: #666666">.</span>start()  <span style="color: #3D7
 <div class="tabbed-set tabbed-alternate" data-tabs="5:2"><input checked="checked" id="__tabbed_5_1" name="__tabbed_5" type="radio" /><input id="__tabbed_5_2" name="__tabbed_5" type="radio" /><div class="tabbed-labels"><label for="__tabbed_5_1">中文</label><label for="__tabbed_5_2">英文</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<p>Idiomatic use of type annotations can sometimes run up against what a given version of Python considers legal code. These can result in some of the following errors when trying to run your code:</p>
+<p>使用类型注解的惯用法有时会与某个 Python 版本认为合法的代码产生冲突。这些冲突可能导致在运行代码时出现以下一些错误：</p>
 <ul>
-<li><code>ImportError</code> from circular imports</li>
-<li><code>NameError: name "X" is not defined</code> from forward references</li>
-<li><code>TypeError: 'type' object is not subscriptable</code> from types that are not generic at runtime</li>
-<li><code>ImportError</code> or <code>ModuleNotFoundError</code> from use of stub definitions not available at runtime</li>
-<li><code>TypeError: unsupported operand type(s) for |: 'type' and 'type'</code> from use of new syntax</li>
+<li><strong><code>ImportError</code></strong>：由于循环导入。</li>
+<li><strong><code>NameError: name "X" is not defined</code></strong>：由于前向引用。</li>
+<li><strong><code>TypeError: 'type' object is not subscriptable</code></strong>：由于在运行时类型不是通用类型。</li>
+<li><strong><code>ImportError</code></strong> 或 <strong><code>ModuleNotFoundError</code></strong>：由于使用了在运行时不可用的存根定义。</li>
+<li><strong><code>TypeError: unsupported operand type(s) for |: 'type' and 'type'</code></strong>：由于使用了新的语法。</li>
 </ul>
-<p>For dealing with these, see <a href="../../mypy/annotation_issue_at_runtime/">Annotation issues at runtime</a>.</p>
+<p>有关如何处理这些问题，请参见 <a href="../../mypy/annotation_issue_at_runtime/">运行时注解问题</a>。</p>
 </div>
 <div class="tabbed-block">
 <p>Idiomatic use of type annotations can sometimes run up against what a given version of Python considers legal code. These can result in some of the following errors when trying to run your code:</p>
@@ -1512,7 +1512,7 @@ frobnicate<span style="color: #666666">.</span>start()  <span style="color: #3D7
 <div class="tabbed-set tabbed-alternate" data-tabs="6:2"><input checked="checked" id="__tabbed_6_1" name="__tabbed_6" type="radio" /><input id="__tabbed_6_2" name="__tabbed_6" type="radio" /><div class="tabbed-labels"><label for="__tabbed_6_1">中文</label><label for="__tabbed_6_2">英文</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<p>If your mypy runs feel slow, you should probably use the <a href="../../mypy_conf/mypy_daemon/">mypy daemon</a>, which can speed up incremental mypy runtimes by a factor of 10 or more. <a href="../additional_features/#使用远程缓存加速-mypy-运行">Remote caching</a> can make cold mypy runs several times faster.</p>
+<p>如果你觉得运行 mypy 很慢，你可能应该使用 <a href="../../mypy_conf/mypy_daemon/">mypy 守护进程</a>，它可以将增量 mypy 运行的速度提高 10 倍或更多。 <a href="../additional_features/#使用远程缓存加速-mypy-运行">远程缓存</a> 可以使冷启动的 mypy 运行速度提高几倍。</p>
 </div>
 <div class="tabbed-block">
 <p>If your mypy runs feel slow, you should probably use the <a href="../../mypy_conf/mypy_daemon/">mypy daemon</a>, which can speed up incremental mypy runtimes by a factor of 10 or more. <a href="../additional_features/#使用远程缓存加速-mypy-运行">Remote caching</a> can make cold mypy runs several times faster.</p>
@@ -1524,16 +1524,16 @@ frobnicate<span style="color: #666666">.</span>start()  <span style="color: #3D7
 <div class="tabbed-set tabbed-alternate" data-tabs="7:2"><input checked="checked" id="__tabbed_7_1" name="__tabbed_7" type="radio" /><input id="__tabbed_7_2" name="__tabbed_7" type="radio" /><div class="tabbed-labels"><label for="__tabbed_7_1">中文</label><label for="__tabbed_7_2">英文</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<p>You often need to specify the type when you assign an empty list or dict to a new variable, as mentioned earlier:</p>
+<p>当你将一个空列表或字典分配给一个新变量时，通常需要指定类型，如前面提到的：</p>
 <div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>a: <span style="color: #008000">list</span>[<span style="color: #008000">int</span>] <span style="color: #666666">=</span> []
 </code></pre></div>
-<p>Without the annotation mypy can't always figure out the precise type of <code>a</code>.</p>
-<p>You can use a simple empty list literal in a dynamically typed function (as the type of <code>a</code> would be implicitly <code>Any</code> and need not be inferred), if type of the variable has been declared or inferred before, or if you perform a simple modification operation in the same scope (such as <code>append</code> for a list):</p>
-<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>a <span style="color: #666666">=</span> []  <span style="color: #3D7B7B; font-style: italic"># Okay because followed by append, inferred type list[int]</span>
+<p>如果没有类型注解，mypy 并不总是能够准确推断 <code>a</code> 的类型。</p>
+<p>在动态类型的函数中，你可以使用简单的空列表字面量（因为此时 <code>a</code> 的类型将隐式为 <code>Any</code>，无需推断），如果变量的类型在之前已声明或推断过，或者在相同作用域内进行简单的修改操作（如列表的 <code>append</code>）：</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>a <span style="color: #666666">=</span> []  <span style="color: #3D7B7B; font-style: italic"># 可以，因为紧接着有 append，推断类型为 list[int]</span>
 <span style="color: #008000; font-weight: bold">for</span> i <span style="color: #AA22FF; font-weight: bold">in</span> <span style="color: #008000">range</span>(n):
     a<span style="color: #666666">.</span>append(i <span style="color: #666666">*</span> i)
 </code></pre></div>
-<p>However, in more complex cases an explicit type annotation can be required (mypy will tell you this). Often the annotation can make your code easier to understand, so it doesn't only help mypy but everybody who is reading the code!</p>
+<p>然而，在更复杂的情况下，可能需要显式的类型注解（mypy 会告诉你）。通常，注解不仅有助于 mypy，也使阅读代码的每个人更容易理解代码！</p>
 </div>
 <div class="tabbed-block">
 <p>You often need to specify the type when you assign an empty list or dict to a new variable, as mentioned earlier:</p>
@@ -1554,24 +1554,24 @@ frobnicate<span style="color: #666666">.</span>start()  <span style="color: #3D7
 <div class="tabbed-set tabbed-alternate" data-tabs="8:2"><input checked="checked" id="__tabbed_8_1" name="__tabbed_8" type="radio" /><input id="__tabbed_8_2" name="__tabbed_8" type="radio" /><div class="tabbed-labels"><label for="__tabbed_8_1">中文</label><label for="__tabbed_8_2">英文</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<p>Each name within a function only has a single 'declared' type. You can reuse for loop indices etc., but if you want to use a variable with multiple types within a single function, you may need to instead use multiple variables (or maybe declare the variable with an <code>Any</code> type).</p>
+<p>在函数中，每个名称只有一个“声明”的类型。你可以重用 <code>for</code> 循环索引等，但如果你希望在一个函数内使用具有多种类型的变量，你可能需要使用多个变量（或者可能声明变量为 <code>Any</code> 类型）。</p>
 <div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">f</span>() <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:
     n <span style="color: #666666">=</span> <span style="color: #666666">1</span>
     <span style="color: #666666">...</span>
-    n <span style="color: #666666">=</span> <span style="color: #BA2121">&#39;x&#39;</span>  <span style="color: #3D7B7B; font-style: italic"># error: Incompatible types in assignment (expression has type &quot;str&quot;, variable has type &quot;int&quot;)</span>
+    n <span style="color: #666666">=</span> <span style="color: #BA2121">&#39;x&#39;</span>  <span style="color: #3D7B7B; font-style: italic"># 错误：赋值中的类型不兼容（表达式的类型为 &quot;str&quot;，变量的类型为 &quot;int&quot;）</span>
 </code></pre></div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 </div>
-<p>Using the <a href="../../mypy_conf/command_line/#allow-redefinition">--allow-redefinition</a> flag can suppress this error in several cases.</p>
-<p>Note that you can redefine a variable with a more <em>precise</em> or a more concrete type. For example, you can redefine a sequence (which does not support <code>sort()</code>) as a list and sort it in-place:</p>
+<p>使用 <a href="../../mypy_conf/command_line/#allow-redefinition">--allow-redefinition</a> 标志可以在某些情况下抑制此错误。</p>
+<p>请注意，你可以将变量重新定义为更<em>精确</em>或更具体的类型。例如，你可以将一个序列（它不支持 <code>sort()</code>）重新定义为列表，并在原地对其进行排序：</p>
 <div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">f</span>(x: Sequence[<span style="color: #008000">int</span>]) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:
-    <span style="color: #3D7B7B; font-style: italic"># Type of x is Sequence[int] here; we don&#39;t know the concrete type.</span>
+    <span style="color: #3D7B7B; font-style: italic"># 这里 x 的类型是 Sequence[int]；我们不知道具体类型。</span>
     x <span style="color: #666666">=</span> <span style="color: #008000">list</span>(x)
-    <span style="color: #3D7B7B; font-style: italic"># Type of x is list[int] here.</span>
-    x<span style="color: #666666">.</span>sort()  <span style="color: #3D7B7B; font-style: italic"># Okay!</span>
+    <span style="color: #3D7B7B; font-style: italic"># 这里 x 的类型是 list[int]。</span>
+    x<span style="color: #666666">.</span>sort()  <span style="color: #3D7B7B; font-style: italic"># 可以！</span>
 </code></pre></div>
-<p>See <a href="../../mypy/type_narrowing/">Type narrowing</a> for more information.</p>
+<p>有关更多信息，请参见 <a href="../../mypy/type_narrowing/">类型缩小</a>。</p>
 </div>
 <div class="tabbed-block">
 <p>Each name within a function only has a single 'declared' type. You can reuse for loop indices etc., but if you want to use a variable with multiple types within a single function, you may need to instead use multiple variables (or maybe declare the variable with an <code>Any</code> type).</p>
@@ -1600,36 +1600,36 @@ frobnicate<span style="color: #666666">.</span>start()  <span style="color: #3D7
 <div class="tabbed-set tabbed-alternate" data-tabs="9:2"><input checked="checked" id="__tabbed_9_1" name="__tabbed_9" type="radio" /><input id="__tabbed_9_2" name="__tabbed_9" type="radio" /><div class="tabbed-labels"><label for="__tabbed_9_1">中文</label><label for="__tabbed_9_2">英文</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<p>Most mutable generic collections are invariant, and mypy considers all user-defined generic classes invariant by default (see <a href="../../mypy/generics/">Variance of generic types</a> for motivation). This could lead to some unexpected errors when combined with type inference. For example:</p>
+<p>大多数可变的泛型集合都是不可变的，而 mypy 默认将所有用户定义的泛型类视为不可变（有关动机，请参见 <a href="../../mypy/generics/">泛型类型的变异性</a>）。这可能会在与类型推断结合使用时导致一些意外的错误。例如：</p>
 <div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">A</span>: <span style="color: #666666">...</span>
 <span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">B</span>(A): <span style="color: #666666">...</span>
 
-lst <span style="color: #666666">=</span> [A(), A()]  <span style="color: #3D7B7B; font-style: italic"># Inferred type is list[A]</span>
-new_lst <span style="color: #666666">=</span> [B(), B()]  <span style="color: #3D7B7B; font-style: italic"># inferred type is list[B]</span>
-lst <span style="color: #666666">=</span> new_lst  <span style="color: #3D7B7B; font-style: italic"># mypy will complain about this, because List is invariant</span>
+lst <span style="color: #666666">=</span> [A(), A()]  <span style="color: #3D7B7B; font-style: italic"># 推断类型是 list[A]</span>
+new_lst <span style="color: #666666">=</span> [B(), B()]  <span style="color: #3D7B7B; font-style: italic"># 推断类型是 list[B]</span>
+lst <span style="color: #666666">=</span> new_lst  <span style="color: #3D7B7B; font-style: italic"># mypy 会对此提出警告，因为 List 是不可变的</span>
 </code></pre></div>
-<p>Possible strategies in such situations are:</p>
+<p>在这种情况下的可能策略包括：</p>
 <ul>
 <li>
-<p>Use an explicit type annotation:</p>
+<p>使用显式类型注解：</p>
 <div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>new_lst: <span style="color: #008000">list</span>[A] <span style="color: #666666">=</span> [B(), B()]
-lst <span style="color: #666666">=</span> new_lst  <span style="color: #3D7B7B; font-style: italic"># OK</span>
+lst <span style="color: #666666">=</span> new_lst  <span style="color: #3D7B7B; font-style: italic"># 可以</span>
 </code></pre></div>
 </li>
 <li>
-<p>Make a copy of the right hand side:</p>
-<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>lst <span style="color: #666666">=</span> <span style="color: #008000">list</span>(new_lst) <span style="color: #3D7B7B; font-style: italic"># Also OK</span>
+<p>复制右侧的值：</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>lst <span style="color: #666666">=</span> <span style="color: #008000">list</span>(new_lst) <span style="color: #3D7B7B; font-style: italic"># 也可以</span>
 </code></pre></div>
 </li>
 <li>
-<p>Use immutable collections as annotations whenever possible:</p>
-<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">f_bad</span>(x: <span style="color: #008000">list</span>[A]) <span style="color: #666666">-&gt;</span> A:
-        <span style="color: #008000; font-weight: bold">return</span> x[<span style="color: #666666">0</span>]
-    f_bad(new_lst) <span style="color: #3D7B7B; font-style: italic"># Fails</span>
+<p>尽可能使用不可变集合作为注解：</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">f_bad</span>(x: <span style="color: #008000">list</span>[A]) <span style="color: #666666">-&gt;</span> A:
+    <span style="color: #008000; font-weight: bold">return</span> x[<span style="color: #666666">0</span>]
+f_bad(new_lst) <span style="color: #3D7B7B; font-style: italic"># 失败</span>
 
-    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">f_good</span>(x: Sequence[A]) <span style="color: #666666">-&gt;</span> A:
-        <span style="color: #008000; font-weight: bold">return</span> x[<span style="color: #666666">0</span>]
-    f_good(new_lst) <span style="color: #3D7B7B; font-style: italic"># OK</span>
+<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">f_good</span>(x: Sequence[A]) <span style="color: #666666">-&gt;</span> A:
+    <span style="color: #008000; font-weight: bold">return</span> x[<span style="color: #666666">0</span>]
+f_good(new_lst) <span style="color: #3D7B7B; font-style: italic"># 可以</span>
 </code></pre></div>
 </li>
 </ul>
@@ -1676,17 +1676,17 @@ lst <span style="color: #666666">=</span> new_lst  <span style="color: #3D7B7B; 
 <div class="tabbed-set tabbed-alternate" data-tabs="10:2"><input checked="checked" id="__tabbed_10_1" name="__tabbed_10" type="radio" /><input id="__tabbed_10_2" name="__tabbed_10" type="radio" /><div class="tabbed-labels"><label for="__tabbed_10_1">中文</label><label for="__tabbed_10_2">英文</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<p>Sometimes the inferred type is a subtype (subclass) of the desired type. The type inference uses the first assignment to infer the type of a name:</p>
+<p>有时，推断出的类型是所需类型的子类型（子类）。类型推断使用第一次赋值来推断名称的类型：</p>
 <div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Shape</span>: <span style="color: #666666">...</span>
 <span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Circle</span>(Shape): <span style="color: #666666">...</span>
 <span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Triangle</span>(Shape): <span style="color: #666666">...</span>
 
-shape <span style="color: #666666">=</span> Circle()    <span style="color: #3D7B7B; font-style: italic"># mypy infers the type of shape to be Circle</span>
-shape <span style="color: #666666">=</span> Triangle()  <span style="color: #3D7B7B; font-style: italic"># error: Incompatible types in assignment (expression has type &quot;Triangle&quot;, variable has type &quot;Circle&quot;)</span>
+shape <span style="color: #666666">=</span> Circle()    <span style="color: #3D7B7B; font-style: italic"># mypy 推断 shape 的类型为 Circle</span>
+shape <span style="color: #666666">=</span> Triangle()  <span style="color: #3D7B7B; font-style: italic"># 错误：赋值中的类型不兼容（表达式类型为 &quot;Triangle&quot;，变量类型为 &quot;Circle&quot;）</span>
 </code></pre></div>
-<p>You can just give an explicit type for the variable in cases such the above example:</p>
-<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>shape: Shape <span style="color: #666666">=</span> Circle()  <span style="color: #3D7B7B; font-style: italic"># The variable s can be any Shape, not just Circle</span>
-shape <span style="color: #666666">=</span> Triangle()       <span style="color: #3D7B7B; font-style: italic"># OK</span>
+<p>在这种情况下，你可以为变量提供一个显式的类型注解：</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>shape: Shape <span style="color: #666666">=</span> Circle()  <span style="color: #3D7B7B; font-style: italic"># 变量 shape 可以是任何 Shape，不仅仅是 Circle</span>
+shape <span style="color: #666666">=</span> Triangle()       <span style="color: #3D7B7B; font-style: italic"># 可以</span>
 </code></pre></div>
 </div>
 <div class="tabbed-block">
@@ -1710,7 +1710,7 @@ shape <span style="color: #666666">=</span> Triangle()       <span style="color:
 <div class="tabbed-set tabbed-alternate" data-tabs="11:2"><input checked="checked" id="__tabbed_11_1" name="__tabbed_11" type="radio" /><input id="__tabbed_11_2" name="__tabbed_11" type="radio" /><div class="tabbed-labels"><label for="__tabbed_11_1">中文</label><label for="__tabbed_11_2">英文</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<p>Mypy can usually infer the types correctly when using <a href="https://docs.python.org/3/library/functions.html#isinstance">isinstance</a>, <a href="https://docs.python.org/3/library/functions.html#issubclass">issubclass</a>, or <code>type(obj) is some_class</code> type tests, and even <a href="../../mypy/type_narrowing/">user-defined type guards</a>,  but for other kinds of checks you may need to add an explicit type cast:</p>
+<p>Mypy 通常可以在使用 <a href="https://docs.python.org/3/library/functions.html#isinstance">isinstance</a>、<a href="https://docs.python.org/3/library/functions.html#issubclass">issubclass</a> 或 <code>type(obj) is some_class</code> 这样的类型检查时正确推断类型，甚至在使用 <a href="../../mypy/type_narrowing/">用户定义的类型保护</a> 时也是如此。但是，对于其他类型的检查，你可能需要添加显式的类型转换：</p>
 <div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">typing</span> <span style="color: #008000; font-weight: bold">import</span> Sequence, cast
 
 <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">find_first_str</span>(a: Sequence[<span style="color: #008000">object</span>]) <span style="color: #666666">-&gt;</span> <span style="color: #008000">str</span>:
@@ -1718,28 +1718,28 @@ shape <span style="color: #666666">=</span> Triangle()       <span style="color:
     <span style="color: #008000; font-weight: bold">if</span> index <span style="color: #666666">&lt;</span> <span style="color: #666666">0</span>:
         <span style="color: #008000; font-weight: bold">raise</span> <span style="color: #CB3F38; font-weight: bold">ValueError</span>(<span style="color: #BA2121">&#39;No str found&#39;</span>)
 
-    found <span style="color: #666666">=</span> a[index]  <span style="color: #3D7B7B; font-style: italic"># Has type &quot;object&quot;, despite the fact that we know it is &quot;str&quot;</span>
-    <span style="color: #008000; font-weight: bold">return</span> cast(<span style="color: #008000">str</span>, found)  <span style="color: #3D7B7B; font-style: italic"># We need an explicit cast to make mypy happy</span>
+    found <span style="color: #666666">=</span> a[index]  <span style="color: #3D7B7B; font-style: italic"># 类型为 &quot;object&quot;，尽管我们知道它是 &quot;str&quot;</span>
+    <span style="color: #008000; font-weight: bold">return</span> cast(<span style="color: #008000">str</span>, found)  <span style="color: #3D7B7B; font-style: italic"># 需要显式的转换以使 mypy 满意</span>
 </code></pre></div>
-<p>Alternatively, you can use an <code>assert</code> statement together with some of the supported type inference techniques:</p>
+<p>另外，你可以使用 <code>assert</code> 语句配合一些支持的类型推断技术：</p>
 <div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">find_first_str</span>(a: Sequence[<span style="color: #008000">object</span>]) <span style="color: #666666">-&gt;</span> <span style="color: #008000">str</span>:
     index <span style="color: #666666">=</span> <span style="color: #008000">next</span>((i <span style="color: #008000; font-weight: bold">for</span> i, s <span style="color: #AA22FF; font-weight: bold">in</span> <span style="color: #008000">enumerate</span>(a) <span style="color: #008000; font-weight: bold">if</span> <span style="color: #008000">isinstance</span>(s, <span style="color: #008000">str</span>)), <span style="color: #666666">-1</span>)
     <span style="color: #008000; font-weight: bold">if</span> index <span style="color: #666666">&lt;</span> <span style="color: #666666">0</span>:
         <span style="color: #008000; font-weight: bold">raise</span> <span style="color: #CB3F38; font-weight: bold">ValueError</span>(<span style="color: #BA2121">&#39;No str found&#39;</span>)
 
-    found <span style="color: #666666">=</span> a[index]  <span style="color: #3D7B7B; font-style: italic"># Has type &quot;object&quot;, despite the fact that we know it is &quot;str&quot;</span>
-    <span style="color: #008000; font-weight: bold">assert</span> <span style="color: #008000">isinstance</span>(found, <span style="color: #008000">str</span>)  <span style="color: #3D7B7B; font-style: italic"># Now, &quot;found&quot; will be narrowed to &quot;str&quot;</span>
-    <span style="color: #008000; font-weight: bold">return</span> found  <span style="color: #3D7B7B; font-style: italic"># No need for the explicit &quot;cast()&quot; anymore</span>
+    found <span style="color: #666666">=</span> a[index]  <span style="color: #3D7B7B; font-style: italic"># 类型为 &quot;object&quot;，尽管我们知道它是 &quot;str&quot;</span>
+    <span style="color: #008000; font-weight: bold">assert</span> <span style="color: #008000">isinstance</span>(found, <span style="color: #008000">str</span>)  <span style="color: #3D7B7B; font-style: italic"># 现在，&quot;found&quot; 将被推断为 &quot;str&quot;</span>
+    <span style="color: #008000; font-weight: bold">return</span> found  <span style="color: #3D7B7B; font-style: italic"># 不再需要显式的 &quot;cast()&quot;</span>
 </code></pre></div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Note that the <img alt="🇵🇾" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.0.3/assets/svg/1f1f5-1f1fe.svg" title=":py:" />class:<code>object</code> type used in the above example is similar to <code>Object</code> in Java: it only supports operations defined for <em>all</em> objects, such as equality and <a href="https://docs.python.org/3/library/functions.html#isinstance">isinstance</a>. The type <code>Any</code>, in contrast, supports all operations, even if they may fail at runtime. The cast above would have been unnecessary if the type of <code>o</code> was <code>Any</code>.</p>
+<p>请注意，上述示例中的 <code>object</code> 类型类似于 Java 中的 <code>Object</code>：它仅支持定义在 <em>所有</em> 对象上的操作，例如相等性和 <a href="https://docs.python.org/3/library/functions.html#isinstance">isinstance</a>。相比之下，类型 <code>Any</code> 支持所有操作，即使这些操作可能在运行时失败。如果 <code>o</code> 的类型是 <code>Any</code>，上面的类型转换将是不必要的。</p>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>You can read more about type narrowing techniques <a href="../../mypy/type_narrowing/">here</a>.</p>
+<p>你可以在 <a href="../../mypy/type_narrowing/">这里</a> 阅读更多关于类型缩小技术的信息。</p>
 </div>
-<p>Type inference in Mypy is designed to work well in common cases, to be predictable and to let the type checker give useful error messages. More powerful type inference strategies often have complex and difficult-to-predict failure modes and could result in very confusing error messages. The tradeoff is that you as a programmer sometimes have to give the type checker a little help.</p>
+<p>Mypy 中的类型推断旨在在常见情况下表现良好，具有可预测性，并让类型检查器提供有用的错误信息。更强大的类型推断策略通常具有复杂且难以预测的失败模式，可能导致非常令人困惑的错误信息。权衡之下，作为程序员你有时需要为类型检查器提供一些帮助。</p>
 </div>
 <div class="tabbed-block">
 <p>Mypy can usually infer the types correctly when using <a href="https://docs.python.org/3/library/functions.html#isinstance">isinstance</a>, <a href="https://docs.python.org/3/library/functions.html#issubclass">issubclass</a>, or <code>type(obj) is some_class</code> type tests, and even <a href="../../mypy/type_narrowing/">user-defined type guards</a>,  but for other kinds of checks you may need to add an explicit type cast:</p>
@@ -1780,41 +1780,41 @@ shape <span style="color: #666666">=</span> Triangle()       <span style="color:
 <div class="tabbed-set tabbed-alternate" data-tabs="12:2"><input checked="checked" id="__tabbed_12_1" name="__tabbed_12" type="radio" /><input id="__tabbed_12_2" name="__tabbed_12" type="radio" /><div class="tabbed-labels"><label for="__tabbed_12_1">中文</label><label for="__tabbed_12_2">英文</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<p>Mypy supports the ability to perform Python version checks and platform checks (e.g. Windows vs Posix), ignoring code paths that won't be run on the targeted Python version or platform. This allows you to more effectively typecheck code that supports multiple versions of Python or multiple operating systems.</p>
-<p>More specifically, mypy will understand the use of <a href="https://docs.python.org/3/library/sys.html#sys.version_info">sys.version_info</a> and <a href="https://docs.python.org/3/library/sys.html#sys.platform">sys.platform</a> checks within <code>if/elif/else</code> statements. For example:</p>
+<p>Mypy 支持执行 Python 版本检查和平台检查（例如 Windows 与 Posix），忽略在目标 Python 版本或平台上不会运行的代码路径。这使得你可以更有效地对支持多个 Python 版本或多个操作系统的代码进行类型检查。</p>
+<p>更具体地说，mypy 能够理解在 <code>if/elif/else</code> 语句中使用的 <a href="https://docs.python.org/3/library/sys.html#sys.version_info">sys.version_info</a> 和 <a href="https://docs.python.org/3/library/sys.html#sys.platform">sys.platform</a> 检查。例如：</p>
 <div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">import</span> <span style="color: #0000FF; font-weight: bold">sys</span>
 
-<span style="color: #3D7B7B; font-style: italic"># Distinguishing between different versions of Python:</span>
+<span style="color: #3D7B7B; font-style: italic"># 区分不同版本的 Python：</span>
 <span style="color: #008000; font-weight: bold">if</span> sys<span style="color: #666666">.</span>version_info <span style="color: #666666">&gt;=</span> (<span style="color: #666666">3</span>, <span style="color: #666666">8</span>):
-    <span style="color: #3D7B7B; font-style: italic"># Python 3.8+ specific definitions and imports</span>
+    <span style="color: #3D7B7B; font-style: italic"># Python 3.8+ 特定的定义和导入</span>
 <span style="color: #008000; font-weight: bold">else</span>:
-    <span style="color: #3D7B7B; font-style: italic"># Other definitions and imports</span>
+    <span style="color: #3D7B7B; font-style: italic"># 其他定义和导入</span>
 
-<span style="color: #3D7B7B; font-style: italic"># Distinguishing between different operating systems:</span>
+<span style="color: #3D7B7B; font-style: italic"># 区分不同的操作系统：</span>
 <span style="color: #008000; font-weight: bold">if</span> sys<span style="color: #666666">.</span>platform<span style="color: #666666">.</span>startswith(<span style="color: #BA2121">&quot;linux&quot;</span>):
-    <span style="color: #3D7B7B; font-style: italic"># Linux-specific code</span>
+    <span style="color: #3D7B7B; font-style: italic"># Linux 特定的代码</span>
 <span style="color: #008000; font-weight: bold">elif</span> sys<span style="color: #666666">.</span>platform <span style="color: #666666">==</span> <span style="color: #BA2121">&quot;darwin&quot;</span>:
-    <span style="color: #3D7B7B; font-style: italic"># Mac-specific code</span>
+    <span style="color: #3D7B7B; font-style: italic"># Mac 特定的代码</span>
 <span style="color: #008000; font-weight: bold">elif</span> sys<span style="color: #666666">.</span>platform <span style="color: #666666">==</span> <span style="color: #BA2121">&quot;win32&quot;</span>:
-    <span style="color: #3D7B7B; font-style: italic"># Windows-specific code</span>
+    <span style="color: #3D7B7B; font-style: italic"># Windows 特定的代码</span>
 <span style="color: #008000; font-weight: bold">else</span>:
-    <span style="color: #3D7B7B; font-style: italic"># Other systems</span>
+    <span style="color: #3D7B7B; font-style: italic"># 其他系统</span>
 </code></pre></div>
-<p>As a special case, you can also use one of these checks in a top-level (unindented) <code>assert</code>; this makes mypy skip the rest of the file. Example:</p>
+<p>作为特例，你也可以在顶层（未缩进的）<code>assert</code> 中使用这些检查；这会使 mypy 跳过文件的其余部分。例如：</p>
 <div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">import</span> <span style="color: #0000FF; font-weight: bold">sys</span>
 
 <span style="color: #008000; font-weight: bold">assert</span> sys<span style="color: #666666">.</span>platform <span style="color: #666666">!=</span> <span style="color: #BA2121">&#39;win32&#39;</span>
 
-<span style="color: #3D7B7B; font-style: italic"># The rest of this file doesn&#39;t apply to Windows.</span>
+<span style="color: #3D7B7B; font-style: italic"># 这个文件的其余部分不适用于 Windows。</span>
 </code></pre></div>
-<p>Some other expressions exhibit similar behavior; in particular, <a href="">TYPE_CHECKING</a>, variables named <code>MYPY</code>, and any variable whose name is passed to <a href="../../mypy_conf/command_line/#always-true">--always-true</a> or <a href="../../mypy_conf/command_line/#always-false">--always-false</a>. (However, <code>True</code> and <code>False</code> are not treated specially!)</p>
+<p>一些其他表达式也表现出类似的行为；特别是 <a href="">TYPE_CHECKING</a>, 变量名为 <code>MYPY</code> 的变量，以及任何变量名被传递给 <a href="../../mypy_conf/command_line/#always-true">--always-true</a> 或 <a href="../../mypy_conf/command_line/#always-false">--always-false</a> 的情况。（然而，<code>True</code> 和 <code>False</code> 不会被特别处理！）</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Mypy currently does not support more complex checks, and does not assign any special meaning when assigning a <a href="https://docs.python.org/3/library/sys.html#sys.version_info">sys.version_info</a> or <a href="https://docs.python.org/3/library/sys.html#sys.platform">sys.platform</a> check to a variable. This may change in future versions of mypy.</p>
+<p>Mypy 目前不支持更复杂的检查，也不为将 <a href="https://docs.python.org/3/library/sys.html#sys.version_info">sys.version_info</a> 或 <a href="https://docs.python.org/3/library/sys.html#sys.platform">sys.platform</a> 检查赋值给变量提供任何特殊含义。这可能会在未来版本的 mypy 中发生变化。</p>
 </div>
-<p>By default, mypy will use your current version of Python and your current operating system as default values for <a href="https://docs.python.org/3/library/sys.html#sys.version_info">sys.version_info</a> and <a href="https://docs.python.org/3/library/sys.html#sys.platform">sys.platform</a>.</p>
-<p>To target a different Python version, use the <a href="../../mypy_conf/command_line/#python-version">--python-version X.Y</a> flag. For example, to verify your code typechecks if were run using Python 3.8, pass in <a href="../../mypy_conf/command_line/#python-version">--python-version 3.8</a> from the command line. Note that you do not need to have Python 3.8 installed to perform this check.</p>
-<p>To target a different operating system, use the <a href="../../mypy_conf/command_line/#platform">--platform PLATFORM</a> flag. For example, to verify your code typechecks if it were run in Windows, pass in <a href="../../mypy_conf/command_line/#platform">--platform win32</a>. See the documentation for <a href="https://docs.python.org/3/library/sys.html#sys.platform">sys.platform</a> for examples of valid platform parameters.</p>
+<p>默认情况下，mypy 将使用你当前的 Python 版本和当前的操作系统作为 <a href="https://docs.python.org/3/library/sys.html#sys.version_info">sys.version_info</a> 和 <a href="https://docs.python.org/3/library/sys.html#sys.platform">sys.platform</a> 的默认值。</p>
+<p>要针对不同的 Python 版本，使用 <a href="../../mypy_conf/command_line/#python-version">--python-version X.Y</a> 标志。例如，要验证你的代码在使用 Python 3.8 时是否进行类型检查，可以从命令行传入 <a href="../../mypy_conf/command_line/#python-version">--python-version 3.8</a>。请注意，你不需要安装 Python 3.8 来执行此检查。</p>
+<p>要针对不同的操作系统，使用 <a href="../../mypy_conf/command_line/#platform">--platform PLATFORM</a> 标志。例如，要验证你的代码在 Windows 上是否进行类型检查，可以传入 <a href="../../mypy_conf/command_line/#platform">--platform win32</a>。有关有效平台参数的示例，请参阅 <a href="https://docs.python.org/3/library/sys.html#sys.platform">sys.platform</a> 文档。</p>
 </div>
 <div class="tabbed-block">
 <p>Mypy supports the ability to perform Python version checks and platform checks (e.g. Windows vs Posix), ignoring code paths that won't be run on the targeted Python version or platform. This allows you to more effectively typecheck code that supports multiple versions of Python or multiple operating systems.</p>
@@ -1860,21 +1860,21 @@ shape <span style="color: #666666">=</span> Triangle()       <span style="color:
 <div class="tabbed-set tabbed-alternate" data-tabs="13:2"><input checked="checked" id="__tabbed_13_1" name="__tabbed_13" type="radio" /><input id="__tabbed_13_2" name="__tabbed_13" type="radio" /><div class="tabbed-labels"><label for="__tabbed_13_1">中文</label><label for="__tabbed_13_2">英文</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<p>You can use <code>reveal_type(expr)</code> to ask mypy to display the inferred static type of an expression. This can be useful when you don't quite understand how mypy handles a particular piece of code. Example:</p>
-<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>reveal_type((<span style="color: #666666">1</span>, <span style="color: #BA2121">&#39;hello&#39;</span>))  <span style="color: #3D7B7B; font-style: italic"># Revealed type is &quot;tuple[builtins.int, builtins.str]&quot;</span>
+<p>你可以使用 <code>reveal_type(expr)</code> 来让 mypy 显示表达式的推断静态类型。这在你不太理解 mypy 如何处理特定代码片段时非常有用。例如：</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>reveal_type((<span style="color: #666666">1</span>, <span style="color: #BA2121">&#39;hello&#39;</span>))  <span style="color: #3D7B7B; font-style: italic"># 显示的类型是 &quot;tuple[builtins.int, builtins.str]&quot;</span>
 </code></pre></div>
-<p>You can also use <code>reveal_locals()</code> at any line in a file to see the types of all local variables at once. Example:</p>
+<p>你还可以在文件中的任何一行使用 <code>reveal_locals()</code> 来查看所有局部变量的类型。例如：</p>
 <div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>a <span style="color: #666666">=</span> <span style="color: #666666">1</span>
 b <span style="color: #666666">=</span> <span style="color: #BA2121">&#39;one&#39;</span>
 reveal_locals()
-<span style="color: #3D7B7B; font-style: italic"># Revealed local types are:</span>
+<span style="color: #3D7B7B; font-style: italic"># 显示的局部变量类型是：</span>
 <span style="color: #3D7B7B; font-style: italic">#     a: builtins.int</span>
 <span style="color: #3D7B7B; font-style: italic">#     b: builtins.str</span>
 </code></pre></div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p><code>reveal_type</code> and <code>reveal_locals</code> are only understood by mypy and don't exist in Python. If you try to run your program, you'll have to remove any <code>reveal_type</code> and <code>reveal_locals</code> calls before you can run your code. Both are always available and you don't need to import them.</p>
 </div>
+<p><code>reveal_type</code> 和 <code>reveal_locals</code> 仅被 mypy 理解，在 Python 中不存在。如果你尝试运行你的程序，你需要在运行代码之前移除任何 <code>reveal_type</code> 和 <code>reveal_locals</code> 调用。这两个函数总是可用的，你不需要导入它们。</p>
 </div>
 <div class="tabbed-block">
 <p>You can use <code>reveal_type(expr)</code> to ask mypy to display the inferred static type of an expression. This can be useful when you don't quite understand how mypy handles a particular piece of code. Example:</p>
@@ -1900,12 +1900,12 @@ reveal_locals()
 <div class="tabbed-set tabbed-alternate" data-tabs="14:2"><input checked="checked" id="__tabbed_14_1" name="__tabbed_14" type="radio" /><input id="__tabbed_14_2" name="__tabbed_14" type="radio" /><div class="tabbed-labels"><label for="__tabbed_14_1">中文</label><label for="__tabbed_14_2">英文</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<p>In some cases, linters will complain about unused imports or code. In these cases, you can silence them with a comment after type comments, or on the same line as the import:</p>
-<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #3D7B7B; font-style: italic"># to silence complaints about unused imports</span>
+<p>在某些情况下，代码检查工具会对未使用的导入或代码发出警告。在这些情况下，你可以通过在类型注释之后或与导入语句同一行添加注释来抑制这些警告：</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #3D7B7B; font-style: italic"># 抑制对未使用导入的警告</span>
 <span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">typing</span> <span style="color: #008000; font-weight: bold">import</span> List  <span style="color: #3D7B7B; font-style: italic"># noqa</span>
 a <span style="color: #666666">=</span> <span style="color: #008000; font-weight: bold">None</span>  <span style="color: #3D7B7B; font-style: italic"># type: List[int]</span>
 </code></pre></div>
-<p>To silence the linter on the same line as a type comment put the linter comment <em>after</em> the type comment:</p>
+<p>要在类型注释同一行上抑制检查工具的警告，将检查工具的注释放在类型注释之后：</p>
 <div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>a <span style="color: #666666">=</span> some_complex_thing()  <span style="color: #3D7B7B; font-style: italic"># type: ignore  # noqa</span>
 </code></pre></div>
 </div>
@@ -1926,7 +1926,7 @@ a <span style="color: #666666">=</span> <span style="color: #008000; font-weight
 <div class="tabbed-set tabbed-alternate" data-tabs="15:2"><input checked="checked" id="__tabbed_15_1" name="__tabbed_15" type="radio" /><input id="__tabbed_15_2" name="__tabbed_15" type="radio" /><div class="tabbed-labels"><label for="__tabbed_15_1">中文</label><label for="__tabbed_15_2">英文</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<p>Mypy rejects this because this is potentially unsafe. Consider this example:</p>
+<p>Mypy 会拒绝这种情况，因为它可能不安全。考虑以下示例：</p>
 <div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">typing</span> <span style="color: #008000; font-weight: bold">import</span> Protocol
 
 <span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">P</span>(Protocol):
@@ -1938,10 +1938,10 @@ a <span style="color: #666666">=</span> <span style="color: #008000; font-weight
 <span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">C</span>:
     x <span style="color: #666666">=</span> <span style="color: #666666">42</span>
 c <span style="color: #666666">=</span> C()
-fun(c)  <span style="color: #3D7B7B; font-style: italic"># This is not safe</span>
-c<span style="color: #666666">.</span>x <span style="color: #666666">&lt;&lt;</span> <span style="color: #666666">5</span>  <span style="color: #3D7B7B; font-style: italic"># Since this will fail!</span>
+fun(c)  <span style="color: #3D7B7B; font-style: italic"># 这不是安全的</span>
+c<span style="color: #666666">.</span>x <span style="color: #666666">&lt;&lt;</span> <span style="color: #666666">5</span>  <span style="color: #3D7B7B; font-style: italic"># 因为这会失败！</span>
 </code></pre></div>
-<p>To work around this problem consider whether "mutating" is actually part of a protocol. If not, then one can use a <a href="https://docs.python.org/3/library/functions.html#property">@property</a> in the protocol definition:</p>
+<p>为了绕过这个问题，考虑“变更”是否实际上是协议的一部分。如果不是，则可以在协议定义中使用 <a href="https://docs.python.org/3/library/functions.html#property">@property</a>：</p>
 <div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">typing</span> <span style="color: #008000; font-weight: bold">import</span> Protocol
 
 <span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">P</span>(Protocol):
@@ -1996,14 +1996,14 @@ fun(C())  <span style="color: #3D7B7B; font-style: italic"># OK</span>
 <div class="tabbed-set tabbed-alternate" data-tabs="16:2"><input checked="checked" id="__tabbed_16_1" name="__tabbed_16" type="radio" /><input id="__tabbed_16_2" name="__tabbed_16" type="radio" /><div class="tabbed-labels"><label for="__tabbed_16_1">中文</label><label for="__tabbed_16_2">英文</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<p>Suppose you have a class with a method whose name is the same as an imported (or built-in) type, and you want to use the type in another method signature.  E.g.:</p>
+<p>假设你有一个类，其中一个方法的名称与导入的（或内置的）类型相同，并且你想在另一个方法签名中使用这个类型。例如：</p>
 <div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Message</span>:
     <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">bytes</span>(<span style="color: #008000">self</span>):
         <span style="color: #666666">...</span>
-    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">register</span>(<span style="color: #008000">self</span>, path: <span style="color: #008000">bytes</span>):  <span style="color: #3D7B7B; font-style: italic"># error: Invalid type &quot;mod.Message.bytes&quot;</span>
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">register</span>(<span style="color: #008000">self</span>, path: <span style="color: #008000">bytes</span>):  <span style="color: #3D7B7B; font-style: italic"># 错误：无效的类型 &quot;mod.Message.bytes&quot;</span>
         <span style="color: #666666">...</span>
 </code></pre></div>
-<p>The third line elicits an error because mypy sees the argument type <code>bytes</code> as a reference to the method by that name.  Other than renaming the method, a workaround is to use an alias:</p>
+<p>第三行会引发错误，因为 mypy 将参数类型 <code>bytes</code> 视为与该名称的方法的引用。除了重命名方法外，另一个解决方法是使用别名：</p>
 <div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>bytes_ <span style="color: #666666">=</span> <span style="color: #008000">bytes</span>
 <span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Message</span>:
     <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">bytes</span>(<span style="color: #008000">self</span>):
@@ -2036,12 +2036,12 @@ fun(C())  <span style="color: #3D7B7B; font-style: italic"># OK</span>
 <div class="tabbed-set tabbed-alternate" data-tabs="17:2"><input checked="checked" id="__tabbed_17_1" name="__tabbed_17" type="radio" /><input id="__tabbed_17_2" name="__tabbed_17" type="radio" /><div class="tabbed-labels"><label for="__tabbed_17_1">中文</label><label for="__tabbed_17_2">英文</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<p>You can install the latest development version of mypy from source. Clone the <a href="https://github.com/python/mypy">mypy repository on GitHub</a>, and then run <code>pip install</code> locally:</p>
+<p>你可以从源代码安装最新的开发版本的 mypy。首先，克隆 <a href="https://github.com/python/mypy">mypy GitHub 仓库</a>，然后在本地运行 <code>pip install</code>：</p>
 <div class="language-shell highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>git<span style="color: #bbbbbb"> </span>clone<span style="color: #bbbbbb"> </span>https://github.com/python/mypy.git
 <span style="color: #008000">cd</span><span style="color: #bbbbbb"> </span>mypy
 python3<span style="color: #bbbbbb"> </span>-m<span style="color: #bbbbbb"> </span>pip<span style="color: #bbbbbb"> </span>install<span style="color: #bbbbbb"> </span>--upgrade<span style="color: #bbbbbb"> </span>.
 </code></pre></div>
-<p>To install a development version of mypy that is mypyc-compiled, see the instructions at the <a href="https://github.com/mypyc/mypy_mypyc-wheels">mypyc wheels repo</a>.</p>
+<p>要安装一个已经通过 mypyc 编译的开发版本的 mypy，请参见 <a href="https://github.com/mypyc/mypy_mypyc-wheels">mypyc wheels 仓库</a> 的说明。</p>
 </div>
 <div class="tabbed-block">
 <p>You can install the latest development version of mypy from source. Clone the <a href="https://github.com/python/mypy">mypy repository on GitHub</a>, and then run <code>pip install</code> locally:</p>
@@ -2058,47 +2058,46 @@ python3<span style="color: #bbbbbb"> </span>-m<span style="color: #bbbbbb"> </sp
 <div class="tabbed-set tabbed-alternate" data-tabs="18:2"><input checked="checked" id="__tabbed_18_1" name="__tabbed_18" type="radio" /><input id="__tabbed_18_2" name="__tabbed_18" type="radio" /><div class="tabbed-labels"><label for="__tabbed_18_1">中文</label><label for="__tabbed_18_2">英文</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<p>Mypy has both <em>type aliases</em> and variables with types like <code>type[...]</code>. These are subtly different, and it's important to understand how they differ to avoid pitfalls.</p>
+<p>Mypy 既支持 <em>类型别名</em>，也支持类似 <code>type[...]</code> 的类型变量。这两者有微妙的区别，理解它们的不同非常重要，以避免陷入误区。</p>
 <ol>
 <li>
-<p>A variable with type <code>type[...]</code> is defined using an assignment with an explicit type annotation:</p>
+<p>类型变量 <code>type[...]</code> 是通过带有显式类型注解的赋值定义的：</p>
 <div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">A</span>: <span style="color: #666666">...</span>
 tp: <span style="color: #008000">type</span>[A] <span style="color: #666666">=</span> A
 </code></pre></div>
 </li>
 <li>
-<p>You can define a type alias using an assignment without an explicit type annotation at the top level of a module:</p>
+<p>可以使用没有显式类型注解的赋值来定义类型别名，这通常在模块的顶层定义：</p>
 <div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">A</span>: <span style="color: #666666">...</span>
 Alias <span style="color: #666666">=</span> A
 </code></pre></div>
-<p>You can also use <code>TypeAlias</code> (:pep:<code>613</code>) to define an <em>explicit type alias</em>:</p>
-<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">typing</span> <span style="color: #008000; font-weight: bold">import</span> TypeAlias  <span style="color: #3D7B7B; font-style: italic"># &quot;from typing_extensions&quot; in Python 3.9 and earlier</span>
+<p>也可以使用 <code>TypeAlias</code> (:pep:<code>613</code>) 来定义一个 <em>显式类型别名</em>：</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">typing</span> <span style="color: #008000; font-weight: bold">import</span> TypeAlias  <span style="color: #3D7B7B; font-style: italic"># 在 Python 3.9 及更早版本中使用 &quot;from typing_extensions&quot;</span>
 
 <span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">A</span>: <span style="color: #666666">...</span>
 Alias: TypeAlias <span style="color: #666666">=</span> A
 </code></pre></div>
-<p>You should always use <code>TypeAlias</code> to define a type alias in a class body or inside a function.</p>
+<p>在类体内或函数内部定义类型别名时，应该总是使用 <code>TypeAlias</code>。</p>
 </li>
 </ol>
-<p>The main difference is that the target of an alias is precisely known statically, and this means that they can be used in type annotations and other <em>type contexts</em>. Type aliases can't be defined conditionally (unless using <a href="#python-版本和系统平台检查">supported Python version and platform checks</a>):</p>
+<p>主要区别在于，类型别名的目标在静态类型检查时是精确已知的，这意味着它们可以在类型注解和其他 <em>类型上下文</em> 中使用。类型别名不能在条件语句中定义（除非使用 <a href="#python-版本和系统平台检查">支持的 Python 版本和系统平台检查</a>）：</p>
 <div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">A</span>: <span style="color: #666666">...</span>
 <span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">B</span>: <span style="color: #666666">...</span>
 
 <span style="color: #008000; font-weight: bold">if</span> random() <span style="color: #666666">&gt;</span> <span style="color: #666666">0.5</span>:
     Alias <span style="color: #666666">=</span> A
 <span style="color: #008000; font-weight: bold">else</span>:
-    <span style="color: #3D7B7B; font-style: italic"># error: Cannot assign multiple types to name &quot;Alias&quot; without an</span>
-    <span style="color: #3D7B7B; font-style: italic"># explicit &quot;Type[...]&quot; annotation</span>
+    <span style="color: #3D7B7B; font-style: italic"># 错误：没有显式的 &quot;Type[...]&quot; 注解，无法将多个类型赋值给名称 &quot;Alias&quot;</span>
     Alias <span style="color: #666666">=</span> B
 
-tp: <span style="color: #008000">type</span>[<span style="color: #008000">object</span>]  <span style="color: #3D7B7B; font-style: italic"># &quot;tp&quot; is a variable with a type object value</span>
+tp: <span style="color: #008000">type</span>[<span style="color: #008000">object</span>]  <span style="color: #3D7B7B; font-style: italic"># &quot;tp&quot; 是一个类型对象值的变量</span>
 <span style="color: #008000; font-weight: bold">if</span> random() <span style="color: #666666">&gt;</span> <span style="color: #666666">0.5</span>:
     tp <span style="color: #666666">=</span> A
 <span style="color: #008000; font-weight: bold">else</span>:
-    tp <span style="color: #666666">=</span> B  <span style="color: #3D7B7B; font-style: italic"># This is OK</span>
+    tp <span style="color: #666666">=</span> B  <span style="color: #3D7B7B; font-style: italic"># 这是 OK</span>
 
 <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">fun1</span>(x: Alias) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>: <span style="color: #666666">...</span>  <span style="color: #3D7B7B; font-style: italic"># OK</span>
-<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">fun2</span>(x: tp) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>: <span style="color: #666666">...</span>  <span style="color: #3D7B7B; font-style: italic"># Error: &quot;tp&quot; is not valid as a type</span>
+<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">fun2</span>(x: tp) <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>: <span style="color: #666666">...</span>  <span style="color: #3D7B7B; font-style: italic"># 错误：“tp” 不能作为类型使用</span>
 </code></pre></div>
 </div>
 <div class="tabbed-block">
@@ -2152,9 +2151,9 @@ tp: <span style="color: #008000">type</span>[<span style="color: #008000">object
 <div class="tabbed-set tabbed-alternate" data-tabs="19:2"><input checked="checked" id="__tabbed_19_1" name="__tabbed_19" type="radio" /><input id="__tabbed_19_2" name="__tabbed_19" type="radio" /><div class="tabbed-labels"><label for="__tabbed_19_1">中文</label><label for="__tabbed_19_2">英文</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<p>It's unsafe to override a method with a more specific argument type, as it violates the <a href="https://stackoverflow.com/questions/56860/what-is-an-example-of-the-liskov-substitution-principle">Liskov substitution principle</a>. For return types, it's unsafe to override a method with a more general return type.</p>
-<p>Other incompatible signature changes in method overrides, such as adding an extra required parameter, or removing an optional parameter, will also generate errors. The signature of a method in a subclass should accept all valid calls to the base class method. Mypy treats a subclass as a subtype of the base class. An instance of a subclass is valid everywhere where an instance of the base class is valid.</p>
-<p>This example demonstrates both safe and unsafe overrides:</p>
+<p>重写方法时，如果使用了更具体的参数类型是不安全的，因为这违反了 <a href="https://stackoverflow.com/questions/56860/what-is-an-example-of-the-liskov-substitution-principle">里氏替换原则</a>。对于返回类型，如果重写的方法具有更通用的返回类型，也是危险的。</p>
+<p>在方法重写中，其他不兼容的签名更改，如添加额外的必需参数或移除可选参数，也会产生错误。子类中的方法签名应该接受所有对基类方法的有效调用。Mypy 将子类视为基类的子类型。子类的实例在任何基类实例有效的地方都是有效的。</p>
+<p>下面的示例展示了安全和不安全的重写情况：</p>
 <div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">typing</span> <span style="color: #008000; font-weight: bold">import</span> Sequence, List, Iterable
 
 <span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">A</span>:
@@ -2162,26 +2161,26 @@ tp: <span style="color: #008000">type</span>[<span style="color: #008000">object
         <span style="color: #666666">...</span>
 
 <span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">GeneralizedArgument</span>(A):
-    <span style="color: #3D7B7B; font-style: italic"># A more general argument type is okay</span>
+    <span style="color: #3D7B7B; font-style: italic"># 更通用的参数类型是可以的</span>
     <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">test</span>(<span style="color: #008000">self</span>, t: Iterable[<span style="color: #008000">int</span>]) <span style="color: #666666">-&gt;</span> Sequence[<span style="color: #008000">str</span>]:  <span style="color: #3D7B7B; font-style: italic"># OK</span>
         <span style="color: #666666">...</span>
 
 <span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">NarrowerArgument</span>(A):
-    <span style="color: #3D7B7B; font-style: italic"># A more specific argument type isn&#39;t accepted</span>
-    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">test</span>(<span style="color: #008000">self</span>, t: List[<span style="color: #008000">int</span>]) <span style="color: #666666">-&gt;</span> Sequence[<span style="color: #008000">str</span>]:  <span style="color: #3D7B7B; font-style: italic"># Error</span>
+    <span style="color: #3D7B7B; font-style: italic"># 更具体的参数类型是不被接受的</span>
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">test</span>(<span style="color: #008000">self</span>, t: List[<span style="color: #008000">int</span>]) <span style="color: #666666">-&gt;</span> Sequence[<span style="color: #008000">str</span>]:  <span style="color: #3D7B7B; font-style: italic"># 错误</span>
         <span style="color: #666666">...</span>
 
 <span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">NarrowerReturn</span>(A):
-    <span style="color: #3D7B7B; font-style: italic"># A more specific return type is fine</span>
+    <span style="color: #3D7B7B; font-style: italic"># 更具体的返回类型是可以的</span>
     <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">test</span>(<span style="color: #008000">self</span>, t: Sequence[<span style="color: #008000">int</span>]) <span style="color: #666666">-&gt;</span> List[<span style="color: #008000">str</span>]:  <span style="color: #3D7B7B; font-style: italic"># OK</span>
         <span style="color: #666666">...</span>
 
 <span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">GeneralizedReturn</span>(A):
-    <span style="color: #3D7B7B; font-style: italic"># A more general return type is an error</span>
-    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">test</span>(<span style="color: #008000">self</span>, t: Sequence[<span style="color: #008000">int</span>]) <span style="color: #666666">-&gt;</span> Iterable[<span style="color: #008000">str</span>]:  <span style="color: #3D7B7B; font-style: italic"># Error</span>
+    <span style="color: #3D7B7B; font-style: italic"># 更通用的返回类型是错误的</span>
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">test</span>(<span style="color: #008000">self</span>, t: Sequence[<span style="color: #008000">int</span>]) <span style="color: #666666">-&gt;</span> Iterable[<span style="color: #008000">str</span>]:  <span style="color: #3D7B7B; font-style: italic"># 错误</span>
         <span style="color: #666666">...</span>
 </code></pre></div>
-<p>You can use <code># type: ignore[override]</code> to silence the error. Add it to the line that generates the error, if you decide that type safety is not necessary:</p>
+<p>你可以使用 <code># type: ignore[override]</code> 来抑制错误。如果你决定类型安全不是必要的，可以将其添加到生成错误的行上：</p>
 <div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">NarrowerArgument</span>(A):
     <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">test</span>(<span style="color: #008000">self</span>, t: List[<span style="color: #008000">int</span>]) <span style="color: #666666">-&gt;</span> Sequence[<span style="color: #008000">str</span>]:  <span style="color: #3D7B7B; font-style: italic"># type: ignore[override]</span>
         <span style="color: #666666">...</span>
@@ -2230,26 +2229,26 @@ tp: <span style="color: #008000">type</span>[<span style="color: #008000">object
 <div class="tabbed-set tabbed-alternate" data-tabs="20:2"><input checked="checked" id="__tabbed_20_1" name="__tabbed_20" type="radio" /><input id="__tabbed_20_2" name="__tabbed_20" type="radio" /><div class="tabbed-labels"><label for="__tabbed_20_1">中文</label><label for="__tabbed_20_2">英文</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<p>Mypy may consider some code as <em>unreachable</em>, even if it might not be immediately obvious why.  It's important to note that mypy will <em>not</em> type check such code. Consider this example:</p>
+<p>Mypy 可能会将某些代码视为 <em>不可达</em>，即使其原因可能并不立即显而易见。重要的是要注意，mypy <em>不会</em> 对这些不可达的代码进行类型检查。考虑以下示例：</p>
 <div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Foo</span>:
     bar: <span style="color: #008000">str</span> <span style="color: #666666">=</span> <span style="color: #BA2121">&#39;&#39;</span>
 
 <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">bar</span>() <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:
     foo: Foo <span style="color: #666666">=</span> Foo()
     <span style="color: #008000; font-weight: bold">return</span>
-    x: <span style="color: #008000">int</span> <span style="color: #666666">=</span> <span style="color: #BA2121">&#39;abc&#39;</span>  <span style="color: #3D7B7B; font-style: italic"># Unreachable -- no error</span>
+    x: <span style="color: #008000">int</span> <span style="color: #666666">=</span> <span style="color: #BA2121">&#39;abc&#39;</span>  <span style="color: #3D7B7B; font-style: italic"># 不可达 -- 不会报错</span>
 </code></pre></div>
-<p>It's easy to see that any statement after <code>return</code> is unreachable, and hence mypy will not complain about the mis-typed code below it. For a more subtle example, consider this code:</p>
+<p>可以很容易地看出，任何在 <code>return</code> 语句之后的语句都是不可达的，因此 mypy 不会对下面的错误类型代码发出警告。对于一个更微妙的例子，考虑以下代码：</p>
 <div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Foo</span>:
     bar: <span style="color: #008000">str</span> <span style="color: #666666">=</span> <span style="color: #BA2121">&#39;&#39;</span>
 
 <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">bar</span>() <span style="color: #666666">-&gt;</span> <span style="color: #008000; font-weight: bold">None</span>:
     foo: Foo <span style="color: #666666">=</span> Foo()
     <span style="color: #008000; font-weight: bold">assert</span> foo<span style="color: #666666">.</span>bar <span style="color: #AA22FF; font-weight: bold">is</span> <span style="color: #008000; font-weight: bold">None</span>
-    x: <span style="color: #008000">int</span> <span style="color: #666666">=</span> <span style="color: #BA2121">&#39;abc&#39;</span>  <span style="color: #3D7B7B; font-style: italic"># Unreachable -- no error</span>
+    x: <span style="color: #008000">int</span> <span style="color: #666666">=</span> <span style="color: #BA2121">&#39;abc&#39;</span>  <span style="color: #3D7B7B; font-style: italic"># 不可达 -- 不会报错</span>
 </code></pre></div>
-<p>Again, mypy will not report any errors. The type of <code>foo.bar</code> is <code>str</code>, and mypy reasons that it can never be <code>None</code>.  Hence the <code>assert</code> statement will always fail and the statement below will never be executed.  (Note that in Python, <code>None</code> is not an empty reference but an object of type <code>None</code>.)</p>
-<p>In this example mypy will go on to check the last line and report an error, since mypy thinks that the condition could be either True or False:</p>
+<p>同样，mypy 不会报告任何错误。<code>foo.bar</code> 的类型是 <code>str</code>，mypy 认为它永远不可能是 <code>None</code>。因此，<code>assert</code> 语句总是会失败，下面的语句永远不会被执行。（注意，在 Python 中，<code>None</code> 不是一个空引用，而是类型为 <code>None</code> 的对象。）</p>
+<p>在这个示例中，mypy 会继续检查最后一行并报告错误，因为 mypy 认为条件可能为 <code>True</code> 或 <code>False</code>：</p>
 <div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Foo</span>:
     bar: <span style="color: #008000">str</span> <span style="color: #666666">=</span> <span style="color: #BA2121">&#39;&#39;</span>
 
@@ -2257,9 +2256,9 @@ tp: <span style="color: #008000">type</span>[<span style="color: #008000">object
     foo: Foo <span style="color: #666666">=</span> Foo()
     <span style="color: #008000; font-weight: bold">if</span> <span style="color: #AA22FF; font-weight: bold">not</span> foo<span style="color: #666666">.</span>bar:
         <span style="color: #008000; font-weight: bold">return</span>
-    x: <span style="color: #008000">int</span> <span style="color: #666666">=</span> <span style="color: #BA2121">&#39;abc&#39;</span>  <span style="color: #3D7B7B; font-style: italic"># Reachable -- error</span>
+    x: <span style="color: #008000">int</span> <span style="color: #666666">=</span> <span style="color: #BA2121">&#39;abc&#39;</span>  <span style="color: #3D7B7B; font-style: italic"># 可达 -- 错误</span>
 </code></pre></div>
-<p>If you use the <a href="../../mypy_conf/command_line/#warn-unreachable">--warn-unreachable</a> flag, mypy will generate an error about each unreachable code block.</p>
+<p>如果你使用 <code>--warn-unreachable</code> 标志，mypy 会对每个不可达的代码块生成错误。</p>
 </div>
 <div class="tabbed-block">
 <p>Mypy may consider some code as <em>unreachable</em>, even if it might not be immediately obvious why.  It's important to note that mypy will <em>not</em> type check such code. Consider this example:</p>
@@ -2300,21 +2299,21 @@ tp: <span style="color: #008000">type</span>[<span style="color: #008000">object
 <div class="tabbed-set tabbed-alternate" data-tabs="21:2"><input checked="checked" id="__tabbed_21_1" name="__tabbed_21" type="radio" /><input id="__tabbed_21_2" name="__tabbed_21" type="radio" /><div class="tabbed-labels"><label for="__tabbed_21_1">中文</label><label for="__tabbed_21_2">英文</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<p>Because closures in Python are late-binding (https://docs.python-guide.org/writing/gotchas/#late-binding-closures), mypy will not narrow the type of a captured variable in an inner function. This is best understood via an example:</p>
+<p>由于 Python 中的闭包是晚绑定的（<a href="https://docs.python-guide.org/writing/gotchas/#late-binding-closures">late-binding</a>），mypy 不会在内部函数中缩小捕获变量的类型。以下是一个示例，可以更好地理解这一点：</p>
 <div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">foo</span>(x: Optional[<span style="color: #008000">int</span>]) <span style="color: #666666">-&gt;</span> Callable[[], <span style="color: #008000">int</span>]:
     <span style="color: #008000; font-weight: bold">if</span> x <span style="color: #AA22FF; font-weight: bold">is</span> <span style="color: #008000; font-weight: bold">None</span>:
         x <span style="color: #666666">=</span> <span style="color: #666666">5</span>
-    <span style="color: #008000">print</span>(x <span style="color: #666666">+</span> <span style="color: #666666">1</span>)  <span style="color: #3D7B7B; font-style: italic"># mypy correctly deduces x must be an int here</span>
+    <span style="color: #008000">print</span>(x <span style="color: #666666">+</span> <span style="color: #666666">1</span>)  <span style="color: #3D7B7B; font-style: italic"># mypy 正确推断此处 x 必须是 int</span>
     <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">inner</span>() <span style="color: #666666">-&gt;</span> <span style="color: #008000">int</span>:
-        <span style="color: #008000; font-weight: bold">return</span> x <span style="color: #666666">+</span> <span style="color: #666666">1</span>  <span style="color: #3D7B7B; font-style: italic"># but (correctly) complains about this line</span>
+        <span style="color: #008000; font-weight: bold">return</span> x <span style="color: #666666">+</span> <span style="color: #666666">1</span>  <span style="color: #3D7B7B; font-style: italic"># 但（正确地）对这一行提出警告</span>
 
-    x <span style="color: #666666">=</span> <span style="color: #008000; font-weight: bold">None</span>  <span style="color: #3D7B7B; font-style: italic"># because x could later be assigned None</span>
+    x <span style="color: #666666">=</span> <span style="color: #008000; font-weight: bold">None</span>  <span style="color: #3D7B7B; font-style: italic"># 因为 x 以后可能会被赋值为 None</span>
     <span style="color: #008000; font-weight: bold">return</span> inner
 
 inner <span style="color: #666666">=</span> foo(<span style="color: #666666">5</span>)
-inner()  <span style="color: #3D7B7B; font-style: italic"># this will raise an error when called</span>
+inner()  <span style="color: #3D7B7B; font-style: italic"># 调用时会引发错误</span>
 </code></pre></div>
-<p>To get this code to type check, you could assign <code>y = x</code> after <code>x</code> has been narrowed, and use <code>y</code> in the inner function, or add an assert in the inner function.</p>
+<p>为了使这段代码能够通过类型检查，你可以在 <code>x</code> 的类型被缩小后赋值给 <code>y</code>，然后在内部函数中使用 <code>y</code>，或者在内部函数中添加一个断言。</p>
 </div>
 <div class="tabbed-block">
 <p>Because closures in Python are late-binding (https://docs.python-guide.org/writing/gotchas/#late-binding-closures), mypy will not narrow the type of a captured variable in an inner function. This is best understood via an example:</p>
@@ -2357,7 +2356,7 @@ inner()  <span style="color: #3D7B7B; font-style: italic"># this will raise an e
     <span class="md-icon" title="最后更新">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2024年9月16日</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2024年9月17日</span>
   </span>
 
     

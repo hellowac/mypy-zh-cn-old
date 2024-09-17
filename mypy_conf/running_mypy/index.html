@@ -1300,7 +1300,7 @@
 <p>例如，如果你的目录树包括 <code>pkg/subpkg/mod.py</code>，mypy 将要求 <code>pkg/__init__.py</code> 和 <code>pkg/subpkg/__init__.py</code> 存在，以便正确地将 <code>mod.py</code> 关联为 <code>pkg.subpkg.mod</code>。</p>
 </li>
 <li>
-<p>默认情况。如果 <a href="../command_line/#namespace-packages">--namespace-packages</a> 选项开启，但 <a href="../command_line/#explicit-package-bases">--explicit-package-bases</a> 选项关闭，mypy 会允许没有 <code>__init__.py[i]</code> 的目录被视为包。具体来说，mypy 会查看文件的所有父目录，并使用目录树中最高的 <code>__init__.py[i]</code> 的位置来确定顶级包。</p>
+<p>默认情况。如果 <a href="../command_line/#no-namespace-packages">--namespace-packages</a> 选项开启，但 <a href="../command_line/#explicit-package-bases">--explicit-package-bases</a> 选项关闭，mypy 会允许没有 <code>__init__.py[i]</code> 的目录被视为包。具体来说，mypy 会查看文件的所有父目录，并使用目录树中最高的 <code>__init__.py[i]</code> 的位置来确定顶级包。</p>
 <p>例如，假设你的目录树仅包含 <code>pkg/__init__.py</code> 和 <code>pkg/a/b/c/d/mod.py</code>。在确定 <code>mod.py</code> 的完全限定模块名称时，mypy 会查看 <code>pkg/__init__.py</code> 并得出关联的模块名称是 <code>pkg.a.b.c.d.mod</code>。</p>
 </li>
 <li>
@@ -1339,7 +1339,7 @@
 <p>For example, if your directory tree consists of <code>pkg/subpkg/mod.py</code>, mypy would require <code>pkg/__init__.py</code> and <code>pkg/subpkg/__init__.py</code> to exist in order correctly associate <code>mod.py</code> with <code>pkg.subpkg.mod</code></p>
 </li>
 <li>
-<p>The default case. If <a href="../command_line/#namespace-packages">--namespace-packages</a> is on, but <a href="../command_line/#explicit-package-bases">--explicit-package-bases</a> is off, mypy will allow for the possibility that
+<p>The default case. If <a href="../command_line/#no-namespace-packages">--namespace-packages</a> is on, but <a href="../command_line/#explicit-package-bases">--explicit-package-bases</a> is off, mypy will allow for the possibility that
     directories without <code>__init__.py[i]</code> are packages. Specifically, mypy will
     look at all parent directories of the file and use the location of the
     highest <code>__init__.py[i]</code> in the directory tree to determine the top-level
@@ -1454,7 +1454,7 @@ x <span style="color: #666666">=</span> does_not_exist<span style="color: #66666
 </li>
 <li>
 <p><strong><a href="../../mypy/stub_files/">编写自己的存根文件</a></strong>，包含库的类型提示。你可以通过命令行传递、使用 <a href="../config_file/#files">files</a> 或 <a href="../config_file/#mypy_path">mypy_path</a> 配置文件选项，或将位置添加到 <code>MYPYPATH</code> 环境变量来指向你的类型提示。</p>
-<p>这些存根文件不需要完整！一个好的策略是使用 <a href="../mypy/stubgen.md">stubgen <stubgen></a> 生成存根的初步草稿。然后你可以仅对需要的库部分进行迭代。</p>
+<p>这些存根文件不需要完整！一个好的策略是使用 <a href="../stubgen/">stubgen</a> 生成存根的初步草稿。然后你可以仅对需要的库部分进行迭代。</p>
 <p>如果你想分享你的工作，可以尝试将存根贡献回库——请参阅我们关于创建 <a href="../installed_packages/">PEP 561 合规包</a> 的文档。</p>
 </li>
 </ol>
@@ -1490,7 +1490,7 @@ x <span style="color: #666666">=</span> does_not_exist<span style="color: #66666
 <p>Upgrading the version of the library you're using, in case a newer version has started to include type hints.</p>
 </li>
 <li>
-<p>Searching to see if there is a [PEP 561 compliant stub package][](./installed_packages.md) corresponding to your third party library. Stub packages let you install type hints independently from the library itself.</p>
+<p>Searching to see if there is a <a href="../installed_packages/">PEP 561 compliant stub package</a> corresponding to your third party library. Stub packages let you install type hints independently from the library itself.</p>
 <p>For example, if you want type hints for the <code>django</code> library, you can install the <a href="https://pypi.org/project/django-stubs/">django-stubs</a> package.</p>
 </li>
 <li>
@@ -1748,7 +1748,7 @@ main.py:1: note: (Using --follow-imports=error, module not passed on command lin
     <span class="md-icon" title="最后更新">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2024年9月16日</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2024年9月17日</span>
   </span>
 
     

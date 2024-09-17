@@ -1014,16 +1014,16 @@
 <div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">中文</label><label for="__tabbed_1_2">英文</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<p>Mypy can optionally display an error code such as <code>[attr-defined]</code> after each error message. Error codes serve two purposes:</p>
+<p>Mypy 可以选择在每个错误信息后显示一个错误代码，例如 <code>[attr-defined]</code>。错误代码有两个用途：</p>
 <ol>
 <li>
-<p>It's possible to silence specific error codes on a line using <code># type: ignore[code]</code>. This way you won't accidentally ignore other, potentially more serious errors.</p>
+<p>可以使用 <code># type: ignore[code]</code> 来仅静默特定的错误代码。这样，您不会不小心忽略其他可能更严重的错误。</p>
 </li>
 <li>
-<p>The error code can be used to find documentation about the error. The next two topics (<a href="../error_code_list/">Error codes enabled by default</a> and <a href="../error_code_list2/">Error codes for optional checks</a>) document the various error codes mypy can report.</p>
+<p>错误代码可用于查找有关错误的文档。接下来的两个主题（<a href="../error_code_list/">默认启用的错误代码</a> 和 <a href="../error_code_list2/">可选检查的错误代码</a>）记录了 mypy 可以报告的各种错误代码。</p>
 </li>
 </ol>
-<p>Most error codes are shared between multiple related error messages. Error codes may change in future mypy releases.</p>
+<p>大多数错误代码在多个相关错误消息之间是共享的。错误代码可能会在未来的 mypy 版本中发生变化。</p>
 </div>
 <div class="tabbed-block">
 <p>Mypy can optionally display an error code such as <code>[attr-defined]</code> after each error message. Error codes serve two purposes:</p>
@@ -1044,9 +1044,9 @@
 <div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">中文</label><label for="__tabbed_2_2">英文</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<p>You can use a special comment <code># type: ignore[code, ...]</code> to only ignore errors with a specific error code (or codes) on a particular line.  This can be used even if you have not configured mypy to show error codes.</p>
-<p>This example shows how to ignore an error about an imported name mypy thinks is undefined:</p>
-<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #3D7B7B; font-style: italic"># &#39;foo&#39; is defined in &#39;foolib&#39;, even though mypy can&#39;t see the definition.</span>
+<p>您可以使用特殊注释 <code># type: ignore[code, ...]</code> 仅忽略特定错误代码（或多个错误代码）的错误。这即使在您没有配置 mypy 显示错误代码的情况下也可以使用。</p>
+<p>以下示例展示了如何忽略一个关于导入名称的错误，该名称 mypy 认为是未定义的：</p>
+<div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #3D7B7B; font-style: italic"># &#39;foo&#39; 在 &#39;foolib&#39; 中定义，尽管 mypy 看不到定义。</span>
 <span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">foolib</span> <span style="color: #008000; font-weight: bold">import</span> foo  <span style="color: #3D7B7B; font-style: italic"># type: ignore[attr-defined]</span>
 </code></pre></div>
 </div>
@@ -1064,8 +1064,8 @@
 <div class="tabbed-set tabbed-alternate" data-tabs="3:2"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><input id="__tabbed_3_2" name="__tabbed_3" type="radio" /><div class="tabbed-labels"><label for="__tabbed_3_1">中文</label><label for="__tabbed_3_2">英文</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<p>There are command-line flags and config file settings for enabling certain optional error codes, such as <a href="../../mypy_conf/command_line/#disallow-untyped-defs">--disallow-untyped-defs</a>, which enables the <code>no-untyped-def</code> error code.</p>
-<p>You can use <a href="../../mypy_conf/command_line/#enable-error-code">--enable-error-code</a> and <a href="../../mypy_conf/command_line/#disable-error-code">--disable-error-code</a> to enable or disable specific error codes that don't have a dedicated command-line flag or config file setting.</p>
+<p>有一些命令行标志和配置文件设置可以启用某些可选的错误代码，例如 <a href="../../mypy_conf/command_line/#disallow-untyped-defs">--disallow-untyped-defs</a>，它启用了 <code>no-untyped-def</code> 错误代码。</p>
+<p>您可以使用 <a href="../../mypy_conf/command_line/#enable-error-code">--enable-error-code</a> 和 <a href="../../mypy_conf/command_line/#disable-error-code">--disable-error-code</a> 来启用或禁用特定的错误代码，这些错误代码没有专门的命令行标志或配置文件设置。</p>
 </div>
 <div class="tabbed-block">
 <p>There are command-line flags and config file settings for enabling certain optional error codes, such as <a href="../../mypy_conf/command_line/#disallow-untyped-defs">--disallow-untyped-defs</a>, which enables the <code>no-untyped-def</code> error code.</p>
@@ -1078,7 +1078,7 @@
 <div class="tabbed-set tabbed-alternate" data-tabs="4:2"><input checked="checked" id="__tabbed_4_1" name="__tabbed_4" type="radio" /><input id="__tabbed_4_2" name="__tabbed_4" type="radio" /><div class="tabbed-labels"><label for="__tabbed_4_1">中文</label><label for="__tabbed_4_2">英文</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<p>You can use <a href="../../mypy_conf/config_file/">configuration file</a> sections to enable or disable specific error codes only in some modules. For example, this <code>mypy.ini</code> config will enable non-annotated empty containers in tests, while keeping other parts of code checked in strict mode:</p>
+<p>您可以使用 <a href="../../mypy_conf/config_file/">配置文件</a> 部分来仅在某些模块中启用或禁用特定的错误代码。例如，以下 <code>mypy.ini</code> 配置将允许在测试中使用未注解的空容器，同时保持代码的其他部分在严格模式下进行检查：</p>
 <div class="language-ini highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">[mypy]</span>
 <span style="color: #687822">strict</span><span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span><span style="color: #BA2121">True</span>
 
@@ -1087,24 +1087,22 @@
 <span style="color: #687822">allow_untyped_calls</span><span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span><span style="color: #BA2121">True</span>
 <span style="color: #687822">disable_error_code</span><span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span><span style="color: #BA2121">var-annotated, has-type</span>
 </code></pre></div>
-<p>Note that per-module enabling/disabling acts as override over the global options. So that you don't need to repeat the error code lists for each module if you have them in global config section. For example:</p>
+<p>请注意，每个模块的启用/禁用设置会覆盖全局选项。因此，如果您在全局配置部分中定义了错误代码列表，则无需在每个模块中重复定义。例如：</p>
 <div class="language-ini highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">[mypy]</span>
 <span style="color: #687822">enable_error_code</span><span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span><span style="color: #BA2121">truthy-bool, ignore-without-code, unused-awaitable</span>
 
 <span style="color: #008000; font-weight: bold">[mypy-extensions.*]</span>
 <span style="color: #687822">disable_error_code</span><span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span><span style="color: #BA2121">unused-awaitable</span>
 </code></pre></div>
-<p>The above config will allow unused awaitables in extension modules, but will still keep the other two error codes enabled. The overall logic is following:</p>
+<p>上述配置将允许扩展模块中存在未使用的 awaitable，但仍将保留其他两个错误代码的启用状态。整体逻辑如下：</p>
 <ul>
-<li>Command line and/or config main section set global error codes</li>
-<li>Individual config sections <em>adjust</em> them per glob/module</li>
-<li>Inline <code># mypy: disable-error-code="..."</code> and <code># mypy: enable-error-code="..."</code>
-  comments can further <em>adjust</em> them for a specific file.
-  For example:</li>
+<li>命令行和/或配置文件主部分设置全局错误代码。</li>
+<li>单独的配置部分 <em>调整</em> 这些代码以适应特定的 glob/模块。</li>
+<li>内联 <code># mypy: disable-error-code="..."</code> 和 <code># mypy: enable-error-code="..."</code> 注释可以进一步 <em>调整</em> 这些设置以适应特定文件。例如：</li>
 </ul>
 <div class="language-python highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #3D7B7B; font-style: italic"># mypy: enable-error-code=&quot;truthy-bool, ignore-without-code&quot;</span>
 </code></pre></div>
-<p>So one can e.g. enable some code globally, disable it for all tests in the corresponding config section, and then re-enable it with an inline comment in some specific test.</p>
+<p>因此，可以例如在全局范围内启用某些代码，在相应的配置部分中为所有测试禁用它，然后通过内联注释在某些特定测试中重新启用它。</p>
 </div>
 <div class="tabbed-block">
 <p>You can use <a href="../../mypy_conf/config_file/">configuration file</a> sections to enable or disable specific error codes only in some modules. For example, this <code>mypy.ini</code> config will enable non-annotated empty containers in tests, while keeping other parts of code checked in strict mode:</p>
@@ -1142,7 +1140,7 @@
 <div class="tabbed-set tabbed-alternate" data-tabs="5:2"><input checked="checked" id="__tabbed_5_1" name="__tabbed_5" type="radio" /><input id="__tabbed_5_2" name="__tabbed_5" type="radio" /><div class="tabbed-labels"><label for="__tabbed_5_1">中文</label><label for="__tabbed_5_2">英文</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<p>In some cases, mostly for backwards compatibility reasons, an error code may be covered also by another, wider error code. For example, an error with code <code>[method-assign]</code> can be ignored by <code># type: ignore[assignment]</code>. Similar logic works for disabling error codes globally. If a given error code is a subcode of another one, it will be mentioned in the documentation for the narrower code. This hierarchy is not nested: there cannot be subcodes of other subcodes.</p>
+<p>在某些情况下，主要出于向后兼容的原因，一个错误代码可能也被另一个更广泛的错误代码覆盖。例如，代码为 <code>[method-assign]</code> 的错误可以通过 <code># type: ignore[assignment]</code> 被忽略。类似的逻辑适用于全局禁用错误代码。如果某个错误代码是另一个错误代码的子代码，它会在更具体的错误代码的文档中提到。这种层次结构不是嵌套的：子代码不能有其他子代码的子代码。</p>
 </div>
 <div class="tabbed-block">
 <p>In some cases, mostly for backwards compatibility reasons, an error code may be covered also by another, wider error code. For example, an error with code <code>[method-assign]</code> can be ignored by <code># type: ignore[assignment]</code>. Similar logic works for disabling error codes globally. If a given error code is a subcode of another one, it will be mentioned in the documentation for the narrower code. This hierarchy is not nested: there cannot be subcodes of other subcodes.</p>
@@ -1154,7 +1152,7 @@
 <div class="tabbed-set tabbed-alternate" data-tabs="6:2"><input checked="checked" id="__tabbed_6_1" name="__tabbed_6" type="radio" /><input id="__tabbed_6_2" name="__tabbed_6" type="radio" /><div class="tabbed-labels"><label for="__tabbed_6_1">中文</label><label for="__tabbed_6_2">英文</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<p>It's possible to require error codes be specified in <code>type: ignore</code> comments. See <a href="../error_code_list2/#检查--type-ignore-是否包含错误代码-ignore-without-code">ignore-without-code</a> for more information.</p>
+<p>可以要求在 <code>type: ignore</code> 注释中指定错误代码。有关更多信息，请参见 <a href="../error_code_list2/#检查--type-ignore-是否包含错误代码-ignore-without-code">ignore-without-code</a>。</p>
 </div>
 <div class="tabbed-block">
 <p>It's possible to require error codes be specified in <code>type: ignore</code> comments. See <a href="../error_code_list2/#检查--type-ignore-是否包含错误代码-ignore-without-code">ignore-without-code</a> for more information.</p>
@@ -1183,7 +1181,7 @@
     <span class="md-icon" title="最后更新">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2024年9月16日</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2024年9月17日</span>
   </span>
 
     
