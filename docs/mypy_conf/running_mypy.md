@@ -4,7 +4,7 @@
 
 === "中文"
 
-    [入门]页面应该已经向你介绍了如何运行 mypy 的基本方法——通过命令行传递你想进行类型检查的文件和目录。
+    [入门](../mypy/index.md)页面应该已经向你介绍了如何运行 mypy 的基本方法——通过命令行传递你想进行类型检查的文件和目录。
 
     ```shell
     $ mypy foo.py bar.py some_directory
@@ -12,11 +12,11 @@
 
     本页面将更详细地讨论如何具体指定你希望 mypy 进行类型检查的文件，mypy 如何发现导入的模块，以及处理你可能遇到的任何问题的建议。
 
-    如果你有兴趣了解如何配置 mypy 实际上是如何对你的代码进行类型检查的，请参阅我们的 [命令行] 指南。
+    如果你有兴趣了解如何配置 mypy 实际上是如何对你的代码进行类型检查的，请参阅我们的 [命令行](./command_line.md) 指南。
 
 === "英文"
 
-    The [getting-started] page should have already introduced you to the basics of how to run mypy -- pass in the files and directories you want to type check via the command line
+    The [getting-started](../mypy/index.md) page should have already introduced you to the basics of how to run mypy -- pass in the files and directories you want to type check via the command line
 
     ```shell
     $ mypy foo.py bar.py some_directory
@@ -24,7 +24,7 @@
 
     This page discusses in more detail how exactly to specify what files you want mypy to type check, how mypy discovers imported modules, and recommendations on how to handle any issues you may encounter along the way.
 
-    If you are interested in learning about how to configure the actual way mypy type checks your code, see our [command-line] guide.
+    If you are interested in learning about how to configure the actual way mypy type checks your code, see our [command-line](./command_line.md) guide.
 
 ## 指定要检查的代码
 
@@ -42,9 +42,9 @@
 
         上述命令告诉 mypy 对所有提供的文件进行类型检查。此外，mypy 会递归地对任何提供的目录中的全部内容进行类型检查。
 
-        有关具体执行方式的更多细节，请参见 [将文件路径映射到模块 <mapping-paths-to-modules>]。
+        有关具体执行方式的更多细节，请参见 [将文件路径映射到模块](#映射文件路径到模块)。
 
-    2. 其次，你可以使用 [-m] 标志（长格式为 [--module]）来指定要进行类型检查的模块名称。模块的名称与在 Python 程序中导入该模块时使用的名称相同。例如，运行：
+    2. 其次，你可以使用 [-m](./command_line.md#m) 标志（长格式为 [--module](./command_line.md#m)）来指定要进行类型检查的模块名称。模块的名称与在 Python 程序中导入该模块时使用的名称相同。例如，运行：
 
         ```shell
         $ mypy -m html.parser
@@ -54,13 +54,13 @@
 
         Mypy 将使用类似于 Python 用来查找模块和导入的位置的算法。有关更多细节，请参见 [查找导入的模块]。
 
-    3. 第三，你可以使用 [-p] 标志（长格式为 [--package]）来指定要（递归）进行类型检查的包。这个标志与 [-m] 标志几乎相同，只是如果你提供一个包名，mypy 将递归地对该包的所有子模块和子包进行类型检查。例如，运行：
+    3. 第三，你可以使用 [-p](./command_line.md#p) 标志（长格式为 [--package](./command_line.md#p)）来指定要（递归）进行类型检查的包。这个标志与 [-m](./command_line.md#m) 标志几乎相同，只是如果你提供一个包名，mypy 将递归地对该包的所有子模块和子包进行类型检查。例如，运行：
 
         ```shell
         $ mypy -p html
         ```
 
-        ...将对整个 ``html`` 包（库存根）进行类型检查。相比之下，如果使用 [-m] 标志，mypy 只会对 ``html`` 的 ``__init__.py`` 文件及其导入的内容进行类型检查。
+        ...将对整个 ``html`` 包（库存根）进行类型检查。相比之下，如果使用 [-m](./command_line.md#m) 标志，mypy 只会对 ``html`` 的 ``__init__.py`` 文件及其导入的内容进行类型检查。
 
         请注意，我们可以在命令行上指定多个包和模块。例如：
 
@@ -68,7 +68,7 @@
         $ mypy --package p.a --package p.b --module c
         ```
 
-    4. 第四，你还可以通过使用 [-c] 标志（长格式为 [--command]）直接对小的字符串进行类型检查。例如：
+    4. 第四，你还可以通过使用 [-c](./command_line.md#c) 标志（长格式为 [--command](./command_line.md#c)）直接对小的字符串进行类型检查。例如：
 
         ```shell
         $ mypy -c 'x = [1, 2]; print(x())'
@@ -90,9 +90,9 @@
 
         The above command tells mypy it should type check all of the provided files together. In addition, mypy will recursively type check the entire contents of any provided directories.
 
-        For more details about how exactly this is done, see [Mapping file paths to modules <mapping-paths-to-modules>].
+        For more details about how exactly this is done, see [Mapping file paths to modules](#映射文件路径到模块).
 
-    2.  Second, you can use the [-m] flag (long form: [--module]) to specify a module name to be type checked. The name of a module is identical to the name you would use to import that module within a Python program. For example, running
+    2.  Second, you can use the [-m](./command_line.md#m) flag (long form: [--module](./command_line.md#m)) to specify a module name to be type checked. The name of a module is identical to the name you would use to import that module within a Python program. For example, running
 
         ```shell
         $ mypy -m html.parser
@@ -102,13 +102,13 @@
 
         Mypy will use an algorithm very similar to the one Python uses to find where modules and imports are located on the file system. For more details, see [finding-imports].
 
-    3.  Third, you can use the [-p] (long form: [--package]) flag to specify a package to be (recursively) type checked. This flag is almost identical to the [-m] flag except that if you give it a package name, mypy will recursively type check all submodules and subpackages of that package. For example, running
+    3.  Third, you can use the [-p] (long form: [--package]) flag to specify a package to be (recursively) type checked. This flag is almost identical to the [-m](./command_line.md#m) flag except that if you give it a package name, mypy will recursively type check all submodules and subpackages of that package. For example, running
 
         ```shell
         $ mypy -p html
         ```
 
-        ...will type check the entire ``html`` package (of library stubs). In contrast, if we had used the [-m] flag, mypy would have type checked just ``html``'s ``__init__.py`` file and anything imported from there.
+        ...will type check the entire ``html`` package (of library stubs). In contrast, if we had used the [-m](./command_line.md#m) flag, mypy would have type checked just ``html``'s ``__init__.py`` file and anything imported from there.
 
         Note that we can specify multiple packages and modules on the command line. For example
 
